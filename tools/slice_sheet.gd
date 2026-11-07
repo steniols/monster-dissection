@@ -3,11 +3,12 @@ extends SceneTree
 ## As figuras são achadas por componentes conexos de alpha e ordenadas em linhas (cima→baixo, esq→dir).
 ## Uso:
 ##   Godot_console.exe --headless -s res://tools/slice_sheet.gd -- <folha.png> <pasta_saida> <aspecto> <id1,id2,...>
+## [celula=6]: use 3 quando as figuras estão muito próximas.
 ## aspecto: 1.0 (partes), 1.7778 (cartas), 1.3333 (monstros; base alinhada embaixo).
 ## Imprime as caixas encontradas; se a contagem não bater com os ids, nada é salvo.
 
-const CELL := 6
-const MIN_CELLS := 40
+var CELL := 6
+var MIN_CELLS := 40
 
 
 func _initialize() -> void:
@@ -21,6 +22,9 @@ func _initialize() -> void:
 	var out_dir: String = a[1]
 	var aspect := float(a[2])
 	var ids := a[3].split(",", false)
+	if a.size() > 4:
+		CELL = int(a[4]) # células menores separam figuras muito próximas
+		MIN_CELLS = 1440 / (CELL * CELL)
 	var w := img.get_width()
 	var h := img.get_height()
 	var gw := w / CELL + 1
