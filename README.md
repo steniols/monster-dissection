@@ -26,7 +26,7 @@ Roguelite de cartas dark fantasy (Godot 4.7, GDScript). Cace criaturas, disseque
 | Câmara de mutação com medidor de Corrupção | `mutation_chamber_screen.gd` |
 | **2 regiões**: Charneca dos Ossos → libera Catacumbas Alagadas | `data/expeditions/` |
 | **Continuar expedição**: salva ao voltar ao mapa (`user://run.json`) | `RunState.save_run/load_run` |
-| **Opções**: volumes, tela cheia, efeitos de impacto (`user://settings.cfg`) | `scripts/managers/settings.gd` |
+| **Opções**: volumes, tela cheia (padrão; **F11** ou **Alt+Enter** alterna), efeitos de impacto (`user://settings.cfg`) | `scripts/managers/settings.gd` |
 | **Áudio sintetizado** (efeitos + ambiente) e **impacto** (partículas, hit-stop, tremor) | `scripts/managers/sfx.gd`, `scripts/ui/fx.gd` |
 
 Conteúdo: 43 cartas (8 híbridas), 30 partes, 10 monstros de 4 famílias (Bloodfang, Ironback, Voidspawn, Rotwalker),

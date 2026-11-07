@@ -8,7 +8,7 @@ const PATH := "user://settings.cfg"
 var master_volume: float = 0.8
 var sfx_volume: float = 0.8
 var music_volume: float = 0.45
-var fullscreen: bool = false
+var fullscreen: bool = true
 ## Hit-stop, tremor de tela e partículas de impacto.
 var impact_fx: bool = true
 
@@ -67,3 +67,15 @@ func save_settings() -> void:
 	cfg.set_value("video", "fullscreen", fullscreen)
 	cfg.set_value("video", "impact_fx", impact_fx)
 	cfg.save(PATH)
+
+
+## F11 ou Alt+Enter alterna tela cheia em qualquer tela.
+func _input(event: InputEvent) -> void:
+	var key := event as InputEventKey
+	if key == null or not key.pressed or key.echo:
+		return
+	if key.keycode == KEY_F11 or (key.keycode == KEY_ENTER and key.alt_pressed):
+		fullscreen = not fullscreen
+		apply()
+		save_settings()
+		get_viewport().set_input_as_handled()
