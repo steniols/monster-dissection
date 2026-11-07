@@ -78,7 +78,9 @@ func _initialize() -> void:
 		var canvas_w := int(ceil(maxf(cw * 1.1, ch * 1.12 * aspect)))
 		var canvas_h := int(round(canvas_w / aspect))
 		var canvas := Image.create(canvas_w, canvas_h, false, Image.FORMAT_RGBA8)
-		canvas.blit_rect(piece, Rect2i(x0, y0, cw, ch), Vector2i((canvas_w - cw) / 2, (canvas_h - ch) / 2))
+		# monstros (4:3) ficam com os pés perto da base; o resto, centralizado
+		var py := canvas_h - int(canvas_h * 0.05) - ch if absf(aspect - 4.0 / 3.0) < 0.01 else (canvas_h - ch) / 2
+		canvas.blit_rect(piece, Rect2i(x0, y0, cw, ch), Vector2i((canvas_w - cw) / 2, py))
 		canvas.save_png(out_dir.path_join(parts[0] + ".png"))
 		print("%s: %dx%d" % [parts[0], cw, ch])
 	quit()
