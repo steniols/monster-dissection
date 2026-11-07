@@ -21,6 +21,7 @@ const NEU := Family.Id.NEUTRAL
 const BF := Family.Id.BLOODFANG
 const IB := Family.Id.IRONBACK
 const VS := Family.Id.VOIDSPAWN
+const RW := Family.Id.ROTWALKER
 
 const HEAD := AnatomyPart.Region.HEAD
 const TORSO := AnatomyPart.Region.TORSO
@@ -34,10 +35,17 @@ var monsters := {}
 
 func _init() -> void:
 	_build_cards()
+	_build_cards_m2()
 	_build_parts()
+	_build_parts_m2()
 	_build_monsters()
+	_build_monsters_m2()
 	_build_mutations()
-	_build_expedition()
+	_build_mutations_m2()
+	_build_recipes()
+	_build_upgrades()
+	_build_events()
+	_build_expeditions()
 	print("Semeadura concluída: %d cartas, %d partes, %d monstros." % [cards.size(), parts.size(), monsters.size()])
 	quit()
 
@@ -243,7 +251,7 @@ func intent(name: String, kind: MonsterIntent.Kind, effects: Array, weight: int 
 
 
 func monster(id: StringName, name: String, family: Family.Id, tier: MonsterData.Tier, hp: int, pattern: MonsterData.Pattern,
-		intents: Array, part_ids: Array, visual: StringName, scale: float, lore: String, weakness: String, start_effects: Array = []) -> void:
+		intents: Array, part_ids: Array, visual: StringName, scale: float, lore: String, weakness: String, start_effects: Array = [], tint: Color = Color.WHITE) -> void:
 	var m := MonsterData.new()
 	m.id = id
 	m.display_name = name
@@ -261,21 +269,22 @@ func monster(id: StringName, name: String, family: Family.Id, tier: MonsterData.
 	m.lore = lore
 	m.weakness_note = weakness
 	m.combat_start_effects.assign(start_effects)
+	m.tint = tint
 	monsters[id] = m
 	_save(m, "res://data/monsters/%s.tres" % id)
 
 
 func _build_monsters() -> void:
 	var K := MonsterIntent.Kind
-	monster(&"bloodfang", "Bloodfang", BF, MonsterData.Tier.NORMAL, 42, MonsterData.Pattern.RANDOM_NO_REPEAT, [
-		intent("Mordida", K.ATTACK, [dmg(9)], 2),
+	monster(&"bloodfang", "Bloodfang", BF, MonsterData.Tier.NORMAL, 46, MonsterData.Pattern.RANDOM_NO_REPEAT, [
+		intent("Mordida", K.ATTACK, [dmg(10)], 2),
 		intent("Dilacerar", K.ATTACK_DEBUFF, [dmg(5), st(&"bleed", 2)], 2),
 		intent("Rosnar", K.BUFF, [st(&"strength", 2, true)], 1),
 	], [&"bf_fangs", &"bf_claws", &"bf_heart", &"bf_hide", &"bf_eyes"], &"bloodfang", 1.0,
 		"Predador quadrúpede de ombros altos e mandíbula desproporcional. Caça em silêncio e só ruge quando já provou sangue.",
 		"Pele fina: o sangramento o abate sem danificar o coração. Golpes finais exagerados destroem a cabeça.")
 
-	monster(&"ironback", "Ironback", IB, MonsterData.Tier.NORMAL, 46, MonsterData.Pattern.CYCLE, [
+	monster(&"ironback", "Ironback", IB, MonsterData.Tier.NORMAL, 50, MonsterData.Pattern.CYCLE, [
 		intent("Enrijecer", K.DEFEND, [blk(12)]),
 		intent("Investida", K.ATTACK, [dmg(11)]),
 		intent("Esguicho Ácido", K.ATTACK_DEBUFF, [dmg(5), st(&"vulnerable", 1)]),
@@ -284,10 +293,10 @@ func _build_monsters() -> void:
 		"Espinhos devolvem dano a cada golpe: prefira poucos ataques fortes, ou deixe o sangramento trabalhar.",
 		[st(&"thorns", 2, true)])
 
-	monster(&"voidspawn", "Voidspawn", VS, MonsterData.Tier.NORMAL, 38, MonsterData.Pattern.RANDOM_NO_REPEAT, [
+	monster(&"voidspawn", "Voidspawn", VS, MonsterData.Tier.NORMAL, 42, MonsterData.Pattern.RANDOM_NO_REPEAT, [
 		intent("Toque do Vazio", K.ATTACK_DEBUFF, [dmg(6), st(&"corruption", 1)], 2),
 		intent("Olhar Fixo", K.DEBUFF, [st(&"weak", 2), st(&"vulnerable", 1)], 1),
-		intent("Pulsar", K.ATTACK, [dmg(4, 2)], 2),
+		intent("Pulsar", K.ATTACK, [dmg(5, 2)], 2),
 	], [&"vs_tentacles", &"vs_eyes", &"vs_ichor"], &"voidspawn", 1.0,
 		"Aberração assimétrica cujos olhos parecem observar coisas que ainda não aconteceram.",
 		"Corrupção acumulada demais degenera os órgãos do tórax.")
@@ -343,16 +352,332 @@ func _build_mutations() -> void:
 		{"vm_core": 1, "vs_tentacles": 2}, 3, &"core", 0, 1)
 
 
-# --- Expedição --------------------------------------------------------------
 
-func _build_expedition() -> void:
+# =============================================================================
+# Marco 2: Rotwalker, 2ª região, híbridas, eventos, melhorias de laboratório
+# =============================================================================
+
+func ret(count: int) -> ReturnFromDiscardEffect:
+	var e := ReturnFromDiscardEffect.new()
+	e.count = count
+	return e
+
+
+func hybrid(id: StringName, name: String, cost: int, type: CardData.CardType, rarity: CardData.Rarity,
+		fam_a: Family.Id, fam_b: Family.Id, motif: StringName, effects: Array, flavor: String = "", exhaust: bool = false) -> void:
+	card(id, name, cost, type, rarity, fam_a, "Experimento", motif, effects, flavor, exhaust)
+	var c: CardData = cards[id]
+	c.secondary_family = fam_b
+	c.category = CardData.Category.HYBRID
+	_save(c, "res://data/cards/%s.tres" % id)
+
+
+func _build_cards_m2() -> void:
+	# Rotwalker — regeneração e persistência
+	card(&"regenerative_flesh", "Carne Regenerativa", 1, SKL, COMMON, RW, "Carne", &"flesh", [st(&"regen", 4, true)],
+		"Continua se recompondo dentro do frasco.")
+	card(&"marrow_spark", "Medula Energética", 0, SKL, UNCOMMON, RW, "Medula", &"ribs", [energy(1), draw(1)], "", true)
+	card(&"muscle_memory", "Memória Muscular", 1, SKL, UNCOMMON, RW, "Cérebro", &"brain", [ret(2)],
+		"O corpo lembra o que a mente esqueceu.")
+	card(&"necrotic_bile", "Bile Necrótica", 1, ATK, COMMON, RW, "Bile", &"gland", [dmg(5), st(&"weak", 1), st(&"vulnerable", 1)])
+	card(&"infected_bite", "Mordida Infecta", 1, ATK, COMMON, RW, "Dentes Podres", &"fang", [dmg(5), heal(2)])
+	card(&"dry_sinew", "Tendões Secos", 1, DEF, COMMON, RW, "Tendões Secos", &"tendon", [blk(6), st(&"regen", 2, true)])
+	card(&"field_suture", "Sutura de Campo", 1, SKL, UNCOMMON, RW, "Suturas", &"suture", [heal(5), blk(4)], "", true)
+	card(&"rot_pulse", "Pulso Pútrido", 2, MUT, RARE, RW, "Coração Costurado", &"heart", [st(&"rot_pulse", 3, true)],
+		"Bate devagar. Nunca para.")
+	# Colosso Ironback
+	card(&"iron_bastion", "Bastião de Ferro", 2, DEF, RARE, IB, "Núcleo de Ferro", &"carapace", [blk(18)])
+	card(&"colossal_horn", "Chifrada Colossal", 2, ATK, RARE, IB, "Chifre Colossal", &"horn", [dmg(14), st(&"vulnerable", 2)])
+
+	# Híbridas (desbloqueadas na Estação de Experimentação)
+	hybrid(&"hb_armored_heart", "Coração Blindado", 1, DEF, UNCOMMON, BF, IB, &"heart", [blk(7), st(&"regen", 3, true)],
+		"Um coração que bate atrás de placas de quitina.")
+	hybrid(&"hb_void_claws", "Garras do Vazio", 1, ATK, UNCOMMON, BF, VS, &"claw", [dmg(3, 3), st(&"corruption", 2)])
+	hybrid(&"hb_necro_oracle", "Oráculo Necrótico", 1, SKL, RARE, VS, RW, &"brain", [draw(2), ret(1)],
+		"Vê o que virá e lembra o que passou.")
+	hybrid(&"hb_living_shell", "Casca Viva", 1, DEF, UNCOMMON, IB, RW, &"carapace", [blk(9), st(&"regen", 3, true)])
+	hybrid(&"hb_corrosive_fang", "Presa Corrosiva", 1, ATK, UNCOMMON, BF, IB, &"fang", [dmg(5), st(&"bleed", 2), st(&"weak", 2)])
+	hybrid(&"hb_void_marrow", "Medula do Vazio", 0, SKL, RARE, VS, RW, &"core", [energy(1), st(&"corruption", 2, false, true)], "", true)
+	hybrid(&"hb_hematic_tide", "Maré Hemática", 2, ATK, RARE, BF, VS, &"tentacle", [dmg(6, 1, true), st(&"bleed", 3, false, true)])
+	hybrid(&"hb_chitin_maw", "Bocarra Quitinosa", 2, ATK, UNCOMMON, IB, BF, &"mandible", [dmg(10), st(&"thorns", 3, true)])
+
+
+func _build_parts_m2() -> void:
+	part(&"rw_flesh", "Carne", RW, TORSO, COMMON, 0.85, &"regenerative_flesh", &"flesh", "Tecido que se fecha sozinho alguns minutos após o corte.")
+	part(&"rw_marrow", "Medula", RW, TORSO, UNCOMMON, 0.55, &"marrow_spark", &"ribs", "Medula escura que ainda gera calor.")
+	part(&"rw_brain", "Cérebro", RW, HEAD, UNCOMMON, 0.6, &"muscle_memory", &"brain", "Encolhido, mas os reflexos persistem.")
+	part(&"rw_bile", "Bile", RW, FLUIDS, COMMON, 0.75, &"necrotic_bile", &"gland", "Fluido amarelado que enfraquece qualquer tecido vivo.")
+	part(&"gh_teeth", "Dentes Podres", RW, HEAD, COMMON, 0.8, &"infected_bite", &"fang", "Dentes que transmitem febre e fome.")
+	part(&"gh_sinew", "Tendões Secos", RW, LIMBS, COMMON, 0.8, &"dry_sinew", &"tendon", "Fibras ressecadas, mas impossíveis de romper.")
+	part(&"ab_stitches", "Suturas", RW, LIMBS, UNCOMMON, 0.7, &"field_suture", &"suture", "Pontos feitos por mãos que ninguém viu.")
+	part(&"ab_heart", "Coração Costurado", RW, TORSO, RARE, 0.45, &"rot_pulse", &"heart", "Três corações costurados em um só.")
+	part(&"co_core", "Núcleo de Ferro", IB, TORSO, RARE, 0.5, &"iron_bastion", &"carapace", "O centro maciço de uma carapaça de toneladas.")
+	part(&"co_horn", "Chifre Colossal", IB, HEAD, RARE, 0.55, &"colossal_horn", &"horn", "Um chifre que já derrubou muralhas.")
+
+
+func _build_monsters_m2() -> void:
+	var K := MonsterIntent.Kind
+	monster(&"bloodfang_pup", "Filhote de Bloodfang", BF, MonsterData.Tier.NORMAL, 20, MonsterData.Pattern.RANDOM_NO_REPEAT, [
+		intent("Mordiscar", K.ATTACK, [dmg(5)], 2),
+		intent("Arranhar", K.ATTACK_DEBUFF, [dmg(3), st(&"bleed", 2)], 1),
+	], [&"bf_fangs", &"bf_hide"], &"bloodfang", 0.7,
+		"Filhotes caçam em dupla e aprendem rápido o gosto do sangue.",
+		"Frágeis: um golpe forte resolve, mas danifica a cabeça.")
+
+	monster(&"rotwalker", "Rotwalker", RW, MonsterData.Tier.NORMAL, 48, MonsterData.Pattern.CYCLE, [
+		intent("Golpe Arrastado", K.ATTACK, [dmg(12)]),
+		intent("Recompor", K.BUFF, [st(&"regen", 3, true), blk(4)]),
+		intent("Vômito Pútrido", K.ATTACK_DEBUFF, [dmg(7), st(&"weak", 2)]),
+	], [&"rw_flesh", &"rw_marrow", &"rw_brain", &"rw_bile"], &"rotwalker", 1.0,
+		"Um cadáver que se recusa a parar. A carne se fecha sobre as próprias feridas.",
+		"Regenera rápido: sangramento e corrupção vencem a regeneração ao longo do tempo.")
+
+	monster(&"ghoul", "Carniçal", RW, MonsterData.Tier.NORMAL, 25, MonsterData.Pattern.RANDOM_NO_REPEAT, [
+		intent("Mordida Infecta", K.ATTACK, [dmg(8)], 2),
+		intent("Roer", K.ATTACK, [dmg(5), heal(4)], 1),
+	], [&"gh_teeth", &"gh_sinew"], &"ghoul", 0.8,
+		"Rastejam em bandos pelas catacumbas, roendo o que encontram.",
+		"Sempre em grupo: golpes em área resolvem o problema.")
+
+	monster(&"stitched_abomination", "Abominação Costurada", RW, MonsterData.Tier.ELITE, 100, MonsterData.Pattern.CYCLE, [
+		intent("Golpe Costurado", K.ATTACK, [dmg(15)]),
+		intent("Recosturar", K.BUFF, [st(&"regen", 5, true), blk(8)]),
+		intent("Esmagar e Arrastar", K.ATTACK_DEBUFF, [dmg(8, 2), st(&"weak", 1)]),
+	], [&"ab_stitches", &"ab_heart", &"rw_flesh"], &"rotwalker", 1.2,
+		"Vários corpos unidos por suturas grosseiras. Já morreu uma vez — e não aceitou.",
+		"Sobrevive ao primeiro golpe fatal. Guarde força para derrubá-la duas vezes.",
+		[st(&"undying", 1, true)], Color("#C9A5A0"))
+
+	monster(&"iron_colossus", "Colosso Ironback", IB, MonsterData.Tier.BOSS, 125, MonsterData.Pattern.CYCLE, [
+		intent("Couraça Total", K.DEFEND, [blk(16)]),
+		intent("Avalanche de Placas", K.ATTACK, [dmg(6, 3)]),
+		intent("Chifrada", K.ATTACK, [dmg(18)]),
+		intent("Ácido Corrosivo", K.ATTACK_DEBUFF, [dmg(8), st(&"vulnerable", 2)]),
+	], [&"co_core", &"co_horn", &"ib_carapace", &"ib_endo"], &"ironback", 1.35,
+		"O mais antigo dos Ironback. Sua carapaça carrega a lama de séculos.",
+		"Espinhos em todo o corpo: prefira sangramento, corrupção e golpes únicos e fortes.",
+		[st(&"thorns", 3, true)], Color("#D7A07A"))
+
+
+func _build_mutations_m2() -> void:
+	mutation(&"mut_rw_blood", "Sangue de Rotwalker", RW, "Uma vez por combate, sobreviva a um golpe fatal com 1 de vida.",
+		{"rw_flesh": 1, "rw_bile": 1}, 2, &"blood", 0, 0, 0, [st(&"undying", 1, true)])
+	mutation(&"mut_co_plates", "Placas de Colosso", IB, "+12 de vida máxima. Comece cada combate com 2 de Espinhos.",
+		{"co_core": 1}, 3, &"carapace", 12, 0, 0, [st(&"thorns", 2, true)])
+
+
+# --- Receitas híbridas ------------------------------------------------------
+
+func recipe(id: StringName, a: StringName, b: StringName, result: StringName, hint: String) -> void:
+	var r := HybridRecipe.new()
+	r.id = id
+	r.part_a = parts[a]
+	r.part_b = parts[b]
+	r.result = cards[result]
+	r.hint = hint
+	_save(r, "res://data/recipes/%s.tres" % id)
+
+
+func _build_recipes() -> void:
+	recipe(&"rc_armored_heart", &"bf_heart", &"ib_carapace", &"hb_armored_heart", "Algo que pulsa, protegido por algo que não se rompe.")
+	recipe(&"rc_void_claws", &"bf_claws", &"vs_ichor", &"hb_void_claws", "Lâminas naturais mergulhadas em um fluido frio e violeta.")
+	recipe(&"rc_necro_oracle", &"vs_eyes", &"rw_brain", &"hb_necro_oracle", "Olhos que veem demais, ligados a uma mente que não esquece.")
+	recipe(&"rc_living_shell", &"ib_carapace", &"rw_flesh", &"hb_living_shell", "Uma couraça que cicatriza sozinha.")
+	recipe(&"rc_corrosive_fang", &"bf_fangs", &"ib_gland", &"hb_corrosive_fang", "Dentes serrilhados banhados em ácido.")
+	recipe(&"rc_void_marrow", &"vs_tentacles", &"rw_marrow", &"hb_void_marrow", "Calor de medula conduzido por membros que não são deste mundo.")
+	recipe(&"rc_hematic_tide", &"bfa_blood", &"vs_tentacles", &"hb_hematic_tide", "Sangue fervente espalhado por tentáculos.")
+	recipe(&"rc_chitin_maw", &"ib_mandible", &"bf_fangs", &"hb_chitin_maw", "Uma boca de inseto com dentes de predador.")
+
+
+# --- Melhorias do laboratório -----------------------------------------------
+
+func upgrade(id: StringName, name: String, desc: String, cost: Dictionary, motif: StringName,
+		incisions: int = 0, preserve: float = 0.0, damaged_mult: float = 0.0, hp: int = 0, requires: StringName = &"") -> void:
+	var u := LabUpgradeData.new()
+	u.id = id
+	u.display_name = name
+	u.description = desc
+	u.family_cost = cost
+	u.art_motif = motif
+	u.incisions_bonus = incisions
+	u.preserve_bonus = preserve
+	u.damaged_multiplier = damaged_mult
+	u.max_hp_bonus = hp
+	u.requires = requires
+	_save(u, "res://data/lab_upgrades/%s.tres" % id)
+
+
+func _build_upgrades() -> void:
+	upgrade(&"up_obsidian", "Bisturi de Obsidiana", "+1 incisão em cada dissecação.", {BF: 3, IB: 2}, &"scalpel", 1)
+	upgrade(&"up_twin_blades", "Lâminas Gêmeas", "+1 incisão em cada dissecação.", {VS: 3, RW: 3}, &"double_scalpel", 1, 0.0, 0.0, 0, &"up_obsidian")
+	upgrade(&"up_jars", "Frascos de Conservação", "+10% de chance de extrair qualquer parte.", {VS: 2, BF: 2}, &"gland", 0, 0.1)
+	upgrade(&"up_table", "Mesa de Contenção", "Partes danificadas mantêm 75% da chance (em vez de 50%).", {IB: 4}, &"plates", 0, 0.0, 0.75)
+	upgrade(&"up_field_kit", "Kit de Sobrevivência", "+6 de vida máxima.", {RW: 3}, &"suture", 0, 0.0, 0.0, 6)
+
+
+# --- Eventos ----------------------------------------------------------------
+
+func choice(label: String, result: String, opts: Dictionary = {}) -> EventChoice:
+	var c := EventChoice.new()
+	c.label = label
+	c.result_text = result
+	c.description = opts.get("desc", "")
+	c.success_chance = opts.get("chance", 1.0)
+	c.hp_change = opts.get("hp", 0)
+	c.max_hp_change = opts.get("max_hp", 0)
+	var gp: Array[AnatomyPart] = []
+	for pid in opts.get("parts", []):
+		gp.append(parts[pid])
+	c.gain_parts = gp
+	var ac: Array[CardData] = []
+	for cid in opts.get("cards", []):
+		ac.append(cards[cid])
+	c.add_cards = ac
+	c.remove_card = opts.get("remove", false)
+	c.upgrade_card = opts.get("upgrade", false)
+	var f: Array[MonsterData] = []
+	for mid in opts.get("fight", []):
+		f.append(monsters[mid])
+	c.fight = f
+	c.fail_text = opts.get("fail_text", "")
+	c.fail_hp_change = opts.get("fail_hp", 0)
+	var ff: Array[MonsterData] = []
+	for mid in opts.get("fail_fight", []):
+		ff.append(monsters[mid])
+	c.fail_fight = ff
+	return c
+
+
+func event(id: StringName, title: String, text: String, motif: StringName, accent: Color, choices: Array) -> void:
+	var e := EventData.new()
+	e.id = id
+	e.title = title
+	e.text = text
+	e.art_motif = motif
+	e.accent = accent
+	e.choices.assign(choices)
+	_save(e, "res://data/events/%s.tres" % id)
+
+
+func _build_events() -> void:
+	event(&"ev_old_carcass", "Carcaça Antiga",
+		"Sob a turfa, o corpo de um Bloodfang morto há dias. A carne já escurece, mas a pele parece intacta.",
+		&"hide", Palette.BLOOD_BRIGHT, [
+		choice("Dissecar às pressas", "Você salva um pedaço de couro antes que apodreça.",
+			{"desc": "70%: ganhe Pele de Bloodfang. Falha: perca 6 de vida.", "chance": 0.7, "parts": [&"bf_hide"],
+			"fail_text": "O bisturi escorrega no tecido podre. O corte infecciona.", "fail_hp": -6}),
+		choice("Arrancar as presas", "As presas cedem — e cortam seus dedos no caminho.",
+			{"desc": "Perca 3 de vida. Ganhe Presas.", "hp": -3, "parts": [&"bf_fangs"]}),
+		choice("Seguir em frente", "Nem tudo que está morto vale o risco."),
+	])
+	event(&"ev_wounded_researcher", "Pesquisador Ferido",
+		"Um colega do laboratório, encostado em uma árvore, segura um caderno manchado de sangue. Ele não vai durar muito.",
+		&"notes", Palette.BONE, [
+		choice("Tratar os ferimentos", "Antes de partir, ele lhe ensina uma técnica de corte.",
+			{"desc": "Perca 7 de vida. Aprimore uma carta.", "hp": -7, "upgrade": true}),
+		choice("Aceitar as anotações", "Páginas e páginas de observações. Algumas são úteis.",
+			{"desc": "Adicione Anotações de Campo ao baralho.", "cards": [&"field_notes"]}),
+		choice("Deixá-lo", "Você segue. O silêncio pesa mais que a mochila."),
+	])
+	event(&"ev_violet_pool", "Poça Violeta",
+		"Um líquido frio e luminoso escorre de uma fenda na rocha. Ele parece se mover contra a gravidade.",
+		&"blood", Palette.VIOLET_BRIGHT, [
+		choice("Beber", "Seu sangue esfria. Algo em você se adapta.",
+			{"desc": "+5 de vida máxima, perca 6 de vida.", "max_hp": 5, "hp": -6}),
+		choice("Coletar amostra", "O frasco se enche de icor violeta.",
+			{"desc": "60%: ganhe Icor Violeta. Falha: algo emerge da poça.", "chance": 0.6, "parts": [&"vs_ichor"],
+			"fail_text": "A superfície se rompe — um Voidspawn emerge!", "fail_fight": [&"voidspawn"]}),
+		choice("Afastar-se", "Você não confia em nada que brilha no escuro."),
+	])
+	event(&"ev_ironback_nest", "Ninho de Ironback",
+		"Ovos de casca metálica, ainda mornos, aninhados entre ossos roídos.",
+		&"carapace", Palette.MOSS_BRIGHT, [
+		choice("Recolher cascas", "Fragmentos de carapaça, perfeitos para estudo.",
+			{"desc": "60%: ganhe Carapaça. Falha: a mãe estava por perto.", "chance": 0.6, "parts": [&"ib_carapace"],
+			"fail_text": "Um estalo de quitina atrás de você. A mãe voltou.", "fail_fight": [&"ironback"]}),
+		choice("Esmagar os ovos", "Menos Ironback no mundo. Você sente uma satisfação estranha.",
+			{"desc": "Recupere 5 de vida.", "hp": 5}),
+		choice("Afastar-se", "Você anota a localização para outra ocasião."),
+	])
+	event(&"ev_bone_altar", "Altar de Ossos",
+		"Um altar de costelas empilhadas. Oferendas antigas apodrecem aos pés dele.",
+		&"ribs", Palette.SICK_GREEN, [
+		choice("Oferecer uma carta", "O altar aceita a oferenda. Você se sente mais leve.",
+			{"desc": "Remova uma carta do baralho e recupere 8 de vida.", "remove": true, "hp": 8}),
+		choice("Rezar", "Nada responde. Ainda assim, você descansa um pouco.", {"desc": "Recupere 6 de vida.", "hp": 6}),
+		choice("Profanar", "Entre os ossos, uma medula ainda morna.",
+			{"desc": "50%: ganhe Medula de Rotwalker. Falha: perca 10 de vida.", "chance": 0.5, "parts": [&"rw_marrow"],
+			"fail_text": "Os ossos desabam sobre você.", "fail_hp": -10}),
+	])
+	event(&"ev_hermit", "Eremita Alquimista",
+		"Um velho mistura frascos fervendo sobre uma fogueira azul. \"Traga-me algo vivo e eu lhe darei algo melhor.\"",
+		&"gland", Palette.PETROL_BRIGHT, [
+		choice("Pedir um tônico", "Amargo como fel, mas funciona.", {"desc": "Recupere 15 de vida.", "hp": 15}),
+		choice("Pedir uma técnica", "Ele corrige sua postura com uma bengala.",
+			{"desc": "Perca 4 de vida. Aprimore uma carta.", "hp": -4, "upgrade": true}),
+		choice("Recusar", "Ele dá de ombros e volta aos frascos."),
+	])
+
+
+# --- Expedições -------------------------------------------------------------
+
+func encounter(id: StringName, ids: Array, min_floor: int = 0, weight: int = 1) -> EncounterData:
+	var e := EncounterData.new()
+	e.id = id
+	var ms: Array[MonsterData] = []
+	for mid in ids:
+		ms.append(monsters[mid])
+	e.monsters = ms
+	e.min_floor = min_floor
+	e.weight = weight
+	return e
+
+
+func _all_events() -> Array[EventData]:
+	var list: Array[EventData] = []
+	for id in [&"ev_old_carcass", &"ev_wounded_researcher", &"ev_violet_pool", &"ev_ironback_nest", &"ev_bone_altar", &"ev_hermit"]:
+		list.append(load("res://data/events/%s.tres" % id))
+	return list
+
+
+func _build_expeditions() -> void:
 	var e := ExpeditionData.new()
 	e.id = &"bone_moor"
 	e.display_name = "Charneca dos Ossos"
 	e.description = "Pântano de turfa e ossadas onde predadores, insetos blindados e aberrações disputam carcaças."
+	e.order = 0
 	e.floors = 8
-	e.normal_pool.assign([monsters[&"bloodfang"], monsters[&"ironback"], monsters[&"voidspawn"]])
+	e.encounters.assign([
+		encounter(&"bm_bloodfang", [&"bloodfang"], 0, 2),
+		encounter(&"bm_ironback", [&"ironback"], 0, 2),
+		encounter(&"bm_voidspawn", [&"voidspawn"], 0, 2),
+		encounter(&"bm_pups", [&"bloodfang_pup", &"bloodfang_pup"], 1, 2),
+		encounter(&"bm_void_pup", [&"voidspawn", &"bloodfang_pup"], 3, 1),
+	])
 	e.elite_pool.assign([monsters[&"bloodfang_alpha"]])
 	e.boss = monsters[&"void_matriarch"]
+	e.events = _all_events()
 	e.hp_per_floor = 2
+	e.accent = Palette.BLOOD
 	_save(e, "res://data/expeditions/bone_moor.tres")
+
+	var c := ExpeditionData.new()
+	c.id = &"flooded_catacombs"
+	c.display_name = "Catacumbas Alagadas"
+	c.description = "Túneis funerários inundados onde os mortos não descansam e algo enorme raspa as paredes."
+	c.order = 1
+	c.unlock_requirement = &"bone_moor"
+	c.floors = 9
+	c.encounters.assign([
+		encounter(&"fc_rotwalker", [&"rotwalker"], 0, 2),
+		encounter(&"fc_ghouls", [&"ghoul", &"ghoul"], 0, 2),
+		encounter(&"fc_ironback", [&"ironback"], 1, 1),
+		encounter(&"fc_void_ghoul", [&"voidspawn", &"ghoul"], 2, 1),
+		encounter(&"fc_rot_pack", [&"rotwalker", &"ghoul"], 4, 1),
+	])
+	c.elite_pool.assign([monsters[&"stitched_abomination"], monsters[&"bloodfang_alpha"]])
+	c.boss = monsters[&"iron_colossus"]
+	c.events = _all_events()
+	c.hp_per_floor = 3
+	c.accent = Palette.SICK_GREEN
+	_save(c, "res://data/expeditions/flooded_catacombs.tres")

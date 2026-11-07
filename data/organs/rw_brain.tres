@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_fab8j"]
+[ext_resource type="Resource" path="res://data/cards/muscle_memory.tres" id="2_imfp6"]
+
+[resource]
+script = ExtResource("1_fab8j")
+id = &"rw_brain"
+display_name = "Cérebro"
+family = 4
+region = 0
+rarity = 2
+preserve_chance = 0.6
+unlocks_card = ExtResource("2_imfp6")
+art_motif = &"brain"
+description = "Encolhido, mas os reflexos persistem."

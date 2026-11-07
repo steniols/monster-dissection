@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_rvsp4"]
+[ext_resource type="Resource" path="res://data/cards/marrow_spark.tres" id="2_ssiaw"]
+
+[resource]
+script = ExtResource("1_rvsp4")
+id = &"rw_marrow"
+display_name = "Medula"
+family = 4
+rarity = 2
+preserve_chance = 0.55
+unlocks_card = ExtResource("2_ssiaw")
+art_motif = &"ribs"
+description = "Medula escura que ainda gera calor."

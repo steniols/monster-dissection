@@ -93,7 +93,7 @@ func play_card(card: CardInstance, target: Combatant = null) -> bool:
 	else:
 		discard_pile.append(card)
 	card_played.emit(card)
-	_register_instinct(card.data.family)
+	_register_instinct(card.data)
 	hand_changed.emit()
 	piles_changed.emit()
 	_check_end()
@@ -144,9 +144,13 @@ func return_from_discard(count: int) -> void:
 
 # --- Instinto ---------------------------------------------------------------
 
-func _register_instinct(family: Family.Id) -> void:
+func _register_instinct(card: CardData) -> void:
+	var family := card.family
 	if family == Family.Id.NEUTRAL:
 		return # instrumentos não quebram a sequência
+	# Híbridas continuam a sequência de qualquer uma das suas duas famílias.
+	if card.is_hybrid() and card.belongs_to(instinct_family):
+		family = instinct_family
 	if family == instinct_family:
 		instinct_count += 1
 	else:

@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_qjqwu"]
+[ext_resource type="Script" path="res://scripts/cards/effects/gain_energy_effect.gd" id="2_67ri3"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_2rnti"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_jn3bc"]
+
+[sub_resource type="Resource" id="Resource_g5uci"]
+script = ExtResource("2_67ri3")
+target = 1
+
+[sub_resource type="Resource" id="Resource_cchh3"]
+script = ExtResource("3_2rnti")
+status_id = &"corruption"
+stacks = 2
+target = 2
+
+[resource]
+script = ExtResource("4_jn3bc")
+id = &"hb_void_marrow"
+display_name = "Medula do Vazio"
+cost = 0
+card_type = 2
+rarity = 3
+category = 1
+family = 3
+secondary_family = 4
+source_part = "Experimento"
+art_motif = &"core"
+exhaust = true
+effects = Array[ExtResource("1_qjqwu")]([SubResource("Resource_g5uci"), SubResource("Resource_cchh3")])

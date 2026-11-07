@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_hxwt5"]
+[ext_resource type="Resource" path="res://data/cards/dry_sinew.tres" id="2_y10dw"]
+
+[resource]
+script = ExtResource("1_hxwt5")
+id = &"gh_sinew"
+display_name = "Tendões Secos"
+family = 4
+region = 2
+unlocks_card = ExtResource("2_y10dw")
+art_motif = &"tendon"
+description = "Fibras ressecadas, mas impossíveis de romper."

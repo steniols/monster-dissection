@@ -37,10 +37,18 @@ func _ready() -> void:
 	gap.custom_minimum_size.y = 24
 	box.add_child(gap)
 
+	if RunState.has_save():
+		var cont := UiTheme.make_button("Continuar expedição", Game.continue_expedition, 300)
+		cont.custom_minimum_size.y = 50
+		cont.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		box.add_child(cont)
 	var enter := UiTheme.make_button("Entrar no laboratório", func(): Game.goto("lab"), 300)
 	enter.custom_minimum_size.y = 50
 	enter.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	box.add_child(enter)
+	var opts := UiTheme.make_button("Opções", func(): Game.open_options("menu"), 300)
+	opts.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	box.add_child(opts)
 	var reset := UiTheme.make_button("Apagar progresso", _confirm_reset, 300)
 	reset.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	box.add_child(reset)
@@ -49,7 +57,7 @@ func _ready() -> void:
 	box.add_child(quit)
 	enter.grab_focus()
 
-	var ver := UiTheme.make_label("Protótipo 0.1 · %d expedições · %d vitórias" % [Profile.runs_started, Profile.runs_won], 13, Palette.TEXT_DIM)
+	var ver := UiTheme.make_label("Protótipo 0.2 · %d expedições · %d vitórias" % [Profile.runs_started, Profile.runs_won], 13, Palette.TEXT_DIM)
 	ver.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
 	ver.offset_left = 16
 	ver.offset_top = -30
@@ -64,6 +72,7 @@ func _confirm_reset() -> void:
 	d.cancel_button_text = "Cancelar"
 	d.confirmed.connect(func():
 		Profile.reset()
+		RunState.delete_save()
 		get_tree().reload_current_scene())
 	add_child(d)
 	d.popup_centered()

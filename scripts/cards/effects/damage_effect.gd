@@ -34,3 +34,10 @@ func describe() -> String:
 	if bonus_per_card_played != 0:
 		text += ", +%d para cada carta jogada neste turno" % bonus_per_card_played
 	return text + "."
+
+
+func upgrade() -> bool:
+	if bonus_per_card_played > 0:
+		bonus_per_card_played += 1
+	amount += 1 if hits > 1 else maxi(3, amount / 3)
+	return true

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/bf_heart.tres" id="1_hykvm"]
+[ext_resource type="Resource" path="res://data/organs/ib_carapace.tres" id="2_sohg6"]
+[ext_resource type="Resource" path="res://data/cards/hb_armored_heart.tres" id="3_uqqes"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_1v3kj"]
+
+[resource]
+script = ExtResource("4_1v3kj")
+id = &"rc_armored_heart"
+part_a = ExtResource("1_hykvm")
+part_b = ExtResource("2_sohg6")
+result = ExtResource("3_uqqes")
+hint = "Algo que pulsa, protegido por algo que não se rompe."

@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_atpb0"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_4t8fr"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="3_ur6c4"]
+
+[sub_resource type="Resource" id="Resource_ue5og"]
+script = ExtResource("2_4t8fr")
+status_id = &"undying"
+target = 1
+
+[resource]
+script = ExtResource("3_ur6c4")
+id = &"mut_rw_blood"
+display_name = "Sangue de Rotwalker"
+family = 4
+description = "Uma vez por combate, sobreviva a um golpe fatal com 1 de vida."
+material_cost = {
+"rw_bile": 1,
+"rw_flesh": 1
+}
+combat_start_effects = Array[ExtResource("1_atpb0")]([SubResource("Resource_ue5og")])
+corruption = 2
+art_motif = &"blood"

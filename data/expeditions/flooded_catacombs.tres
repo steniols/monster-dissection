@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="ExpeditionData" format=3]
+
+[ext_resource type="Resource" path="res://data/monsters/iron_colossus.tres" id="1_haedf"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="2_vqs1f"]
+[ext_resource type="Resource" path="res://data/monsters/stitched_abomination.tres" id="3_x22lo"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang_alpha.tres" id="4_ujwqr"]
+[ext_resource type="Script" path="res://scripts/progression/encounter_data.gd" id="5_3ds25"]
+[ext_resource type="Resource" path="res://data/monsters/rotwalker.tres" id="6_k23n2"]
+[ext_resource type="Resource" path="res://data/monsters/ghoul.tres" id="7_koeog"]
+[ext_resource type="Resource" path="res://data/monsters/ironback.tres" id="8_60hev"]
+[ext_resource type="Resource" path="res://data/monsters/voidspawn.tres" id="9_uae2t"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="10_twvsh"]
+[ext_resource type="Resource" path="res://data/events/ev_old_carcass.tres" id="11_8sadi"]
+[ext_resource type="Resource" path="res://data/events/ev_wounded_researcher.tres" id="12_ecp8e"]
+[ext_resource type="Resource" path="res://data/events/ev_violet_pool.tres" id="13_oyrnr"]
+[ext_resource type="Resource" path="res://data/events/ev_ironback_nest.tres" id="14_kpe44"]
+[ext_resource type="Resource" path="res://data/events/ev_bone_altar.tres" id="15_2ofnc"]
+[ext_resource type="Resource" path="res://data/events/ev_hermit.tres" id="16_fjqtn"]
+[ext_resource type="Script" path="res://scripts/progression/expedition_data.gd" id="17_awwqs"]
+
+[sub_resource type="Resource" id="Resource_8ne5b"]
+script = ExtResource("5_3ds25")
+id = &"fc_rotwalker"
+monsters = Array[ExtResource("2_vqs1f")]([ExtResource("6_k23n2")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_t0equ"]
+script = ExtResource("5_3ds25")
+id = &"fc_ghouls"
+monsters = Array[ExtResource("2_vqs1f")]([ExtResource("7_koeog"), ExtResource("7_koeog")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_rccgv"]
+script = ExtResource("5_3ds25")
+id = &"fc_ironback"
+monsters = Array[ExtResource("2_vqs1f")]([ExtResource("8_60hev")])
+min_floor = 1
+
+[sub_resource type="Resource" id="Resource_bw3cv"]
+script = ExtResource("5_3ds25")
+id = &"fc_void_ghoul"
+monsters = Array[ExtResource("2_vqs1f")]([ExtResource("9_uae2t"), ExtResource("7_koeog")])
+min_floor = 2
+
+[sub_resource type="Resource" id="Resource_jcl3m"]
+script = ExtResource("5_3ds25")
+id = &"fc_rot_pack"
+monsters = Array[ExtResource("2_vqs1f")]([ExtResource("6_k23n2"), ExtResource("7_koeog")])
+min_floor = 4
+
+[resource]
+script = ExtResource("17_awwqs")
+id = &"flooded_catacombs"
+display_name = "Catacumbas Alagadas"
+description = "Túneis funerários inundados onde os mortos não descansam e algo enorme raspa as paredes."
+order = 1
+unlock_requirement = &"bone_moor"
+floors = 9
+encounters = Array[ExtResource("5_3ds25")]([SubResource("Resource_8ne5b"), SubResource("Resource_t0equ"), SubResource("Resource_rccgv"), SubResource("Resource_bw3cv"), SubResource("Resource_jcl3m")])
+elite_pool = Array[ExtResource("2_vqs1f")]([ExtResource("3_x22lo"), ExtResource("4_ujwqr")])
+boss = ExtResource("1_haedf")
+events = Array[ExtResource("10_twvsh")]([ExtResource("11_8sadi"), ExtResource("12_ecp8e"), ExtResource("13_oyrnr"), ExtResource("14_kpe44"), ExtResource("15_2ofnc"), ExtResource("16_fjqtn")])
+hp_per_floor = 3
+accent = Color(0.54901963, 0.6039216, 0.35686275, 1)

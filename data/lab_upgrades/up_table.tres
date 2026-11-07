@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="LabUpgradeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/lab_upgrade_data.gd" id="1_gdygj"]
+
+[resource]
+script = ExtResource("1_gdygj")
+id = &"up_table"
+display_name = "Mesa de Contenção"
+description = "Partes danificadas mantêm 75% da chance (em vez de 50%)."
+family_cost = {
+2: 4
+}
+damaged_multiplier = 0.75
+art_motif = &"plates"

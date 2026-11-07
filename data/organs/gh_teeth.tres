@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_0o4j4"]
+[ext_resource type="Resource" path="res://data/cards/infected_bite.tres" id="2_iqxyh"]
+
+[resource]
+script = ExtResource("1_0o4j4")
+id = &"gh_teeth"
+display_name = "Dentes Podres"
+family = 4
+region = 0
+unlocks_card = ExtResource("2_iqxyh")
+art_motif = &"fang"
+description = "Dentes que transmitem febre e fome."

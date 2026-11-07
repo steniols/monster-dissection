@@ -19,5 +19,7 @@ enum Pattern { CYCLE, RANDOM_NO_REPEAT }
 ## Chave do desenho procedural enquanto não houver arte final.
 @export var visual: StringName = &"bloodfang"
 @export var scale: float = 1.0
+## Tingimento aplicado ao desenho (variações de espécie, ex.: elite/chefe).
+@export var tint: Color = Color.WHITE
 @export_multiline var lore: String = ""
 @export_multiline var weakness_note: String = ""

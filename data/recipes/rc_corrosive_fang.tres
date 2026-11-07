@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="1_apces"]
+[ext_resource type="Resource" path="res://data/organs/ib_gland.tres" id="2_dkqq2"]
+[ext_resource type="Resource" path="res://data/cards/hb_corrosive_fang.tres" id="3_gi3qp"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_iqq4i"]
+
+[resource]
+script = ExtResource("4_iqq4i")
+id = &"rc_corrosive_fang"
+part_a = ExtResource("1_apces")
+part_b = ExtResource("2_dkqq2")
+result = ExtResource("3_gi3qp")
+hint = "Dentes serrilhados banhados em ácido."

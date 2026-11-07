@@ -78,6 +78,21 @@ const DEFS := {
 		"tick": {"kind": "apply_self", "status": &"strength"},
 		"decay": 0,
 	},
+	&"undying": {
+		"name": "Imortalidade Pútrida",
+		"description": "Sobrevive a um golpe fatal com 1 de vida ({x} vez/vezes).",
+		"color": Color("#8C9A5B"),
+		"debuff": false,
+		"decay": 0,
+	},
+	&"rot_pulse": {
+		"name": "Pulso Pútrido",
+		"description": "No início do turno, recupera {x} de vida.",
+		"color": Color("#8C9A5B"),
+		"debuff": false,
+		"tick": {"kind": "heal"},
+		"decay": 0,
+	},
 	&"abyss": {
 		"name": "Abismo",
 		"description": "No início do turno, aplica {x} de Corrupção a todos os oponentes.",

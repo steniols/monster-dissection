@@ -48,7 +48,13 @@ func setup(p: PlayerCombatant) -> void:
 	p.statuses_changed.connect(_refresh)
 	p.energy_changed.connect(func(e, m): _energy.set_energy(e, m))
 	p.damaged.connect(_on_damaged)
-	p.healed.connect(func(a): UiTheme.float_text(get_tree().current_scene, "+%d" % a, _float_pos(), Palette.MOSS_BRIGHT))
+	p.healed.connect(func(a):
+		Sfx.play(&"heal", -6.0)
+		UiTheme.float_text(get_tree().current_scene, "+%d" % a, _float_pos(), Palette.MOSS_BRIGHT))
+	p.cheated_death.connect(func():
+		Sfx.play(&"instinct")
+		Fx.burst(get_tree().current_scene, _float_pos(), Palette.SICK_GREEN, 30, 260)
+		UiTheme.float_text(get_tree().current_scene, "Imortalidade Pútrida!", _float_pos() + Vector2(-60, -30), Palette.SICK_GREEN, 24))
 	_refresh()
 	_energy.set_energy(p.energy, p.max_energy)
 
@@ -59,7 +65,16 @@ func _refresh() -> void:
 
 
 func _on_damaged(amount: int, blocked: int) -> void:
+	if blocked > 0:
+		Sfx.play(&"block", -4.0)
+		Fx.burst(get_tree().current_scene, _float_pos() + Vector2(0, 40), Palette.PETROL_BRIGHT, 10, 180)
 	if amount > 0:
+		var big := amount >= 10
+		Sfx.play(&"hit_big" if big else &"hit")
+		Fx.shake(get_tree().current_scene, 12.0 if big else 6.0, 0.25)
+		Fx.burst(get_tree().current_scene, _float_pos() + Vector2(0, 40), Palette.BLOOD_BRIGHT, 16, 220)
+		if big:
+			Fx.hit_stop(0.06)
 		UiTheme.float_text(get_tree().current_scene, "-%d" % amount, _float_pos(), Palette.BLOOD_BRIGHT)
 		_art.modulate = Color(1.8, 0.6, 0.6)
 		_art.create_tween().tween_property(_art, "modulate", Color.WHITE, 0.3)
@@ -107,7 +122,7 @@ class EnergyOrb:
 		draw_circle(c, r, Palette.CHARCOAL_DEEP)
 		draw_circle(c, r * 0.82, Color(col, 0.35))
 		draw_arc(c, r, 0, TAU, 40, col, 3.0, true)
-		var font := UiTheme.title_font if UiTheme.title_font != null else get_theme_default_font()
+		var font: Font = UiTheme.number_font if UiTheme.number_font != null else get_theme_default_font()
 		var txt := "%d/%d" % [energy, max_energy]
 		var w := font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
 		draw_string_outline(font, c + Vector2(-w * 0.5, 9), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, 4, Palette.CHARCOAL_DEEP)

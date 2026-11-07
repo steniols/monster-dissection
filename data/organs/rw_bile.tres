@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_tjh53"]
+[ext_resource type="Resource" path="res://data/cards/necrotic_bile.tres" id="2_e76le"]
+
+[resource]
+script = ExtResource("1_tjh53")
+id = &"rw_bile"
+display_name = "Bile"
+family = 4
+region = 3
+preserve_chance = 0.75
+unlocks_card = ExtResource("2_e76le")
+art_motif = &"gland"
+description = "Fluido amarelado que enfraquece qualquer tecido vivo."

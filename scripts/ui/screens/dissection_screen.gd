@@ -117,8 +117,9 @@ func _build_ui() -> void:
 	root.add_child(right)
 
 	_incisions_label = UiTheme.make_label("", 18, Palette.BONE_LIGHT, true)
+	_incisions_label.add_theme_font_override("font", UiTheme.number_font)
 	right.add_child(_incisions_label)
-	var hint := UiTheme.make_label("Cada incisão tenta extrair uma parte. Partes danificadas têm metade da chance.", 13, Palette.TEXT_DIM)
+	var hint := UiTheme.make_label("Cada incisão tenta extrair uma parte. Partes danificadas mantêm %d%% da chance." % roundi(session.condition.damaged_multiplier * 100), 13, Palette.TEXT_DIM)
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	right.add_child(hint)
 
@@ -172,10 +173,7 @@ func _select(p: AnatomyPart) -> void:
 
 
 func _refresh() -> void:
-	var dots := ""
-	for i in Profile.get_incisions():
-		dots += "◆ " if i < session.incisions_left else "◇ "
-	_incisions_label.text = "Incisões restantes: %s" % dots
+	_incisions_label.text = "Incisões restantes: %d de %d" % [session.incisions_left, Profile.get_incisions()]
 
 	for c in _part_list.get_children():
 		c.queue_free()
@@ -272,10 +270,14 @@ func _extract(p: AnatomyPart) -> void:
 	var pos := _art.global_position + _art.region_point(p.region)
 	if ok:
 		var new_card := RunState.gather(p)
+		Sfx.play(&"cut")
+		Fx.burst(self, pos, Family.get_color(p.family), 20, 200)
 		UiTheme.float_text(self, "Extraída!", pos, Palette.MOSS_BRIGHT, 28)
 		if new_card:
+			Sfx.play(&"unlock", -2.0)
 			UiTheme.float_text(self, "Nova carta: %s" % p.unlocks_card.display_name, pos + Vector2(-40, 40), Palette.BONE_LIGHT, 20)
 	else:
+		Sfx.play(&"fail")
 		UiTheme.float_text(self, "Tecido rompido", pos, Palette.BLOOD_BRIGHT, 28)
 	_refresh()
 

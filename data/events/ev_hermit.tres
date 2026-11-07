@@ -1,0 +1,36 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_x1u6o"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_rq6x6"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_5jjc5"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_dtadx"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="5_6egll"]
+
+[sub_resource type="Resource" id="Resource_teu7e"]
+script = ExtResource("1_x1u6o")
+label = "Pedir um tônico"
+description = "Recupere 15 de vida."
+result_text = "Amargo como fel, mas funciona."
+hp_change = 15
+
+[sub_resource type="Resource" id="Resource_c8k7i"]
+script = ExtResource("1_x1u6o")
+label = "Pedir uma técnica"
+description = "Perca 4 de vida. Aprimore uma carta."
+result_text = "Ele corrige sua postura com uma bengala."
+hp_change = -4
+upgrade_card = true
+
+[sub_resource type="Resource" id="Resource_nlru1"]
+script = ExtResource("1_x1u6o")
+label = "Recusar"
+result_text = "Ele dá de ombros e volta aos frascos."
+
+[resource]
+script = ExtResource("5_6egll")
+id = &"ev_hermit"
+title = "Eremita Alquimista"
+text = "Um velho mistura frascos fervendo sobre uma fogueira azul. \"Traga-me algo vivo e eu lhe darei algo melhor.\""
+art_motif = &"gland"
+accent = Color(0.43529412, 0.6392157, 0.69411767, 1)
+choices = Array[ExtResource("1_x1u6o")]([SubResource("Resource_teu7e"), SubResource("Resource_c8k7i"), SubResource("Resource_nlru1")])

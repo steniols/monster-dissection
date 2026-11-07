@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_l5v1m"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_tikdx"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_k3m8g"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_vv6j3"]
+[ext_resource type="Resource" path="res://data/monsters/voidspawn.tres" id="5_3s06a"]
+[ext_resource type="Resource" path="res://data/organs/vs_ichor.tres" id="6_hgcgj"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="7_32dtx"]
+
+[sub_resource type="Resource" id="Resource_i6bt1"]
+script = ExtResource("1_l5v1m")
+label = "Beber"
+description = "+5 de vida máxima, perca 6 de vida."
+result_text = "Seu sangue esfria. Algo em você se adapta."
+hp_change = -6
+max_hp_change = 5
+
+[sub_resource type="Resource" id="Resource_2c1vj"]
+script = ExtResource("1_l5v1m")
+label = "Coletar amostra"
+description = "60%: ganhe Icor Violeta. Falha: algo emerge da poça."
+success_chance = 0.6
+result_text = "O frasco se enche de icor violeta."
+gain_parts = Array[ExtResource("4_vv6j3")]([ExtResource("6_hgcgj")])
+fail_text = "A superfície se rompe — um Voidspawn emerge!"
+fail_fight = Array[ExtResource("3_k3m8g")]([ExtResource("5_3s06a")])
+
+[sub_resource type="Resource" id="Resource_dqpb0"]
+script = ExtResource("1_l5v1m")
+label = "Afastar-se"
+result_text = "Você não confia em nada que brilha no escuro."
+
+[resource]
+script = ExtResource("7_32dtx")
+id = &"ev_violet_pool"
+title = "Poça Violeta"
+text = "Um líquido frio e luminoso escorre de uma fenda na rocha. Ele parece se mover contra a gravidade."
+art_motif = &"blood"
+accent = Color(0.63529414, 0.48235294, 0.73333335, 1)
+choices = Array[ExtResource("1_l5v1m")]([SubResource("Resource_i6bt1"), SubResource("Resource_2c1vj"), SubResource("Resource_dqpb0")])

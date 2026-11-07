@@ -24,6 +24,7 @@ func _ready() -> void:
 
 
 func _tour() -> void:
+	get_viewport().warp_mouse(Vector2(1275, 715))
 	# Perfil de demonstração com algum progresso.
 	Profile.reset()
 	for id in [&"deep_bite", &"rend", &"carapace_plate", &"tentacle_grip", &"predatory_pulse"]:
@@ -66,6 +67,33 @@ func _tour() -> void:
 	RunState.dissection_queue = [{"monster": Database.get_monster(&"ironback"), "condition": BodyCondition.from_combatant(_dead(&"ironback"))}]
 	await _shot("dissection", "11_dissecacao_ironback")
 	await _shot("rest", "12_acampamento")
+
+	# --- Marco 2 ---
+	Profile.add_material(&"rw_flesh", 2)
+	Profile.add_material(&"vs_eyes", 1)
+	Profile.unlock_card(&"hb_armored_heart")
+	Profile.discovered_recipes.append(&"rc_armored_heart")
+	Profile.mark_cleared(&"bone_moor")
+	await _shot("experiment", "13_experimentacao")
+	await _shot("workshop", "14_oficina")
+	await _shot("options", "15_opcoes")
+	RunState.current.event = Database.events[&"ev_violet_pool"]
+	await _shot("event", "16_evento")
+	var group: Array[MonsterData] = [Database.get_monster(&"rotwalker"), Database.get_monster(&"ghoul")]
+	RunState.current.monsters = group
+	RunState.deck.append_array([&"hb_armored_heart", &"rend+", &"hb_void_claws"])
+	await _shot("combat", "17_rotwalker_carnical", 1.2)
+	var boss: Array[MonsterData] = [Database.get_monster(&"iron_colossus")]
+	RunState.current.monsters = boss
+	await _shot("combat", "18_colosso", 1.2)
+	await _shot("lab", "19_laboratorio_v2")
+	get_tree().current_scene._choose_region()
+	await _wait(0.3)
+	await _capture("20_regioes")
+	var ab := MonsterCombatant.new(Database.get_monster(&"stitched_abomination"))
+	ab.lose_hp(999, Combatant.DeathCause.STATUS)
+	RunState.dissection_queue = [{"monster": ab.data, "condition": BodyCondition.from_combatant(ab)}]
+	await _shot("dissection", "21_dissecacao_abominacao")
 
 
 func _dead(id: StringName) -> MonsterCombatant:

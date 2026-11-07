@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_ukly1"]
+[ext_resource type="Resource" path="res://data/cards/rot_pulse.tres" id="2_hg02l"]
+
+[resource]
+script = ExtResource("1_ukly1")
+id = &"ab_heart"
+display_name = "Coração Costurado"
+family = 4
+rarity = 3
+preserve_chance = 0.45
+unlocks_card = ExtResource("2_hg02l")
+description = "Três corações costurados em um só."

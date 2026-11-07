@@ -20,6 +20,8 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 Database="*res://scripts/managers/database.gd"
 Profile="*res://scripts/progression/profile.gd"
 RunState="*res://scripts/progression/run_state.gd"
+Settings="*res://scripts/managers/settings.gd"
+Sfx="*res://scripts/managers/sfx.gd"
 Game="*res://scripts/managers/game.gd"
 
 [display]

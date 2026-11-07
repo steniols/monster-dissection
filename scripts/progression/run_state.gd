@@ -1,7 +1,9 @@
 extends Node
-## Autoload "RunState": estado da expedição em andamento (não persiste entre sessões).
+## Autoload "RunState": estado da expedição em andamento.
+## É salvo em user://run.json sempre que o jogador volta ao mapa.
 
-## Fração dos materiais preservada se o caçador morrer.
+const SAVE_PATH := "user://run.json"
+## Fração dos materiais preservada se o caçador morrer ou abandonar.
 const DEFEAT_MATERIAL_KEEP := 0.5
 
 var active: bool = false
@@ -36,6 +38,7 @@ func start(expd: ExpeditionData) -> void:
 	last_summary = {}
 	Profile.runs_started += 1
 	Profile.save_profile()
+	save_run()
 
 
 func get_floor() -> int:
@@ -62,11 +65,37 @@ func get_deck_cards() -> Array[CardData]:
 	return Database.cards_from_ids(deck)
 
 
-## Vida extra dos monstros conforme o andar (o chefe tem vida fixa).
 func get_monster_hp_bonus() -> int:
 	if expedition == null or (current != null and current.type == MapNode.Type.BOSS):
 		return 0
 	return max(0, get_floor()) * expedition.hp_per_floor
+
+
+func change_hp(amount: int) -> void:
+	hp = clampi(hp + amount, 1, max_hp)
+
+
+func change_max_hp(amount: int) -> void:
+	max_hp = max(1, max_hp + amount)
+	hp = clampi(hp + max(0, amount), 1, max_hp)
+
+
+## Substitui uma carta do baralho pela versão aprimorada.
+func upgrade_card(id: StringName) -> bool:
+	var idx := deck.find(id)
+	var card := Database.get_card(id)
+	if idx < 0 or card == null or not card.can_upgrade():
+		return false
+	deck[idx] = StringName(String(id) + CardData.UPGRADE_SUFFIX)
+	return true
+
+
+func get_upgradable_cards() -> Array[CardData]:
+	var result: Array[CardData] = []
+	for c in get_deck_cards():
+		if c.can_upgrade():
+			result.append(c)
+	return result
 
 
 ## Registra uma parte extraída. Retorna true se desbloqueou uma carta nova.
@@ -92,8 +121,15 @@ func end_run(won: bool) -> Dictionary:
 			Profile.add_material(id, keep)
 		if amount - keep > 0:
 			lost[id] = amount - keep
+	var newly_unlocked: Array[String] = []
 	if won:
 		Profile.runs_won += 1
+		var before := Profile.cleared_expeditions.size()
+		Profile.mark_cleared(expedition.id)
+		if Profile.cleared_expeditions.size() > before:
+			for e in Database.get_sorted_expeditions():
+				if e.unlock_requirement == expedition.id:
+					newly_unlocked.append(e.display_name)
 	Profile.save_profile()
 	last_summary = {
 		"won": won,
@@ -102,6 +138,87 @@ func end_run(won: bool) -> Dictionary:
 		"new_cards": new_cards.duplicate(),
 		"kills": kills,
 		"floor": get_floor() + 1,
+		"unlocked_regions": newly_unlocked,
+		"expedition": expedition.display_name,
 	}
 	active = false
+	delete_save()
 	return last_summary
+
+
+# --- Persistência da expedição ---------------------------------------------
+
+static func has_save() -> bool:
+	return FileAccess.file_exists(SAVE_PATH)
+
+
+func delete_save() -> void:
+	if has_save():
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+
+
+func save_run() -> void:
+	if not active:
+		return
+	var floors := []
+	for row in map:
+		var r := []
+		for n: MapNode in row:
+			r.append(n.to_dict())
+		floors.append(r)
+	var g := {}
+	for k in gathered:
+		g[String(k)] = gathered[k]
+	var data := {
+		"expedition": String(expedition.id),
+		"map": floors,
+		"current": [current.floor_index, current.index] if current != null else [],
+		"deck": Profile._to_strings(deck),
+		"hp": hp,
+		"max_hp": max_hp,
+		"gathered": g,
+		"new_cards": Profile._to_strings(new_cards),
+		"kills": kills,
+		"rng_state": str(rng.state),
+	}
+	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if f != null:
+		f.store_string(JSON.stringify(data))
+
+
+func load_run() -> bool:
+	if not has_save():
+		return false
+	var data = JSON.parse_string(FileAccess.get_file_as_string(SAVE_PATH))
+	if typeof(data) != TYPE_DICTIONARY:
+		delete_save()
+		return false
+	var expd: ExpeditionData = Database.expeditions.get(StringName(data.get("expedition", "")))
+	if expd == null:
+		delete_save()
+		return false
+	expedition = expd
+	map.clear()
+	var floors: Array = data.get("map", [])
+	for fi in floors.size():
+		var row: Array[MapNode] = []
+		var nodes: Array = floors[fi]
+		for ni in nodes.size():
+			row.append(MapNode.from_dict(nodes[ni], fi, ni))
+		map.append(row)
+	var cur: Array = data.get("current", [])
+	current = map[int(cur[0])][int(cur[1])] if cur.size() == 2 else null
+	deck = Profile._to_names(data.get("deck", []))
+	deck.assign(deck.filter(func(id): return Database.get_card(id) != null))
+	hp = int(data.get("hp", 1))
+	max_hp = int(data.get("max_hp", Profile.get_max_hp()))
+	gathered.clear()
+	var g: Dictionary = data.get("gathered", {})
+	for k in g:
+		gathered[StringName(k)] = int(g[k])
+	new_cards = Profile._to_names(data.get("new_cards", []))
+	kills = int(data.get("kills", 0))
+	rng.state = int(data.get("rng_state", "0"))
+	dissection_queue.clear()
+	active = true
+	return true

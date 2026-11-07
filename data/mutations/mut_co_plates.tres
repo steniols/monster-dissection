@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_mkrfa"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_1vyu2"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="3_7xift"]
+
+[sub_resource type="Resource" id="Resource_i6vgl"]
+script = ExtResource("2_1vyu2")
+status_id = &"thorns"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("3_7xift")
+id = &"mut_co_plates"
+display_name = "Placas de Colosso"
+family = 2
+description = "+12 de vida máxima. Comece cada combate com 2 de Espinhos."
+material_cost = {
+"co_core": 1
+}
+max_hp_bonus = 12
+combat_start_effects = Array[ExtResource("1_mkrfa")]([SubResource("Resource_i6vgl")])
+corruption = 3
+art_motif = &"carapace"

@@ -41,7 +41,7 @@ effects = Array[ExtResource("1_howd0")]([SubResource("Resource_oocj5"), SubResou
 
 [sub_resource type="Resource" id="Resource_1elom"]
 script = ExtResource("3_btlnx")
-amount = 4
+amount = 5
 hits = 2
 
 [sub_resource type="Resource" id="Resource_lvd08"]
@@ -55,7 +55,7 @@ script = ExtResource("9_7qdoj")
 id = &"voidspawn"
 display_name = "Voidspawn"
 family = 3
-max_hp = 38
+max_hp = 42
 pattern = 1
 intents = Array[ExtResource("2_f72e4")]([SubResource("Resource_gxte3"), SubResource("Resource_mgyum"), SubResource("Resource_lvd08")])
 parts = Array[ExtResource("5_pr2tn")]([ExtResource("6_bub1v"), ExtResource("7_xvu75"), ExtResource("8_ijodc")])

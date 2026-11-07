@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_6psxu"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_6rk24"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_m2nfu"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_0bcug"]
+
+[sub_resource type="Resource" id="Resource_rfg8b"]
+script = ExtResource("2_6rk24")
+amount = 5
+
+[sub_resource type="Resource" id="Resource_s6dch"]
+script = ExtResource("3_m2nfu")
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_kva31"]
+script = ExtResource("3_m2nfu")
+status_id = &"weak"
+stacks = 2
+
+[resource]
+script = ExtResource("4_0bcug")
+id = &"hb_corrosive_fang"
+display_name = "Presa Corrosiva"
+rarity = 2
+category = 1
+family = 1
+secondary_family = 2
+source_part = "Experimento"
+art_motif = &"fang"
+effects = Array[ExtResource("1_6psxu")]([SubResource("Resource_rfg8b"), SubResource("Resource_s6dch"), SubResource("Resource_kva31")])

@@ -17,11 +17,15 @@ const OVERKILL_LOST := 12
 const CORRUPTION_TORSO := 5
 const HITS_LIMBS := 10
 const STATUS_DEATH_BONUS := 0.1
+const DEFAULT_DAMAGED_MULTIPLIER := 0.5
 
 var region_states: Dictionary = {} # AnatomyPart.Region -> State
 var region_reasons: Dictionary = {} # AnatomyPart.Region -> String
 var notes: PackedStringArray = []
 var solid_bonus: float = 0.0
+## Bônus vindos do laboratório (definidos pela DissectionSession).
+var preserve_bonus: float = 0.0
+var damaged_multiplier: float = DEFAULT_DAMAGED_MULTIPLIER
 
 
 static func from_combatant(m: Combatant) -> BodyCondition:
@@ -76,9 +80,9 @@ func chance_for(part: AnatomyPart) -> float:
 		State.LOST:
 			return 0.0
 		State.DAMAGED:
-			return clampf(part.preserve_chance * 0.5, 0.05, 0.95)
+			return clampf((part.preserve_chance + preserve_bonus) * damaged_multiplier, 0.05, 0.95)
 	var bonus := solid_bonus if part.region != AnatomyPart.Region.FLUIDS else 0.0
-	return clampf(part.preserve_chance + bonus, 0.05, 0.95)
+	return clampf(part.preserve_chance + bonus + preserve_bonus, 0.05, 0.95)
 
 
 static func state_name(s: State) -> String:

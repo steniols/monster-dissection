@@ -23,6 +23,17 @@ func describe() -> String:
 	return ""
 
 
+## Melhora este efeito (chamado numa cópia, ao aprimorar a carta).
+## Retorna false se o efeito não tem o que melhorar.
+func upgrade() -> bool:
+	return false
+
+
+## Cópia profunda (sobrescreva se o efeito contém outros efeitos).
+func clone() -> CardEffect:
+	return duplicate() as CardEffect
+
+
 func targets_enemy() -> bool:
 	return target == Target.TARGET
 

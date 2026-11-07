@@ -16,3 +16,10 @@ func apply(ctx: EffectContext) -> void:
 
 func describe() -> String:
 	return "Perca %d de vida." % amount
+
+
+func upgrade() -> bool:
+	if amount <= 1:
+		return false
+	amount = maxi(1, amount - 2)
+	return true

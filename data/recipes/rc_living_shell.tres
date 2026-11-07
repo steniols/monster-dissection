@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/ib_carapace.tres" id="1_gdnox"]
+[ext_resource type="Resource" path="res://data/organs/rw_flesh.tres" id="2_wun1n"]
+[ext_resource type="Resource" path="res://data/cards/hb_living_shell.tres" id="3_bfupc"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_fmiwj"]
+
+[resource]
+script = ExtResource("4_fmiwj")
+id = &"rc_living_shell"
+part_a = ExtResource("1_gdnox")
+part_b = ExtResource("2_wun1n")
+result = ExtResource("3_bfupc")
+hint = "Uma couraça que cicatriza sozinha."

@@ -8,6 +8,7 @@ signal statuses_changed
 signal damaged(amount: int, blocked: int)
 signal healed(amount: int)
 signal died
+signal cheated_death
 
 enum DeathCause { NONE, ATTACK, STATUS, OTHER }
 
@@ -60,6 +61,10 @@ func _reduce_hp(amount: int, cause: DeathCause) -> int:
 		return 0
 	var before := hp
 	hp = max(0, hp - amount)
+	if hp == 0 and get_status(&"undying") > 0:
+		hp = 1
+		set_status(&"undying", get_status(&"undying") - 1)
+		cheated_death.emit()
 	hp_changed.emit(hp, max_hp)
 	if hp == 0:
 		death_cause = cause

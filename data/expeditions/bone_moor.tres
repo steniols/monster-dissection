@@ -1,18 +1,60 @@
 [gd_resource type="Resource" script_class="ExpeditionData" format=3]
 
-[ext_resource type="Resource" path="res://data/monsters/void_matriarch.tres" id="1_4qqk2"]
-[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="2_ut17i"]
-[ext_resource type="Resource" path="res://data/monsters/bloodfang_alpha.tres" id="3_bt0eq"]
-[ext_resource type="Resource" path="res://data/monsters/bloodfang.tres" id="4_shsea"]
-[ext_resource type="Resource" path="res://data/monsters/ironback.tres" id="5_okmpp"]
-[ext_resource type="Resource" path="res://data/monsters/voidspawn.tres" id="6_xrafh"]
-[ext_resource type="Script" path="res://scripts/progression/expedition_data.gd" id="7_40fbm"]
+[ext_resource type="Resource" path="res://data/monsters/void_matriarch.tres" id="1_hmrcn"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="2_3c7pj"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang_alpha.tres" id="3_575hy"]
+[ext_resource type="Script" path="res://scripts/progression/encounter_data.gd" id="4_s0d00"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang.tres" id="5_6dhui"]
+[ext_resource type="Resource" path="res://data/monsters/ironback.tres" id="6_34axy"]
+[ext_resource type="Resource" path="res://data/monsters/voidspawn.tres" id="7_c4bpx"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang_pup.tres" id="8_uk7cp"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="9_00fpq"]
+[ext_resource type="Resource" path="res://data/events/ev_old_carcass.tres" id="10_xyieo"]
+[ext_resource type="Resource" path="res://data/events/ev_wounded_researcher.tres" id="11_kwd5u"]
+[ext_resource type="Resource" path="res://data/events/ev_violet_pool.tres" id="12_ux011"]
+[ext_resource type="Resource" path="res://data/events/ev_ironback_nest.tres" id="13_qewwl"]
+[ext_resource type="Resource" path="res://data/events/ev_bone_altar.tres" id="14_55rs3"]
+[ext_resource type="Resource" path="res://data/events/ev_hermit.tres" id="15_qfrcd"]
+[ext_resource type="Script" path="res://scripts/progression/expedition_data.gd" id="16_erxlq"]
+
+[sub_resource type="Resource" id="Resource_8bm5k"]
+script = ExtResource("4_s0d00")
+id = &"bm_bloodfang"
+monsters = Array[ExtResource("2_3c7pj")]([ExtResource("5_6dhui")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_070gp"]
+script = ExtResource("4_s0d00")
+id = &"bm_ironback"
+monsters = Array[ExtResource("2_3c7pj")]([ExtResource("6_34axy")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_vqeeo"]
+script = ExtResource("4_s0d00")
+id = &"bm_voidspawn"
+monsters = Array[ExtResource("2_3c7pj")]([ExtResource("7_c4bpx")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_wtwhv"]
+script = ExtResource("4_s0d00")
+id = &"bm_pups"
+monsters = Array[ExtResource("2_3c7pj")]([ExtResource("8_uk7cp"), ExtResource("8_uk7cp")])
+min_floor = 1
+weight = 2
+
+[sub_resource type="Resource" id="Resource_ljnv1"]
+script = ExtResource("4_s0d00")
+id = &"bm_void_pup"
+monsters = Array[ExtResource("2_3c7pj")]([ExtResource("7_c4bpx"), ExtResource("8_uk7cp")])
+min_floor = 3
 
 [resource]
-script = ExtResource("7_40fbm")
+script = ExtResource("16_erxlq")
 id = &"bone_moor"
 display_name = "Charneca dos Ossos"
 description = "Pântano de turfa e ossadas onde predadores, insetos blindados e aberrações disputam carcaças."
-normal_pool = Array[ExtResource("2_ut17i")]([ExtResource("4_shsea"), ExtResource("5_okmpp"), ExtResource("6_xrafh")])
-elite_pool = Array[ExtResource("2_ut17i")]([ExtResource("3_bt0eq")])
-boss = ExtResource("1_4qqk2")
+encounters = Array[ExtResource("4_s0d00")]([SubResource("Resource_8bm5k"), SubResource("Resource_070gp"), SubResource("Resource_vqeeo"), SubResource("Resource_wtwhv"), SubResource("Resource_ljnv1")])
+elite_pool = Array[ExtResource("2_3c7pj")]([ExtResource("3_575hy")])
+boss = ExtResource("1_hmrcn")
+events = Array[ExtResource("9_00fpq")]([ExtResource("10_xyieo"), ExtResource("11_kwd5u"), ExtResource("12_ux011"), ExtResource("13_qewwl"), ExtResource("14_55rs3"), ExtResource("15_qfrcd")])
+accent = Color(0.56078434, 0.20392157, 0.22352941, 1)

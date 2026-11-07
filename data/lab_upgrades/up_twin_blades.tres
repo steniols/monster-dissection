@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LabUpgradeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/lab_upgrade_data.gd" id="1_xtgaq"]
+
+[resource]
+script = ExtResource("1_xtgaq")
+id = &"up_twin_blades"
+display_name = "Lâminas Gêmeas"
+description = "+1 incisão em cada dissecação."
+family_cost = {
+3: 3,
+4: 3
+}
+requires = &"up_obsidian"
+incisions_bonus = 1
+art_motif = &"double_scalpel"

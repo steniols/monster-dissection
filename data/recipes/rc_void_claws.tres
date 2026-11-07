@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/bf_claws.tres" id="1_nriiy"]
+[ext_resource type="Resource" path="res://data/organs/vs_ichor.tres" id="2_d2rpd"]
+[ext_resource type="Resource" path="res://data/cards/hb_void_claws.tres" id="3_e6x3h"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_aso20"]
+
+[resource]
+script = ExtResource("4_aso20")
+id = &"rc_void_claws"
+part_a = ExtResource("1_nriiy")
+part_b = ExtResource("2_d2rpd")
+result = ExtResource("3_e6x3h")
+hint = "Lâminas naturais mergulhadas em um fluido frio e violeta."

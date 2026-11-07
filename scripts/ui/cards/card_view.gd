@@ -136,6 +136,7 @@ func refresh() -> void:
 	if data == null or _name_label == null:
 		return
 	_name_label.text = data.display_name
+	_name_label.add_theme_color_override("font_color", Color("#3F6B2E") if data.upgraded else Palette.INK)
 	_fit_name()
 	_art.setup(data.art_motif, Family.get_color(data.family) if data.family != Family.Id.NEUTRAL else TYPE_COLORS[data.card_type], data.illustration)
 	_type_label.text = "%s · %s" % [data.get_type_name().to_upper(), data.get_rarity_name()]
@@ -179,6 +180,12 @@ func _draw() -> void:
 	# papel
 	var paper := UiTheme.panel_style(Palette.PAPER, fam_dark, 3, 7)
 	draw_style_box(paper, r)
+	# híbrida: metade inferior da moldura na cor da segunda família
+	if data.is_hybrid():
+		var sec := Family.get_dark_color(data.secondary_family)
+		draw_rect(Rect2(1.5, size.y * 0.5, 3, size.y * 0.5 - 8), sec)
+		draw_rect(Rect2(size.x - 4.5, size.y * 0.5, 3, size.y * 0.5 - 8), sec)
+		draw_rect(Rect2(8, size.y - 4.5, size.x - 16, 3), sec)
 	# faixa de tipo abaixo do nome
 	draw_rect(Rect2(8, 30, size.x - 16, 3), TYPE_COLORS.get(data.card_type, Palette.INK))
 	# moldura interna (ficha catalogada)
@@ -192,7 +199,7 @@ func _draw() -> void:
 	var cost := get_display_cost()
 	draw_circle(cc, 17, Palette.CHARCOAL_DEEP)
 	draw_arc(cc, 17, 0, TAU, 32, Palette.PETROL_BRIGHT, 2.0, true)
-	var font := UiTheme.title_font if UiTheme.title_font != null else get_theme_default_font()
+	var font: Font = UiTheme.number_font if UiTheme.number_font != null else get_theme_default_font()
 	var txt := str(cost)
 	var col := Palette.PAPER
 	if instance != null and cost < data.cost:

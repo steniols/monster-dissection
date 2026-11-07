@@ -168,7 +168,9 @@ func _start_combat() -> void:
 	combat.instinct_changed.connect(_on_instinct_changed)
 	combat.instinct_triggered.connect(_on_instinct_triggered)
 	combat.message.connect(show_message)
-	combat.card_played.connect(func(_c): _refresh_intents())
+	combat.card_played.connect(func(_c):
+		Sfx.play(&"card")
+		_refresh_intents())
 	player.energy_changed.connect(func(_e, _m): _hand.refresh_playable(combat.can_play))
 	player.statuses_changed.connect(_refresh_intents)
 
@@ -281,6 +283,7 @@ func _on_end_turn() -> void:
 
 
 func _on_turn_started(is_player: bool) -> void:
+	Sfx.play(&"turn", -6.0 if is_player else -10.0)
 	_end_turn.disabled = not is_player
 	_end_turn.text = "Encerrar turno" if is_player else "Turno inimigo…"
 	_show_banner("Seu turno" if is_player else "Turno das criaturas", Palette.PAPER if is_player else Palette.BLOOD_BRIGHT)
@@ -312,6 +315,8 @@ func _on_instinct_changed(family: Family.Id, count: int) -> void:
 
 
 func _on_instinct_triggered(family: Family.Id) -> void:
+	Sfx.play(&"instinct")
+	Fx.burst(self, _player_panel.global_position + Vector2(160, 60), Family.get_color(family), 34, 320)
 	_show_banner(Family.INSTINCT_NAMES.get(family, "Instinto") + "!", Family.get_color(family))
 
 

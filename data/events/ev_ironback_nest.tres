@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_2gxt6"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_hv6e3"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_ccahj"]
+[ext_resource type="Resource" path="res://data/monsters/ironback.tres" id="4_w0m58"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_7dwl3"]
+[ext_resource type="Resource" path="res://data/organs/ib_carapace.tres" id="6_dmq6f"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="7_0i2lq"]
+
+[sub_resource type="Resource" id="Resource_l4x78"]
+script = ExtResource("1_2gxt6")
+label = "Recolher cascas"
+description = "60%: ganhe Carapaça. Falha: a mãe estava por perto."
+success_chance = 0.6
+result_text = "Fragmentos de carapaça, perfeitos para estudo."
+gain_parts = Array[ExtResource("5_7dwl3")]([ExtResource("6_dmq6f")])
+fail_text = "Um estalo de quitina atrás de você. A mãe voltou."
+fail_fight = Array[ExtResource("3_ccahj")]([ExtResource("4_w0m58")])
+
+[sub_resource type="Resource" id="Resource_wuwf8"]
+script = ExtResource("1_2gxt6")
+label = "Esmagar os ovos"
+description = "Recupere 5 de vida."
+result_text = "Menos Ironback no mundo. Você sente uma satisfação estranha."
+hp_change = 5
+
+[sub_resource type="Resource" id="Resource_dxsyl"]
+script = ExtResource("1_2gxt6")
+label = "Afastar-se"
+result_text = "Você anota a localização para outra ocasião."
+
+[resource]
+script = ExtResource("7_0i2lq")
+id = &"ev_ironback_nest"
+title = "Ninho de Ironback"
+text = "Ovos de casca metálica, ainda mornos, aninhados entre ossos roídos."
+art_motif = &"carapace"
+accent = Color(0.56078434, 0.6627451, 0.49411765, 1)
+choices = Array[ExtResource("1_2gxt6")]([SubResource("Resource_l4x78"), SubResource("Resource_wuwf8"), SubResource("Resource_dxsyl")])

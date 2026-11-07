@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_k007q"]
+[ext_resource type="Resource" path="res://data/cards/iron_bastion.tres" id="2_vxwsd"]
+
+[resource]
+script = ExtResource("1_k007q")
+id = &"co_core"
+display_name = "Núcleo de Ferro"
+family = 2
+rarity = 3
+preserve_chance = 0.5
+unlocks_card = ExtResource("2_vxwsd")
+art_motif = &"carapace"
+description = "O centro maciço de uma carapaça de toneladas."

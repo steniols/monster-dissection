@@ -1,0 +1,74 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_jl6n5"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_he008"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="3_drf8d"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="4_4qpnp"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_ot5yo"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_fjkem"]
+[ext_resource type="Resource" path="res://data/organs/ab_stitches.tres" id="7_71rii"]
+[ext_resource type="Resource" path="res://data/organs/ab_heart.tres" id="8_2tl4u"]
+[ext_resource type="Resource" path="res://data/organs/rw_flesh.tres" id="9_73n78"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="10_4wbru"]
+
+[sub_resource type="Resource" id="Resource_pxfje"]
+script = ExtResource("2_he008")
+status_id = &"undying"
+target = 1
+
+[sub_resource type="Resource" id="Resource_rw63o"]
+script = ExtResource("4_4qpnp")
+amount = 15
+
+[sub_resource type="Resource" id="Resource_c31tm"]
+script = ExtResource("3_drf8d")
+display_name = "Golpe Costurado"
+effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_rw63o")])
+
+[sub_resource type="Resource" id="Resource_fxacy"]
+script = ExtResource("2_he008")
+status_id = &"regen"
+stacks = 5
+target = 1
+
+[sub_resource type="Resource" id="Resource_d084g"]
+script = ExtResource("5_ot5yo")
+amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_shud7"]
+script = ExtResource("3_drf8d")
+display_name = "Recosturar"
+kind = 2
+effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_fxacy"), SubResource("Resource_d084g")])
+
+[sub_resource type="Resource" id="Resource_kgc86"]
+script = ExtResource("4_4qpnp")
+amount = 8
+hits = 2
+
+[sub_resource type="Resource" id="Resource_n0rnk"]
+script = ExtResource("2_he008")
+status_id = &"weak"
+
+[sub_resource type="Resource" id="Resource_0pjfd"]
+script = ExtResource("3_drf8d")
+display_name = "Esmagar e Arrastar"
+kind = 4
+effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_kgc86"), SubResource("Resource_n0rnk")])
+
+[resource]
+script = ExtResource("10_4wbru")
+id = &"stitched_abomination"
+display_name = "Abominação Costurada"
+family = 4
+tier = 1
+max_hp = 100
+intents = Array[ExtResource("3_drf8d")]([SubResource("Resource_c31tm"), SubResource("Resource_shud7"), SubResource("Resource_0pjfd")])
+combat_start_effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_pxfje")])
+parts = Array[ExtResource("6_fjkem")]([ExtResource("7_71rii"), ExtResource("8_2tl4u"), ExtResource("9_73n78")])
+visual = &"rotwalker"
+scale = 1.2
+tint = Color(0.7882353, 0.64705884, 0.627451, 1)
+lore = "Vários corpos unidos por suturas grosseiras. Já morreu uma vez — e não aceitou."
+weakness_note = "Sobrevive ao primeiro golpe fatal. Guarde força para derrubá-la duas vezes."

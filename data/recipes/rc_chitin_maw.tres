@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/ib_mandible.tres" id="1_7fym6"]
+[ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="2_tnxgd"]
+[ext_resource type="Resource" path="res://data/cards/hb_chitin_maw.tres" id="3_gkkbc"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_ye6ig"]
+
+[resource]
+script = ExtResource("4_ye6ig")
+id = &"rc_chitin_maw"
+part_a = ExtResource("1_7fym6")
+part_b = ExtResource("2_tnxgd")
+result = ExtResource("3_gkkbc")
+hint = "Uma boca de inseto com dentes de predador."

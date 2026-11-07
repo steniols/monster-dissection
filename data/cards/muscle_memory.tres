@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_7spjp"]
+[ext_resource type="Script" path="res://scripts/cards/effects/return_from_discard_effect.gd" id="2_3bg33"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_68hkp"]
+
+[sub_resource type="Resource" id="Resource_pdvmr"]
+script = ExtResource("2_3bg33")
+count = 2
+target = 1
+
+[resource]
+script = ExtResource("3_68hkp")
+id = &"muscle_memory"
+display_name = "Memória Muscular"
+card_type = 2
+rarity = 2
+family = 4
+source_part = "Cérebro"
+art_motif = &"brain"
+effects = Array[ExtResource("1_7spjp")]([SubResource("Resource_pdvmr")])
+flavor = "O corpo lembra o que a mente esqueceu."

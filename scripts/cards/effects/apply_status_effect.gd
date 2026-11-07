@@ -16,3 +16,8 @@ func describe() -> String:
 	if target == Target.SELF:
 		return "Ganhe %d de %s." % [stacks, key]
 	return "Aplique %d de %s%s." % [stacks, key, _target_suffix()]
+
+
+func upgrade() -> bool:
+	stacks += 1
+	return true

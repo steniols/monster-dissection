@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_g1g6d"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_xw88e"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_2adip"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_yjxmx"]
+
+[sub_resource type="Resource" id="Resource_pnlvu"]
+script = ExtResource("2_xw88e")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_dmijn"]
+script = ExtResource("3_2adip")
+status_id = &"regen"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("4_yjxmx")
+id = &"dry_sinew"
+display_name = "Tendões Secos"
+card_type = 1
+family = 4
+source_part = "Tendões Secos"
+art_motif = &"tendon"
+effects = Array[ExtResource("1_g1g6d")]([SubResource("Resource_pnlvu"), SubResource("Resource_dmijn")])

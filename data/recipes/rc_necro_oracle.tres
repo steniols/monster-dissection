@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/vs_eyes.tres" id="1_rtnid"]
+[ext_resource type="Resource" path="res://data/organs/rw_brain.tres" id="2_4kcoy"]
+[ext_resource type="Resource" path="res://data/cards/hb_necro_oracle.tres" id="3_wn21b"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_c0lfh"]
+
+[resource]
+script = ExtResource("4_c0lfh")
+id = &"rc_necro_oracle"
+part_a = ExtResource("1_rtnid")
+part_b = ExtResource("2_4kcoy")
+result = ExtResource("3_wn21b")
+hint = "Olhos que veem demais, ligados a uma mente que não esquece."

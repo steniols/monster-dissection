@@ -16,3 +16,8 @@ func apply(ctx: EffectContext) -> void:
 
 func describe() -> String:
 	return "Recupere %d de %s." % [amount, kw("vida", Palette.MOSS_BRIGHT)]
+
+
+func upgrade() -> bool:
+	amount += 3
+	return true

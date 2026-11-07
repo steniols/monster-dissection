@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_06h6v"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_g30he"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_hh5uj"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_em6js"]
+[ext_resource type="Resource" path="res://data/organs/rw_marrow.tres" id="5_yka05"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="6_nlk74"]
+
+[sub_resource type="Resource" id="Resource_y0tg2"]
+script = ExtResource("1_06h6v")
+label = "Oferecer uma carta"
+description = "Remova uma carta do baralho e recupere 8 de vida."
+result_text = "O altar aceita a oferenda. Você se sente mais leve."
+hp_change = 8
+remove_card = true
+
+[sub_resource type="Resource" id="Resource_5e8xj"]
+script = ExtResource("1_06h6v")
+label = "Rezar"
+description = "Recupere 6 de vida."
+result_text = "Nada responde. Ainda assim, você descansa um pouco."
+hp_change = 6
+
+[sub_resource type="Resource" id="Resource_6w424"]
+script = ExtResource("1_06h6v")
+label = "Profanar"
+description = "50%: ganhe Medula de Rotwalker. Falha: perca 10 de vida."
+success_chance = 0.5
+result_text = "Entre os ossos, uma medula ainda morna."
+gain_parts = Array[ExtResource("4_em6js")]([ExtResource("5_yka05")])
+fail_text = "Os ossos desabam sobre você."
+fail_hp_change = -10
+
+[resource]
+script = ExtResource("6_nlk74")
+id = &"ev_bone_altar"
+title = "Altar de Ossos"
+text = "Um altar de costelas empilhadas. Oferendas antigas apodrecem aos pés dele."
+art_motif = &"ribs"
+accent = Color(0.54901963, 0.6039216, 0.35686275, 1)
+choices = Array[ExtResource("1_06h6v")]([SubResource("Resource_y0tg2"), SubResource("Resource_5e8xj"), SubResource("Resource_6w424")])

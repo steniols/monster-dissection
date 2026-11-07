@@ -16,3 +16,8 @@ func apply(ctx: EffectContext) -> void:
 
 func describe() -> String:
 	return "Ganhe %d de %s." % [amount, kw("Armadura", Palette.PETROL_BRIGHT)]
+
+
+func upgrade() -> bool:
+	amount += 3
+	return true

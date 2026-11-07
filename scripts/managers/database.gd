@@ -13,7 +13,11 @@ var monsters: Dictionary = {} # StringName -> MonsterData
 var parts: Dictionary = {} # StringName -> AnatomyPart
 var mutations: Dictionary = {} # StringName -> MutationData
 var expeditions: Dictionary = {} # StringName -> ExpeditionData
-var _part_owner: Dictionary = {} # part id -> MonsterData
+var recipes: Dictionary = {} # StringName -> HybridRecipe
+var lab_upgrades: Dictionary = {} # StringName -> LabUpgradeData
+var events: Dictionary = {} # StringName -> EventData
+var _part_owner: Dictionary = {} # part id -> MonsterData (espécie de origem principal)
+var _upgraded_cache: Dictionary = {}
 
 
 func _ready() -> void:
@@ -22,9 +26,16 @@ func _ready() -> void:
 	_load_dir("res://data/monsters", monsters)
 	_load_dir("res://data/mutations", mutations)
 	_load_dir("res://data/expeditions", expeditions)
+	_load_dir("res://data/recipes", recipes)
+	_load_dir("res://data/lab_upgrades", lab_upgrades)
+	_load_dir("res://data/events", events)
+	# Partes podem ser compartilhadas (filhotes, chefes). A espécie "dona" é a de menor tier;
+	# no empate, a que tem mais partes (a espécie principal, não o filhote).
 	for m: MonsterData in monsters.values():
 		for p in m.parts:
-			_part_owner[p.id] = m
+			var cur: MonsterData = _part_owner.get(p.id)
+			if cur == null or m.tier < cur.tier or (m.tier == cur.tier and m.parts.size() > cur.parts.size()):
+				_part_owner[p.id] = m
 
 
 func _load_dir(path: String, into: Dictionary) -> void:
@@ -41,8 +52,20 @@ func _load_dir(path: String, into: Dictionary) -> void:
 			into[res.id] = res
 
 
+## Aceita ids aprimorados ("rend+"): a versão é gerada e guardada em cache.
 func get_card(id: StringName) -> CardData:
-	return cards.get(id)
+	if cards.has(id):
+		return cards[id]
+	if _upgraded_cache.has(id):
+		return _upgraded_cache[id]
+	var s := String(id)
+	if s.ends_with(CardData.UPGRADE_SUFFIX):
+		var base: CardData = cards.get(StringName(s.trim_suffix(CardData.UPGRADE_SUFFIX)))
+		if base != null:
+			var up := base.make_upgraded()
+			_upgraded_cache[id] = up
+			return up
+	return null
 
 
 func get_part(id: StringName) -> AnatomyPart:
@@ -61,6 +84,21 @@ func get_part_owner(part_id: StringName) -> MonsterData:
 	return _part_owner.get(part_id)
 
 
+func find_recipe(a: AnatomyPart, b: AnatomyPart) -> HybridRecipe:
+	for r: HybridRecipe in recipes.values():
+		if r.matches(a, b):
+			return r
+	return null
+
+
+## Receita que gera a carta (para mostrar a origem de híbridas na coleção).
+func recipe_for_card(card_id: StringName) -> HybridRecipe:
+	for r: HybridRecipe in recipes.values():
+		if r.result != null and r.result.id == card_id:
+			return r
+	return null
+
+
 func cards_from_ids(ids: Array) -> Array[CardData]:
 	var result: Array[CardData] = []
 	for id in ids:
@@ -75,6 +113,8 @@ func get_sorted_cards() -> Array[CardData]:
 	for c: CardData in cards.values():
 		result.append(c)
 	result.sort_custom(func(a: CardData, b: CardData) -> bool:
+		if a.is_hybrid() != b.is_hybrid():
+			return b.is_hybrid()
 		if a.family != b.family:
 			return a.family < b.family
 		if a.rarity != b.rarity:
@@ -90,5 +130,26 @@ func get_sorted_monsters() -> Array[MonsterData]:
 	result.sort_custom(func(a: MonsterData, b: MonsterData) -> bool:
 		if a.tier != b.tier:
 			return a.tier < b.tier
-		return a.family < b.family)
+		if a.family != b.family:
+			return a.family < b.family
+		return a.max_hp < b.max_hp)
+	return result
+
+
+func get_sorted_expeditions() -> Array[ExpeditionData]:
+	var result: Array[ExpeditionData] = []
+	for e: ExpeditionData in expeditions.values():
+		result.append(e)
+	result.sort_custom(func(a: ExpeditionData, b: ExpeditionData) -> bool: return a.order < b.order)
+	return result
+
+
+func get_sorted_upgrades() -> Array[LabUpgradeData]:
+	var result: Array[LabUpgradeData] = []
+	for u: LabUpgradeData in lab_upgrades.values():
+		result.append(u)
+	result.sort_custom(func(a: LabUpgradeData, b: LabUpgradeData) -> bool:
+		if a.requires.is_empty() != b.requires.is_empty():
+			return a.requires.is_empty()
+		return a.display_name < b.display_name)
 	return result

@@ -86,6 +86,8 @@ const REGION_ANCHORS := {
 	&"ironback": [Vector2(0.15, 0.56), Vector2(0.52, 0.44), Vector2(0.44, 0.82), Vector2(0.80, 0.56)],
 	&"voidspawn": [Vector2(0.44, 0.40), Vector2(0.52, 0.52), Vector2(0.38, 0.82), Vector2(0.64, 0.64)],
 	&"void_matriarch": [Vector2(0.50, 0.17), Vector2(0.50, 0.50), Vector2(0.30, 0.84), Vector2(0.68, 0.62)],
+	&"rotwalker": [Vector2(0.37, 0.33), Vector2(0.55, 0.45), Vector2(0.31, 0.72), Vector2(0.50, 0.57)],
+	&"ghoul": [Vector2(0.27, 0.62), Vector2(0.57, 0.63), Vector2(0.43, 0.84), Vector2(0.68, 0.68)],
 }
 
 
@@ -111,6 +113,10 @@ static func draw_monster(ci: CanvasItem, visual: StringName, rect: Rect2, t: flo
 			_voidspawn(ci, box, t, false)
 		&"void_matriarch":
 			_voidspawn(ci, box, t, true)
+		&"rotwalker":
+			_rotwalker(ci, box, t)
+		&"ghoul":
+			_ghoul(ci, box, t)
 		_:
 			_fill(ci, _blob(_p(box, 0.5, 0.5), box.size * 0.3, 1.0), Palette.FLESH)
 
@@ -267,6 +273,92 @@ static func _voidspawn(ci: CanvasItem, box: Rect2, t: float, matriarch: bool) ->
 	for i in eyes.size():
 		var e: Vector3 = eyes[i]
 		_eye(ci, _p(box, e.x, e.y), box.size.x * e.z, t * 0.7 + i * 1.9)
+
+
+static func _rotwalker(ci: CanvasItem, box: Rect2, t: float) -> void:
+	var skin := Color("#6E7458")
+	var skin_l := Color("#8A8F70")
+	var dark := Color("#30352A")
+	var bone := Palette.BONE_LIGHT
+	var sway := sin(t * 1.3) * 0.01
+	# perna de trás e braço de trás
+	_limb(ci, box, [[0.58, 0.58], [0.64, 0.73], [0.62, 0.88]], dark, 0.035)
+	_limb(ci, box, [[0.61, 0.37], [0.70, 0.52 + sway], [0.67, 0.68 + sway]], dark, 0.03)
+	# trapos
+	for i in 4:
+		var x := 0.45 + i * 0.05
+		_fill(ci, _poly(box, [[x, 0.58], [x + 0.04, 0.58], [x + 0.02 + sin(t * 2.0 + i) * 0.01, 0.74 + (i % 2) * 0.04]]), Color("#2A2620"))
+	# tronco curvado
+	var torso := _poly(box, [[0.42, 0.33], [0.57, 0.29], [0.66, 0.42], [0.63, 0.58], [0.48, 0.61], [0.42, 0.49]])
+	_fill(ci, torso, skin)
+	_outline(ci, torso, dark, 2.0)
+	# costelas expostas
+	_fill(ci, _poly(box, [[0.50, 0.40], [0.60, 0.39], [0.61, 0.53], [0.51, 0.54]]), Color("#3A2A26"))
+	for i in 4:
+		var y := 0.41 + i * 0.035
+		ci.draw_polyline(_poly(box, [[0.50, y], [0.56, y - 0.01], [0.61, y + 0.005]]), bone, 2.5, true)
+	# perna da frente
+	_limb(ci, box, [[0.50, 0.58], [0.45, 0.73], [0.48, 0.88]], skin.darkened(0.1), 0.04)
+	_fill(ci, _poly(box, [[0.44, 0.88], [0.53, 0.88], [0.53, 0.9], [0.43, 0.9]]), dark)
+	# braço longo pendente com garras
+	_limb(ci, box, [[0.45, 0.36], [0.36, 0.54 - sway], [0.31, 0.74 - sway]], skin_l.darkened(0.15), 0.032)
+	var hand := _p(box, 0.31, 0.75 - sway)
+	for k in 3:
+		ci.draw_line(hand, hand + Vector2(-6 + k * 6, 14 + k * 2), bone, 2.0, true)
+	# cabeça caída para frente
+	var hc := _p(box, 0.37, 0.33)
+	var head := _ellipse(hc, Vector2(box.size.x * 0.055, box.size.y * 0.075), 18)
+	_fill(ci, head, skin_l)
+	_outline(ci, head, dark, 2.0)
+	# mandíbula pendurada
+	_fill(ci, _poly(box, [[0.33, 0.37], [0.40, 0.38], [0.38, 0.45], [0.34, 0.44]]), dark)
+	for k in 3:
+		var x := 0.34 + k * 0.018
+		_fill(ci, _poly(box, [[x, 0.375], [x + 0.01, 0.375], [x + 0.005, 0.395]]), bone)
+	var ep := _p(box, 0.355, 0.315)
+	_glow(ci, ep, box.size.x * 0.025, Color("#C9D86A"), 3)
+	ci.draw_circle(ep, box.size.x * 0.008, Color("#E2EE8A"))
+	# moscas
+	for i in 5:
+		var a := t * (2.0 + i * 0.4) + i * 1.7
+		var fp := _p(box, 0.45 + cos(a) * 0.08, 0.25 + sin(a * 1.3) * 0.05)
+		ci.draw_circle(fp, 1.6, Color(0.05, 0.05, 0.05, 0.9))
+
+
+static func _ghoul(ci: CanvasItem, box: Rect2, t: float) -> void:
+	var skin := Color("#8A8F7A")
+	var dark := Color("#3B3F33")
+	var bone := Palette.BONE_LIGHT
+	var crawl := sin(t * 3.0) * 0.012
+	# membros de trás (fundo)
+	_limb(ci, box, [[0.66, 0.66], [0.74, 0.52 + crawl], [0.80, 0.86]], dark, 0.025)
+	_limb(ci, box, [[0.42, 0.66], [0.40, 0.50 - crawl], [0.34, 0.86]], dark, 0.025)
+	# corpo
+	var body := _ellipse(_p(box, 0.56, 0.66), Vector2(box.size.x * 0.2, box.size.y * 0.075), 22)
+	_fill(ci, body, skin)
+	_outline(ci, body, dark, 2.0)
+	for i in 6:
+		var p := _p(box, 0.42 + i * 0.05, 0.595 + absf(i - 2.5) * 0.006)
+		ci.draw_circle(p, box.size.x * 0.008, skin.darkened(0.3))
+	# membros da frente
+	_limb(ci, box, [[0.62, 0.68], [0.66, 0.54 - crawl], [0.70, 0.87]], skin.darkened(0.15), 0.028)
+	_limb(ci, box, [[0.46, 0.68], [0.48, 0.55 + crawl], [0.44, 0.87]], skin.darkened(0.15), 0.028)
+	# cabeça grande
+	var hc := _p(box, 0.28, 0.62 + crawl * 0.5)
+	var head := _blob(hc, Vector2(box.size.x * 0.085, box.size.y * 0.1), 0.6, 20, 0.06)
+	_fill(ci, head, skin.lightened(0.05))
+	_outline(ci, head, dark, 2.0)
+	# boca larga com dentes
+	var m0 := hc + Vector2(-box.size.x * 0.06, box.size.y * 0.03)
+	var m1 := hc + Vector2(box.size.x * 0.04, box.size.y * 0.04)
+	ci.draw_line(m0, m1, dark, 4.0, true)
+	for k in 6:
+		var p := m0.lerp(m1, (k + 0.5) / 6.0)
+		ci.draw_colored_polygon(PackedVector2Array([p + Vector2(-3, -2), p + Vector2(3, -2), p + Vector2(0, 5)]), bone)
+	for e in [Vector2(-0.035, -0.03), Vector2(0.01, -0.035)]:
+		var ep: Vector2 = hc + Vector2(box.size.x * e.x, box.size.y * e.y)
+		ci.draw_circle(ep, box.size.x * 0.012, Color("#141410"))
+		ci.draw_circle(ep, box.size.x * 0.004, Color("#D8E07A"))
 
 
 static func _eye(ci: CanvasItem, p: Vector2, radius: float, phase: float) -> void:
@@ -447,6 +539,35 @@ static func draw_motif(ci: CanvasItem, motif: StringName, rect: Rect2, accent: C
 					accent.lerp(bone, i * 0.15), 3.5, true)
 			ci.draw_circle(_p(box, 0.2, 0.3), s * 0.06, bone)
 			ci.draw_circle(_p(box, 0.82, 0.68), s * 0.06, bone)
+		&"brain":
+			var b := _blob(c, Vector2(s * 0.34, s * 0.26), 2.2, 28, 0.06)
+			_fill(ci, b, Palette.FLESH.lerp(accent, 0.3))
+			_outline(ci, b, ink, 2.5)
+			ci.draw_line(c + Vector2(0, -s * 0.24), c + Vector2(0, s * 0.22), Color(ink, 0.6), 2.0)
+			for i in 6:
+				var a0 := Vector2(-0.28 + (i % 3) * 0.1, -0.12 + (i / 3) * 0.16)
+				ci.draw_polyline(PackedVector2Array([c + a0 * s, c + (a0 + Vector2(0.04, 0.04)) * s, c + (a0 + Vector2(0.08, -0.01)) * s]),
+					Color(ink, 0.5), 2.0, true)
+				ci.draw_polyline(PackedVector2Array([c + Vector2(-a0.x, a0.y) * s, c + Vector2(-a0.x - 0.04, a0.y + 0.04) * s, c + Vector2(-a0.x - 0.08, a0.y - 0.01) * s]),
+					Color(ink, 0.5), 2.0, true)
+		&"horn":
+			var pts := PackedVector2Array()
+			for k in 14:
+				var f := k / 13.0
+				pts.append(c + Vector2(-s * 0.3 + f * s * 0.55, s * 0.3 - sin(f * 2.2) * s * 0.55))
+			for k in 13:
+				ci.draw_line(pts[k], pts[k + 1], bone.darkened(k * 0.02), lerpf(s * 0.2, 3.0, k / 13.0), true)
+			for k in range(1, 9, 2):
+				var n := (pts[k + 1] - pts[k]).normalized().orthogonal()
+				ci.draw_line(pts[k] - n * s * 0.07, pts[k] + n * s * 0.07, Color(ink, 0.4), 1.5)
+			ci.draw_circle(pts[0], s * 0.1, accent.darkened(0.3))
+		&"suture":
+			ci.draw_polyline(_poly(box, [[0.15, 0.6], [0.35, 0.45], [0.55, 0.55], [0.85, 0.35]]), Palette.FLESH.darkened(0.3), maxf(2.0, s * 0.06), true)
+			for i in 7:
+				var f := 0.15 + i * 0.1
+				var y := 0.55 - i * 0.03
+				ci.draw_line(_p(box, f - 0.03, y - 0.06), _p(box, f + 0.03, y + 0.06), ink, 2.0, true)
+			_drop(ci, _p(box, 0.72, 0.72), s * 0.06, accent)
 		&"flesh":
 			var f := _blob(c, Vector2(s * 0.32, s * 0.24), 3.3, 24, 0.12)
 			_fill(ci, f, Palette.FLESH)

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_e157f"]
+[ext_resource type="Resource" path="res://data/cards/field_suture.tres" id="2_gftlc"]
+
+[resource]
+script = ExtResource("1_e157f")
+id = &"ab_stitches"
+display_name = "Suturas"
+family = 4
+region = 2
+rarity = 2
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_gftlc")
+art_motif = &"suture"
+description = "Pontos feitos por mãos que ninguém viu."

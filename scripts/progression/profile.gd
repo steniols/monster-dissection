@@ -23,6 +23,9 @@ var starting_deck: Array[StringName] = []
 var bestiary: Dictionary = {} # monster id (StringName) -> {"kills": int, "parts": Array[StringName]}
 var runs_started: int = 0
 var runs_won: int = 0
+var lab_upgrades: Array[StringName] = []
+var discovered_recipes: Array[StringName] = []
+var cleared_expeditions: Array[StringName] = []
 
 
 func _ready() -> void:
@@ -42,6 +45,9 @@ func reset() -> void:
 	bestiary.clear()
 	runs_started = 0
 	runs_won = 0
+	lab_upgrades.clear()
+	discovered_recipes.clear()
+	cleared_expeditions.clear()
 	save_profile()
 	changed.emit()
 
@@ -68,6 +74,9 @@ func load_profile() -> void:
 		bestiary[StringName(k)] = {"kills": int(e.get("kills", 0)), "parts": _to_names(e.get("parts", []))}
 	runs_started = int(data.get("runs_started", 0))
 	runs_won = int(data.get("runs_won", 0))
+	lab_upgrades = _to_names(data.get("lab_upgrades", []))
+	discovered_recipes = _to_names(data.get("discovered_recipes", []))
+	cleared_expeditions = _to_names(data.get("cleared_expeditions", []))
 	# Garante integridade caso o conteúdo do jogo mude entre versões.
 	for c: CardData in Database.cards.values():
 		if c.family == Family.Id.NEUTRAL and not unlocked_cards.has(c.id):
@@ -94,6 +103,9 @@ func save_profile() -> void:
 		"bestiary": best,
 		"runs_started": runs_started,
 		"runs_won": runs_won,
+		"lab_upgrades": _to_strings(lab_upgrades),
+		"discovered_recipes": _to_strings(discovered_recipes),
+		"cleared_expeditions": _to_strings(cleared_expeditions),
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f == null:
@@ -232,6 +244,8 @@ func get_max_hp() -> int:
 	var hp := BASE_MAX_HP
 	for m in get_installed_mutations():
 		hp += m.max_hp_bonus
+	for u in get_installed_upgrades():
+		hp += u.max_hp_bonus
 	return hp
 
 
@@ -243,7 +257,112 @@ func get_max_energy() -> int:
 
 
 func get_incisions() -> int:
-	return BASE_INCISIONS
+	var n := BASE_INCISIONS
+	for u in get_installed_upgrades():
+		n += u.incisions_bonus
+	return n
+
+
+func get_preserve_bonus() -> float:
+	var b := 0.0
+	for u in get_installed_upgrades():
+		b += u.preserve_bonus
+	return b
+
+
+## Multiplicador da chance de partes danificadas (padrão 0.5).
+func get_damaged_multiplier() -> float:
+	var m := BodyCondition.DEFAULT_DAMAGED_MULTIPLIER
+	for u in get_installed_upgrades():
+		if u.damaged_multiplier > 0.0:
+			m = maxf(m, u.damaged_multiplier)
+	return m
+
+
+# --- Melhorias do laboratório -----------------------------------------------
+
+func get_installed_upgrades() -> Array[LabUpgradeData]:
+	var result: Array[LabUpgradeData] = []
+	for id in lab_upgrades:
+		var u: LabUpgradeData = Database.lab_upgrades.get(id)
+		if u != null:
+			result.append(u)
+	return result
+
+
+## Quantidade total de partes guardadas de uma família.
+func get_family_material(family: int) -> int:
+	var total := 0
+	for id in materials:
+		var p := Database.get_part(id)
+		if p != null and p.family == family:
+			total += int(materials[id])
+	return total
+
+
+func can_buy_upgrade(u: LabUpgradeData) -> bool:
+	if lab_upgrades.has(u.id):
+		return false
+	if not u.requires.is_empty() and not lab_upgrades.has(u.requires):
+		return false
+	for f in u.family_cost:
+		if get_family_material(int(f)) < int(u.family_cost[f]):
+			return false
+	return true
+
+
+## Paga com as partes mais abundantes da família (preserva as raras).
+func buy_upgrade(u: LabUpgradeData) -> bool:
+	if not can_buy_upgrade(u):
+		return false
+	for f in u.family_cost:
+		var need := int(u.family_cost[f])
+		while need > 0:
+			var best: StringName = &""
+			for id in materials:
+				var p := Database.get_part(id)
+				if p != null and p.family == int(f) and (best == &"" or int(materials[id]) > int(materials[best])):
+					best = id
+			materials[best] = int(materials[best]) - 1
+			if materials[best] <= 0:
+				materials.erase(best)
+			need -= 1
+	lab_upgrades.append(u.id)
+	save_profile()
+	changed.emit()
+	return true
+
+
+# --- Experimentação (cartas híbridas) ---------------------------------------
+
+## Tenta combinar duas partes. Retorna a receita descoberta ou null (nada é consumido se falhar).
+func experiment(a: AnatomyPart, b: AnatomyPart) -> HybridRecipe:
+	if a == null or b == null or a.id == b.id:
+		return null
+	var cost := {a.id: 1}
+	cost[b.id] = int(cost.get(b.id, 0)) + 1
+	if not has_materials(cost):
+		return null
+	var r := Database.find_recipe(a, b)
+	if r == null:
+		return null
+	spend_materials(cost)
+	if not discovered_recipes.has(r.id):
+		discovered_recipes.append(r.id)
+	unlock_card(r.result.id)
+	save_profile()
+	return r
+
+
+# --- Regiões ----------------------------------------------------------------
+
+func is_expedition_unlocked(e: ExpeditionData) -> bool:
+	return e.unlock_requirement.is_empty() or cleared_expeditions.has(e.unlock_requirement)
+
+
+func mark_cleared(id: StringName) -> void:
+	if not cleared_expeditions.has(id):
+		cleared_expeditions.append(id)
 
 
 # --- Baralho inicial --------------------------------------------------------

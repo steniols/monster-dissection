@@ -6,9 +6,21 @@ static var title_font: Font
 static var body_font: Font
 
 
+const TITLE_FONT_PATH := "res://assets/fonts/CormorantGaramond-Variable.ttf"
+const BODY_FONT_PATH := "res://assets/fonts/SourceSans3-Variable.ttf"
+
+static var bold_font: Font
+## Fonte para números (custo, energia, vida, intenção): algarismos alinhados e legíveis.
+static var number_font: Font
+static var button_font: Font
+
+
 static func build() -> Theme:
-	title_font = _system_font(["Georgia", "Palatino Linotype", "Book Antiqua", "Times New Roman", "serif"], 600)
-	body_font = _system_font(["Segoe UI", "Helvetica Neue", "Arial", "Noto Sans", "sans-serif"], 400)
+	title_font = _font_file(TITLE_FONT_PATH, 700, ["Georgia", "Palatino Linotype", "Times New Roman", "serif"])
+	body_font = _font_file(BODY_FONT_PATH, 420, ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"])
+	bold_font = _font_file(BODY_FONT_PATH, 700, ["Segoe UI", "Arial", "sans-serif"])
+	number_font = bold_font
+	button_font = _font_file(BODY_FONT_PATH, 600, ["Segoe UI", "Arial", "sans-serif"])
 
 	var t := Theme.new()
 	t.default_font = body_font
@@ -26,8 +38,8 @@ static func build() -> Theme:
 	t.set_color("font_hover_color", "Button", Palette.BONE_LIGHT)
 	t.set_color("font_pressed_color", "Button", Palette.BONE_LIGHT)
 	t.set_color("font_disabled_color", "Button", Palette.TEXT_DIM.darkened(0.2))
-	t.set_font("font", "Button", title_font)
-	t.set_font_size("font_size", "Button", 17)
+	t.set_font("font", "Button", button_font)
+	t.set_font_size("font_size", "Button", 16)
 
 	# Painéis
 	t.set_stylebox("panel", "Panel", panel_style(Palette.CHARCOAL, Palette.INK_SOFT, 1, 6))
@@ -40,7 +52,7 @@ static func build() -> Theme:
 	# Rich text
 	t.set_color("default_color", "RichTextLabel", Palette.TEXT)
 	t.set_font("normal_font", "RichTextLabel", body_font)
-	t.set_font("bold_font", "RichTextLabel", _system_font(["Segoe UI", "Arial", "sans-serif"], 700))
+	t.set_font("bold_font", "RichTextLabel", bold_font)
 
 	# Scroll
 	t.set_stylebox("panel", "ScrollContainer", StyleBoxEmpty.new())
@@ -57,6 +69,20 @@ static func build() -> Theme:
 	t.set_color("font_selected_color", "TabBar", Palette.BONE_LIGHT)
 	t.set_color("font_unselected_color", "TabBar", Palette.TEXT_DIM)
 	return t
+
+
+## Fonte do projeto (variável, com peso escolhido); usa fonte do sistema se o arquivo faltar.
+static func _font_file(path: String, weight: int, fallback: PackedStringArray) -> Font:
+	if not ResourceLoader.exists(path):
+		return _system_font(fallback, weight)
+	var base := load(path) as FontFile
+	if base == null:
+		return _system_font(fallback, weight)
+	var v := FontVariation.new()
+	v.base_font = base
+	v.variation_opentype = {TextServerManager.get_primary_interface().name_to_tag("wght"): weight}
+	v.fallbacks = [_system_font(fallback, weight)]
+	return v
 
 
 static func _system_font(names: PackedStringArray, weight: int) -> SystemFont:
@@ -124,6 +150,8 @@ static func add_background(parent: Control, tint: Color = Palette.CHARCOAL) -> C
 ## Texto flutuante (dano, cura, etc.).
 static func float_text(parent: Node, text: String, at: Vector2, color: Color, size: int = 30) -> void:
 	var l := make_label(text, size, color, true)
+	if number_font != null and (text.begins_with("-") or text.begins_with("+")):
+		l.add_theme_font_override("font", number_font)
 	l.add_theme_color_override("font_outline_color", Palette.CHARCOAL_DEEP)
 	l.add_theme_constant_override("outline_size", 6)
 	l.position = at - Vector2(20, 20)

@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_qh8v6"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_mmhtm"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_lpogl"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_onwwk"]
+[ext_resource type="Resource" path="res://data/organs/bf_hide.tres" id="5_4c7ys"]
+[ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="6_oyfjb"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="7_8bdg4"]
+
+[sub_resource type="Resource" id="Resource_tf6tk"]
+script = ExtResource("1_qh8v6")
+label = "Dissecar às pressas"
+description = "70%: ganhe Pele de Bloodfang. Falha: perca 6 de vida."
+success_chance = 0.7
+result_text = "Você salva um pedaço de couro antes que apodreça."
+gain_parts = Array[ExtResource("4_onwwk")]([ExtResource("5_4c7ys")])
+fail_text = "O bisturi escorrega no tecido podre. O corte infecciona."
+fail_hp_change = -6
+
+[sub_resource type="Resource" id="Resource_jhy28"]
+script = ExtResource("1_qh8v6")
+label = "Arrancar as presas"
+description = "Perca 3 de vida. Ganhe Presas."
+result_text = "As presas cedem — e cortam seus dedos no caminho."
+hp_change = -3
+gain_parts = Array[ExtResource("4_onwwk")]([ExtResource("6_oyfjb")])
+
+[sub_resource type="Resource" id="Resource_5i2de"]
+script = ExtResource("1_qh8v6")
+label = "Seguir em frente"
+result_text = "Nem tudo que está morto vale o risco."
+
+[resource]
+script = ExtResource("7_8bdg4")
+id = &"ev_old_carcass"
+title = "Carcaça Antiga"
+text = "Sob a turfa, o corpo de um Bloodfang morto há dias. A carne já escurece, mas a pele parece intacta."
+art_motif = &"hide"
+accent = Color(0.7607843, 0.2784314, 0.3019608, 1)
+choices = Array[ExtResource("1_qh8v6")]([SubResource("Resource_tf6tk"), SubResource("Resource_jhy28"), SubResource("Resource_5i2de")])

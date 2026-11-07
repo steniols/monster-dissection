@@ -12,6 +12,7 @@ var _t: float = 0.0
 func setup(data: MonsterData) -> void:
 	visual = data.visual
 	portrait = data.portrait
+	self_modulate = data.tint
 	queue_redraw()
 
 

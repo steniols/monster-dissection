@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="LabUpgradeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/lab_upgrade_data.gd" id="1_tuodp"]
+
+[resource]
+script = ExtResource("1_tuodp")
+id = &"up_field_kit"
+display_name = "Kit de Sobrevivência"
+description = "+6 de vida máxima."
+family_cost = {
+4: 3
+}
+max_hp_bonus = 6
+art_motif = &"suture"

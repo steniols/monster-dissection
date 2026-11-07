@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/bfa_blood.tres" id="1_b0po5"]
+[ext_resource type="Resource" path="res://data/organs/vs_tentacles.tres" id="2_8fqqy"]
+[ext_resource type="Resource" path="res://data/cards/hb_hematic_tide.tres" id="3_c7vyn"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_b4fo5"]
+
+[resource]
+script = ExtResource("4_b4fo5")
+id = &"rc_hematic_tide"
+part_a = ExtResource("1_b0po5")
+part_b = ExtResource("2_8fqqy")
+result = ExtResource("3_c7vyn")
+hint = "Sangue fervente espalhado por tentáculos."

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_luh6p"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_qer8l"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_n5lxx"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_fd310"]
+
+[sub_resource type="Resource" id="Resource_tl7vl"]
+script = ExtResource("2_qer8l")
+amount = 5
+
+[sub_resource type="Resource" id="Resource_j17kw"]
+script = ExtResource("3_n5lxx")
+status_id = &"weak"
+
+[sub_resource type="Resource" id="Resource_3p242"]
+script = ExtResource("3_n5lxx")
+status_id = &"vulnerable"
+
+[resource]
+script = ExtResource("4_fd310")
+id = &"necrotic_bile"
+display_name = "Bile Necrótica"
+family = 4
+source_part = "Bile"
+art_motif = &"gland"
+effects = Array[ExtResource("1_luh6p")]([SubResource("Resource_tl7vl"), SubResource("Resource_j17kw"), SubResource("Resource_3p242")])

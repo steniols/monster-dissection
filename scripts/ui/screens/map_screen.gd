@@ -8,6 +8,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	if not RunState.active:
 		RunState.start(Database.expeditions.get(Database.DEFAULT_EXPEDITION))
+	RunState.save_run()
 	var bg := UiTheme.add_background(self, Color("#22262A")) as BackgroundView
 	bg.glow_color = Palette.PETROL
 	bg.glow_center = Vector2(0.5, 0.5)
@@ -52,7 +53,7 @@ func _ready() -> void:
 	lv.add_theme_constant_override("separation", 8)
 	legend.add_child(lv)
 	lv.add_child(UiTheme.make_label("Legenda", 17, Palette.BONE, true))
-	for t in [MapNode.Type.COMBAT, MapNode.Type.ELITE, MapNode.Type.REST, MapNode.Type.BOSS]:
+	for t in [MapNode.Type.COMBAT, MapNode.Type.ELITE, MapNode.Type.EVENT, MapNode.Type.REST, MapNode.Type.BOSS]:
 		var row := HBoxContainer.new()
 		var ic := MapCanvas.NodeIcon.new()
 		ic.type = t
@@ -60,7 +61,7 @@ func _ready() -> void:
 		row.add_child(ic)
 		row.add_child(UiTheme.make_label(MapNode.TYPE_NAMES[t], 15, Palette.PAPER))
 		lv.add_child(row)
-	var desc := UiTheme.make_label("Covis abrigam espécimes de elite com partes raras. Acampamentos permitem descansar ou purgar uma carta.", 13, Palette.TEXT_DIM)
+	var desc := UiTheme.make_label("Covis abrigam espécimes de elite com partes raras. Mistérios podem ajudar ou ferir. Acampamentos permitem descansar, aprimorar ou purgar. O progresso é salvo a cada passo.", 13, Palette.TEXT_DIM)
 	desc.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	lv.add_child(desc)
 
@@ -117,8 +118,12 @@ class MapCanvas:
 
 	func _tooltip(n: MapNode) -> String:
 		var t := n.get_type_name()
-		if not n.monsters.is_empty() and n.type != MapNode.Type.REST:
+		if n.type == MapNode.Type.BOSS and not n.monsters.is_empty():
+			t += ": " + (n.monsters[0].display_name if Profile.is_monster_known(n.monsters[0].id) else "???")
+		elif n.is_combat() and not n.monsters.is_empty():
 			t += " — rastros de %s" % Family.get_name_of(n.monsters[0].family)
+			if n.monsters.size() > 1:
+				t += " (grupo de %d)" % n.monsters.size()
 		return t
 
 	func _draw() -> void:
@@ -195,3 +200,8 @@ class MapCanvas:
 					ProceduralArt.draw_icon(ci, &"energy", r, Color(Palette.MOSS_BRIGHT, alpha))
 				MapNode.Type.BOSS:
 					ProceduralArt.draw_motif(ci, &"eye", r, Color(Palette.VIOLET_BRIGHT, alpha))
+				MapNode.Type.EVENT:
+					var font := ThemeDB.fallback_font
+					var fs := int(r.size.y * 1.05)
+					var w := font.get_string_size("?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+					ci.draw_string(font, r.get_center() + Vector2(-w * 0.5, fs * 0.36), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(Palette.BONE_LIGHT, alpha))

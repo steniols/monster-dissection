@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/vs_tentacles.tres" id="1_pvlg2"]
+[ext_resource type="Resource" path="res://data/organs/rw_marrow.tres" id="2_k8n3a"]
+[ext_resource type="Resource" path="res://data/cards/hb_void_marrow.tres" id="3_6gu5t"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_dueqi"]
+
+[resource]
+script = ExtResource("4_dueqi")
+id = &"rc_void_marrow"
+part_a = ExtResource("1_pvlg2")
+part_b = ExtResource("2_k8n3a")
+result = ExtResource("3_6gu5t")
+hint = "Calor de medula conduzido por membros que não são deste mundo."

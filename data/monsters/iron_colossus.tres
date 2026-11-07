@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_hgo8x"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_udx0k"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="3_2xlo2"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="4_5gtqs"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_bux6w"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_3ni6o"]
+[ext_resource type="Resource" path="res://data/organs/co_core.tres" id="7_g3v2h"]
+[ext_resource type="Resource" path="res://data/organs/co_horn.tres" id="8_1sv0u"]
+[ext_resource type="Resource" path="res://data/organs/ib_carapace.tres" id="9_0vfkf"]
+[ext_resource type="Resource" path="res://data/organs/ib_endo.tres" id="10_4k647"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_366n6"]
+
+[sub_resource type="Resource" id="Resource_u25ch"]
+script = ExtResource("2_udx0k")
+status_id = &"thorns"
+stacks = 3
+target = 1
+
+[sub_resource type="Resource" id="Resource_4s7a1"]
+script = ExtResource("4_5gtqs")
+amount = 16
+target = 1
+
+[sub_resource type="Resource" id="Resource_okaq4"]
+script = ExtResource("3_2xlo2")
+display_name = "Couraça Total"
+kind = 1
+effects = Array[ExtResource("1_hgo8x")]([SubResource("Resource_4s7a1")])
+
+[sub_resource type="Resource" id="Resource_rmuea"]
+script = ExtResource("5_bux6w")
+hits = 3
+
+[sub_resource type="Resource" id="Resource_jr0gn"]
+script = ExtResource("3_2xlo2")
+display_name = "Avalanche de Placas"
+effects = Array[ExtResource("1_hgo8x")]([SubResource("Resource_rmuea")])
+
+[sub_resource type="Resource" id="Resource_yi188"]
+script = ExtResource("5_bux6w")
+amount = 18
+
+[sub_resource type="Resource" id="Resource_tn40m"]
+script = ExtResource("3_2xlo2")
+display_name = "Chifrada"
+effects = Array[ExtResource("1_hgo8x")]([SubResource("Resource_yi188")])
+
+[sub_resource type="Resource" id="Resource_jn571"]
+script = ExtResource("5_bux6w")
+amount = 8
+
+[sub_resource type="Resource" id="Resource_ropa7"]
+script = ExtResource("2_udx0k")
+status_id = &"vulnerable"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_doutw"]
+script = ExtResource("3_2xlo2")
+display_name = "Ácido Corrosivo"
+kind = 4
+effects = Array[ExtResource("1_hgo8x")]([SubResource("Resource_jn571"), SubResource("Resource_ropa7")])
+
+[resource]
+script = ExtResource("11_366n6")
+id = &"iron_colossus"
+display_name = "Colosso Ironback"
+family = 2
+tier = 2
+max_hp = 125
+intents = Array[ExtResource("3_2xlo2")]([SubResource("Resource_okaq4"), SubResource("Resource_jr0gn"), SubResource("Resource_tn40m"), SubResource("Resource_doutw")])
+combat_start_effects = Array[ExtResource("1_hgo8x")]([SubResource("Resource_u25ch")])
+parts = Array[ExtResource("6_3ni6o")]([ExtResource("7_g3v2h"), ExtResource("8_1sv0u"), ExtResource("9_0vfkf"), ExtResource("10_4k647")])
+visual = &"ironback"
+scale = 1.35
+tint = Color(0.84313726, 0.627451, 0.47843137, 1)
+lore = "O mais antigo dos Ironback. Sua carapaça carrega a lama de séculos."
+weakness_note = "Espinhos em todo o corpo: prefira sangramento, corrupção e golpes únicos e fortes."

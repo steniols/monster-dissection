@@ -3,20 +3,34 @@ extends Node
 
 const SCENES := {
 	"menu": "res://scenes/menus/main_menu.tscn",
+	"options": "res://scenes/menus/options.tscn",
 	"lab": "res://scenes/laboratory/laboratory.tscn",
 	"deck": "res://scenes/laboratory/deck_builder.tscn",
 	"mutations": "res://scenes/laboratory/mutation_chamber.tscn",
+	"experiment": "res://scenes/laboratory/experiment_station.tscn",
+	"workshop": "res://scenes/laboratory/workshop.tscn",
 	"archive": "res://scenes/collection/archive.tscn",
 	"map": "res://scenes/map/expedition_map.tscn",
 	"rest": "res://scenes/map/rest_site.tscn",
+	"event": "res://scenes/map/event.tscn",
 	"combat": "res://scenes/combat/combat.tscn",
 	"dissection": "res://scenes/dissection/dissection.tscn",
 	"run_end": "res://scenes/menus/run_end.tscn",
 }
 
+## Tela para onde "Voltar" leva a partir das opções.
+var options_return: String = "menu"
+
 
 func _ready() -> void:
 	get_tree().root.theme = UiTheme.build()
+	get_tree().node_added.connect(_on_node_added)
+
+
+## Som de clique em qualquer botão do jogo.
+func _on_node_added(n: Node) -> void:
+	if n is BaseButton:
+		n.pressed.connect(func(): Sfx.play(&"click"))
 
 
 func goto(key: String) -> void:
@@ -27,15 +41,27 @@ func goto(key: String) -> void:
 	get_tree().change_scene_to_file.call_deferred(path)
 
 
+func open_options(from: String) -> void:
+	options_return = from
+	goto("options")
+
+
 # --- Fluxo da expedição -----------------------------------------------------
 
-func start_expedition() -> void:
-	var expd: ExpeditionData = Database.expeditions.get(Database.DEFAULT_EXPEDITION)
+func start_expedition(id: StringName = Database.DEFAULT_EXPEDITION) -> void:
+	var expd: ExpeditionData = Database.expeditions.get(id)
 	if expd == null:
-		push_error("Game: expedição padrão não encontrada.")
+		push_error("Game: expedição não encontrada: %s" % id)
 		return
 	RunState.start(expd)
 	goto("map")
+
+
+func continue_expedition() -> bool:
+	if RunState.load_run():
+		goto("map")
+		return true
+	return false
 
 
 func enter_node(node: MapNode) -> void:
@@ -44,8 +70,16 @@ func enter_node(node: MapNode) -> void:
 	match node.type:
 		MapNode.Type.REST:
 			goto("rest")
+		MapNode.Type.EVENT:
+			goto("event")
 		_:
 			goto("combat")
+
+
+## Usado por eventos que levam a um combate.
+func start_event_fight(monsters: Array[MonsterData]) -> void:
+	RunState.current.monsters = monsters
+	goto("combat")
 
 
 func on_combat_won(bodies: Array[MonsterCombatant], player_hp: int) -> void:

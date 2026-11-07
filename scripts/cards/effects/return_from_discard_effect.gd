@@ -16,3 +16,8 @@ func apply(ctx: EffectContext) -> void:
 
 func describe() -> String:
 	return "Devolva %d carta%s aleatória%s do descarte para a mão." % [count, "s" if count > 1 else "", "s" if count > 1 else ""]
+
+
+func upgrade() -> bool:
+	count += 1
+	return true

@@ -38,6 +38,7 @@ func setup(m: MonsterCombatant, c: CombatManager) -> void:
 	ib.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_intent_icon = IconView.create(&"attack", Palette.BLOOD_BRIGHT, 26)
 	_intent_label = UiTheme.make_label("", 18, Palette.PAPER, true)
+	_intent_label.add_theme_font_override("font", UiTheme.number_font)
 	_intent_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	ib.add_child(_intent_icon)
 	ib.add_child(_intent_label)
@@ -80,6 +81,10 @@ func setup(m: MonsterCombatant, c: CombatManager) -> void:
 	m.damaged.connect(_on_damaged)
 	m.healed.connect(func(a): UiTheme.float_text(_float_parent(), "+%d" % a, _float_pos(), Palette.MOSS_BRIGHT))
 	m.died.connect(_on_died)
+	m.cheated_death.connect(func():
+		Sfx.play(&"instinct")
+		Fx.burst(_float_parent(), _float_pos(), Palette.SICK_GREEN, 30, 260)
+		UiTheme.float_text(_float_parent(), "Recusa-se a morrer!", _float_pos() + Vector2(-60, -30), Palette.SICK_GREEN, 24))
 	_refresh()
 	refresh_intent()
 
@@ -131,8 +136,16 @@ func refresh_intent() -> void:
 
 
 func _on_damaged(amount: int, blocked: int) -> void:
+	if blocked > 0:
+		Sfx.play(&"block", -4.0)
+		Fx.burst(_float_parent(), _float_pos(), Palette.PETROL_BRIGHT, 10, 180)
 	if amount > 0:
-		UiTheme.float_text(_float_parent(), "-%d" % amount, _float_pos(), Palette.BLOOD_BRIGHT)
+		var big := amount >= 10
+		Sfx.play(&"hit_big" if big else &"hit")
+		Fx.burst(_float_parent(), _float_pos(), Palette.BLOOD_BRIGHT, 26 if big else 14, 300 if big else 220)
+		if big:
+			Fx.hit_stop(0.08)
+		UiTheme.float_text(_float_parent(), "-%d" % amount, _float_pos(), Palette.BLOOD_BRIGHT, 38 if big else 30)
 		var tw := _art.create_tween()
 		_art.modulate = Color(1.8, 0.7, 0.7)
 		tw.tween_property(_art, "modulate", Color.WHITE, 0.25)
@@ -146,6 +159,7 @@ func _on_damaged(amount: int, blocked: int) -> void:
 
 
 func _on_died() -> void:
+	Sfx.play(&"death")
 	_intent_panel.modulate.a = 0.0
 	var tw := create_tween().set_parallel(true)
 	tw.tween_property(_art, "modulate", Color(0.35, 0.33, 0.33, 0.7), 0.6)

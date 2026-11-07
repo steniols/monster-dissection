@@ -51,3 +51,19 @@ func describe() -> String:
 		Condition.SOURCE_HP_BELOW_HALF:
 			prefix = "Se estiver abaixo de 50% da vida: "
 	return prefix + " ".join(parts)
+
+
+func upgrade() -> bool:
+	var improved := false
+	for e in effects:
+		improved = e.upgrade() or improved
+	return improved
+
+
+func clone() -> CardEffect:
+	var c := duplicate() as ConditionalEffect
+	var inner: Array[CardEffect] = []
+	for e in effects:
+		inner.append(e.clone())
+	c.effects = inner
+	return c

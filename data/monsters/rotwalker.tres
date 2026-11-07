@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_b1u67"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_mxlcf"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_1aagb"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_t5x23"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_rmwpw"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_ojedm"]
+[ext_resource type="Resource" path="res://data/organs/rw_flesh.tres" id="7_6vs6o"]
+[ext_resource type="Resource" path="res://data/organs/rw_marrow.tres" id="8_4ts28"]
+[ext_resource type="Resource" path="res://data/organs/rw_brain.tres" id="9_fcfi0"]
+[ext_resource type="Resource" path="res://data/organs/rw_bile.tres" id="10_vbya3"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_qgpxe"]
+
+[sub_resource type="Resource" id="Resource_03ycj"]
+script = ExtResource("3_1aagb")
+amount = 12
+
+[sub_resource type="Resource" id="Resource_2jsdx"]
+script = ExtResource("2_mxlcf")
+display_name = "Golpe Arrastado"
+effects = Array[ExtResource("1_b1u67")]([SubResource("Resource_03ycj")])
+
+[sub_resource type="Resource" id="Resource_xorki"]
+script = ExtResource("4_t5x23")
+status_id = &"regen"
+stacks = 3
+target = 1
+
+[sub_resource type="Resource" id="Resource_bhtgp"]
+script = ExtResource("5_rmwpw")
+amount = 4
+target = 1
+
+[sub_resource type="Resource" id="Resource_msqnx"]
+script = ExtResource("2_mxlcf")
+display_name = "Recompor"
+kind = 2
+effects = Array[ExtResource("1_b1u67")]([SubResource("Resource_xorki"), SubResource("Resource_bhtgp")])
+
+[sub_resource type="Resource" id="Resource_glmpv"]
+script = ExtResource("3_1aagb")
+amount = 7
+
+[sub_resource type="Resource" id="Resource_uakwp"]
+script = ExtResource("4_t5x23")
+status_id = &"weak"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_1p66s"]
+script = ExtResource("2_mxlcf")
+display_name = "Vômito Pútrido"
+kind = 4
+effects = Array[ExtResource("1_b1u67")]([SubResource("Resource_glmpv"), SubResource("Resource_uakwp")])
+
+[resource]
+script = ExtResource("11_qgpxe")
+id = &"rotwalker"
+display_name = "Rotwalker"
+family = 4
+max_hp = 48
+intents = Array[ExtResource("2_mxlcf")]([SubResource("Resource_2jsdx"), SubResource("Resource_msqnx"), SubResource("Resource_1p66s")])
+parts = Array[ExtResource("6_ojedm")]([ExtResource("7_6vs6o"), ExtResource("8_4ts28"), ExtResource("9_fcfi0"), ExtResource("10_vbya3")])
+visual = &"rotwalker"
+lore = "Um cadáver que se recusa a parar. A carne se fecha sobre as próprias feridas."
+weakness_note = "Regenera rápido: sangramento e corrupção vencem a regeneração ao longo do tempo."

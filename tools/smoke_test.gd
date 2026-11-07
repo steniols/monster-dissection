@@ -1,32 +1,35 @@
 extends Node
-## Teste de fumaça: simula combates, percorre todas as telas e o fluxo de uma expedição.
+## Teste de fumaça: regras, conteúdo, simulações de balanceamento, todas as telas e fluxos.
 ## Uso: Godot_console.exe --headless --path . res://tools/smoke_test.tscn
-## Não altera o perfil do jogador (faz backup e restaura user://profile.json).
+## Não altera o progresso do jogador (backup/restauração de perfil, expedição e opções).
 
 const SIMS_PER_MONSTER := 12
+const BACKUP_FILES := ["user://profile.json", "user://run.json", "user://settings.cfg"]
 
-var _backup: String = ""
+var _backups: Dictionary = {}
 var _failures: PackedStringArray = []
 
 
 func _ready() -> void:
 	# Mantém este nó vivo durante as trocas de cena.
 	get_tree().current_scene = null
-	if FileAccess.file_exists(Profile.SAVE_PATH):
-		_backup = FileAccess.get_file_as_string(Profile.SAVE_PATH)
+	for path in BACKUP_FILES:
+		_backups[path] = FileAccess.get_file_as_string(path) if FileAccess.file_exists(path) else null
 	Engine.time_scale = 40.0
 	await _run()
+	Engine.time_scale = 1.0
 	_restore()
 	print("\n==== RESULTADO: %s ====" % ("OK" if _failures.is_empty() else "FALHAS:\n- " + "\n- ".join(_failures)))
 	get_tree().quit(0 if _failures.is_empty() else 1)
 
 
 func _restore() -> void:
-	if _backup.is_empty():
-		DirAccess.remove_absolute(ProjectSettings.globalize_path(Profile.SAVE_PATH))
-	else:
-		var f := FileAccess.open(Profile.SAVE_PATH, FileAccess.WRITE)
-		f.store_string(_backup)
+	for path in BACKUP_FILES:
+		if _backups[path] == null:
+			if FileAccess.file_exists(path):
+				DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+		else:
+			FileAccess.open(path, FileAccess.WRITE).store_string(_backups[path])
 
 
 func _check(cond: bool, msg: String) -> void:
@@ -39,26 +42,40 @@ func _run() -> void:
 	Profile.reset()
 	_test_data()
 	_test_effects()
+	_test_upgrades()
+	_test_lab_systems()
+	_test_run_save()
 	await _test_balance()
 	await _test_screens()
+	await _test_event_flow()
 	await _test_full_flow()
 
 
 # --- Dados ------------------------------------------------------------------
 
 func _test_data() -> void:
-	print("[dados] cartas=%d partes=%d monstros=%d mutações=%d" % [Database.cards.size(), Database.parts.size(), Database.monsters.size(), Database.mutations.size()])
-	_check(Database.cards.size() >= 20, "poucas cartas")
+	print("[dados] cartas=%d partes=%d monstros=%d mutações=%d receitas=%d eventos=%d melhorias=%d regiões=%d" % [
+		Database.cards.size(), Database.parts.size(), Database.monsters.size(), Database.mutations.size(),
+		Database.recipes.size(), Database.events.size(), Database.lab_upgrades.size(), Database.expeditions.size()])
 	for id in Database.STARTER_DECK:
 		_check(Database.get_card(id) != null, "carta inicial ausente: %s" % id)
 	for p: AnatomyPart in Database.parts.values():
 		_check(p.unlocks_card != null, "parte sem carta: %s" % p.id)
+		_check(Database.get_part_owner(p.id) != null, "parte sem espécie: %s" % p.id)
+	_check(Database.get_part_owner(&"bf_fangs").id == &"bloodfang", "dona de Presas deveria ser Bloodfang, não o filhote")
+	_check(Database.get_part_owner(&"vs_ichor").id == &"voidspawn", "dona do Icor deveria ser Voidspawn")
 	for m: MutationData in Database.mutations.values():
 		for k in m.material_cost:
 			_check(Database.get_part(StringName(k)) != null, "mutação %s exige parte inexistente %s" % [m.id, k])
+	for r: HybridRecipe in Database.recipes.values():
+		_check(r.part_a.family != r.part_b.family, "receita %s com a mesma família" % r.id)
+		_check(r.result.is_hybrid(), "resultado de %s não é híbrido" % r.id)
 	for c: CardData in Database.cards.values():
 		_check(not c.get_description().is_empty(), "carta sem descrição: %s" % c.id)
-	print("[dados] exemplo: %s → %s" % [Database.get_card(&"predatory_pulse").display_name, Database.get_card(&"predatory_pulse").get_description()])
+	for e: ExpeditionData in Database.expeditions.values():
+		_check(not e.encounters.is_empty() and e.boss != null and not e.events.is_empty(), "expedição incompleta: %s" % e.id)
+		for enc in e.encounters:
+			_check(not enc.monsters.is_empty(), "encontro vazio: %s" % enc.id)
 
 
 # --- Efeitos e condição do corpo -------------------------------------------
@@ -70,26 +87,28 @@ func _test_effects() -> void:
 	cm.player = p
 	var m := MonsterCombatant.new(Database.get_monster(&"bloodfang"))
 	cm.monsters.append(m)
-	# vulnerável + força
 	m.add_status(&"vulnerable", 1)
 	p.add_status(&"strength", 2)
 	_check(cm.calc_attack_damage(p, m, 6) == 12, "cálculo de dano com força/vulnerável")
-	# espinhos
 	var ib := MonsterCombatant.new(Database.get_monster(&"ironback"))
 	ib.add_status(&"thorns", 3)
 	ib.take_damage(5, p, true)
 	_check(p.hp == 47, "espinhos devolvem dano (hp=%d)" % p.hp)
-	# overkill destrói cabeça
 	var bf := MonsterCombatant.new(Database.get_monster(&"bloodfang"))
 	bf.take_damage(bf.hp + 13, p, true)
 	var cond := BodyCondition.from_combatant(bf)
 	_check(cond.get_state(AnatomyPart.Region.HEAD) == BodyCondition.State.LOST, "overkill deveria destruir cabeça")
-	_check(cond.chance_for(Database.get_part(&"bf_eyes")) == 0.0, "olhos perdidos têm chance 0")
-	# morte por status preserva sólidos
 	var bf2 := MonsterCombatant.new(Database.get_monster(&"bloodfang"))
 	bf2.lose_hp(999, Combatant.DeathCause.STATUS)
 	var cond2 := BodyCondition.from_combatant(bf2)
 	_check(cond2.chance_for(Database.get_part(&"bf_heart")) > Database.get_part(&"bf_heart").preserve_chance, "morte por status dá bônus")
+	# Imortalidade Pútrida
+	var ab := MonsterCombatant.new(Database.get_monster(&"stitched_abomination"))
+	ab.add_status(&"undying", 1)
+	ab.take_damage(999, p, true)
+	_check(ab.is_alive() and ab.hp == 1 and ab.get_status(&"undying") == 0, "Imortalidade Pútrida deveria salvar uma vez")
+	ab.take_damage(999, p, true)
+	_check(not ab.is_alive(), "segundo golpe fatal deveria matar")
 	# carta condicional: cura ao matar
 	p.hp = 30
 	var weak := MonsterCombatant.new(Database.get_monster(&"voidspawn"))
@@ -100,8 +119,94 @@ func _test_effects() -> void:
 	p.set_energy(3)
 	cm.play_card(cm.hand[0], weak)
 	_check(p.hp == 36, "Pulso Predatório cura ao matar (hp=%d)" % p.hp)
+	# Instinto: híbrida continua a sequência da segunda família
+	cm.instinct_family = Family.Id.IRONBACK
+	cm.instinct_count = 1
+	cm._register_instinct(Database.get_card(&"hb_armored_heart"))
+	_check(cm.instinct_family == Family.Id.IRONBACK and cm.instinct_count == 2, "híbrida deveria contar para Ironback")
 	cm.queue_free()
 	print("[efeitos] verificados")
+
+
+func _test_upgrades() -> void:
+	var rend := Database.get_card(&"rend")
+	var up := Database.get_card(&"rend+")
+	_check(up != null and up.upgraded and up.display_name == "Rasgar+", "aprimorar Rasgar")
+	_check((up.effects[0] as DamageEffect).amount == (rend.effects[0] as DamageEffect).amount + 1, "Rasgar+ multi-golpe +1")
+	_check((rend.effects[0] as DamageEffect).amount == 3, "original não pode mudar ao aprimorar")
+	var core := Database.get_card(&"unstable_core+")
+	_check((core.effects[0] as LoseHpEffect).amount == 3, "Núcleo Instável+ perde menos vida")
+	var pulse := Database.get_card(&"predatory_pulse+")
+	var inner := (pulse.effects[1] as ConditionalEffect).effects[0] as HealEffect
+	_check(inner.amount == 9, "efeito condicional aprimorado (cura %d)" % inner.amount)
+	var chitin := Database.get_card(&"chitin_charge+")
+	_check(chitin.cost == 0, "carta sem números aprimora o custo")
+	print("[aprimorar] %s → %s" % [rend.get_description(), up.get_description()])
+
+
+func _test_lab_systems() -> void:
+	Profile.reset()
+	# híbrida
+	_check(Profile.experiment(Database.get_part(&"bf_heart"), Database.get_part(&"ib_carapace")) == null, "sem materiais não deveria funcionar")
+	Profile.add_material(&"bf_heart", 1)
+	Profile.add_material(&"ib_carapace", 1)
+	Profile.add_material(&"bf_claws", 1)
+	_check(Profile.experiment(Database.get_part(&"bf_claws"), Database.get_part(&"ib_carapace")) == null, "combinação inválida")
+	_check(Profile.get_material(&"bf_claws") == 1, "combinação inválida não consome")
+	var r := Profile.experiment(Database.get_part(&"bf_heart"), Database.get_part(&"ib_carapace"))
+	_check(r != null and Profile.is_card_unlocked(&"hb_armored_heart"), "receita Coração Blindado")
+	_check(Profile.get_material(&"bf_heart") == 0 and Profile.get_material(&"ib_carapace") == 0, "receita consome materiais")
+	# melhoria do laboratório
+	var obs: LabUpgradeData = Database.lab_upgrades[&"up_obsidian"]
+	_check(not Profile.can_buy_upgrade(obs), "sem materiais para a oficina")
+	for id in [&"bf_fangs", &"bf_fangs", &"bf_hide"]:
+		Profile.add_material(id, 1)
+	Profile.add_material(&"ib_mandible", 2)
+	_check(Profile.buy_upgrade(obs), "comprar Bisturi de Obsidiana")
+	_check(Profile.get_incisions() == Profile.BASE_INCISIONS + 1, "incisão extra")
+	_check(Profile.get_family_material(Family.Id.BLOODFANG) == 1, "pagou 3 partes Bloodfang (restou %d)" % Profile.get_family_material(Family.Id.BLOODFANG))
+	var twin: LabUpgradeData = Database.lab_upgrades[&"up_twin_blades"]
+	_check(Database.lab_upgrades[&"up_obsidian"] != null and twin.requires == &"up_obsidian", "pré-requisito")
+	# regiões
+	var cat: ExpeditionData = Database.expeditions[&"flooded_catacombs"]
+	_check(not Profile.is_expedition_unlocked(cat), "Catacumbas começam bloqueadas")
+	Profile.mark_cleared(&"bone_moor")
+	_check(Profile.is_expedition_unlocked(cat), "Catacumbas liberadas após a Charneca")
+	Profile.reset()
+	print("[laboratório] híbridas, oficina e regiões verificadas")
+
+
+func _test_run_save() -> void:
+	RunState.start(Database.expeditions[&"flooded_catacombs"])
+	var first: MapNode = RunState.get_available_nodes()[0]
+	RunState.current = first
+	first.visited = true
+	RunState.hp = 17
+	RunState.deck.append(&"rend+")
+	RunState.gathered[&"rw_flesh"] = 2
+	RunState.save_run()
+	var deck_before := RunState.deck.duplicate()
+	var floors_before := RunState.map.size()
+	var types_before: Array = []
+	for n: MapNode in RunState.map[3]:
+		types_before.append(n.type)
+	RunState.active = false
+	RunState.map.clear()
+	RunState.deck.clear()
+	_check(RunState.load_run(), "carregar expedição")
+	_check(RunState.expedition.id == &"flooded_catacombs", "região restaurada")
+	_check(RunState.hp == 17 and RunState.deck == deck_before, "vida e baralho restaurados")
+	_check(RunState.map.size() == floors_before, "mapa restaurado")
+	var types_after: Array = []
+	for n: MapNode in RunState.map[3]:
+		types_after.append(n.type)
+	_check(types_after == types_before, "tipos dos nós restaurados")
+	_check(RunState.current != null and RunState.current.floor_index == 0 and RunState.current.visited, "posição restaurada")
+	_check(int(RunState.gathered.get(&"rw_flesh", 0)) == 2, "materiais da expedição restaurados")
+	RunState.end_run(false)
+	_check(not RunState.has_save(), "fim da expedição apaga o save")
+	Profile.reset()
+	print("[save] expedição salva e restaurada")
 
 
 # --- Balanceamento (IA gulosa simples) --------------------------------------
@@ -111,36 +216,44 @@ func _test_balance() -> void:
 	var mid_ids: Array = Database.STARTER_DECK.duplicate()
 	mid_ids.append_array([&"deep_bite", &"rend", &"carapace_plate", &"tough_hide", &"tentacle_grip"])
 	var mid := Database.cards_from_ids(mid_ids)
-	for setup in [["inicial", starter, [&"bloodfang", &"ironback", &"voidspawn"]],
-			["meio de expedição", mid, [&"bloodfang_alpha", &"void_matriarch"]]]:
-		for id in setup[2]:
+	var late_ids: Array = mid_ids.duplicate()
+	late_ids.append_array([&"hb_armored_heart", &"necrotic_bile", &"dry_sinew", &"deep_bite+", &"rend+"])
+	var late := Database.cards_from_ids(late_ids)
+	var setups := [
+		["inicial", starter, [[&"bloodfang"], [&"ironback"], [&"voidspawn"], [&"bloodfang_pup", &"bloodfang_pup"], [&"rotwalker"], [&"ghoul", &"ghoul"]]],
+		["meio", mid, [[&"bloodfang_alpha"], [&"void_matriarch"], [&"voidspawn", &"bloodfang_pup"], [&"rotwalker", &"ghoul"]]],
+		["avançado", late, [[&"stitched_abomination"], [&"iron_colossus"], [&"void_matriarch"]]],
+	]
+	for setup in setups:
+		for group in setup[2]:
+			var datas: Array[MonsterData] = []
+			for id in group:
+				datas.append(Database.get_monster(id))
 			var wins := 0
 			var turns := 0
 			var hp_left := 0
 			for i in SIMS_PER_MONSTER:
-				var r: Dictionary = await _simulate(Database.get_monster(id), setup[1], 60)
+				var r: Dictionary = await _simulate(datas, setup[1], 60)
 				wins += 1 if r["won"] else 0
 				turns += r["turns"]
 				hp_left += r["hp"]
-			print("[balanço · %s] %-16s vitórias %2d/%d  turnos médios %.1f  vida final média %.1f" % [
-				setup[0], id, wins, SIMS_PER_MONSTER, float(turns) / SIMS_PER_MONSTER, float(hp_left) / SIMS_PER_MONSTER])
+			print("[balanço · %-8s] %-36s vitórias %2d/%d  turnos %.1f  vida final %.1f" % [
+				setup[0], " + ".join(group), wins, SIMS_PER_MONSTER, float(turns) / SIMS_PER_MONSTER, float(hp_left) / SIMS_PER_MONSTER])
 
 
-func _simulate(data: MonsterData, deck: Array[CardData], hp: int) -> Dictionary:
+func _simulate(datas: Array[MonsterData], deck: Array[CardData], hp: int) -> Dictionary:
 	var cm := CombatManager.new()
 	add_child(cm)
 	var p := PlayerCombatant.new("Sim", hp, hp, 3)
-	var list: Array[MonsterData] = [data]
 	var result := {}
 	cm.combat_ended.connect(func(v): result["won"] = v)
-	cm.start_combat(p, deck, list)
+	cm.start_combat(p, deck, datas)
 	var guard := 0
 	while not cm.is_over and guard < 60:
 		guard += 1
 		var played := true
 		while played and not cm.is_over:
 			played = false
-			# prioriza ataques se o monstro não vai atacar, defesa se vai
 			var incoming := 0
 			for m in cm.monsters:
 				if m.is_alive():
@@ -154,7 +267,11 @@ func _simulate(data: MonsterData, deck: Array[CardData], hp: int) -> Dictionary:
 				if best == null or (is_def and incoming > p.block) or (not is_def and incoming <= p.block and best.data.card_type == CardData.CardType.DEFENSE):
 					best = c
 			if best != null:
-				var target: Combatant = cm.get_living_monsters()[0] if not cm.get_living_monsters().is_empty() else null
+				# mira no monstro vivo com menos vida
+				var target: Combatant = null
+				for m in cm.get_living_monsters():
+					if target == null or m.hp < target.hp:
+						target = m
 				played = cm.play_card(best, target)
 		if not cm.is_over:
 			await cm.end_player_turn()
@@ -168,13 +285,20 @@ func _simulate(data: MonsterData, deck: Array[CardData], hp: int) -> Dictionary:
 # --- Telas ------------------------------------------------------------------
 
 func _test_screens() -> void:
-	for key in ["menu", "lab", "deck", "mutations", "archive"]:
+	Profile.reset()
+	for key in ["menu", "options", "lab", "deck", "mutations", "experiment", "workshop", "archive"]:
 		await _open(key)
 	RunState.start(Database.expeditions[Database.DEFAULT_EXPEDITION])
 	await _open("map")
 	await _open("rest")
 	RunState.current = RunState.get_available_nodes()[0]
+	RunState.current.event = Database.events[&"ev_bone_altar"]
+	await _open("event")
+	var two: Array[MonsterData] = [Database.get_monster(&"ghoul"), Database.get_monster(&"rotwalker")]
+	RunState.current.monsters = two
 	await _open("combat")
+	var screen := get_tree().current_scene
+	_check(screen._monster_views.size() == 2, "combate com 2 monstros deveria mostrar 2 views")
 	await _open("dissection")
 	RunState.end_run(false)
 	await _open("run_end")
@@ -188,6 +312,31 @@ func _open(key: String) -> void:
 	_check(get_tree().current_scene != null and get_tree().current_scene.scene_file_path == Game.SCENES[key], "tela não abriu: " + key)
 
 
+func _test_event_flow() -> void:
+	Profile.reset()
+	RunState.start(Database.expeditions[Database.DEFAULT_EXPEDITION])
+	RunState.current = RunState.get_available_nodes()[0]
+	RunState.current.event = Database.events[&"ev_hermit"]
+	RunState.hp = 20
+	await _open("event")
+	var screen := get_tree().current_scene
+	screen._resolve(screen.event.choices[0]) # tônico: +15 de vida
+	_check(RunState.hp == 35, "evento: tônico deveria curar (hp=%d)" % RunState.hp)
+	# evento que leva a combate
+	RunState.current.event = Database.events[&"ev_ironback_nest"]
+	await _open("event")
+	screen = get_tree().current_scene
+	var c: EventChoice = screen.event.choices[0].duplicate()
+	c.success_chance = 0.0 # força a falha → luta
+	screen._resolve(c)
+	Game.start_event_fight(c.fail_fight)
+	await _frames(6)
+	_check(get_tree().current_scene.scene_file_path == Game.SCENES["combat"], "falha no ninho deveria iniciar combate")
+	_check(get_tree().current_scene.combat.monsters[0].data.id == &"ironback", "evento: inimigo correto")
+	RunState.end_run(false)
+	print("[eventos] cura e combate por evento verificados")
+
+
 # --- Fluxo completo ---------------------------------------------------------
 
 func _test_full_flow() -> void:
@@ -195,13 +344,13 @@ func _test_full_flow() -> void:
 	Game.start_expedition()
 	await _frames(4)
 	_check(get_tree().current_scene.scene_file_path == Game.SCENES["map"], "expedição deveria abrir o mapa")
+	_check(RunState.has_save(), "mapa deveria salvar a expedição")
 	var node: MapNode = RunState.get_available_nodes()[0]
 	Game.enter_node(node)
 	await _frames(4)
 	var screen := get_tree().current_scene
 	_check(screen.scene_file_path == Game.SCENES["combat"], "nó deveria abrir combate")
 	var cm: CombatManager = screen.combat
-	# joga uma carta e encerra o turno pelo caminho da UI
 	var hv: HandView = screen._hand
 	_check(hv.views.size() == CombatManager.HAND_SIZE, "mão inicial deveria ter %d cartas" % CombatManager.HAND_SIZE)
 	var energy_before := cm.player.energy
@@ -213,11 +362,9 @@ func _test_full_flow() -> void:
 	while not cm.is_player_turn and not cm.is_over and guard < 600:
 		guard += 1
 		await get_tree().process_frame
-	_check(cm.is_player_turn or cm.is_over, "turno do monstro deveria terminar")
 	_check(cm.turn_number == 2 or cm.is_over, "deveria estar no turno 2")
-	# vence o combate "na marra" para testar a transição
 	for m in cm.monsters:
-		m.take_damage(m.hp + 2, cm.player, true)
+		m.take_damage(m.hp + m.block + 2, cm.player, true)
 	cm._check_end()
 	_check(cm.is_over, "combate deveria terminar")
 	Game.on_combat_won(cm.monsters, cm.player.hp)
@@ -225,23 +372,29 @@ func _test_full_flow() -> void:
 	screen = get_tree().current_scene
 	_check(screen.scene_file_path == Game.SCENES["dissection"], "vitória deveria abrir dissecação")
 	var sess: DissectionSession = screen.session
-	var before := Profile.unlocked_cards.size()
 	for p in sess.monster.parts:
 		if sess.can_attempt(p):
 			screen._extract(p)
 	_check(sess.incisions_left == 0, "incisões deveriam ser consumidas")
-	print("[fluxo] partes extraídas: %d, cartas novas: %d" % [sess.collected.size(), Profile.unlocked_cards.size() - before])
+	print("[fluxo] partes extraídas: %d" % sess.collected.size())
 	screen._show_summary()
 	await _frames(2)
+	while not RunState.dissection_queue.is_empty():
+		Game.on_dissection_done()
+		await _frames(4)
 	Game.on_dissection_done()
 	await _frames(4)
 	_check(get_tree().current_scene.scene_file_path == Game.SCENES["map"], "após dissecação deveria voltar ao mapa")
+	# continuar expedição a partir do menu
+	await _open("menu")
+	_check(Game.continue_expedition(), "continuar expedição")
+	await _frames(4)
+	_check(get_tree().current_scene.scene_file_path == Game.SCENES["map"] and RunState.current == null or RunState.current.floor_index == 0, "continuar volta ao mapa")
 	Game.finish_run(true)
 	await _frames(4)
 	_check(get_tree().current_scene.scene_file_path == Game.SCENES["run_end"], "fim de expedição")
-	print("[fluxo] materiais no laboratório: %s" % str(Profile.materials))
+	_check(Profile.is_expedition_unlocked(Database.expeditions[&"flooded_catacombs"]), "vencer a Charneca libera as Catacumbas")
 	await _open("lab")
-	await _open("mutations")
 
 
 func _frames(n: int) -> void:

@@ -23,9 +23,14 @@ func _ready() -> void:
 	var t := UiTheme.make_label("Expedição concluída" if won else "Expedição fracassada", 42, Palette.BONE_LIGHT if won else Palette.BLOOD_BRIGHT, true)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(t)
-	var sub := UiTheme.make_label("Andar alcançado: %d · Criaturas abatidas: %d" % [s.get("floor", 0), s.get("kills", 0)], 17, Palette.TEXT_DIM)
+	var sub := UiTheme.make_label("%s · Andar alcançado: %d · Criaturas abatidas: %d" % [s.get("expedition", ""), s.get("floor", 0), s.get("kills", 0)], 17, Palette.TEXT_DIM)
 	sub.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(sub)
+	for region in s.get("unlocked_regions", []):
+		var u := UiTheme.make_label("Nova região liberada: %s" % region, 22, Palette.MOSS_BRIGHT, true)
+		u.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		box.add_child(u)
+	Sfx.play(&"unlock" if won else &"death")
 
 	box.add_child(UiTheme.make_label("Materiais levados ao laboratório", 18, Palette.BONE, true))
 	var kept := HFlowContainer.new()

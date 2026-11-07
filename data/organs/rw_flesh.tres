@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_wbv23"]
+[ext_resource type="Resource" path="res://data/cards/regenerative_flesh.tres" id="2_ae58s"]
+
+[resource]
+script = ExtResource("1_wbv23")
+id = &"rw_flesh"
+display_name = "Carne"
+family = 4
+preserve_chance = 0.85
+unlocks_card = ExtResource("2_ae58s")
+art_motif = &"flesh"
+description = "Tecido que se fecha sozinho alguns minutos após o corte."

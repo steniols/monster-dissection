@@ -38,27 +38,55 @@ static func _pick_type(f: int, count: int, rng: RandomNumberGenerator) -> MapNod
 		return MapNode.Type.BOSS
 	if f == count - 2:
 		return MapNode.Type.REST
-	if f < 2:
+	if f == 0:
 		return MapNode.Type.COMBAT
 	var roll := rng.randf()
-	if f >= ELITE_MIN_FLOOR and roll < 0.22:
+	if f == 1:
+		return MapNode.Type.EVENT if roll < 0.3 else MapNode.Type.COMBAT
+	if f >= ELITE_MIN_FLOOR and roll < 0.2:
 		return MapNode.Type.ELITE
-	if roll < 0.40:
+	if roll < 0.36:
 		return MapNode.Type.REST
+	if roll < 0.56:
+		return MapNode.Type.EVENT
 	return MapNode.Type.COMBAT
 
 
-static func _assign_monsters(n: MapNode, expd: ExpeditionData, _f: int, rng: RandomNumberGenerator) -> void:
+static func _assign_monsters(n: MapNode, expd: ExpeditionData, f: int, rng: RandomNumberGenerator) -> void:
 	match n.type:
 		MapNode.Type.COMBAT:
-			if not expd.normal_pool.is_empty():
-				n.monsters.append(expd.normal_pool[rng.randi_range(0, expd.normal_pool.size() - 1)])
+			var enc := _pick_encounter(expd, f, rng)
+			if enc != null:
+				n.monsters.assign(enc.monsters)
+		MapNode.Type.EVENT:
+			if expd.events.is_empty():
+				n.type = MapNode.Type.COMBAT
+				_assign_monsters(n, expd, f, rng)
+			else:
+				n.event = expd.events[rng.randi_range(0, expd.events.size() - 1)]
 		MapNode.Type.ELITE:
 			if not expd.elite_pool.is_empty():
 				n.monsters.append(expd.elite_pool[rng.randi_range(0, expd.elite_pool.size() - 1)])
 		MapNode.Type.BOSS:
 			if expd.boss != null:
 				n.monsters.append(expd.boss)
+
+
+static func _pick_encounter(expd: ExpeditionData, f: int, rng: RandomNumberGenerator) -> EncounterData:
+	var pool: Array[EncounterData] = []
+	var total := 0
+	for e in expd.encounters:
+		if e.min_floor <= f:
+			pool.append(e)
+			total += maxi(1, e.weight)
+	if pool.is_empty():
+		return null
+	var roll := rng.randi_range(1, total)
+	for e in pool:
+		roll -= maxi(1, e.weight)
+		if roll <= 0:
+			return e
+	return pool.back()
 
 
 ## Liga cada nó a 1–2 nós do andar seguinte, garantindo que todos sejam alcançáveis.

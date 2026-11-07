@@ -14,7 +14,7 @@
 
 [sub_resource type="Resource" id="Resource_316go"]
 script = ExtResource("3_l086v")
-amount = 9
+amount = 10
 
 [sub_resource type="Resource" id="Resource_cwije"]
 script = ExtResource("2_hdlk7")
@@ -53,7 +53,7 @@ effects = Array[ExtResource("1_oo828")]([SubResource("Resource_ltx7d")])
 script = ExtResource("11_8uyov")
 id = &"bloodfang"
 display_name = "Bloodfang"
-max_hp = 42
+max_hp = 46
 pattern = 1
 intents = Array[ExtResource("2_hdlk7")]([SubResource("Resource_cwije"), SubResource("Resource_ai0c6"), SubResource("Resource_5h6oc")])
 parts = Array[ExtResource("5_pl4ho")]([ExtResource("6_jfinp"), ExtResource("7_fasqn"), ExtResource("8_4lgd8"), ExtResource("9_qpmy1"), ExtResource("10_nxvnb")])

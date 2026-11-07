@@ -16,3 +16,8 @@ func apply(ctx: EffectContext) -> void:
 
 func describe() -> String:
 	return "Compre %d carta%s." % [count, "s" if count > 1 else ""]
+
+
+func upgrade() -> bool:
+	count += 1
+	return true

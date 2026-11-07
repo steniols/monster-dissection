@@ -15,6 +15,8 @@ var rng := RandomNumberGenerator.new()
 func _init(monster_: MonsterData, condition_: BodyCondition, incisions: int) -> void:
 	monster = monster_
 	condition = condition_
+	condition.preserve_bonus = Profile.get_preserve_bonus()
+	condition.damaged_multiplier = Profile.get_damaged_multiplier()
 	incisions_left = incisions
 	rng.randomize()
 
