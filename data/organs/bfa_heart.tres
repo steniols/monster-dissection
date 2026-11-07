@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_7c3as"]
+[ext_resource type="Resource" path="res://data/cards/bloodthirst.tres" id="2_s6olp"]
+
+[resource]
+script = ExtResource("1_7c3as")
+id = &"bfa_heart"
+display_name = "Coração do Alfa"
+family = 1
+rarity = 3
+preserve_chance = 0.45
+unlocks_card = ExtResource("2_s6olp")
+description = "Maior que o punho de um homem. Nunca para de pedir sangue."

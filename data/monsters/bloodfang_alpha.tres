@@ -1,0 +1,76 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_l1q6c"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_15i67"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_2xm47"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="4_mastu"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_nq0v7"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_tuj2c"]
+[ext_resource type="Resource" path="res://data/organs/bfa_blood.tres" id="7_kwry8"]
+[ext_resource type="Resource" path="res://data/organs/bfa_tendons.tres" id="8_ucd01"]
+[ext_resource type="Resource" path="res://data/organs/bfa_claws.tres" id="9_8hyxe"]
+[ext_resource type="Resource" path="res://data/organs/bfa_heart.tres" id="10_rcxi6"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_adu6q"]
+
+[sub_resource type="Resource" id="Resource_j5xeu"]
+script = ExtResource("3_2xm47")
+status_id = &"strength"
+stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_eybly"]
+script = ExtResource("4_mastu")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_ucrdy"]
+script = ExtResource("2_15i67")
+display_name = "Uivo da Matilha"
+kind = 2
+effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_j5xeu"), SubResource("Resource_eybly")])
+
+[sub_resource type="Resource" id="Resource_rfr20"]
+script = ExtResource("5_nq0v7")
+amount = 7
+
+[sub_resource type="Resource" id="Resource_rfix6"]
+script = ExtResource("3_2xm47")
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_my1r4"]
+script = ExtResource("2_15i67")
+display_name = "Dilacerar"
+kind = 4
+effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_rfr20"), SubResource("Resource_rfix6")])
+
+[sub_resource type="Resource" id="Resource_e5ca5"]
+script = ExtResource("5_nq0v7")
+amount = 15
+
+[sub_resource type="Resource" id="Resource_8hlgc"]
+script = ExtResource("2_15i67")
+display_name = "Golpe Brutal"
+effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_e5ca5")])
+
+[sub_resource type="Resource" id="Resource_nqslh"]
+script = ExtResource("5_nq0v7")
+amount = 5
+hits = 3
+
+[sub_resource type="Resource" id="Resource_3mobb"]
+script = ExtResource("2_15i67")
+display_name = "Rasgar"
+effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_nqslh")])
+
+[resource]
+script = ExtResource("11_adu6q")
+id = &"bloodfang_alpha"
+display_name = "Bloodfang Alfa"
+tier = 1
+max_hp = 72
+intents = Array[ExtResource("2_15i67")]([SubResource("Resource_ucrdy"), SubResource("Resource_my1r4"), SubResource("Resource_8hlgc"), SubResource("Resource_3mobb")])
+parts = Array[ExtResource("6_tuj2c")]([ExtResource("7_kwry8"), ExtResource("8_ucd01"), ExtResource("9_8hyxe"), ExtResource("10_rcxi6")])
+visual = &"bloodfang_alpha"
+scale = 1.15
+lore = "Líder de matilha marcado por dezenas de cicatrizes. A crina de espinhos se eriça antes de cada bote."
+weakness_note = "Fica mais forte a cada uivo: derrube-o rápido ou aguente o ritmo com armadura."

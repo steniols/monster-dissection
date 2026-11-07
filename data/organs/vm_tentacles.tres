@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_cb3yf"]
+[ext_resource type="Resource" path="res://data/cards/tide_of_void.tres" id="2_rtu0g"]
+
+[resource]
+script = ExtResource("1_cb3yf")
+id = &"vm_tentacles"
+display_name = "Tentáculos-Mãe"
+family = 3
+region = 2
+rarity = 2
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_rtu0g")
+art_motif = &"tentacle"
+description = "Grossos como troncos, ainda úmidos."

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_lxu3k"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_l0q2v"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_tk07g"]
+
+[sub_resource type="Resource" id="Resource_5rkv4"]
+script = ExtResource("2_l0q2v")
+amount = 8
+target = 1
+
+[resource]
+script = ExtResource("3_tk07g")
+id = &"carapace_plate"
+display_name = "Placa de Carapaça"
+card_type = 1
+family = 2
+source_part = "Carapaça"
+art_motif = &"carapace"
+effects = Array[ExtResource("1_lxu3k")]([SubResource("Resource_5rkv4")])

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_v0e8h"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_dnjbm"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_3mw6h"]
+
+[sub_resource type="Resource" id="Resource_m5lpr"]
+script = ExtResource("2_dnjbm")
+status_id = &"endoskeleton"
+stacks = 3
+target = 1
+
+[resource]
+script = ExtResource("3_3mw6h")
+id = &"endoskeleton"
+display_name = "Endoesqueleto"
+cost = 2
+card_type = 3
+rarity = 3
+family = 2
+source_part = "Endoesqueleto"
+art_motif = &"ribs"
+effects = Array[ExtResource("1_v0e8h")]([SubResource("Resource_m5lpr")])

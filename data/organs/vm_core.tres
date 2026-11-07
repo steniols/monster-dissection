@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_d3411"]
+[ext_resource type="Resource" path="res://data/cards/unstable_core.tres" id="2_rn876"]
+
+[resource]
+script = ExtResource("1_d3411")
+id = &"vm_core"
+display_name = "Núcleo do Vazio"
+family = 3
+rarity = 3
+preserve_chance = 0.6
+unlocks_card = ExtResource("2_rn876")
+art_motif = &"core"
+description = "Um órgão sem função conhecida. Emite calor e sussurros."

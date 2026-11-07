@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_q3m5c"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_h6egk"]
+[ext_resource type="Script" path="res://scripts/cards/effects/heal_effect.gd" id="3_sjx32"]
+[ext_resource type="Script" path="res://scripts/cards/effects/conditional_effect.gd" id="4_oqfqk"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="5_vbkfc"]
+
+[sub_resource type="Resource" id="Resource_gautn"]
+script = ExtResource("2_h6egk")
+amount = 8
+
+[sub_resource type="Resource" id="Resource_adorl"]
+script = ExtResource("3_sjx32")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_m53es"]
+script = ExtResource("4_oqfqk")
+effects = Array[ExtResource("1_q3m5c")]([SubResource("Resource_adorl")])
+
+[resource]
+script = ExtResource("5_vbkfc")
+id = &"predatory_pulse"
+display_name = "Pulso Predatório"
+rarity = 2
+family = 1
+source_part = "Coração"
+art_motif = &"heart"
+effects = Array[ExtResource("1_q3m5c")]([SubResource("Resource_gautn"), SubResource("Resource_m53es")])
+flavor = "O coração acelera quando a presa cai."

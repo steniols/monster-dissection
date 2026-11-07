@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_djn1u"]
+[ext_resource type="Resource" path="res://data/cards/void_eyes.tres" id="2_tw3pf"]
+
+[resource]
+script = ExtResource("1_djn1u")
+id = &"vs_eyes"
+display_name = "Olhos Múltiplos"
+family = 3
+region = 0
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_tw3pf")
+art_motif = &"eye"
+description = "Cada olho foca em um momento diferente."

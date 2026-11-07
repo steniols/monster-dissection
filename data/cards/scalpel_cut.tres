@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_lgrxj"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_ivbxn"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_ukqtx"]
+
+[sub_resource type="Resource" id="Resource_55psc"]
+script = ExtResource("2_ivbxn")
+
+[resource]
+script = ExtResource("3_ukqtx")
+id = &"scalpel_cut"
+display_name = "Corte de Bisturi"
+rarity = 0
+effects = Array[ExtResource("1_lgrxj")]([SubResource("Resource_55psc")])
+flavor = "O primeiro corte é sempre o mais limpo."

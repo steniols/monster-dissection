@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_6ag5t"]
+[ext_resource type="Resource" path="res://data/cards/hunters_sight.tres" id="2_djqkc"]
+
+[resource]
+script = ExtResource("1_6ag5t")
+id = &"bf_eyes"
+display_name = "Olhos"
+family = 1
+region = 0
+rarity = 2
+preserve_chance = 0.55
+unlocks_card = ExtResource("2_djqkc")
+art_motif = &"eye"
+description = "Pupilas verticais que enxergam no escuro e no sangue."

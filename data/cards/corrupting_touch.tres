@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_c8jtd"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_3uqen"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_yqbvj"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_e0gba"]
+
+[sub_resource type="Resource" id="Resource_ubslf"]
+script = ExtResource("2_3uqen")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_v6ihc"]
+script = ExtResource("3_yqbvj")
+status_id = &"corruption"
+stacks = 3
+
+[resource]
+script = ExtResource("4_e0gba")
+id = &"corrupting_touch"
+display_name = "Toque Corruptor"
+rarity = 2
+family = 3
+source_part = "Icor Violeta"
+art_motif = &"blood"
+effects = Array[ExtResource("1_c8jtd")]([SubResource("Resource_ubslf"), SubResource("Resource_v6ihc")])

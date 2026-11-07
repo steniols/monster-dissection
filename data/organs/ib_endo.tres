@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_r7lq7"]
+[ext_resource type="Resource" path="res://data/cards/endoskeleton.tres" id="2_112y7"]
+
+[resource]
+script = ExtResource("1_r7lq7")
+id = &"ib_endo"
+display_name = "Endoesqueleto"
+family = 2
+rarity = 3
+preserve_chance = 0.35
+unlocks_card = ExtResource("2_112y7")
+art_motif = &"ribs"
+description = "Uma armação interna que se recompõe sozinha."

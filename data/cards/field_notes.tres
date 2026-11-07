@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_gwwlp"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="2_ot553"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_n2fje"]
+
+[sub_resource type="Resource" id="Resource_g3xfi"]
+script = ExtResource("2_ot553")
+count = 2
+target = 1
+
+[resource]
+script = ExtResource("3_n2fje")
+id = &"field_notes"
+display_name = "Anotações de Campo"
+card_type = 2
+art_motif = &"notes"
+effects = Array[ExtResource("1_gwwlp")]([SubResource("Resource_g3xfi")])
+flavor = "Página 41: não confiar em nada que tenha olhos ímpares."

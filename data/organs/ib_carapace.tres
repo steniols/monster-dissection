@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_ymsco"]
+[ext_resource type="Resource" path="res://data/cards/carapace_plate.tres" id="2_7fygf"]
+
+[resource]
+script = ExtResource("1_ymsco")
+id = &"ib_carapace"
+display_name = "Carapaça"
+family = 2
+preserve_chance = 0.85
+unlocks_card = ExtResource("2_7fygf")
+art_motif = &"carapace"
+description = "Placas de quitina sobrepostas, duras como ferro fundido."

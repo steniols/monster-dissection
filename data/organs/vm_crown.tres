@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_rk3rr"]
+[ext_resource type="Resource" path="res://data/cards/abyssal_gaze.tres" id="2_h6ujw"]
+
+[resource]
+script = ExtResource("1_rk3rr")
+id = &"vm_crown"
+display_name = "Coroa de Olhos"
+family = 3
+region = 0
+rarity = 3
+preserve_chance = 0.55
+unlocks_card = ExtResource("2_h6ujw")
+art_motif = &"crown"
+description = "Hastes oculares dispostas como uma coroa."

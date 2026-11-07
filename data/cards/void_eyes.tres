@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_q6w8h"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_nms84"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="3_itqlp"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_2hfvi"]
+
+[sub_resource type="Resource" id="Resource_hus7r"]
+script = ExtResource("2_nms84")
+status_id = &"corruption"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_ai6ro"]
+script = ExtResource("3_itqlp")
+target = 1
+
+[resource]
+script = ExtResource("4_2hfvi")
+id = &"void_eyes"
+display_name = "Olhos do Vazio"
+cost = 0
+card_type = 2
+family = 3
+source_part = "Olhos Múltiplos"
+art_motif = &"eye"
+effects = Array[ExtResource("1_q6w8h")]([SubResource("Resource_hus7r"), SubResource("Resource_ai6ro")])
+flavor = "Um deles está sempre olhando para você."

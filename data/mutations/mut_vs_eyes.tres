@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_8npy2"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="2_su8e6"]
+
+[resource]
+script = ExtResource("2_su8e6")
+id = &"mut_vs_eyes"
+display_name = "Olhos de Voidspawn"
+family = 3
+description = "Compre 2 cartas a mais no primeiro turno de cada combate."
+material_cost = {
+"vs_eyes": 1,
+"vs_ichor": 1
+}
+first_turn_draw_bonus = 2
+corruption = 2
+art_motif = &"eye"

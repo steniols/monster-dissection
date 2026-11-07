@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_f08r5"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_nwxnl"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_c2k7a"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_3ayje"]
+
+[sub_resource type="Resource" id="Resource_wn2wq"]
+script = ExtResource("2_nwxnl")
+amount = 4
+target = 1
+
+[sub_resource type="Resource" id="Resource_fp1km"]
+script = ExtResource("3_c2k7a")
+status_id = &"thorns"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("4_3ayje")
+id = &"reactive_mandible"
+display_name = "Mandíbula Reativa"
+card_type = 2
+family = 2
+source_part = "Mandíbula"
+art_motif = &"mandible"
+effects = Array[ExtResource("1_f08r5")]([SubResource("Resource_wn2wq"), SubResource("Resource_fp1km")])
+flavor = "Fecha por reflexo, mesmo depois de separada do corpo."

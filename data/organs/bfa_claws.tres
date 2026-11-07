@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_vxi6t"]
+[ext_resource type="Resource" path="res://data/cards/pack_lunge.tres" id="2_mip71"]
+
+[resource]
+script = ExtResource("1_vxi6t")
+id = &"bfa_claws"
+display_name = "Garras do Alfa"
+family = 1
+region = 2
+rarity = 3
+preserve_chance = 0.5
+unlocks_card = ExtResource("2_mip71")
+art_motif = &"claw"
+description = "Gastas por anos liderando a caçada."

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_7y00n"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_10vm7"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_38wg3"]
+
+[sub_resource type="Resource" id="Resource_xwcnm"]
+script = ExtResource("2_10vm7")
+target = 1
+
+[resource]
+script = ExtResource("3_38wg3")
+id = &"guard"
+display_name = "Postura de Guarda"
+card_type = 1
+rarity = 0
+art_motif = &"guard"
+effects = Array[ExtResource("1_7y00n")]([SubResource("Resource_xwcnm")])
+flavor = "Mantenha distância de qualquer coisa com mais dentes que você."

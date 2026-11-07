@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_8xbj7"]
+[ext_resource type="Resource" path="res://data/cards/chitin_charge.tres" id="2_bmiu6"]
+
+[resource]
+script = ExtResource("1_8xbj7")
+id = &"ib_plates"
+display_name = "Placas Dorsais"
+family = 2
+rarity = 2
+preserve_chance = 0.6
+unlocks_card = ExtResource("2_bmiu6")
+art_motif = &"plates"
+description = "Placas pesadas, usadas como aríete."

@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_w8r3m"]
+[ext_resource type="Script" path="res://scripts/cards/effects/reduce_cost_effect.gd" id="2_xqlvv"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="3_tlp7w"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_jfyc6"]
+
+[sub_resource type="Resource" id="Resource_4lvhw"]
+script = ExtResource("2_xqlvv")
+target = 1
+
+[sub_resource type="Resource" id="Resource_imnd5"]
+script = ExtResource("3_tlp7w")
+target = 1
+
+[resource]
+script = ExtResource("4_jfyc6")
+id = &"reflex"
+display_name = "Reflexo Muscular"
+cost = 0
+card_type = 2
+family = 1
+source_part = "Tendões"
+art_motif = &"tendon"
+effects = Array[ExtResource("1_w8r3m")]([SubResource("Resource_4lvhw"), SubResource("Resource_imnd5")])

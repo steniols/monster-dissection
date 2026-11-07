@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_tmiwp"]
+[ext_resource type="Resource" path="res://data/cards/rend.tres" id="2_28k63"]
+
+[resource]
+script = ExtResource("1_tmiwp")
+id = &"bf_claws"
+display_name = "Garras"
+family = 1
+region = 2
+unlocks_card = ExtResource("2_28k63")
+art_motif = &"claw"
+description = "Garras curvas, feitas para golpes rápidos e repetidos."

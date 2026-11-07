@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_howd0"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_f72e4"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_btlnx"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_3vyne"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_pr2tn"]
+[ext_resource type="Resource" path="res://data/organs/vs_tentacles.tres" id="6_bub1v"]
+[ext_resource type="Resource" path="res://data/organs/vs_eyes.tres" id="7_xvu75"]
+[ext_resource type="Resource" path="res://data/organs/vs_ichor.tres" id="8_ijodc"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="9_7qdoj"]
+
+[sub_resource type="Resource" id="Resource_pnkd4"]
+script = ExtResource("3_btlnx")
+
+[sub_resource type="Resource" id="Resource_usgdg"]
+script = ExtResource("4_3vyne")
+status_id = &"corruption"
+
+[sub_resource type="Resource" id="Resource_gxte3"]
+script = ExtResource("2_f72e4")
+display_name = "Toque do Vazio"
+kind = 4
+effects = Array[ExtResource("1_howd0")]([SubResource("Resource_pnkd4"), SubResource("Resource_usgdg")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_oocj5"]
+script = ExtResource("4_3vyne")
+status_id = &"weak"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_k736u"]
+script = ExtResource("4_3vyne")
+status_id = &"vulnerable"
+
+[sub_resource type="Resource" id="Resource_mgyum"]
+script = ExtResource("2_f72e4")
+display_name = "Olhar Fixo"
+kind = 3
+effects = Array[ExtResource("1_howd0")]([SubResource("Resource_oocj5"), SubResource("Resource_k736u")])
+
+[sub_resource type="Resource" id="Resource_1elom"]
+script = ExtResource("3_btlnx")
+amount = 4
+hits = 2
+
+[sub_resource type="Resource" id="Resource_lvd08"]
+script = ExtResource("2_f72e4")
+display_name = "Pulsar"
+effects = Array[ExtResource("1_howd0")]([SubResource("Resource_1elom")])
+weight = 2
+
+[resource]
+script = ExtResource("9_7qdoj")
+id = &"voidspawn"
+display_name = "Voidspawn"
+family = 3
+max_hp = 38
+pattern = 1
+intents = Array[ExtResource("2_f72e4")]([SubResource("Resource_gxte3"), SubResource("Resource_mgyum"), SubResource("Resource_lvd08")])
+parts = Array[ExtResource("5_pr2tn")]([ExtResource("6_bub1v"), ExtResource("7_xvu75"), ExtResource("8_ijodc")])
+visual = &"voidspawn"
+lore = "Aberração assimétrica cujos olhos parecem observar coisas que ainda não aconteceram."
+weakness_note = "Corrupção acumulada demais degenera os órgãos do tórax."

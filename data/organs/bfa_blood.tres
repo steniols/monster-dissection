@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_mxm3v"]
+[ext_resource type="Resource" path="res://data/cards/hematic_fury.tres" id="2_raeum"]
+
+[resource]
+script = ExtResource("1_mxm3v")
+id = &"bfa_blood"
+display_name = "Sangue Fervente"
+family = 1
+region = 3
+rarity = 2
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_raeum")
+art_motif = &"blood"
+description = "Ainda quente horas depois da morte."

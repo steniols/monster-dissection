@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ExpeditionData" format=3]
+
+[ext_resource type="Resource" path="res://data/monsters/void_matriarch.tres" id="1_4qqk2"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="2_ut17i"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang_alpha.tres" id="3_bt0eq"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang.tres" id="4_shsea"]
+[ext_resource type="Resource" path="res://data/monsters/ironback.tres" id="5_okmpp"]
+[ext_resource type="Resource" path="res://data/monsters/voidspawn.tres" id="6_xrafh"]
+[ext_resource type="Script" path="res://scripts/progression/expedition_data.gd" id="7_40fbm"]
+
+[resource]
+script = ExtResource("7_40fbm")
+id = &"bone_moor"
+display_name = "Charneca dos Ossos"
+description = "Pântano de turfa e ossadas onde predadores, insetos blindados e aberrações disputam carcaças."
+normal_pool = Array[ExtResource("2_ut17i")]([ExtResource("4_shsea"), ExtResource("5_okmpp"), ExtResource("6_xrafh")])
+elite_pool = Array[ExtResource("2_ut17i")]([ExtResource("3_bt0eq")])
+boss = ExtResource("1_4qqk2")

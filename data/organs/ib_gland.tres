@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_lrda4"]
+[ext_resource type="Resource" path="res://data/cards/acid_gland.tres" id="2_5p75g"]
+
+[resource]
+script = ExtResource("1_lrda4")
+id = &"ib_gland"
+display_name = "Glândula Ácida"
+family = 2
+region = 3
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_5p75g")
+art_motif = &"gland"
+description = "Bolsa de ácido que corrói tecidos e vontade."

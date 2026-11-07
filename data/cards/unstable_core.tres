@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_5bbpw"]
+[ext_resource type="Script" path="res://scripts/cards/effects/lose_hp_effect.gd" id="2_s710x"]
+[ext_resource type="Script" path="res://scripts/cards/effects/gain_energy_effect.gd" id="3_graax"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_38ajx"]
+
+[sub_resource type="Resource" id="Resource_fv80u"]
+script = ExtResource("2_s710x")
+amount = 5
+target = 1
+
+[sub_resource type="Resource" id="Resource_ydia5"]
+script = ExtResource("3_graax")
+amount = 2
+target = 1
+
+[resource]
+script = ExtResource("4_38ajx")
+id = &"unstable_core"
+display_name = "Núcleo Instável"
+cost = 0
+card_type = 2
+rarity = 3
+family = 3
+source_part = "Núcleo do Vazio"
+art_motif = &"core"
+effects = Array[ExtResource("1_5bbpw")]([SubResource("Resource_fv80u"), SubResource("Resource_ydia5")])
+flavor = "Pulsa em um ritmo que não pertence a nenhum coração."

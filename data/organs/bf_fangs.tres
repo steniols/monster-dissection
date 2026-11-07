@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_dyl3j"]
+[ext_resource type="Resource" path="res://data/cards/deep_bite.tres" id="2_jaim5"]
+
+[resource]
+script = ExtResource("1_dyl3j")
+id = &"bf_fangs"
+display_name = "Presas"
+family = 1
+region = 0
+preserve_chance = 0.75
+unlocks_card = ExtResource("2_jaim5")
+art_motif = &"fang"
+description = "Presas serrilhadas com canais que mantêm a ferida aberta."

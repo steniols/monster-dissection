@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_a8ghu"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_iu7o6"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="3_85gp0"]
+
+[sub_resource type="Resource" id="Resource_kuinu"]
+script = ExtResource("2_iu7o6")
+amount = 6
+target = 1
+
+[resource]
+script = ExtResource("3_85gp0")
+id = &"mut_ib_shell"
+display_name = "Couraça de Ironback"
+family = 2
+description = "Comece cada combate com 6 de Armadura."
+material_cost = {
+"ib_carapace": 2
+}
+combat_start_effects = Array[ExtResource("1_a8ghu")]([SubResource("Resource_kuinu")])
+art_motif = &"carapace"

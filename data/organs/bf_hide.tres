@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_vb15u"]
+[ext_resource type="Resource" path="res://data/cards/tough_hide.tres" id="2_pmob8"]
+
+[resource]
+script = ExtResource("1_vb15u")
+id = &"bf_hide"
+display_name = "Pele"
+family = 1
+preserve_chance = 0.85
+unlocks_card = ExtResource("2_pmob8")
+art_motif = &"hide"
+description = "Couro curto e cicatrizado, mais resistente do que parece."

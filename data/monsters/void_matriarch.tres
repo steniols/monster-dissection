@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_4s8ed"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_3skeh"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="3_of8sj"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_jpcow"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_7q6ww"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_42esl"]
+[ext_resource type="Resource" path="res://data/organs/vm_core.tres" id="7_1lqyu"]
+[ext_resource type="Resource" path="res://data/organs/vm_crown.tres" id="8_t8k8i"]
+[ext_resource type="Resource" path="res://data/organs/vm_tentacles.tres" id="9_cixqp"]
+[ext_resource type="Resource" path="res://data/organs/vs_ichor.tres" id="10_e6xlp"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_bsg2a"]
+
+[sub_resource type="Resource" id="Resource_ipx1y"]
+script = ExtResource("3_of8sj")
+amount = 12
+target = 1
+
+[sub_resource type="Resource" id="Resource_4bbxw"]
+script = ExtResource("4_jpcow")
+status_id = &"strength"
+stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_bfbtk"]
+script = ExtResource("2_3skeh")
+display_name = "Gestação"
+kind = 2
+effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_ipx1y"), SubResource("Resource_4bbxw")])
+
+[sub_resource type="Resource" id="Resource_km51c"]
+script = ExtResource("5_7q6ww")
+amount = 5
+hits = 3
+
+[sub_resource type="Resource" id="Resource_moy5a"]
+script = ExtResource("2_3skeh")
+display_name = "Maré de Tentáculos"
+effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_km51c")])
+
+[sub_resource type="Resource" id="Resource_y25b5"]
+script = ExtResource("4_jpcow")
+status_id = &"corruption"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_rfboy"]
+script = ExtResource("4_jpcow")
+status_id = &"weak"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_6tp50"]
+script = ExtResource("2_3skeh")
+display_name = "Contemplação"
+kind = 3
+effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_y25b5"), SubResource("Resource_rfboy")])
+
+[sub_resource type="Resource" id="Resource_mbim7"]
+script = ExtResource("5_7q6ww")
+amount = 16
+
+[sub_resource type="Resource" id="Resource_cjkmo"]
+script = ExtResource("2_3skeh")
+display_name = "Esmagar"
+effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_mbim7")])
+
+[resource]
+script = ExtResource("11_bsg2a")
+id = &"void_matriarch"
+display_name = "Matriarca do Vazio"
+family = 3
+tier = 2
+max_hp = 112
+intents = Array[ExtResource("2_3skeh")]([SubResource("Resource_bfbtk"), SubResource("Resource_moy5a"), SubResource("Resource_6tp50"), SubResource("Resource_cjkmo")])
+parts = Array[ExtResource("6_42esl")]([ExtResource("7_1lqyu"), ExtResource("8_t8k8i"), ExtResource("9_cixqp"), ExtResource("10_e6xlp")])
+visual = &"void_matriarch"
+scale = 1.25
+lore = "A origem de todos os Voidspawn da charneca. Seu núcleo pulsa em sincronia com algo muito abaixo da terra."
+weakness_note = "A Contemplação acumula corrupção permanente em você. Termine a luta antes que ela termine com você."

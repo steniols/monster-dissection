@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_o845q"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="2_gfwcd"]
+
+[resource]
+script = ExtResource("2_gfwcd")
+id = &"mut_vm_core"
+display_name = "Núcleo Transplantado"
+family = 3
+description = "+1 de Energia por turno."
+material_cost = {
+"vm_core": 1,
+"vs_tentacles": 2
+}
+energy_bonus = 1
+corruption = 3
+art_motif = &"core"

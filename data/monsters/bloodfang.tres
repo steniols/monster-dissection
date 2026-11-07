@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_oo828"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_hdlk7"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_l086v"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_fkcad"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_pl4ho"]
+[ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="6_jfinp"]
+[ext_resource type="Resource" path="res://data/organs/bf_claws.tres" id="7_fasqn"]
+[ext_resource type="Resource" path="res://data/organs/bf_heart.tres" id="8_4lgd8"]
+[ext_resource type="Resource" path="res://data/organs/bf_hide.tres" id="9_qpmy1"]
+[ext_resource type="Resource" path="res://data/organs/bf_eyes.tres" id="10_nxvnb"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_8uyov"]
+
+[sub_resource type="Resource" id="Resource_316go"]
+script = ExtResource("3_l086v")
+amount = 9
+
+[sub_resource type="Resource" id="Resource_cwije"]
+script = ExtResource("2_hdlk7")
+display_name = "Mordida"
+effects = Array[ExtResource("1_oo828")]([SubResource("Resource_316go")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_84au5"]
+script = ExtResource("3_l086v")
+amount = 5
+
+[sub_resource type="Resource" id="Resource_h0qyl"]
+script = ExtResource("4_fkcad")
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_ai0c6"]
+script = ExtResource("2_hdlk7")
+display_name = "Dilacerar"
+kind = 4
+effects = Array[ExtResource("1_oo828")]([SubResource("Resource_84au5"), SubResource("Resource_h0qyl")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_ltx7d"]
+script = ExtResource("4_fkcad")
+status_id = &"strength"
+stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_5h6oc"]
+script = ExtResource("2_hdlk7")
+display_name = "Rosnar"
+kind = 2
+effects = Array[ExtResource("1_oo828")]([SubResource("Resource_ltx7d")])
+
+[resource]
+script = ExtResource("11_8uyov")
+id = &"bloodfang"
+display_name = "Bloodfang"
+max_hp = 42
+pattern = 1
+intents = Array[ExtResource("2_hdlk7")]([SubResource("Resource_cwije"), SubResource("Resource_ai0c6"), SubResource("Resource_5h6oc")])
+parts = Array[ExtResource("5_pl4ho")]([ExtResource("6_jfinp"), ExtResource("7_fasqn"), ExtResource("8_4lgd8"), ExtResource("9_qpmy1"), ExtResource("10_nxvnb")])
+lore = "Predador quadrúpede de ombros altos e mandíbula desproporcional. Caça em silêncio e só ruge quando já provou sangue."
+weakness_note = "Pele fina: o sangramento o abate sem danificar o coração. Golpes finais exagerados destroem a cabeça."

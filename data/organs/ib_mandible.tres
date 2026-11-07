@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_ngi1e"]
+[ext_resource type="Resource" path="res://data/cards/reactive_mandible.tres" id="2_b2och"]
+
+[resource]
+script = ExtResource("1_ngi1e")
+id = &"ib_mandible"
+display_name = "Mandíbula"
+family = 2
+region = 0
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_b2och")
+art_motif = &"mandible"
+description = "Fecha por reflexo ao menor toque."

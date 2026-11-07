@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_txp6w"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_l2uwx"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_kjp5b"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_1jjax"]
+
+[sub_resource type="Resource" id="Resource_yw4t2"]
+script = ExtResource("2_l2uwx")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_xqk4k"]
+script = ExtResource("3_kjp5b")
+stacks = 2
+
+[resource]
+script = ExtResource("4_1jjax")
+id = &"incision"
+display_name = "Incisão Precisa"
+rarity = 0
+art_motif = &"incision"
+effects = Array[ExtResource("1_txp6w")]([SubResource("Resource_yw4t2"), SubResource("Resource_xqk4k")])
+flavor = "Corte ao longo das fibras. Deixe a criatura fazer o resto."

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_k1oja"]
+[ext_resource type="Resource" path="res://data/cards/corrupting_touch.tres" id="2_lql7s"]
+
+[resource]
+script = ExtResource("1_k1oja")
+id = &"vs_ichor"
+display_name = "Icor Violeta"
+family = 3
+region = 3
+rarity = 2
+preserve_chance = 0.65
+unlocks_card = ExtResource("2_lql7s")
+art_motif = &"blood"
+description = "Fluido frio que mancha tudo o que toca."

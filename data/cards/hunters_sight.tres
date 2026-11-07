@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_gwjme"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_d3c18"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="3_nj5yu"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_q6xe3"]
+
+[sub_resource type="Resource" id="Resource_wb6f5"]
+script = ExtResource("2_d3c18")
+status_id = &"vulnerable"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_o8t03"]
+script = ExtResource("3_nj5yu")
+target = 1
+
+[resource]
+script = ExtResource("4_q6xe3")
+id = &"hunters_sight"
+display_name = "Visão do Caçador"
+cost = 0
+card_type = 2
+rarity = 2
+family = 1
+source_part = "Olhos"
+art_motif = &"eye"
+effects = Array[ExtResource("1_gwjme")]([SubResource("Resource_wb6f5"), SubResource("Resource_o8t03")])
+flavor = "Enxerga o ponto onde a pele é mais fina."

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_h1ttu"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_as_damage_effect.gd" id="2_cq71g"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_151db"]
+
+[sub_resource type="Resource" id="Resource_j1urp"]
+script = ExtResource("2_cq71g")
+
+[resource]
+script = ExtResource("3_151db")
+id = &"chitin_charge"
+display_name = "Investida Quitinosa"
+rarity = 2
+family = 2
+source_part = "Placas Dorsais"
+art_motif = &"plates"
+effects = Array[ExtResource("1_h1ttu")]([SubResource("Resource_j1urp")])

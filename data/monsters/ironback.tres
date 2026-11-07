@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_httgr"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_x1k73"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="3_v2830"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="4_digwp"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_uphad"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_62yt7"]
+[ext_resource type="Resource" path="res://data/organs/ib_carapace.tres" id="7_dk7vg"]
+[ext_resource type="Resource" path="res://data/organs/ib_mandible.tres" id="8_1dvuy"]
+[ext_resource type="Resource" path="res://data/organs/ib_gland.tres" id="9_1p576"]
+[ext_resource type="Resource" path="res://data/organs/ib_plates.tres" id="10_l1qqt"]
+[ext_resource type="Resource" path="res://data/organs/ib_endo.tres" id="11_s1bmv"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="12_ucvwc"]
+
+[sub_resource type="Resource" id="Resource_mrrlx"]
+script = ExtResource("2_x1k73")
+status_id = &"thorns"
+stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_vu4vs"]
+script = ExtResource("4_digwp")
+amount = 12
+target = 1
+
+[sub_resource type="Resource" id="Resource_lphyr"]
+script = ExtResource("3_v2830")
+display_name = "Enrijecer"
+kind = 1
+effects = Array[ExtResource("1_httgr")]([SubResource("Resource_vu4vs")])
+
+[sub_resource type="Resource" id="Resource_7t0ji"]
+script = ExtResource("5_uphad")
+amount = 11
+
+[sub_resource type="Resource" id="Resource_uu4c3"]
+script = ExtResource("3_v2830")
+display_name = "Investida"
+effects = Array[ExtResource("1_httgr")]([SubResource("Resource_7t0ji")])
+
+[sub_resource type="Resource" id="Resource_1a0mu"]
+script = ExtResource("5_uphad")
+amount = 5
+
+[sub_resource type="Resource" id="Resource_bvkqy"]
+script = ExtResource("2_x1k73")
+status_id = &"vulnerable"
+
+[sub_resource type="Resource" id="Resource_nf6ye"]
+script = ExtResource("3_v2830")
+display_name = "Esguicho Ácido"
+kind = 4
+effects = Array[ExtResource("1_httgr")]([SubResource("Resource_1a0mu"), SubResource("Resource_bvkqy")])
+
+[resource]
+script = ExtResource("12_ucvwc")
+id = &"ironback"
+display_name = "Ironback"
+family = 2
+max_hp = 46
+intents = Array[ExtResource("3_v2830")]([SubResource("Resource_lphyr"), SubResource("Resource_uu4c3"), SubResource("Resource_nf6ye")])
+combat_start_effects = Array[ExtResource("1_httgr")]([SubResource("Resource_mrrlx")])
+parts = Array[ExtResource("6_62yt7")]([ExtResource("7_dk7vg"), ExtResource("8_1dvuy"), ExtResource("9_1p576"), ExtResource("10_l1qqt"), ExtResource("11_s1bmv")])
+visual = &"ironback"
+lore = "Inseto do tamanho de um javali, coberto de placas sobrepostas. Os espinhos da carapaça punem quem ataca às cegas."
+weakness_note = "Espinhos devolvem dano a cada golpe: prefira poucos ataques fortes, ou deixe o sangramento trabalhar."

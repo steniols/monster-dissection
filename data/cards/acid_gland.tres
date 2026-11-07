@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_vtva1"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_ey6xt"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_e0b72"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_jo5br"]
+
+[sub_resource type="Resource" id="Resource_0lab3"]
+script = ExtResource("2_ey6xt")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_08e0h"]
+script = ExtResource("3_e0b72")
+status_id = &"weak"
+stacks = 2
+
+[resource]
+script = ExtResource("4_jo5br")
+id = &"acid_gland"
+display_name = "Glândula Ácida"
+family = 2
+source_part = "Glândula Ácida"
+art_motif = &"gland"
+effects = Array[ExtResource("1_vtva1")]([SubResource("Resource_0lab3"), SubResource("Resource_08e0h")])

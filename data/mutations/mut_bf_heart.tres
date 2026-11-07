@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_gef1x"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="2_b6rb8"]
+
+[resource]
+script = ExtResource("2_b6rb8")
+id = &"mut_bf_heart"
+display_name = "Coração de Bloodfang"
+family = 1
+description = "+8 de vida máxima."
+material_cost = {
+"bf_heart": 1
+}
+max_hp_bonus = 8
