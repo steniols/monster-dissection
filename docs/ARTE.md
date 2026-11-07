@@ -1,10 +1,10 @@
 # MONSTER DISSECTION: arte
 
-## Status: tudo pronto
+## Status: tudo pronto; monstros podem ganhar versão em alta resolução
 
 | Grupo | Qtde | Situação |
 |---|---|---|
-| Monstros | 10 | **Pronto** (Carniçal refeito, rastejante) |
+| Monstros | 10 | **Pronto**, mas em baixa resolução. Veja "Monstros em alta resolução" |
 | Partes anatômicas | 30 | **Pronto** |
 | Cartas | 43 | **Pronto** |
 | Mutações | 7 | **Pronto** |
@@ -80,6 +80,47 @@ detalhes vão para as bordas e para o fundo distante.
 
 Depois de gerar, salve na pasta Downloads e me diga qual arquivo é qual. Eu ajusto o corte e o
 escurecimento de cada tela olhando as capturas.
+
+## Monstros em alta resolução: pedir agora
+
+Os retratos atuais foram recortados de uma folha com os 11 monstros juntos, então cada um tem só de 360 a
+710 px de largura. No combate em tela cheia eles aparecem com uns 600 px, e na dissecação com uns 1000 px, então
+ficam ampliados e um pouco borrados. A ideia é **redesenhar cada um sozinho, em alta resolução, mantendo o
+mesmo visual**.
+
+**Como pedir:**
+
+- **Um monstro por pedido**, em arquivo PNG próprio, na resolução máxima. O ideal é pelo menos 1536×1024
+  (paisagem); para os altos, como o Rotwalker, 1024×1536 também serve.
+- **Anexe o retrato atual daquele monstro** (`assets/art/monsters/<id>.png`) e peça para manter o mesmo
+  design, só com mais detalhe. Se der, anexe também a folha "Ficha de Monstros do Vazio-1.png".
+- **Fundo transparente**, ou um fundo liso e claro, que eu removo.
+- O monstro **olha para a esquerda**, de corpo inteiro, sem chão nem sombra, com uma margem pequena em volta.
+
+Cabeçalho de todo pedido:
+
+```
+Redraw the creature from the attached image at much higher resolution, keeping exactly the same design, colors, pose and proportions; add finer painted detail and crisp edges. Dark fantasy hand-painted game art, bold dark outlines, cel shading. Full body, side view facing LEFT, centered with a small margin, nothing cropped. Transparent background (or plain flat light background). No ground, no shadow, no scenery, no text, no frame. Single image, maximum resolution.
+```
+
+Complemento de cada um (cole depois do cabeçalho):
+
+| Arquivo | Hoje | Complemento |
+|---|---|---|
+| `bloodfang.png` | 545 px | Lean quadruped predator with tall hunched shoulders, oversized jaw with serrated fangs, scarred pale hide streaked with crimson, bristling spines along the back. |
+| `bloodfang_pup.png` | 359 px | Young version of the same predator: smaller, gangly, oversized paws and jaw, fewer scars. |
+| `bloodfang_alpha.png` | 656 px | Massive pack-leader version: dozens of old scars, a mane of bone spines along neck and back, heavier jaw, lunging stance. |
+| `ironback.png` | 392 px | Boar-sized armored beetle: overlapping moss-green chitin plates with spikes, heavy mandibles, thick legs, glowing yellow-green fluid sac at the rear. |
+| `iron_colossus.png` | 527 px | Ancient colossal version of the armored beetle: huge spiked plates caked with rust and dried mud, giant mandibles, large glowing yellow-green sac at the rear. |
+| `voidspawn.png` | 429 px | Violet tentacled aberration with one large amber eye and several smaller eyes on a lumpy body, many curling suckered tentacles. |
+| `void_matriarch.png` | 640 px | Towering violet mother-aberration with bat-like wings, a cluster of amber eyes above a round toothed maw, a mass of thick curling tentacles. |
+| `rotwalker.png` | 507 px | Gaunt upright walking corpse, grey-green rotting skin with knitting wounds, hunched posture, long clawed hands, skull-like face. |
+| `stitched_abomination.png` | 595 px | Hulking mass of stitched corpses: huge round belly with pustules, thick arms, a howling skull-like head, crude stitches and loose tubes. |
+| `ghoul.png` | 710 px | Gaunt crawling catacomb creature on all fours, long thin limbs and fingers, olive-grey skin, spiny back, ragged cloth at the waist, small glowing yellow eyes. |
+
+**Ordem sugerida:** comece pelos que estão menores (Filhote, Ironback, Voidspawn) e pelos chefes (Matriarca,
+Colosso), que aparecem maiores na tela. Depois de gerar, me diga qual arquivo é qual. Eu removo o fundo, coloco
+no jogo e recalibro os pontos de dissecação.
 
 ## Próximas artes possíveis
 
