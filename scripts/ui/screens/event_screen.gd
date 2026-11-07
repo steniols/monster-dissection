@@ -33,7 +33,7 @@ func _ready() -> void:
 	var art := MotifArt.new()
 	art.custom_minimum_size = Vector2(380, 380)
 	art.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	art.setup(event.art_motif, event.accent)
+	art.setup(event.art_motif, event.accent, Database.get_art("events", event.id))
 	root.add_child(art)
 
 	var col := VBoxContainer.new()

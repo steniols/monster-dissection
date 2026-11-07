@@ -36,6 +36,33 @@ func _ready() -> void:
 			var cur: MonsterData = _part_owner.get(p.id)
 			if cur == null or m.tier < cur.tier or (m.tier == cur.tier and m.parts.size() > cur.parts.size()):
 				_part_owner[p.id] = m
+	_attach_art()
+
+
+## Arte final: um arquivo com o id do recurso é ligado automaticamente
+## (ex.: assets/art/cards/rend.png -> CardData.illustration).
+const ART_DIR := "res://assets/art"
+
+
+func _attach_art() -> void:
+	for c: CardData in cards.values():
+		if c.illustration == null:
+			c.illustration = get_art("cards", c.id)
+	for p: AnatomyPart in parts.values():
+		if p.icon == null:
+			p.icon = get_art("parts", p.id)
+	for m: MonsterData in monsters.values():
+		if m.portrait == null:
+			m.portrait = get_art("monsters", m.id)
+
+
+## Textura em assets/art/<kind>/<id>.png (ou .jpg/.webp), ou null.
+func get_art(kind: String, id: StringName) -> Texture2D:
+	for ext in ["png", "jpg", "webp"]:
+		var path := "%s/%s/%s.%s" % [ART_DIR, kind, id, ext]
+		if ResourceLoader.exists(path):
+			return load(path) as Texture2D
+	return null
 
 
 func _load_dir(path: String, into: Dictionary) -> void:

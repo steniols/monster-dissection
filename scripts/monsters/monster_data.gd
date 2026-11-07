@@ -16,6 +16,9 @@ enum Pattern { CYCLE, RANDOM_NO_REPEAT }
 @export var combat_start_effects: Array[CardEffect] = []
 @export var parts: Array[AnatomyPart] = []
 @export var portrait: Texture2D
+## Posição (0–1 no retrato) de Cabeça, Tórax, Membros e Fluidos na dissecação.
+## Vazio = posições do desenho procedural. Ajuste ao trocar pela arte final.
+@export var region_anchors: Array[Vector2] = []
 ## Chave do desenho procedural enquanto não houver arte final.
 @export var visual: StringName = &"bloodfang"
 @export var scale: float = 1.0

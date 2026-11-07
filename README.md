@@ -60,6 +60,10 @@ Conteúdo: 43 cartas (8 híbridas), 30 partes, 10 monstros de 4 famílias (Blood
 - **Monstro / encontro**: `MonsterData`; inclua num `EncounterData` dentro da expedição.
 - **Evento**: `EventData` com `EventChoice`s em `data/events/`; adicione à lista `events` da expedição.
 
+### Arte final
+
+Veja [docs/ARTE.md](docs/ARTE.md): lista exata de imagens, tamanhos e prompts. Arquivos em `assets/art/<tipo>/<id>.png` são ligados automaticamente.
+
 ## Ferramentas (`tools/`)
 
 Use o executável **console** do Godot para ver a saída no terminal.

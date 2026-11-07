@@ -66,7 +66,7 @@ func _row(m: MutationData) -> Control:
 	p.add_child(h)
 	var art := MotifArt.new()
 	art.custom_minimum_size = Vector2(90, 90)
-	art.setup(m.art_motif, Family.get_color(m.family))
+	art.setup(m.art_motif, Family.get_color(m.family), Database.get_art("mutations", m.id))
 	h.add_child(art)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
