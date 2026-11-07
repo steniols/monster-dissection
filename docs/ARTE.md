@@ -36,6 +36,10 @@ São aceitos `.png`, `.jpg` e `.webp`. As versões aprimoradas ("+") das cartas 
 
 **Regras:**
 
+- **Uma imagem por arquivo, gerada individualmente, no tamanho final.** Nada de prancha ou folha de contato
+  recortada depois, nem miniatura ampliada.
+- **Nenhum texto dentro da imagem**: sem nome de arquivo, legenda, título ou moldura de prancha. O assunto
+  ocupa o quadro inteiro, sem bordas vazias em volta.
 - Não imitar nenhum jogo, artista ou franquia existente.
 - Mantenha o mesmo estilo em todas as imagens: gere uma, aprove e use-a como referência para as outras.
 
