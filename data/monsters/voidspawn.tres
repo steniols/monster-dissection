@@ -56,6 +56,7 @@ id = &"voidspawn"
 display_name = "Voidspawn"
 family = 3
 max_hp = 42
+region_anchors = Array[Vector2]([Vector2(0.67, 0.33), Vector2(0.42, 0.38), Vector2(0.25, 0.76), Vector2(0.56, 0.6)])
 pattern = 1
 intents = Array[ExtResource("2_f72e4")]([SubResource("Resource_gxte3"), SubResource("Resource_mgyum"), SubResource("Resource_lvd08")])
 parts = Array[ExtResource("5_pr2tn")]([ExtResource("6_bub1v"), ExtResource("7_xvu75"), ExtResource("8_ijodc")])

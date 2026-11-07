@@ -38,6 +38,7 @@ script = ExtResource("8_b7hyy")
 id = &"bloodfang_pup"
 display_name = "Filhote de Bloodfang"
 max_hp = 20
+region_anchors = Array[Vector2]([Vector2(0.15, 0.45), Vector2(0.56, 0.42), Vector2(0.45, 0.86), Vector2(0.36, 0.58)])
 pattern = 1
 intents = Array[ExtResource("2_17r44")]([SubResource("Resource_fugih"), SubResource("Resource_12nf3")])
 parts = Array[ExtResource("5_518p3")]([ExtResource("6_8qb6t"), ExtResource("7_mfe4a")])

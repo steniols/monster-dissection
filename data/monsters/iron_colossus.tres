@@ -69,6 +69,7 @@ display_name = "Colosso Ironback"
 family = 2
 tier = 2
 max_hp = 125
+region_anchors = Array[Vector2]([Vector2(0.24, 0.42), Vector2(0.5, 0.28), Vector2(0.45, 0.8), Vector2(0.86, 0.62)])
 intents = Array[ExtResource("3_2xlo2")]([SubResource("Resource_okaq4"), SubResource("Resource_jr0gn"), SubResource("Resource_tn40m"), SubResource("Resource_doutw")])
 combat_start_effects = Array[ExtResource("1_hgo8x")]([SubResource("Resource_u25ch")])
 parts = Array[ExtResource("6_3ni6o")]([ExtResource("7_g3v2h"), ExtResource("8_1sv0u"), ExtResource("9_0vfkf"), ExtResource("10_4k647")])

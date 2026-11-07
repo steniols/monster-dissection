@@ -39,6 +39,7 @@ id = &"ghoul"
 display_name = "Carniçal"
 family = 4
 max_hp = 25
+region_anchors = Array[Vector2]([Vector2(0.43, 0.18), Vector2(0.47, 0.42), Vector2(0.56, 0.56), Vector2(0.34, 0.44)])
 pattern = 1
 intents = Array[ExtResource("2_6eqvo")]([SubResource("Resource_ssbhh"), SubResource("Resource_537t7")])
 parts = Array[ExtResource("5_0o8kc")]([ExtResource("6_5vb4y"), ExtResource("7_k4h2f")])
