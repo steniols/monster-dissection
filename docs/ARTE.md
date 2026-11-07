@@ -8,12 +8,12 @@ fundo, recorto e coloco cada figura no jogo pela **ordem** em que aparece (esque
 | Grupo | Qtde | Situação |
 |---|---|---|
 | Monstros | 10 | **Pronto** (o Carniçal pode ser refeito, veja "Refazer") |
-| Partes anatômicas | 30 | **27 prontas**. Faltam 3: folha P5 |
+| Partes anatômicas | 30 | **Pronto** |
 | Cartas | 43 | Folhas C1–C5 |
 | Mutações | 7 | Folha M1 (opcional) |
 | Eventos | 6 | Imagens individuais (opcional) |
 
-**Ordem sugerida:** P5 → C1 → C2 → C3 → C4 → C5 → M1 → eventos.
+**Ordem sugerida:** C1 → C2 → C3 → C4 → C5 → M1 → eventos.
 
 ## Estilo aprovado
 
