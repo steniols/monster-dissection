@@ -9,11 +9,11 @@ fundo, recorto e coloco cada figura no jogo pela **ordem** em que aparece (esque
 |---|---|---|
 | Monstros | 10 | **Pronto** (o Carniçal pode ser refeito, veja "Refazer") |
 | Partes anatômicas | 30 | **Pronto** |
-| Cartas | 43 | Folhas C1–C5 |
+| Cartas | 43 | **11 prontas** (C1). Faltam 32: folhas C2–C5 |
 | Mutações | 7 | Folha M1 (opcional) |
 | Eventos | 6 | Imagens individuais (opcional) |
 
-**Ordem sugerida:** C1 → C2 → C3 → C4 → C5 → M1 → eventos.
+**Ordem sugerida:** C2 → C3 → C4 → C5 → M1 → eventos.
 
 ## Estilo aprovado
 
@@ -39,41 +39,11 @@ Downloads\monsters) em todo pedido.
 
 ---
 
-## Partes anatômicas: as 3 que faltam
-
-### Folha P5: Rotwalker (3)
-
-```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. 3 separate isolated objects in a single row with wide spacing, in the exact order listed, left to right. No text, no numbers, no labels, no frames, no people, no gore.
-Theme: specimens from a fictional undead swamp creature; accent colors sickly olive green and yellowed bone.
-1. a small shriveled grey-green brain specimen inside a cork-stoppered glass jar
-2. a bundle of dried leathery brown sinew fibers tied with a cord
-3. three small creature hearts sewn together into one with thick black thread
-```
-
-## Cartas (43)
+## Cartas: as 32 que faltam
 
 Mesma técnica e mesmo estilo das partes: **objetos isolados**. A carta já desenha o papel quadriculado atrás
 da figura. A figura aparece pequena na carta (cerca de 135×75 px), então ela precisa de uma silhueta simples
 e forte.
-
-### Folha C1: Neutras e Voidspawn (11)
-
-```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. Separate isolated objects arranged in a grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
-1. an antique surgical scalpel with a thin curved motion streak
-2. two crossed antique scalpels
-3. an antique scalpel resting along a dotted guide line on a piece of leather
-4. a leather and bone arm bracer, shield-like
-5. an open old field journal with creature sketches and a quill
-Next items: violet accent, fictional tentacled aberration theme.
-6. a coiling suckered violet tentacle
-7. a curling wave made of violet tentacles
-8. a violet glowing hand print with spreading vein-like patterns
-9. a cluster of mismatched violet eyes, each looking a different way
-10. a crackling unstable violet orb-like organ
-11. a hooded silhouette with a crown of eye-stalks, seen from behind, gazing into darkness
-```
 
 ### Folha C2: Bloodfang (9)
 
@@ -189,3 +159,7 @@ arquivo X". Eu tiro o fundo, recorto, coloco no jogo e confiro nas capturas.
 
 Se a folha vier com itens trocados, a mais ou a menos, me avise mesmo assim. Dá para aproveitar o que
 estiver certo e pedir de novo só o que faltar.
+
+**Zip ou folha inteira?** Os dois funcionam. Se o ChatGPT recortar e mandar um zip, peça que ele **inclua
+também a folha original inteira** no zip. Os recortes dele às vezes cortam a ponta da figura ou trazem
+pedaços das vizinhas; com a folha original eu refaço o recorte certinho.
