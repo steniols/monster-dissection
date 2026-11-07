@@ -1,267 +1,238 @@
 # MONSTER DISSECTION: pedido de arte
 
-O jogo já usa as imagens sozinho: basta salvar cada arquivo com o **nome exato** indicado, na pasta indicada,
-e abrir o projeto no editor do Godot uma vez (ele importa as imagens). Arquivo que faltar continua com o
-desenho provisório, então dá para entregar aos poucos.
+Prompts prontos para copiar e colar. Cada bloco gera **uma folha** de figuras separadas com fundo transparente;
+eu recorto e coloco cada figura no jogo pela **ordem** em que aparece (esquerda→direita, cima→baixo).
+
+O texto foi escrito no tom de *museu de história natural* para não esbarrar nos filtros de violência das IAs de
+imagem. Se uma folha ainda for bloqueada, tente remover o item suspeito ou gerar em folhas menores.
+
+## Status
+
+| Grupo | Qtde | Situação |
+|---|---|---|
+| Monstros | 10 | **Pronto** (só o Carniçal pode ser refeito, veja a seção 6) |
+| Partes anatômicas | 30 | Folhas P1–P4 |
+| Cartas | 43 | Folhas C1–C5 |
+| Mutações | 7 | Folha M1 (opcional) |
+| Eventos | 6 | Imagens individuais (opcional) |
+
+## Regras para todas as folhas
+
+- **Fundo transparente** (ou cinza liso, se a IA não fizer transparência).
+- **Figuras bem separadas**, sem encostar umas nas outras, todas mais ou menos do mesmo tamanho.
+- **Exatamente o número de itens pedido, na ordem da lista.**
+- **Nenhum texto**: sem números, legendas, nomes ou molduras.
+- Mesmo estilo da folha de monstros. Se a IA aceitar imagem de referência, anexe a folha de monstros.
+- Entregue com resolução alta (o maior tamanho que a IA permitir).
+
+---
+
+## Cabeçalho comum
+
+Todas as folhas abaixo já começam com este texto; ele está aqui só para referência.
+
+> Natural history museum illustration sheet, 19th-century scientific specimen plates, educational,
+> painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), detailed
+> but readable silhouettes. Transparent background. Separate isolated objects arranged in a grid with wide
+> spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames,
+> no people, no gore.
+
+---
+
+## Partes anatômicas (30)
+
+Espécimes isolados, como em uma prancha de museu.
+
+### Folha P1: Bloodfang (9)
 
 ```
-assets/art/monsters/<id>.png   retratos de monstros      (10, obrigatório)
-assets/art/cards/<id>.png      ilustrações das cartas    (43, obrigatório)
-assets/art/parts/<id>.png      ícones das partes         (30, obrigatório)
-assets/art/events/<id>.png     ilustrações de eventos    (6, opcional)
-assets/art/mutations/<id>.png  ícones de mutações        (7, opcional)
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), detailed but readable silhouettes. Transparent background. Separate isolated objects arranged in a 3x3 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: specimens from a fictional red-furred predator beast; accent color deep crimson.
+1. a pair of long serrated fangs, preserved specimen
+2. three curved claws, preserved specimen
+3. a pair of amber eyes with vertical pupils in a small glass jar
+4. a four-chambered creature heart, anatomical model style, deep crimson
+5. a folded piece of short reddish-brown fur hide
+6. a glass vial of dark crimson fluid with faint steam rising
+7. three huge worn and chipped claws, larger than the earlier ones
+8. an oversized creature heart, deep crimson, anatomical model style
+9. a coil of taut sinew fibers like bowstrings
 ```
 
-São aceitos `.png`, `.jpg` e `.webp`. As versões aprimoradas ("+") das cartas usam a mesma imagem.
+### Folha P2: Ironback (7)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), detailed but readable silhouettes. Transparent background. Separate isolated objects arranged in a grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: specimens from a fictional giant armored beetle; accent colors moss green and dark iron.
+1. a section of overlapping chitin plates, iron-hard, moss green
+2. an insect-like internal ribcage frame made of chitin
+3. a translucent green fluid sac, like an amber-green gland
+4. a pair of heavy insect mandibles
+5. heavy stacked dorsal armor plates
+6. a massive iron-dark round core with rust and dried mud
+7. a giant cracked horn shaped like a battering ram
+```
+
+### Folha P3: Voidspawn (6)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), detailed but readable silhouettes. Transparent background. Separate isolated objects arranged in a 3x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: specimens from a fictional many-eyed tentacled aberration; accent color violet with a cold glow.
+1. a cluster of mismatched eyes on a violet membrane
+2. a glass vial of glowing violet fluid
+3. a coiled suckered tentacle inside a specimen jar
+4. a strange glowing violet organ, round and pulsing
+5. a ring of eye-stalks arranged like a crown
+6. a thick wet tentacle, as wide as a tree trunk, curled
+```
+
+### Folha P4: Rotwalker (8)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), detailed but readable silhouettes. Transparent background. Separate isolated objects arranged in a 4x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: specimens from a fictional undead swamp creature; accent colors sickly olive green and yellowed bone.
+1. a grey-green tissue sample on a small specimen dish
+2. a glass vial of yellowish fluid
+3. a small shriveled brain specimen in a jar
+4. a split bone showing dark marrow, museum specimen
+5. a handful of old pointed yellowed teeth
+6. a bundle of dried leathery sinew fibers
+7. three small creature hearts sewn together with thick black thread, specimen in a jar
+8. a strip of leathery hide with crude black thread stitches and iron staples
+```
 
 ---
 
-## 1. Estilo comum (cole antes de todo prompt)
+## Cartas (43)
 
-> **STYLE:** dark fantasy naturalist illustration, a 19th-century anatomical plate merged with a grim monster-hunter's
-> field journal. Painterly ink and watercolor wash on aged paper texture, visible brush and pen strokes, heavy
-> shadows, grounded and believable anatomy, unsettling but not gory-splatter. Muted palette: charcoal #24272A,
-> aged paper #CDC3AB, bone #AE8B52, with the accent color given per item. No text, no letters, no numbers,
-> no watermark, no signature, no frame, no border, no UI elements.
+Mesma técnica das partes: **objeto isolado, fundo transparente**. A carta já desenha o papel quadriculado
+atrás. A figura aparece pequena (cerca de 135×75 px), então peça silhuetas simples e fortes.
 
-**Cores de destaque por família** (use no lugar de `<ACCENT>`):
+### Folha C1: Neutras e Voidspawn (11)
 
-| Família | Destaque | Sensação |
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), bold simple readable silhouettes. Transparent background. Separate isolated objects arranged in a grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+1. an antique surgical scalpel with a thin curved motion streak
+2. two crossed antique scalpels
+3. an antique scalpel resting along a dotted guide line on a piece of leather
+4. a leather and bone arm bracer, shield-like
+5. an open old field journal with creature sketches and a quill
+Next items: violet accent, fictional tentacled aberration theme.
+6. a coiling suckered violet tentacle
+7. a curling wave made of violet tentacles
+8. a violet glowing hand print with spreading vein-like patterns
+9. a cluster of mismatched violet eyes, each looking a different way
+10. a crackling unstable violet orb-like organ
+11. a hooded silhouette with a crown of eye-stalks, seen from behind, gazing into darkness
+```
+
+### Folha C2: Bloodfang (9)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), bold simple readable silhouettes. Transparent background. Separate isolated objects arranged in a 3x3 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: fictional red-furred predator beast; accent color deep crimson.
+1. a pair of serrated fangs with crimson ink marks
+2. three curved claws with three diagonal crimson brush strokes behind them
+3. three running predator silhouettes in a row, dark crimson
+4. a creature heart with concentric crimson pulse rings around it
+5. a clawed beast paw surrounded by rising crimson mist
+6. a single predator eye with a vertical pupil and a crimson reflection
+7. taut sinew fibers stretched like a bowstring
+8. a patch of scarred reddish fur hide shaped like a small shield
+9. a crimson creature heart inside an ornate glass jar, crimson mist swirling inside
+```
+
+### Folha C3: Ironback (7)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), bold simple readable silhouettes. Transparent background. Separate isolated objects arranged in a grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: fictional giant armored beetle; accent colors moss green and dark iron.
+1. a green fluid sac bursting with green droplets splashing
+2. heavy armored dorsal plates with forward motion lines, like a battering ram
+3. an enormous horn cracking a stone block
+4. a single curved chitin plate used as a shield
+5. a wall of interlocking chitin plates
+6. a pair of insect mandibles snapping shut
+7. a chitin ribcage frame inside an ornate glass specimen case
+```
+
+### Folha C4: Rotwalker (8)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), bold simple readable silhouettes. Transparent background. Separate isolated objects arranged in a 4x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: fictional undead swamp creature; accent colors sickly olive green and yellowed bone.
+1. an open jaw of old yellowed teeth with a faint green haze
+2. a splash of yellow-green fluid
+3. dried sinew wrapped around a wooden splint like armor
+4. a curved suture needle with thick black thread
+5. a piece of tissue with new pink tissue growing over a seam, specimen dish
+6. a split bone with warm glowing marrow
+7. a shriveled brain with thin glowing nerve threads
+8. an olive-green creature heart inside a cracked glass jar, faint sickly glow
+```
+
+### Folha C5: Híbridas (8)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), bold simple readable silhouettes. Transparent background. Separate isolated objects arranged in a 4x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: alchemical hybrids of two fictional creature species, each mixing two accent colors.
+1. a crimson creature heart encased in moss-green chitin plates
+2. insect mandibles lined with serrated crimson fangs
+3. a single fang coated in glowing green fluid
+4. crimson and violet tentacles twisting together like a wave
+5. three curved claws trailing violet mist
+6. moss-green chitin plates growing over olive-green tissue
+7. a shriveled brain sprouting small violet eyes
+8. a split bone with glowing violet marrow
+```
+
+---
+
+## Mutações (7): folha M1 (opcional)
+
+```
+Natural history museum illustration sheet, 19th-century scientific specimen plates, educational, painterly ink and watercolor, muted dark-fantasy palette (charcoal, aged bone, parchment tones), bold simple readable silhouettes. Transparent background. Separate isolated objects arranged in a grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: alchemical transplant specimens, each displayed in an ornate glass jar or reliquary.
+1. a crimson creature heart in an ornate jar
+2. a vial of glowing crimson fluid with golden fittings
+3. a moss-green chitin shoulder pauldron, like armor
+4. heavy rusted iron-colored armor plates on a stand
+5. a set of violet eyes floating in a jar
+6. a glowing violet core in a brass reliquary
+7. a vial of olive-green fluid with a small regenerating tissue sample inside
+```
+
+---
+
+## Eventos (6): imagens individuais (opcional)
+
+Uma imagem por vez, **quadrada, com fundo e cenário** (não transparente). Comece cada prompt com:
+
+> Dark fantasy landscape illustration, painterly ink and watercolor, muted palette, moody lighting, square 1:1, no text, no people in close-up, no gore.
+
+| Arquivo | Evento | Prompt |
 |---|---|---|
-| Bloodfang (predadores) | blood red #8F3439 / #C2474D | carne, sangue, ferocidade |
-| Ironback (insetos blindados) | moss green #677D5B + dark iron | quitina, ácido, peso |
-| Voidspawn (aberrações) | violet #704E84 / #A27BBB | olhos, tentáculos, frio, irreal |
-| Rotwalker (mortos-vivos) | sickly green #8C9A5B + yellowed flesh | podridão, suturas, regeneração |
-| Neutra (ferramentas do caçador) | bone #AE8B52 + steel | bisturis, anotações, técnica |
-
-**Regras:**
-
-- **Uma imagem por arquivo, gerada individualmente, no tamanho final.** Nada de prancha ou folha de contato
-  recortada depois, nem miniatura ampliada.
-- **Nenhum texto dentro da imagem**: sem nome de arquivo, legenda, título ou moldura de prancha. O assunto
-  ocupa o quadro inteiro, sem bordas vazias em volta.
-- Não imitar nenhum jogo, artista ou franquia existente.
-- Mantenha o mesmo estilo em todas as imagens: gere uma, aprove e use-a como referência para as outras.
+| `ev_bone_altar.png` | Altar de Ossos | An old altar made of stacked weathered bones in a misty bog, withered offerings at its base, olive green fog. |
+| `ev_hermit.png` | Eremita Alquimista | A hooded old alchemist seen from a distance, mixing bubbling flasks over a blue campfire at night. |
+| `ev_ironback_nest.png` | Ninho de Ironback | A nest of metallic-shelled eggs among old bones, moss-green glow. |
+| `ev_old_carcass.png` | Carcaça Antiga | The skeletal remains of a large beast half-buried in dark peat, reddish fur still on the bones. |
+| `ev_violet_pool.png` | Poça Violeta | Glowing violet liquid seeping from a rock crack and flowing upward, defying gravity, in a dark cave. |
+| `ev_wounded_researcher.png` | Pesquisador Ferido | A tired explorer in a long coat resting against a dead tree at dusk, a notebook in hand, lantern on the ground. |
 
 ---
 
-## 2. Especificações técnicas
+## Refazer (opcional)
 
-| Tipo | Proporção | Tamanho sugerido | Fundo | Como aparece no jogo |
-|---|---|---|---|---|
-| Monstros | **4:3 horizontal** | 1600×1200 | **transparente** | Grande, no combate (300×220 a 400×300 em 720p), no arquivo e na dissecação |
-| Cartas | **16:9 horizontal** | 1344×768 (mín. 960×540) | opaco, imagem até a borda | **Pequeno**: cerca de 135×75 na carta |
-| Partes | **1:1** | 1024×1024 (mín. 512) | **transparente** | De 26×26 (prateleira) até 120×110 |
-| Eventos | 1:1 | 1024×1024 | opaco | 380×380 |
-| Mutações | 1:1 | 1024×1024 | transparente | 90×90 |
+**Carniçal** (`ghoul`). Hoje o jogo usa o espectro com lanternas. O monstro descrito no jogo é uma criatura
+rastejante, de quatro, que anda em bando nas catacumbas:
 
-### Monstros
-
-- O corpo inteiro aparece, com margem de uns 5% em volta.
-- **O monstro olha para a ESQUERDA**, porque o jogador fica à esquerda da tela. A vista é de perfil ou 3/4.
-- As patas ficam perto da base da imagem, a uns 90% da altura.
-- Sem chão, sem cenário e sem sombra projetada.
-
-### Cartas
-
-A imagem fica **muito pequena** na carta. Por isso:
-
-- um único assunto, centralizado;
-- silhueta forte e alto contraste;
-- nada de detalhes miúdos.
-
-### Partes
-
-- Um espécime isolado, como numa prancha anatômica: centralizado, sem fundo.
-- Ocupa uns 80% do quadro.
-
-### Fundo transparente
-
-Se a IA não gerar transparência, peça um **fundo cinza liso** e remova depois com um removedor de fundo
-(remove.bg, Photoshop etc.).
-
-### Pontos de dissecação
-
-Na dissecação, o jogo marca 4 regiões em cima do retrato: **Cabeça, Tórax, Membros e Fluidos**. Siga a
-composição descrita em cada monstro. Depois que as imagens chegarem, eu calibro os pontos exatos no campo
-`region_anchors` de cada monstro.
+```
+Dark fantasy creature illustration, painterly ink and watercolor, muted palette, same style as the reference creature sheet. Transparent background. Full body, side view facing LEFT. A gaunt crawling catacomb creature on all fours, long thin fingers, pale olive-grey skin, hunched back, head low and forward, small glowing yellow eyes. No text, no gore.
+```
 
 ---
 
-## 3. Monstros (10): `assets/art/monsters/`
+## Depois de gerar
 
-Cada prompt: **STYLE** + **"Full-body creature portrait, facing left, isolated on transparent background."** + a descrição abaixo.
-
-| Arquivo | Nome no jogo | Descrição para o prompt | Composição (cabeça · tórax · membros · fluidos) |
-|---|---|---|---|
-| `bloodfang.png` | Bloodfang | Lean quadruped predator, wolf-hyena-like but wrong: tall hunched shoulders, disproportionately large jaw with serrated fangs, short scarred hide, blood-red accents (#8F3439), silent stalking pose. | cabeça à esquerda (≈20%, 45%) · tronco ao centro-direita · patas embaixo · coração/sangue no peito |
-| `bloodfang_pup.png` | Filhote de Bloodfang | Young Bloodfang: smaller, gangly, oversized paws and jaw, fewer scars, playful but hungry pose. Blood-red accents. | igual ao Bloodfang |
-| `bloodfang_alpha.png` | Bloodfang Alfa *(elite)* | Massive pack-leader Bloodfang covered in dozens of old scars, mane of bristling bone spines along the neck and back, heavier jaw, mid-lunge stance. Deep blood-red accents. | igual ao Bloodfang |
-| `ironback.png` | Ironback | Boar-sized armored insect/beetle: overlapping iron-hard chitin plates, spikes on the carapace, heavy mandibles, six thick legs, a translucent green acid sac at the rear. Moss green and dark iron (#677D5B). | cabeça/mandíbula à esquerda (≈15%, 55%) · carapaça no centro · patas embaixo · glândula ácida na traseira, à direita (≈80%, 55%) |
-| `iron_colossus.png` | Colosso Ironback *(chefe)* | Ancient colossal Ironback, many times larger: carapace caked with centuries of dried mud and rust (warm brown-orange tones), one enormous battering-ram horn, a cracked iron core glowing faintly between plates. | igual ao Ironback |
-| `voidspawn.png` | Voidspawn | Asymmetric aberration: a lumpy body with many mismatched eyes staring in different directions, writhing tentacles instead of legs, cold violet glow (#704E84), skin like wet slate. | olhos/cabeça no alto-centro (≈45%, 40%) · corpo no centro · tentáculos embaixo · icor violeta à direita-baixo |
-| `void_matriarch.png` | Matriarca do Vazio *(chefe)* | Towering mother-aberration, roughly symmetrical and frontal: a crown of eye-stalks on top, a translucent belly with a pulsing violet core visible inside, thick mother-tentacles spreading at the base, smaller spawn clinging to her. | coroa de olhos no topo (≈50%, 17%) · núcleo no centro · tentáculos embaixo · fluido à direita |
-| `rotwalker.png` | Rotwalker | Upright walking corpse, gaunt humanoid, grey-green rotting skin, wounds visibly knitting closed with fresh pink flesh, dragging one arm, yellowed eyes. Sickly green accents (#8C9A5B). | cabeça no alto-esquerda (≈37%, 33%) · tronco no centro · pernas embaixo · bile/barriga no centro |
-| `stitched_abomination.png` | Abominação Costurada *(elite)* | Hulking mass of several corpses crudely stitched together with thick black sutures and iron staples, extra arms, mismatched skin tones, three hearts bulging under a stitched chest. Sickly green and flesh tones. | igual ao Rotwalker, maior |
-| `ghoul.png` | Carniçal | Low crawling ghoul on all fours, emaciated, long fingers, rotten teeth, head low and forward, catacomb-dweller pallor. Sickly green accents. | cabeça baixa à esquerda (≈27%, 62%) · corpo ao centro · membros embaixo · fluidos à direita |
-
----
-
-## 4. Cartas (43): `assets/art/cards/`
-
-Cada prompt: **STYLE** + **"Small card illustration, single centered subject, bold silhouette, high contrast, 16:9."** + accent + descrição.
-
-Tipos: Ataque, Defesa, Habilidade e Mutação. Nas **híbridas**, misture as duas cores de destaque.
-
-### Neutras (ferramentas do caçador): destaque bone #AE8B52
-
-| Arquivo | Carta | Tipo | Descrição |
-|---|---|---|---|
-| `scalpel_cut.png` | Corte de Bisturi | Ataque | A surgical scalpel slicing through the air, a thin arc of blood following the blade. |
-| `double_scalpel.png` | Bisturi Duplo | Ataque | Two crossed scalpels mid-strike, twin slash marks. |
-| `incision.png` | Incisão Precisa | Ataque | Gloved hand making a precise incision along a dotted line on hide, pinned specimen style. |
-| `guard.png` | Postura de Guarda | Defesa | Hunter's leather-wrapped forearm raised with a bone bracer, defensive stance. |
-| `field_notes.png` | Anotações de Campo | Habilidade | Open blood-stained field journal with anatomical sketches, quill and pinned specimen. |
-
-### Bloodfang: destaque blood red
-
-| Arquivo | Carta | Tipo | Descrição |
-|---|---|---|---|
-| `deep_bite.png` | Mordida Profunda | Ataque | Serrated fangs sinking deep, blood welling from channels in the teeth. |
-| `rend.png` | Rasgar | Ataque | Three curved claws tearing downward, ragged red slash marks. |
-| `pack_lunge.png` | Investida da Matilha | Ataque | Several predator silhouettes lunging together from the dark. |
-| `predatory_pulse.png` | Pulso Predatório | Ataque | A four-chambered heart beating violently, red pulse waves. |
-| `hematic_fury.png` | Fúria Hemática | Habilidade | Boiling blood rising like steam from a clenched clawed hand. |
-| `hunters_sight.png` | Visão do Caçador | Habilidade | Vertical-pupil predator eye reflecting a red target. |
-| `reflex.png` | Reflexo Muscular | Habilidade | Taut tendons and muscle fibers snapping like bowstrings. |
-| `tough_hide.png` | Couro Resistente | Defesa | Scarred stretched hide deflecting a blade. |
-| `bloodthirst.png` | Sede de Sangue | Mutação | A human arm with predator veins and claws erupting, dripping blood. |
-
-### Ironback: destaque moss green + iron
-
-| Arquivo | Carta | Tipo | Descrição |
-|---|---|---|---|
-| `acid_gland.png` | Glândula Ácida | Ataque | Green acid sac bursting, droplets corroding metal. |
-| `chitin_charge.png` | Investida Quitinosa | Ataque | Armored dorsal plates ramming forward like a battering ram. |
-| `colossal_horn.png` | Chifrada Colossal | Ataque | Enormous horn smashing through a stone wall. |
-| `carapace_plate.png` | Placa de Carapaça | Defesa | A single overlapping chitin plate used as a shield. |
-| `iron_bastion.png` | Bastião de Ferro | Defesa | Wall of interlocking carapace plates, impenetrable. |
-| `reactive_mandible.png` | Mandíbula Reativa | Habilidade | Insect mandibles snapping shut on a blade. |
-| `endoskeleton.png` | Endoesqueleto | Mutação | Human ribcage reinforced with insect chitin growing over the bones. |
-
-### Voidspawn: destaque violet
-
-| Arquivo | Carta | Tipo | Descrição |
-|---|---|---|---|
-| `tentacle_grip.png` | Aperto Tentacular | Ataque | Suckered tentacle coiling and squeezing. |
-| `tide_of_void.png` | Maré do Vazio | Ataque | A wave of violet tentacles surging out of darkness. |
-| `corrupting_touch.png` | Toque Corruptor | Ataque | Violet ichor spreading through veins from a single touch. |
-| `void_eyes.png` | Olhos do Vazio | Habilidade | Cluster of mismatched eyes, each looking a different way. |
-| `unstable_core.png` | Núcleo Instável | Habilidade | Pulsing violet organ crackling with unstable light. |
-| `abyssal_gaze.png` | Contemplar o Abismo | Mutação | A human face with a crown of eye-stalks sprouting from the skull, staring into darkness. |
-
-### Rotwalker: destaque sickly green
-
-| Arquivo | Carta | Tipo | Descrição |
-|---|---|---|---|
-| `infected_bite.png` | Mordida Infecta | Ataque | Rotten teeth biting, feverish green miasma. |
-| `necrotic_bile.png` | Bile Necrótica | Ataque | Yellow-green bile splashing and blistering flesh. |
-| `dry_sinew.png` | Tendões Secos | Defesa | Dried unbreakable sinew wrapped around a forearm like armor. |
-| `field_suture.png` | Sutura de Campo | Habilidade | Crude black stitches closing a wound, curved needle. |
-| `regenerative_flesh.png` | Carne Regenerativa | Habilidade | Pink flesh visibly knitting over a cut. |
-| `marrow_spark.png` | Medula Energética | Habilidade | Split bone revealing warm glowing dark marrow. |
-| `muscle_memory.png` | Memória Muscular | Habilidade | Shrunken brain with twitching nerve threads still firing. |
-| `rot_pulse.png` | Pulso Pútrido | Mutação | A rotting heart grafted into a human chest, still beating, green glow. |
-
-### Híbridas: duas cores de destaque
-
-| Arquivo | Carta | Tipo | Famílias | Descrição |
-|---|---|---|---|---|
-| `hb_armored_heart.png` | Coração Blindado | Defesa | Bloodfang + Ironback | A red beating heart encased in chitin plates. |
-| `hb_chitin_maw.png` | Bocarra Quitinosa | Ataque | Ironback + Bloodfang | Insect mandibles lined with serrated predator fangs. |
-| `hb_corrosive_fang.png` | Presa Corrosiva | Ataque | Bloodfang + Ironback | A fang dripping green acid instead of blood. |
-| `hb_hematic_tide.png` | Maré Hemática | Ataque | Bloodfang + Voidspawn | Tentacles made of blood, red-violet tide. |
-| `hb_void_claws.png` | Garras do Vazio | Ataque | Bloodfang + Voidspawn | Predator claws trailing violet void energy. |
-| `hb_living_shell.png` | Casca Viva | Defesa | Ironback + Rotwalker | Carapace plates growing out of regenerating rotten flesh. |
-| `hb_necro_oracle.png` | Oráculo Necrótico | Habilidade | Voidspawn + Rotwalker | Shrunken brain sprouting violet eyes. |
-| `hb_void_marrow.png` | Medula do Vazio | Habilidade | Voidspawn + Rotwalker | Split bone with violet glowing marrow. |
-
----
-
-## 5. Partes anatômicas (30): `assets/art/parts/`
-
-Cada prompt: **STYLE** + **"Single anatomical specimen, scientific plate illustration, centered, isolated on transparent background, 1:1."** + accent + descrição.
-
-| Arquivo | Parte | Família | Descrição |
-|---|---|---|---|
-| `bf_fangs.png` | Presas | Bloodfang | Pair of serrated fangs with blood channels. |
-| `bf_claws.png` | Garras | Bloodfang | Three curved claws, severed at the base. |
-| `bf_eyes.png` | Olhos | Bloodfang | Pair of eyes with vertical pupils, red sclera. |
-| `bf_heart.png` | Coração | Bloodfang | Four-chambered predator heart. |
-| `bf_hide.png` | Pele | Bloodfang | Folded square of short scarred hide. |
-| `bfa_blood.png` | Sangue Fervente | Bloodfang | Glass vial of steaming dark blood. |
-| `bfa_claws.png` | Garras do Alfa | Bloodfang | Huge worn claws, chipped and scarred. |
-| `bfa_heart.png` | Coração do Alfa | Bloodfang | Oversized heart, larger than a fist, scarred. |
-| `bfa_tendons.png` | Tendões | Bloodfang | Coiled taut tendons like bowstrings. |
-| `ib_carapace.png` | Carapaça | Ironback | Overlapping chitin plate section. |
-| `ib_endo.png` | Endoesqueleto | Ironback | Insect-like internal ribcage frame. |
-| `ib_gland.png` | Glândula Ácida | Ironback | Translucent sac of green acid. |
-| `ib_mandible.png` | Mandíbula | Ironback | Pair of heavy insect mandibles. |
-| `ib_plates.png` | Placas Dorsais | Ironback | Heavy stacked dorsal plates. |
-| `co_core.png` | Núcleo de Ferro | Ironback | Massive iron-dark core with rust and mud. |
-| `co_horn.png` | Chifre Colossal | Ironback | Giant cracked battering-ram horn. |
-| `vs_eyes.png` | Olhos Múltiplos | Voidspawn | Cluster of mismatched eyes on a membrane. |
-| `vs_ichor.png` | Icor Violeta | Voidspawn | Vial of cold glowing violet fluid. |
-| `vs_tentacles.png` | Tentáculos | Voidspawn | Coiled suckered tentacle in a jar. |
-| `vm_core.png` | Núcleo do Vazio | Voidspawn | Strange glowing violet organ, faint whisper aura. |
-| `vm_crown.png` | Coroa de Olhos | Voidspawn | Ring of eye-stalks arranged like a crown. |
-| `vm_tentacles.png` | Tentáculos-Mãe | Voidspawn | Thick trunk-like wet tentacle. |
-| `rw_flesh.png` | Carne | Rotwalker | Chunk of grey-green flesh with a wound closing. |
-| `rw_bile.png` | Bile | Rotwalker | Vial of yellowish bile. |
-| `rw_brain.png` | Cérebro | Rotwalker | Shrunken shriveled brain. |
-| `rw_marrow.png` | Medula | Rotwalker | Split bone with dark marrow. |
-| `gh_teeth.png` | Dentes Podres | Rotwalker | Handful of rotten pointed teeth. |
-| `gh_sinew.png` | Tendões Secos | Rotwalker | Dried leathery sinew bundle. |
-| `ab_heart.png` | Coração Costurado | Rotwalker | Three hearts stitched into one with black sutures. |
-| `ab_stitches.png` | Suturas | Rotwalker | Strip of skin with crude black stitches and staples. |
-
----
-
-## 6. Opcional: eventos (6): `assets/art/events/`
-
-Cada prompt: **STYLE** + **"Square scene illustration, dark moody environment, 1:1."** + descrição.
-
-| Arquivo | Evento | Descrição |
-|---|---|---|
-| `ev_bone_altar.png` | Altar de Ossos | An altar of stacked ribs in a misty bog, rotting old offerings at its base. Sickly green. |
-| `ev_hermit.png` | Eremita Alquimista | An old hermit mixing boiling flasks over a blue campfire in the dark. Petrol blue. |
-| `ev_ironback_nest.png` | Ninho de Ironback | Metallic-shelled eggs, still warm, nested among gnawed bones. Moss green. |
-| `ev_old_carcass.png` | Carcaça Antiga | A days-dead predator half-buried in peat, hide still intact. Blood red. |
-| `ev_violet_pool.png` | Poça Violeta | Cold luminous violet liquid seeping from a rock crack, flowing upward against gravity. |
-| `ev_wounded_researcher.png` | Pesquisador Ferido | A wounded researcher slumped against a dead tree, clutching a blood-stained notebook. Bone tones. |
-
-## 7. Opcional: mutações (7): `assets/art/mutations/`
-
-Cada prompt: **STYLE** + **"Icon of a creature organ grafted into human anatomy, isolated on transparent background, 1:1."** + descrição.
-
-| Arquivo | Mutação | Descrição |
-|---|---|---|
-| `mut_bf_heart.png` | Coração de Bloodfang | Predator heart grafted into a human chest. Blood red. |
-| `mut_bfa_blood.png` | Sangue do Alfa | Human veins glowing with boiling red blood. |
-| `mut_ib_shell.png` | Couraça de Ironback | Chitin plates growing over human shoulders. Moss green. |
-| `mut_co_plates.png` | Placas de Colosso | Heavy rusted colossus plates fused onto a human torso. |
-| `mut_vs_eyes.png` | Olhos de Voidspawn | Extra violet eyes opening along a human arm. |
-| `mut_vm_core.png` | Núcleo Transplantado | Glowing violet core embedded in a human sternum. |
-| `mut_rw_blood.png` | Sangue de Rotwalker | Human hand with green veins, a wound stitching itself closed. |
-
----
-
-## Checklist de entrega
-
-- [ ] Nomes de arquivo exatamente como nas tabelas (minúsculas, com `_`).
-- [ ] Monstros e partes com fundo transparente.
-- [ ] Monstros olhando para a esquerda, corpo inteiro, em 4:3.
-- [ ] Cartas em 16:9, assunto único e legível em tamanho pequeno.
-- [ ] Mesmo estilo em todas as imagens.
-- [ ] Depois de colocar os arquivos, abrir o projeto no editor do Godot (importação) e pedir a calibração dos
-      pontos de dissecação dos monstros.
+Salve as folhas na pasta Downloads e me avise o nome de cada uma, por exemplo "P1 está em Downloads". Eu
+recorto, coloco no jogo e confiro.
