@@ -8,7 +8,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var s: Dictionary = RunState.last_summary
 	var won: bool = s.get("won", false)
-	var bg := UiTheme.add_background(self, Palette.CHARCOAL) as BackgroundView
+	var bg := UiTheme.add_background(self, Palette.CHARCOAL, "menu", 0.6) as BackgroundView
 	bg.glow_color = Palette.MOSS if won else Palette.BLOOD
 	bg.glow_center = Vector2(0.5, 0.3)
 

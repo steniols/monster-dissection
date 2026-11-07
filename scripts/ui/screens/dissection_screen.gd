@@ -43,7 +43,7 @@ func _debug_entry() -> Dictionary:
 
 
 func _build_ui() -> void:
-	var bg := UiTheme.add_background(self, Color("#262420")) as BackgroundView
+	var bg := UiTheme.add_background(self, Color("#262420"), "dissection", 0.4) as BackgroundView
 	bg.glow_color = Palette.MOSS
 	bg.glow_center = Vector2(0.32, 0.45)
 

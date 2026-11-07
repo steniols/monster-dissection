@@ -4,7 +4,7 @@ extends Control
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_background(self, Color("#23262A"))
+	UiTheme.add_background(self, Color("#23262A"), "lab", 0.7)
 
 	var root := VBoxContainer.new()
 	root.set_anchors_preset(Control.PRESET_FULL_RECT)

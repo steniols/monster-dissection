@@ -4,7 +4,7 @@ extends Control
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	var bg := UiTheme.add_background(self, Palette.CHARCOAL) as BackgroundView
+	var bg := UiTheme.add_background(self, Palette.CHARCOAL, "menu", 0.2) as BackgroundView
 	bg.glow_color = Palette.VIOLET
 	bg.glow_center = Vector2(0.72, 0.5)
 

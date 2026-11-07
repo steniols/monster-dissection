@@ -179,6 +179,18 @@ func play_attack_lunge() -> void:
 func _update_target_highlight() -> void:
 	if _target_marker != null:
 		_target_marker.modulate.a = 1.0 if targetable and monster.is_alive() else 0.0
+	if _art != null:
+		var on := targetable and monster.is_alive()
+		_art.highlight = (1.0 if _hovered else 0.55) if on else 0.0
+
+
+var _hovered := false
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_MOUSE_ENTER or what == NOTIFICATION_MOUSE_EXIT:
+		_hovered = what == NOTIFICATION_MOUSE_ENTER
+		_update_target_highlight()
 
 
 func _float_parent() -> Node:

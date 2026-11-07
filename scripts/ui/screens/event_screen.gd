@@ -17,7 +17,7 @@ func _ready() -> void:
 		RunState.current.event = Database.events.values()[0]
 	event = RunState.current.event
 
-	var bg := UiTheme.add_background(self, Color("#211F1C")) as BackgroundView
+	var bg := UiTheme.add_background(self, Color("#211F1C"), String(RunState.expedition.id) if RunState.expedition else "", 0.55) as BackgroundView
 	bg.glow_color = event.accent.darkened(0.4)
 	bg.glow_center = Vector2(0.3, 0.45)
 

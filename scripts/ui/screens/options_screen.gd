@@ -4,7 +4,7 @@ extends Control
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	UiTheme.add_background(self, Palette.CHARCOAL)
+	UiTheme.add_background(self, Palette.CHARCOAL, "menu", 0.7)
 	var center := CenterContainer.new()
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(center)

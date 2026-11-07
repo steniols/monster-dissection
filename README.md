@@ -76,6 +76,6 @@ Use o executável **console** do Godot para ver a saída no terminal.
 
 ## Limitações conhecidas
 
-- O personagem do jogador, os fundos e a tela inicial ainda são desenhados em código (veja docs/ARTE.md).
+- O personagem do jogador e os fundos (até chegarem as paisagens) ainda são desenhados em código (veja docs/ARTE.md).
 - Sair no meio de um combate ou dissecação volta ao mapa salvo antes desse nó (o combate pode ser refeito).
 - Balanceamento validado só por simulação com IA simples — precisa de testes jogando.

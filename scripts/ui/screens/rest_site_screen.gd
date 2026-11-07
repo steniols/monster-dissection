@@ -10,7 +10,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	if not RunState.active:
 		RunState.start(Database.expeditions.get(Database.DEFAULT_EXPEDITION))
-	var bg := UiTheme.add_background(self, Color("#24231F")) as BackgroundView
+	var bg := UiTheme.add_background(self, Color("#24231F"), "camp", 0.3) as BackgroundView
 	bg.glow_color = Palette.BONE
 	bg.glow_center = Vector2(0.5, 0.62)
 

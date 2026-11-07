@@ -9,7 +9,7 @@ func _ready() -> void:
 	if not RunState.active:
 		RunState.start(Database.expeditions.get(Database.DEFAULT_EXPEDITION))
 	RunState.save_run()
-	var bg := UiTheme.add_background(self, Color("#22262A")) as BackgroundView
+	var bg := UiTheme.add_background(self, Color("#22262A"), String(RunState.expedition.id) if RunState.expedition else "", 0.62) as BackgroundView
 	bg.glow_color = Palette.PETROL
 	bg.glow_center = Vector2(0.5, 0.5)
 

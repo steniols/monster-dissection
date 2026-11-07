@@ -34,7 +34,7 @@ func _debug_setup() -> void:
 
 func _build_ui() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	var bg := UiTheme.add_background(self, Palette.CHARCOAL) as BackgroundView
+	var bg := UiTheme.add_background(self, Palette.CHARCOAL, String(RunState.expedition.id) if RunState.expedition else "", 0.2) as BackgroundView
 	var fam := RunState.current.monsters[0].family if not RunState.current.monsters.is_empty() else Family.Id.NEUTRAL
 	bg.glow_color = Family.get_dark_color(fam)
 	bg.glow_center = Vector2(0.5, 0.35)

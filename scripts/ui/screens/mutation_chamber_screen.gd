@@ -9,7 +9,7 @@ var _header: Label
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	var bg := UiTheme.add_background(self, Color("#221E26")) as BackgroundView
+	var bg := UiTheme.add_background(self, Color("#221E26"), "lab", 0.65) as BackgroundView
 	bg.glow_color = Palette.VIOLET
 	bg.glow_center = Vector2(0.5, 0.2)
 

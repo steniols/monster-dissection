@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: tudo pronto
+## Status: lista principal pronta; faltam os fundos
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -38,16 +38,52 @@ Regras que funcionaram:
 - Fundo transparente ou liso funciona; eu removo. Peça sempre a **folha original inteira**, mesmo que o
   ChatGPT também mande recortes.
 
+## Fundos (paisagens): pedir agora
+
+O jogo já aceita fundos: salve em `assets/art/backgrounds/<nome>.png` e cada tela usa o seu. O jogo escurece
+o fundo o quanto for preciso para as cartas e os textos continuarem legíveis. Sem o arquivo, fica o fundo
+atual.
+
+| Arquivo | Onde aparece | Prioridade |
+|---|---|---|
+| `bone_moor.png` | Combate, mapa e eventos da **Charneca dos Ossos** | Alta |
+| `flooded_catacombs.png` | Combate, mapa e eventos das **Catacumbas Alagadas** | Alta |
+| `menu.png` | Tela inicial, opções e fim de expedição | Média |
+| `camp.png` | Acampamento (descansar, aprimorar, purgar) | Média |
+| `lab.png` | Laboratório e as telas das estações | Opcional |
+| `dissection.png` | Mesa de dissecação | Opcional |
+
+**Uma imagem por vez**, paisagem horizontal **16:9** (ou a mais larga que a IA permitir), no mesmo estilo da
+folha de monstros. Anexe a folha de monstros como referência. Comece todo pedido com:
+
+```
+Dark fantasy hand-painted game background, same painted style as the attached reference: bold shapes, cel shading, rich but muted colors, atmospheric depth, wide 16:9 landscape. Empty scene: no creatures, no people, no text, no UI, no frame.
+```
+
+**Regras de composição para os fundos de combate** (as duas regiões): o horizonte e o chão ficam na metade
+da altura, porque é ali que os monstros pisam. O centro e a direita precisam de um **chão aberto e plano**
+para os monstros, e a metade de baixo fica **mais escura e simples**, porque as cartas ficam por cima. Os
+detalhes vão para as bordas e para o fundo distante.
+
+| Arquivo | Complemento do pedido |
+|---|---|
+| `bone_moor.png` | A desolate peat bog moor at dusk, giant ancient ribcages and bones half-sunk in the marsh, dead twisted trees, low fog, distant ruined watchtower, crimson and bone tones. Horizon at the middle of the image, open flat muddy ground in the center and right for creatures to stand on, darker and simpler lower half, details at the edges. |
+| `flooded_catacombs.png` | Vast underground flooded catacombs, shallow dark water over stone floor, arched tunnels and burial niches along the walls, faint green light from above, olive green and stone tones. Horizon at the middle of the image, open flat flooded floor in the center and right for creatures to stand on, darker and simpler lower half, details at the edges. |
+| `menu.png` | A vast dark-fantasy landscape at night seen from a cliff: a lonely gothic laboratory tower with one lit window on the left, misty moor below, a huge pale moon behind clouds, violet and bone tones. Keep the right half of the image calm and dark (a creature illustration goes there). |
+| `camp.png` | A small campfire at night in a clearing of a misty swamp, bedroll and backpack by the fire, lantern hanging from a dead branch, warm orange firelight against cold blue-green fog. Campfire at the bottom center, calm dark space around it. |
+| `lab.png` | Interior of a gothic naturalist laboratory: wooden shelves full of specimen jars, brass instruments, anatomical charts, candlelight, stone walls, warm bone and moss tones, slightly blurred, calm composition without a strong center. |
+| `dissection.png` | A dim dissection room: a heavy wooden examination table under a hanging lamp, surgical tools on a tray, specimen jars on shelves in the background, the table empty and covered with a cloth. Warm lamp light, dark corners. |
+
+Depois de gerar, salve na pasta Downloads e me diga qual arquivo é qual. Eu ajusto o corte e o
+escurecimento de cada tela olhando as capturas.
+
 ## Próximas artes possíveis
 
-Estes itens ainda não existem como imagem. Antes de pedir, o código precisa de um ajuste pequeno para
-recebê-los; me avise que eu preparo e escrevo os pedidos.
+Precisam de um ajuste pequeno no código antes; me avise que eu preparo e escrevo os pedidos.
 
 | Item | Onde aparece |
 |---|---|
 | O Pesquisador (personagem do jogador) | Combate, ao lado da vida; hoje é um vulto desenhado em código |
-| Fundos das 2 regiões (16:9) | Combate e mapa da Charneca dos Ossos e das Catacumbas Alagadas |
-| Arte da tela inicial | Menu principal |
 | Ícones das 6 estações do laboratório | Laboratório |
 
 ## Ferramentas (para mim)

@@ -1,11 +1,15 @@
 class_name BackgroundView
 extends Control
-## Fundo de tela: gradiente escuro, grão de papel e vinheta.
+## Fundo de tela: imagem (se houver) ou gradiente escuro, com grão de papel e vinheta.
 
 @export var base_color: Color = Palette.CHARCOAL
 @export var grain: bool = true
 @export var glow_color: Color = Color(0, 0, 0, 0)
 @export var glow_center: Vector2 = Vector2(0.5, 0.4)
+## Arte de fundo (assets/art/backgrounds). Preenche a tela recortando o excesso.
+@export var texture: Texture2D
+## Escurecimento sobre a arte (0 = original, 1 = preto), para o texto e as cartas lerem bem.
+@export_range(0.0, 1.0) var dim: float = 0.35
 
 var _grain_points: PackedVector2Array = []
 
@@ -26,11 +30,15 @@ func _regen() -> void:
 
 func _draw() -> void:
 	var r := Rect2(Vector2.ZERO, size)
-	var top := base_color.lightened(0.04)
-	var bottom := base_color.darkened(0.45)
-	draw_polygon(PackedVector2Array([r.position, Vector2(r.end.x, 0), r.end, Vector2(0, r.end.y)]),
-		PackedColorArray([top, top, bottom, bottom]))
-	if glow_color.a > 0.0:
+	if texture != null:
+		_draw_cover(r)
+		draw_rect(r, Color(0, 0, 0, dim))
+	else:
+		var top := base_color.lightened(0.04)
+		var bottom := base_color.darkened(0.45)
+		draw_polygon(PackedVector2Array([r.position, Vector2(r.end.x, 0), r.end, Vector2(0, r.end.y)]),
+			PackedColorArray([top, top, bottom, bottom]))
+	if glow_color.a > 0.0 and texture == null:
 		var c := Vector2(size.x * glow_center.x, size.y * glow_center.y)
 		var layers := 28
 		for i in layers:
@@ -52,3 +60,12 @@ func _draw() -> void:
 		PackedColorArray([edge, edge, clear, clear]))
 	draw_polygon(PackedVector2Array([Vector2(0, size.y - h), Vector2(size.x, size.y - h), size, Vector2(0, size.y)]),
 		PackedColorArray([clear, clear, edge, edge]))
+
+
+## Desenha a textura cobrindo a tela inteira, centralizada, sem distorcer.
+func _draw_cover(r: Rect2) -> void:
+	var ts := texture.get_size()
+	var s := maxf(r.size.x / ts.x, r.size.y / ts.y)
+	var src_size := r.size / s
+	var src := Rect2((ts - src_size) * 0.5, src_size)
+	draw_texture_rect_region(texture, r, src)

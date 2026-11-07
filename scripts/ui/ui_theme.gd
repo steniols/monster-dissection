@@ -138,9 +138,13 @@ static func make_button(text: String, callback: Callable, min_width: int = 0) ->
 
 
 ## Cria a camada de fundo padrão das telas (carvão com vinheta).
-static func add_background(parent: Control, tint: Color = Palette.CHARCOAL) -> Control:
+## art: nome da imagem em assets/art/backgrounds (ex.: "lab"); sem imagem, usa o gradiente.
+static func add_background(parent: Control, tint: Color = Palette.CHARCOAL, art: String = "", dim: float = 0.35) -> Control:
 	var bg := BackgroundView.new()
 	bg.base_color = tint
+	if not art.is_empty():
+		bg.texture = Database.get_art("backgrounds", StringName(art))
+		bg.dim = dim
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	parent.add_child(bg)
