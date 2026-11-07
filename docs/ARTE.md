@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: lista principal pronta; faltam os fundos
+## Status: tudo pronto
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -9,8 +9,9 @@
 | Cartas | 43 | **Pronto** |
 | Mutações | 7 | **Pronto** |
 | Eventos | 6 | **Pronto** |
+| Fundos (paisagens) | 6 | **Pronto** |
 
-As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events>/<id>.png` e o jogo as carrega
+As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
 
 Sobras que podem virar conteúdo novo ficam em `assets/art/extra/`: um Voidspawn de um olho só, o espectro
@@ -38,9 +39,10 @@ Regras que funcionaram:
 - Fundo transparente ou liso funciona; eu removo. Peça sempre a **folha original inteira**, mesmo que o
   ChatGPT também mande recortes.
 
-## Fundos (paisagens): pedir agora
+## Fundos (paisagens)
 
-O jogo já aceita fundos: salve em `assets/art/backgrounds/<nome>.png` e cada tela usa o seu. O jogo escurece
+**Prontos.** Ficam em `assets/art/backgrounds/<nome>.png` e cada tela usa o seu. Os pedidos abaixo ficam
+aqui para refazer ou criar regiões novas. O jogo escurece
 o fundo o quanto for preciso para as cartas e os textos continuarem legíveis. Sem o arquivo, fica o fundo
 atual.
 
