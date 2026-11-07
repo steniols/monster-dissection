@@ -4,9 +4,10 @@ extends Control
 ## Retratos ganham contorno escuro e um brilho na cor da família (shader sprite_outline).
 
 const OUTLINE_SHADER := preload("res://scripts/ui/shaders/sprite_outline.gdshader")
-## Espessura do contorno e alcance do brilho, em pixels de tela.
-const OUTLINE_SCREEN_PX := 2.5
-const GLOW_SCREEN_PX := 9.0
+## Espessura do contorno escuro, da linha clara de recorte e alcance da aura, em pixels de tela.
+const OUTLINE_SCREEN_PX := 3.0
+const RIM_SCREEN_PX := 2.5
+const GLOW_SCREEN_PX := 18.0
 
 @export var animate: bool = true
 
@@ -54,7 +55,11 @@ func _draw() -> void:
 		draw_set_transform(c, 0.0, Vector2(1.0, 0.16))
 		draw_circle(Vector2.ZERO, box.size.x * 0.27, Color(0, 0, 0, 0.3))
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
-		draw_texture_rect(portrait, box, false)
+		# desenha numa área maior que a imagem para a aura não ser cortada na borda
+		var m := GLOW_SCREEN_PX * 1.8
+		var k := portrait.get_width() / maxf(1.0, box.size.x)
+		draw_texture_rect_region(portrait, box.grow(m),
+			Rect2(Vector2(-m, -m) * k, portrait.get_size() + Vector2(m, m) * 2.0 * k))
 	else:
 		ProceduralArt.draw_monster(self, visual, r, _t)
 
@@ -70,9 +75,12 @@ func _update_material() -> void:
 	var box := _portrait_box()
 	var tex_per_screen := portrait.get_width() / maxf(1.0, box.size.x)
 	_mat.set_shader_parameter("outline_px", OUTLINE_SCREEN_PX * tex_per_screen)
-	_mat.set_shader_parameter("glow_px", GLOW_SCREEN_PX * (1.0 + highlight * 0.6) * tex_per_screen)
+	_mat.set_shader_parameter("rim_px", (OUTLINE_SCREEN_PX + RIM_SCREEN_PX * (1.0 + highlight * 0.5)) * tex_per_screen)
+	_mat.set_shader_parameter("glow_px", GLOW_SCREEN_PX * (1.0 + highlight * 0.5) * tex_per_screen)
 	var fam := Family.get_color(data.family) if data != null else Palette.BONE
-	_mat.set_shader_parameter("glow_color", Color(fam.lightened(0.25), lerpf(0.65, 1.0, highlight)))
+	# linha de recorte clara e quente; mais clara ainda quando o monstro é o alvo
+	_mat.set_shader_parameter("rim_color", Color(fam.lightened(lerpf(0.35, 0.6, highlight)), lerpf(0.85, 1.0, highlight)))
+	_mat.set_shader_parameter("glow_color", Color(fam, lerpf(0.8, 1.0, highlight)))
 
 
 func _portrait_box() -> Rect2:
