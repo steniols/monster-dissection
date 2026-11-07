@@ -9,11 +9,11 @@ fundo, recorto e coloco cada figura no jogo pela **ordem** em que aparece (esque
 |---|---|---|
 | Monstros | 10 | **Pronto** (o Carniçal pode ser refeito, veja "Refazer") |
 | Partes anatômicas | 30 | **Pronto** |
-| Cartas | 43 | **11 prontas** (C1). Faltam 32: folhas C2–C5 |
+| Cartas | 43 | **37 prontas**. Faltam 6 híbridas: folha C5 |
 | Mutações | 7 | Folha M1 (opcional) |
 | Eventos | 6 | Imagens individuais (opcional) |
 
-**Ordem sugerida:** C2 → C3 → C4 → C5 → M1 → eventos.
+**Ordem sugerida:** C5 → M1 → eventos → Carniçal.
 
 ## Estilo aprovado
 
@@ -39,70 +39,27 @@ Downloads\monsters) em todo pedido.
 
 ---
 
-## Cartas: as 32 que faltam
+## Cartas: as 6 que faltam
 
 Mesma técnica e mesmo estilo das partes: **objetos isolados**. A carta já desenha o papel quadriculado atrás
 da figura. A figura aparece pequena na carta (cerca de 135×75 px), então ela precisa de uma silhueta simples
 e forte.
 
-### Folha C2: Bloodfang (9)
+### Folha C5: Híbridas (6)
+
+Na última tentativa o painel das híbridas veio com outros objetos (cristal, DNA, livro). Aproveitei 2
+(Maré Hemática e Oráculo Necrótico); peça só estas 6, **exatamente como descritas**. Cada híbrida mistura
+duas cores.
 
 ```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. Separate isolated objects arranged in a 3x3 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
-Theme: fictional red-furred predator beast; accent color deep crimson.
-1. a pair of serrated fangs with crimson ink marks
-2. three curved claws with three diagonal crimson brush strokes behind them
-3. three running predator silhouettes in a row, dark crimson
-4. a creature heart with concentric crimson pulse rings around it
-5. a clawed beast paw surrounded by rising crimson mist
-6. a single predator eye with a vertical pupil and a crimson reflection
-7. taut sinew fibers stretched like a bowstring
-8. a patch of scarred reddish fur hide shaped like a small shield
-9. a crimson creature heart inside an ornate glass jar, crimson mist swirling inside
-```
-
-### Folha C3: Ironback (7)
-
-```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. Separate isolated objects arranged in a grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
-Theme: fictional giant armored beetle; accent colors moss green and dark iron.
-1. a green fluid sac bursting with green droplets splashing
-2. heavy armored dorsal plates with forward motion lines, like a battering ram
-3. an enormous horn cracking a stone block
-4. a single curved chitin plate used as a shield
-5. a wall of interlocking chitin plates
-6. a pair of insect mandibles snapping shut
-7. a chitin ribcage frame inside an ornate glass specimen case
-```
-
-### Folha C4: Rotwalker (8)
-
-```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. Separate isolated objects arranged in a 4x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
-Theme: fictional undead swamp creature; accent colors sickly olive green and yellowed bone.
-1. an open jaw of old yellowed teeth with a faint green haze
-2. a splash of yellow-green fluid
-3. dried sinew wrapped around a wooden splint like armor
-4. a curved suture needle with thick black thread
-5. a piece of tissue with new pink tissue growing over a seam, specimen dish
-6. a split bone with warm glowing marrow
-7. a shriveled brain with thin glowing nerve threads
-8. an olive-green creature heart inside a cracked glass jar, faint sickly glow
-```
-
-### Folha C5: Híbridas (8)
-
-```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. Separate isolated objects arranged in a 4x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
-Theme: alchemical hybrids of two fictional creature species, each mixing two accent colors.
-1. a crimson creature heart encased in moss-green chitin plates
-2. insect mandibles lined with serrated crimson fangs
-3. a single fang coated in glowing green fluid
-4. crimson and violet tentacles twisting together like a wave
-5. three curved claws trailing violet mist
-6. moss-green chitin plates growing over olive-green tissue
-7. a shriveled brain sprouting small violet eyes
-8. a split bone with glowing violet marrow
+Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme, educational, bold simple readable silhouettes. Transparent or plain blurred background. Exactly 6 separate isolated objects in a 3x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. Draw exactly these objects and nothing else. No text, no numbers, no labels, no frames, no people, no gore.
+Theme: alchemical hybrid specimens, each one mixing two creature materials and two accent colors.
+1. a crimson red creature heart wrapped in moss-green armored beetle plates, like a heart wearing armor
+2. an open insect mandible jaw, moss-green and iron, lined with rows of crimson red predator fangs
+3. one large curved bone-white fang dripping glowing acid-green liquid
+4. three curved predator claws, crimson and bone, trailing wisps of violet glowing mist
+5. a moss-green beetle shell plate with olive-green fleshy tissue growing out from under its edges
+6. a broken bone split open lengthwise, glowing violet marrow inside
 ```
 
 ---

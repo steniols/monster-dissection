@@ -3,7 +3,7 @@ extends SceneTree
 ## As figuras são achadas por componentes conexos de alpha e ordenadas em linhas (cima→baixo, esq→dir).
 ## Uso:
 ##   Godot_console.exe --headless -s res://tools/slice_sheet.gd -- <folha.png> <pasta_saida> <aspecto> <id1,id2,...>
-## [celula=6]: use 3 quando as figuras estão muito próximas.
+## [celula=6]: use 3 quando as figuras estão muito próximas. [dilatar=0]: junta respingos à figura (ex.: 4).
 ## aspecto: 1.0 (partes), 1.7778 (cartas), 1.3333 (monstros; base alinhada embaixo).
 ## Imprime as caixas encontradas; se a contagem não bater com os ids, nada é salvo.
 
@@ -38,6 +38,16 @@ func _initialize() -> void:
 				for xx in range(0, CELL, 2):
 					if img.get_pixel(gx * CELL + xx, gy * CELL + yy).a > 0.5:
 						occ[gy * gw + gx] = 1
+	# [dilatar=0]: junta fragmentos soltos (respingos, riscos) à figura mais próxima
+	var dilate := int(a[5]) if a.size() > 5 else 0
+	for _i in dilate:
+		var grown := occ.duplicate()
+		for gy in range(1, gh - 1):
+			for gx in range(1, gw - 1):
+				var k := gy * gw + gx
+				if occ[k] == 0 and (occ[k - 1] == 1 or occ[k + 1] == 1 or occ[k - gw] == 1 or occ[k + gw] == 1):
+					grown[k] = 1
+		occ = grown
 
 	var label := PackedInt32Array()
 	label.resize(gw * gh)
