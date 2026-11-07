@@ -39,11 +39,21 @@ func _build_ui() -> void:
 	bg.glow_color = Family.get_dark_color(fam)
 	bg.glow_center = Vector2(0.5, 0.35)
 
-	# chão
-	var floor_rect := ColorRect.new()
-	floor_rect.color = Color(0, 0, 0, 0.25)
+	# chão: escurece em degradê a partir da linha onde os monstros pisam (sem corte reto na paisagem)
+	var grad := Gradient.new()
+	grad.set_color(0, Color(0, 0, 0, 0.0))
+	grad.set_color(1, Color(0, 0, 0, 0.45 if bg.texture != null else 0.3))
+	var gtex := GradientTexture2D.new()
+	gtex.gradient = grad
+	gtex.fill_from = Vector2(0, 0)
+	gtex.fill_to = Vector2(0, 1)
+	gtex.width = 4
+	gtex.height = 128
+	var floor_rect := TextureRect.new()
+	floor_rect.texture = gtex
+	floor_rect.stretch_mode = TextureRect.STRETCH_SCALE
 	floor_rect.set_anchors_preset(Control.PRESET_FULL_RECT)
-	floor_rect.anchor_top = 0.47
+	floor_rect.anchor_top = 0.40
 	floor_rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(floor_rect)
 

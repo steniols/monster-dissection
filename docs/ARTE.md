@@ -53,7 +53,9 @@ atual.
 | `lab.png` | Laboratório e as telas das estações | Opcional |
 | `dissection.png` | Mesa de dissecação | Opcional |
 
-**Uma imagem por vez**, paisagem horizontal **16:9** (ou a mais larga que a IA permitir), no mesmo estilo da
+**Uma imagem por vez, em arquivo próprio e na resolução máxima** (nada de prévia ou miniatura; o ideal é ter
+pelo menos 1536 px de largura). Formato **16:9 ou 3:2, preenchendo a imagem inteira**, sem faixas pretas e
+sem panorama muito largo: o jogo corta as laterais do que passar de 16:9. Mesmo estilo da
 folha de monstros. Anexe a folha de monstros como referência. Comece todo pedido com:
 
 ```
