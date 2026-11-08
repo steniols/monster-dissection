@@ -26,6 +26,8 @@ var runs_won: int = 0
 var lab_upgrades: Array[StringName] = []
 var discovered_recipes: Array[StringName] = []
 var cleared_expeditions: Array[StringName] = []
+## O que o jogador já viu em cada estação do laboratório (estação -> contagem), para marcar novidades.
+var seen: Dictionary = {}
 
 
 func _ready() -> void:
@@ -48,6 +50,9 @@ func reset() -> void:
 	lab_upgrades.clear()
 	discovered_recipes.clear()
 	cleared_expeditions.clear()
+	seen.clear()
+	for s in SEEN_STATIONS:
+		seen[s] = _seen_count(s)
 	save_profile()
 	changed.emit()
 
@@ -77,6 +82,11 @@ func load_profile() -> void:
 	lab_upgrades = _to_names(data.get("lab_upgrades", []))
 	discovered_recipes = _to_names(data.get("discovered_recipes", []))
 	cleared_expeditions = _to_names(data.get("cleared_expeditions", []))
+	seen.clear()
+	var seen_data: Dictionary = data.get("seen", {})
+	for s in SEEN_STATIONS:
+		# perfis antigos: considera visto o que já existe
+		seen[s] = int(seen_data[s]) if seen_data.has(s) else -1
 	# Garante integridade caso o conteúdo do jogo mude entre versões.
 	for c: CardData in Database.cards.values():
 		if c.family == Family.Id.NEUTRAL and not unlocked_cards.has(c.id):
@@ -84,6 +94,9 @@ func load_profile() -> void:
 	starting_deck.assign(starting_deck.filter(func(id): return Database.get_card(id) != null))
 	if starting_deck.size() < DECK_MIN:
 		starting_deck = Database.STARTER_DECK.duplicate()
+	for s in SEEN_STATIONS:
+		if int(seen.get(s, -1)) < 0:
+			seen[s] = _seen_count(s)
 	changed.emit()
 
 
@@ -106,6 +119,7 @@ func save_profile() -> void:
 		"lab_upgrades": _to_strings(lab_upgrades),
 		"discovered_recipes": _to_strings(discovered_recipes),
 		"cleared_expeditions": _to_strings(cleared_expeditions),
+		"seen": seen,
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
 	if f == null:
@@ -392,3 +406,64 @@ func remove_from_deck(id: StringName) -> bool:
 	starting_deck.erase(id)
 	changed.emit()
 	return true
+
+
+# --- Novidades no laboratório -----------------------------------------------
+
+const SEEN_STATIONS := ["expedition", "deck", "archive"]
+
+
+func _seen_count(station: String) -> int:
+	match station:
+		"expedition":
+			return Database.expeditions.values().filter(func(e): return is_expedition_unlocked(e)).size()
+		"deck":
+			return unlocked_cards.size()
+		"archive":
+			var n := unlocked_cards.size() + bestiary.size()
+			for k in bestiary:
+				n += (bestiary[k]["parts"] as Array).size()
+			return n
+	return 0
+
+
+## Marca a estação como vista (some o indicador de novidade).
+func mark_seen(station: String) -> void:
+	if not SEEN_STATIONS.has(station):
+		return
+	seen[station] = _seen_count(station)
+	save_profile()
+
+
+## Texto curto do indicador de cada estação, ou "" se não há nada a fazer.
+func station_notice(station: String) -> String:
+	match station:
+		"expedition", "deck", "archive":
+			var n := _seen_count(station) - int(seen.get(station, 0))
+			if n <= 0:
+				return ""
+			if station == "expedition":
+				return "Nova região" if n == 1 else "%d novas regiões" % n
+			if station == "deck":
+				return "1 carta nova" if n == 1 else "%d cartas novas" % n
+			return "Novos registros"
+		"experiment":
+			for r: HybridRecipe in Database.recipes.values():
+				if discovered_recipes.has(r.id) or r.part_a == null or r.part_b == null:
+					continue
+				var cost := {r.part_a.id: 1}
+				cost[r.part_b.id] = int(cost.get(r.part_b.id, 0)) + 1
+				if has_materials(cost):
+					return "Combinação possível"
+		"mutation":
+			for m: MutationData in Database.mutations.values():
+				if can_install(m):
+					return "Pode instalar"
+		"workshop":
+			var n := 0
+			for u: LabUpgradeData in Database.lab_upgrades.values():
+				if can_buy_upgrade(u):
+					n += 1
+			if n > 0:
+				return "Pode construir" if n == 1 else "%d para construir" % n
+	return ""

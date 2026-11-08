@@ -153,7 +153,10 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	var p := PanelContainer.new()
 	p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	p.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	p.add_theme_stylebox_override("panel", UiTheme.panel_style(Palette.CHARCOAL, accent.darkened(0.5), 1, 8, 12))
+	var key: String = STATION_ART.get(title, "")
+	var notice := Profile.station_notice(key)
+	# com novidade: borda na cor da estação, mais forte
+	p.add_theme_stylebox_override("panel", UiTheme.panel_style(Palette.CHARCOAL, accent if notice != "" else accent.darkened(0.5), 2 if notice != "" else 1, 8, 12))
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 12)
 	p.add_child(h)
@@ -167,17 +170,46 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	v.add_theme_constant_override("separation", 6)
 	h.add_child(v)
 	v.add_child(UiTheme.make_label(title, 21, Palette.BONE_LIGHT, true))
+	if notice != "":
+		var badge := _notice_badge(notice, accent)
+		badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		v.add_child(badge)
 	var d := UiTheme.make_label(desc, 14, Palette.PAPER)
 	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	d.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(d)
-	var b := UiTheme.make_button(action, cb)
+	var b := UiTheme.make_button(action, func():
+		Profile.mark_seen(key)
+		cb.call())
 	if title == "Mesa de Expedição":
 		# é o "começar a partida": botão em destaque
 		b.theme_type_variation = "PrimaryButton"
 	b.custom_minimum_size.y = 38
 	v.add_child(b)
 	return p
+
+
+## Selo de novidade: ponto pulsante + texto curto, na cor da estação.
+func _notice_badge(text: String, accent: Color) -> Control:
+	var pill := PanelContainer.new()
+	pill.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	var st := UiTheme.panel_style(accent.darkened(0.55), accent, 1, 10, 0)
+	st.content_margin_left = 8
+	st.content_margin_right = 10
+	st.content_margin_top = 2
+	st.content_margin_bottom = 2
+	pill.add_theme_stylebox_override("panel", st)
+	var h := HBoxContainer.new()
+	h.add_theme_constant_override("separation", 6)
+	pill.add_child(h)
+	var dot := IconView.create(&"unknown", accent.lightened(0.25), 10)
+	dot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(dot)
+	h.add_child(UiTheme.make_label(text, 13, Palette.BONE_LIGHT))
+	var tw := dot.create_tween().set_loops()
+	tw.tween_property(dot, "modulate:a", 0.25, 0.7).set_trans(Tween.TRANS_SINE)
+	tw.tween_property(dot, "modulate:a", 1.0, 0.7).set_trans(Tween.TRANS_SINE)
+	return pill
 
 
 func _choose_region() -> void:
