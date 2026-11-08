@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: falta a folha A1 (acampamento); a L1b é opcional
+## Status: faltam os eventos em alta resolução e a folha A1 (acampamento); a L1b é opcional
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -8,7 +8,7 @@
 | Partes anatômicas | 30 | **Pronto** |
 | Cartas | 43 | **Pronto** |
 | Mutações | 7 | **Pronto** |
-| Eventos | 6 | **Pronto** |
+| Eventos | 6 | **Pedir de novo em alta resolução** (hoje ~265 px) |
 | Fundos (paisagens) | 6 | **Pronto** |
 | Fundos de batalha (neutros, por família) | 4 | **Pronto** |
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
@@ -216,6 +216,42 @@ Dark fantasy hand-painted game icon sheet, same style as the attached reference:
 | 3 | `up_obsidian.png` | Bisturi de Obsidiana |
 | 4 | `up_table.png` | Mesa de Contenção |
 | 5 | `up_twin_blades.png` | Lâminas Gêmeas |
+
+## Eventos em alta resolução: pedir agora
+
+As 6 ilustrações de evento (a tela com "Mistério" no topo) vieram recortadas de uma folha e têm só uns
+**265 px**. Em tela cheia o quadro do evento aparece com uns 760 px, quase 3 vezes ampliado, por isso fica
+borrado. A ideia é **redesenhar cada uma sozinha, em alta resolução, mantendo a mesma cena**.
+
+**Como pedir:**
+
+- **Um evento por pedido**, em arquivo PNG próprio, na resolução máxima. **Quadrado**, de pelo menos
+  1024×1024.
+- **Anexe a arte atual daquele evento** (`assets/art/events/<id>.png`) e peça para manter a mesma cena, só
+  com mais detalhe.
+- Diferente dos ícones, aqui é uma **cena que preenche o quadrado inteiro**, com fundo pintado (como a
+  atual), sem moldura e sem bordas arredondadas.
+
+Cabeçalho de todo pedido:
+
+```
+Redraw the scene from the attached image at much higher resolution, keeping the same composition, subject, colors and mood; add finer painted detail and crisp edges. Dark fantasy hand-painted game illustration, bold dark outlines, cel shading, rich but muted colors, natural history museum specimen theme. Square image, the painted scene fills the whole square edge to edge: no frame, no border, no rounded corners, no text, no UI, no gore. Single image, maximum resolution.
+```
+
+Complemento de cada um (cole depois do cabeçalho):
+
+| Arquivo | Evento | Complemento |
+|---|---|---|
+| `ev_violet_pool.png` | Poça Violeta | A cold glowing violet liquid flowing upward from a crack in a dark cave rock wall, pooling into a luminous swirling violet pool, purple crystals and wet stone around it. |
+| `ev_bone_altar.png` | Altar de Ossos | An old altar built from stacked giant ribcages and bones on a misty moor, ancient offerings (candles, small jars, dried flowers) at its base, bone and crimson tones. |
+| `ev_hermit.png` | Eremita Alquimista | An old hooded alchemist's camp: bubbling glass flasks hanging over a small blue-flamed fire, a worn leather satchel and bottles around it, nobody visible, warm and blue light. |
+| `ev_ironback_nest.png` | Ninho de Ironback | A nest of large eggs with metallic moss-green shells, still warm with a faint glow, nestled among gnawed old bones and dry roots. |
+| `ev_old_carcass.png` | Carcaça Antiga | The long-dead remains of a large predator creature half-sunk in dark peat, mostly covered by moss and earth, its pale scarred hide still intact, a museum-specimen look, no blood. |
+| `ev_wounded_researcher.png` | Pesquisador Ferido | An exhausted researcher in a long coat resting against a dead tree trunk, face hidden by a hood, holding a stained leather field notebook, a dropped lantern beside him, somber mood, no blood. |
+
+**Ordem sugerida:** comece pela Poça Violeta e pelo Altar de Ossos, que são os que mais aparecem. Depois de
+gerar, me diga qual arquivo é qual. Eu ajusto o corte e coloco no jogo; a versão de hoje fica guardada em
+`assets/art/extra/lowres/`.
 
 ## Acampamento: pedir agora (folha A1)
 
