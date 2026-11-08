@@ -31,7 +31,9 @@ func _ready() -> void:
 	# fogueira: assets/art/camp/campfire.png (sem arquivo, o círculo desenhado em código)
 	var fire_art := Database.get_art("camp", &"campfire")
 	if fire_art != null:
-		box.add_child(_art_rect(fire_art, 150))
+		var fr := _art_rect(fire_art, 150)
+		fr.custom_minimum_size = Vector2(270, 230)
+		box.add_child(fr)
 	else:
 		var fire := IconView.create(&"energy", Palette.BONE, 90)
 		fire.size_flags_horizontal = Control.SIZE_SHRINK_CENTER

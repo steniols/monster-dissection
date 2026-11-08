@@ -14,7 +14,7 @@
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 | **Pronto** |
-| Acampamento: fogueira do centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
+| Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
 | Acampamento: ícones das opções | 3 | **Pedir: folha A1** |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
@@ -259,7 +259,7 @@ gerar, me diga qual arquivo é qual. Eu ajusto o corte e coloco no jogo; a vers�
 
 ## Acampamento: pedir agora (folha A1, 3 ícones)
 
-A **fogueira do centro** já está no jogo (recortada da folha "Fogueiras e Acampamento"), com o fundo e a
+A **barraca com fogueira** no centro já está no jogo (recortada da folha "Fogueiras e Acampamento"), com o fundo e a
 distribuição originais. O fundo alternativo, com a fogueira no meio, ficou guardado em
 `assets/art/extra/backgrounds/camp_v2.png`.
 
