@@ -15,7 +15,7 @@
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 | Folha L2 |
 
-As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds>/<id>.png` e o jogo as carrega
+As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
 
 Sobras que podem virar conteúdo novo ficam em `assets/art/extra/`: um Voidspawn de um olho só, o espectro
@@ -129,7 +129,7 @@ Complemento de cada um (cole depois do cabeçalho):
 Colosso), que aparecem maiores na tela. Depois de gerar, me diga qual arquivo é qual. Eu removo o fundo, coloco
 no jogo e recalibro os pontos de dissecação.
 
-## Laboratório: pedir agora
+## Laboratório: falta a L2 (e a L1b, opcional)
 
 O jogo já aceita estas imagens. Sem o arquivo, continua o desenho atual.
 
@@ -139,7 +139,7 @@ O jogo já aceita estas imagens. Sem o arquivo, continua o desenho atual.
 Peça em **folha**, como as cartas: objetos isolados, fundo transparente ou liso, **na ordem da lista** e sem
 texto. Anexe a folha de partes como referência de estilo. Eu recorto e coloco cada um no lugar.
 
-### Folha L1: Ícones das estações do laboratório (6)
+### Folha L1: Ícones das estações do laboratório (6): pronta
 
 São **ícones**, não cenários: um único objeto simples por estação, como os ícones das partes e das cartas.
 Substituem os desenhos de hoje (bisturi, caderno, gota, coração, placas, olho) no quadro de cada estação.
