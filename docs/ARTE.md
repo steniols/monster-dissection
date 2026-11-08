@@ -10,7 +10,7 @@
 | Mutações | 7 | **Pronto** |
 | Eventos | 6 | **Pronto** |
 | Fundos (paisagens) | 6 | **Pronto** |
-| Estações do laboratório | 6 | Folha L1 |
+| Ícones das estações do laboratório | 6 | Folha L1 |
 | Melhorias da Oficina | 5 | Folha L2 |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds>/<id>.png` e o jogo as carrega
@@ -131,22 +131,25 @@ no jogo e recalibro os pontos de dissecação.
 
 O jogo já aceita estas imagens. Sem o arquivo, continua o desenho atual.
 
-- **Estações** (6): o quadro ilustrado de cada estação no laboratório. Ficam em `assets/art/stations/`.
+- **Ícones das estações** (6): o ícone de cada estação no laboratório. Ficam em `assets/art/stations/`.
 - **Melhorias da Oficina** (5): o ícone de cada melhoria. Ficam em `assets/art/upgrades/`.
 
 Peça em **folha**, como as cartas: objetos isolados, fundo transparente ou liso, **na ordem da lista** e sem
 texto. Anexe a folha de partes como referência de estilo. Eu recorto e coloco cada um no lugar.
 
-### Folha L1: Estações do laboratório (6)
+### Folha L1: Ícones das estações do laboratório (6)
+
+São **ícones**, não cenários: um único objeto simples por estação, como os ícones das partes e das cartas.
+Substituem os desenhos de hoje (bisturi, caderno, gota, coração, placas, olho) no quadro de cada estação.
 
 ```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, gothic naturalist laboratory theme, bold simple readable silhouettes. Transparent or plain blurred background. Exactly 6 separate isolated objects in a 3x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. Draw exactly these objects and nothing else. No text, no numbers, no labels, no frames, no people, no gore.
-1. an expedition table: an unrolled old map with a compass, a lantern and a hunting satchel on top
-2. a card-sorting desk: a wooden writing desk with neat stacks of illustrated cards, an inkwell and a quill
-3. an alchemy experiment bench: two glass flasks with different colored fluids (crimson and violet) joined by brass tubes into a glowing green flask
-4. a mutation chamber: a tall glass vat with brass fittings filled with glowing violet liquid, a dark creature organ floating inside
-5. a workshop: an anvil with a hammer, tongs and a half-finished bone-handled surgical blade, a few sparks
-6. a specimen archive: a tall wooden cabinet with many small labeled drawers, one drawer open showing a pinned creature eye
+Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, one single simple object per icon, bold readable silhouettes that work at small size. Transparent or plain blurred background. Exactly 6 separate isolated icons in a 3x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. Draw exactly these objects and nothing else, no scenery, no tables, no rooms. No text, no numbers, no labels, no frames, no people, no gore.
+1. an antique brass compass lying on a small rolled-up parchment map
+2. a small fanned stack of three illustrated playing cards with a quill pen
+3. a round alchemy flask with a glowing green liquid and a cork stopper
+4. a crimson creature heart with violet veins inside a small brass-and-glass capsule
+5. a crossed blacksmith hammer and tongs
+6. a closed leather-bound tome with a brass eye emblem on the cover
 ```
 
 | Ordem | Arquivo | Estação |
