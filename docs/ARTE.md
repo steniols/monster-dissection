@@ -14,7 +14,7 @@
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 | **Pronto** |
-| Acampamento: fundo novo | 1 | **Pronto** (fogueira no centro; a versão antiga está em `assets/art/extra/backgrounds/`) |
+| Acampamento: fogueira do centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
 | Acampamento: ícones das opções | 3 | **Pedir: folha A1** |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
@@ -259,9 +259,9 @@ gerar, me diga qual arquivo é qual. Eu ajusto o corte e coloco no jogo; a vers�
 
 ## Acampamento: pedir agora (folha A1, 3 ícones)
 
-O **fundo novo** (com a fogueira no centro) já está no jogo, e a tela foi reorganizada: título em cima,
-fogueira do fundo livre no meio, opções embaixo. Por isso a fogueira avulsa **não é mais necessária** (a
-recortada da folha "Fogueiras e Acampamento" ficou guardada em `assets/art/extra/camp/`).
+A **fogueira do centro** já está no jogo (recortada da folha "Fogueiras e Acampamento"), com o fundo e a
+distribuição originais. O fundo alternativo, com a fogueira no meio, ficou guardado em
+`assets/art/extra/backgrounds/camp_v2.png`.
 
 Faltam só os **ícones das opções** (3), um no topo de cada quadro (Descansar, Aprimorar, Purgar). O jogo já
 aceita as imagens em `assets/art/camp/`; sem o arquivo, o quadro fica sem ícone.

@@ -14,31 +14,28 @@ func _ready() -> void:
 	bg.glow_color = Palette.BONE
 	bg.glow_center = Vector2(0.5, 0.62)
 
-	# título em cima, fogueira no meio (a do fundo, ou uma imagem própria), opções embaixo
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(center)
 	var box := VBoxContainer.new()
-	box.set_anchors_preset(Control.PRESET_FULL_RECT)
-	box.offset_top = 64
-	box.offset_bottom = -28
-	box.add_theme_constant_override("separation", 12)
-	add_child(box)
+	box.add_theme_constant_override("separation", 18)
+	center.add_child(box)
 
 	var t := UiTheme.make_label("Acampamento", 44, Palette.BONE_LIGHT, true)
 	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(t)
-	var s := UiTheme.make_label("Uma fogueira baixa, longe das trilhas. Vida: %d / %d" % [RunState.hp, RunState.max_hp], 17, Palette.PAPER)
+	var s := UiTheme.make_label("Uma fogueira baixa, longe das trilhas. Vida: %d / %d" % [RunState.hp, RunState.max_hp], 17, Palette.TEXT_DIM)
 	s.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	box.add_child(s)
 
-	# meio livre: o fundo do acampamento já tem a fogueira. Uma imagem em assets/art/camp/campfire.png
-	# aparece ali por cima; sem fundo e sem imagem, fica o círculo desenhado em código.
-	var middle := CenterContainer.new()
-	middle.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	box.add_child(middle)
+	# fogueira: assets/art/camp/campfire.png (sem arquivo, o círculo desenhado em código)
 	var fire_art := Database.get_art("camp", &"campfire")
 	if fire_art != null:
-		middle.add_child(_art_rect(fire_art, 170))
-	elif Database.get_art("backgrounds", &"camp") == null:
-		middle.add_child(IconView.create(&"energy", Palette.BONE, 90))
+		box.add_child(_art_rect(fire_art, 150))
+	else:
+		var fire := IconView.create(&"energy", Palette.BONE, 90)
+		fire.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		box.add_child(fire)
 
 	var row := HBoxContainer.new()
 	row.alignment = BoxContainer.ALIGNMENT_CENTER
