@@ -1,7 +1,14 @@
 extends Control
-## Mapa ramificado da expedição.
+## Mapa da expedição em "escolha em cartas": a cada passo, as próximas opções aparecem como cartas ilustradas.
+## Uma barra no topo mostra os andares até o chefe; o mapa completo (trilha) abre num botão.
 
-var _canvas: MapCanvas
+## Fundo ilustrado do combate por família (mesmo do combate).
+const BATTLE_ART := {
+	Family.Id.BLOODFANG: "battle_red_wasteland",
+	Family.Id.IRONBACK: "battle_marsh",
+	Family.Id.VOIDSPAWN: "battle_violet_cavern",
+	Family.Id.ROTWALKER: "battle_ruins",
+}
 
 
 func _ready() -> void:
@@ -9,26 +16,15 @@ func _ready() -> void:
 	if not RunState.active:
 		RunState.start(Database.expeditions.get(Database.DEFAULT_EXPEDITION))
 	RunState.save_run()
-	var bg := UiTheme.add_background(self, Color("#22262A"), String(RunState.expedition.id) if RunState.expedition else "", 0.45) as BackgroundView
-	bg.glow_color = Palette.PETROL
-	bg.glow_center = Vector2(0.5, 0.5)
-
-	_canvas = MapCanvas.new()
-	_canvas.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_canvas.offset_top = 96
-	_canvas.offset_bottom = -56
-	_canvas.node_chosen.connect(Game.enter_node)
-	add_child(_canvas)
-
+	UiTheme.add_background(self, Color("#22262A"), String(RunState.expedition.id) if RunState.expedition else "", 0.55)
 	_build_header()
-	_build_legend()
+	_build_choices()
 
 
 func _build_header() -> void:
-	# faixa escura no topo para o texto ler bem sobre a paisagem
-	var shade := _gradient_rect(Color(0, 0, 0, 0.7), Color(0, 0, 0, 0.0))
+	var shade := _gradient_rect(Color(0, 0, 0, 0.75), Color(0, 0, 0, 0.0))
 	shade.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	shade.offset_bottom = 120
+	shade.offset_bottom = 150
 	add_child(shade)
 
 	var top := HBoxContainer.new()
@@ -40,24 +36,25 @@ func _build_header() -> void:
 	add_child(top)
 
 	var titles := VBoxContainer.new()
-	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	titles.add_theme_constant_override("separation", 0)
 	top.add_child(titles)
-	var exp_color := RunState.expedition.accent.lightened(0.35) if RunState.expedition else Palette.BONE_LIGHT
-	titles.add_child(UiTheme.make_label(RunState.expedition.display_name, 36, Palette.BONE_LIGHT, true))
+	titles.add_child(UiTheme.make_label(RunState.expedition.display_name, 34, Palette.BONE_LIGHT, true))
 	var floors := RunState.map.size()
-	var floor_now := clampi(RunState.get_floor() + 1, 1, maxi(1, floors))
-	var hint := "Escolha o próximo destino." if not RunState.get_available_nodes().is_empty() else ""
-	titles.add_child(UiTheme.make_label("Andar %d de %d   ·   %s" % [floor_now, floors, hint], 16, exp_color))
+	var floor_now := clampi(RunState.get_floor() + 2, 1, maxi(1, floors))
+	titles.add_child(UiTheme.make_label("Andar %d de %d" % [floor_now, floors], 15, Palette.TEXT_DIM))
 
-	# vida
+	var track := FloorTrack.new()
+	track.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	track.custom_minimum_size = Vector2(0, 56)
+	top.add_child(track)
+
 	var hp_box := VBoxContainer.new()
 	hp_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	hp_box.add_theme_constant_override("separation", 2)
 	top.add_child(hp_box)
 	hp_box.add_child(UiTheme.make_label("Vida", 13, Palette.TEXT_DIM))
 	var bar := HealthBar.new()
-	bar.custom_minimum_size = Vector2(190, 22)
+	bar.custom_minimum_size = Vector2(170, 22)
 	hp_box.add_child(bar)
 	bar.set_values(RunState.hp, RunState.max_hp, 0)
 
@@ -72,42 +69,82 @@ func _build_header() -> void:
 	top.add_child(ab)
 
 
-func _build_legend() -> void:
-	var shade := _gradient_rect(Color(0, 0, 0, 0.0), Color(0, 0, 0, 0.6))
-	shade.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
-	shade.offset_top = -70
-	add_child(shade)
+func _build_choices() -> void:
+	var center := VBoxContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	center.offset_top = 120
+	center.offset_bottom = -24
+	center.alignment = BoxContainer.ALIGNMENT_CENTER
+	center.add_theme_constant_override("separation", 18)
+	add_child(center)
+
+	var available := RunState.get_available_nodes()
+	var prompt := "Escolha o próximo destino" if not available.is_empty() else "Não há mais caminhos."
+	var p := UiTheme.make_label(prompt, 26, Palette.BONE_LIGHT, true)
+	p.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	center.add_child(p)
 
 	var row := HBoxContainer.new()
-	row.set_anchors_preset(Control.PRESET_CENTER_BOTTOM)
-	row.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	row.grow_vertical = Control.GROW_DIRECTION_BEGIN
-	row.offset_bottom = -14
-	row.add_theme_constant_override("separation", 22)
-	add_child(row)
-	var tips := {
-		MapNode.Type.COMBAT: "Uma criatura comum. Disseque o corpo depois da luta.",
-		MapNode.Type.ELITE: "Covil: espécime de elite, mais forte, com partes raras.",
-		MapNode.Type.EVENT: "Mistério: um encontro com escolhas. Pode ajudar ou ferir.",
-		MapNode.Type.REST: "Acampamento: descansar, aprimorar uma carta ou purgar.",
-		MapNode.Type.BOSS: "O chefe da região, no fim do caminho.",
-	}
-	for t in [MapNode.Type.COMBAT, MapNode.Type.ELITE, MapNode.Type.EVENT, MapNode.Type.REST, MapNode.Type.BOSS]:
-		var item := HBoxContainer.new()
-		item.add_theme_constant_override("separation", 6)
-		item.mouse_filter = Control.MOUSE_FILTER_STOP
-		item.tooltip_text = tips[t]
-		var ic := MapCanvas.NodeIcon.new()
-		ic.type = t
-		ic.custom_minimum_size = Vector2(28, 28)
-		ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		item.add_child(ic)
-		var l := UiTheme.make_label(MapNode.TYPE_NAMES[t], 15, Palette.PAPER)
-		l.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		item.add_child(l)
-		row.add_child(item)
-	var saved := UiTheme.make_label("Progresso salvo a cada passo", 13, Palette.TEXT_DIM)
-	row.add_child(saved)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 34)
+	center.add_child(row)
+	for n in available:
+		var card := ChoiceCard.new()
+		card.node = n
+		card.art = _art_for(n)
+		card.chosen.connect(Game.enter_node)
+		row.add_child(card)
+
+	var full := UiTheme.make_button("Ver mapa completo", _open_full_map, 240)
+	full.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	center.add_child(full)
+
+
+## Ilustração de cada destino, usando as artes que já existem.
+func _art_for(n: MapNode) -> Texture2D:
+	match n.type:
+		MapNode.Type.REST:
+			return Database.get_art("backgrounds", &"camp")
+		MapNode.Type.EVENT:
+			if n.event != null:
+				var t := Database.get_art("events", n.event.id)
+				if t != null:
+					return t
+	if not n.monsters.is_empty():
+		var key: String = BATTLE_ART.get(n.monsters[0].family, "")
+		var t2 := Database.get_art("backgrounds", StringName(key))
+		if t2 != null:
+			return t2
+	return Database.get_art("backgrounds", StringName(String(RunState.expedition.id)))
+
+
+func _open_full_map() -> void:
+	var o := Control.new()
+	o.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	o.z_index = 150
+	o.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(o)
+	var dim := ColorRect.new()
+	dim.color = Color(0.02, 0.02, 0.03, 0.9)
+	dim.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	o.add_child(dim)
+	var t := UiTheme.make_label("Mapa da expedição", 30, Palette.BONE_LIGHT, true)
+	t.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+	t.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	t.offset_top = 20
+	o.add_child(t)
+	var canvas := MapCanvas.new()
+	canvas.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	canvas.offset_top = 70
+	canvas.offset_bottom = -80
+	canvas.node_chosen.connect(Game.enter_node)
+	o.add_child(canvas)
+	var close := UiTheme.make_button("Fechar", o.queue_free, 200)
+	close.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
+	close.grow_horizontal = Control.GROW_DIRECTION_BOTH
+	close.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	close.offset_bottom = -20
+	o.add_child(close)
 
 
 func _chip(label: String, value: String, color: Color) -> Control:
@@ -153,6 +190,176 @@ func _confirm_abandon() -> void:
 	d.confirmed.connect(func(): Game.finish_run(false))
 	add_child(d)
 	d.popup_centered()
+
+
+## Barra de andares: passados preenchidos, atual marcado, futuros vazios e o chefe no fim.
+class FloorTrack:
+	extends Control
+
+	func _draw() -> void:
+		var floors := RunState.map.size()
+		if floors < 2:
+			return
+		var cur := RunState.get_floor()
+		var y := size.y * 0.5
+		var x0 := 30.0
+		var x1 := size.x - 30.0
+		draw_line(Vector2(x0, y), Vector2(x1, y), Color(Palette.PAPER, 0.25), 2.0, true)
+		if cur >= 0:
+			var xc := lerpf(x0, x1, float(cur) / (floors - 1))
+			draw_line(Vector2(x0, y), Vector2(xc, y), Palette.BONE, 3.0, true)
+		for f in floors:
+			var p := Vector2(lerpf(x0, x1, float(f) / (floors - 1)), y)
+			if f == floors - 1:
+				draw_circle(p, 15.0, Palette.CHARCOAL_DEEP.lerp(Palette.VIOLET, 0.3))
+				draw_arc(p, 15.0, 0, TAU, 32, Palette.VIOLET_BRIGHT, 2.0, true)
+				ProceduralArt.draw_motif(self, &"eye", Rect2(p - Vector2(10, 10), Vector2(20, 20)), Palette.VIOLET_BRIGHT)
+			elif f <= cur:
+				draw_circle(p, 6.0, Palette.BONE)
+			elif f == cur + 1:
+				draw_circle(p, 9.0, Palette.CHARCOAL_DEEP)
+				draw_arc(p, 9.0, 0, TAU, 24, Palette.BONE_LIGHT, 2.5, true)
+			else:
+				draw_circle(p, 5.0, Palette.CHARCOAL_DEEP)
+				draw_arc(p, 5.0, 0, TAU, 16, Color(Palette.PAPER, 0.4), 1.5, true)
+
+
+## Carta grande de destino: ilustração, tipo, descrição e o que vem depois.
+class ChoiceCard:
+	extends Control
+	signal chosen(node: MapNode)
+	const W := 270.0
+	const H := 380.0
+	const ART_H := 190.0
+	var node: MapNode
+	var art: Texture2D
+	var _hover := false
+	var _t := 0.0
+
+	func _ready() -> void:
+		custom_minimum_size = Vector2(W, H + 12)
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		mouse_entered.connect(func(): _hover = true)
+		mouse_exited.connect(func(): _hover = false)
+
+	func _process(d: float) -> void:
+		_t += d
+		queue_redraw()
+
+	func _gui_input(e: InputEvent) -> void:
+		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+			chosen.emit(node)
+			accept_event()
+
+	func _draw() -> void:
+		var col := MapCanvas.NodeButton.type_color(node.type)
+		var lift := -10.0 if _hover else 0.0
+		var r := Rect2(Vector2(0, 10 + lift), Vector2(W, H))
+		if _hover:
+			for i in 3:
+				_rounded(r.grow(4.0 + i * 5.0), 14.0 + i * 4.0, Color(col, 0.14 - i * 0.04))
+		_rounded(Rect2(r.position + Vector2(0, 8), r.size), 12.0, Color(0, 0, 0, 0.5))
+		_rounded(r, 12.0, Palette.PAPER)
+		# ilustração
+		var ar := Rect2(r.position + Vector2(10, 10), Vector2(W - 20, ART_H))
+		if art != null:
+			var ts := art.get_size()
+			var s := maxf(ar.size.x / ts.x, ar.size.y / ts.y)
+			var src_size := ar.size / s
+			draw_texture_rect_region(art, ar, Rect2((ts - src_size) * 0.5, src_size))
+		else:
+			draw_rect(ar, Palette.CHARCOAL_DEEP)
+		_draw_subject(ar)
+		draw_rect(ar, Color(Palette.INK, 0.9), false, 2.0)
+		# selo do tipo
+		var seal := Vector2(r.position.x + W * 0.5, ar.end.y)
+		draw_circle(seal, 26.0, Palette.CHARCOAL_DEEP.lerp(col, 0.15))
+		draw_arc(seal, 26.0, 0, TAU, 40, col, 2.5, true)
+		MapCanvas.NodeIcon.draw_type(self, node.type, Rect2(seal - Vector2(15, 15), Vector2(30, 30)), 1.0)
+		# texto
+		var tf := UiTheme.title_font if UiTheme.title_font != null else ThemeDB.fallback_font
+		var bf := UiTheme.body_font if UiTheme.body_font != null else ThemeDB.fallback_font
+		var y := ar.end.y + 58.0
+		draw_string(tf, Vector2(r.position.x, y), node.get_type_name(), HORIZONTAL_ALIGNMENT_CENTER, W, 28, Palette.INK)
+		draw_string(bf, Vector2(r.position.x, y + 28), _subtitle(), HORIZONTAL_ALIGNMENT_CENTER, W, 16, Palette.INK_SOFT)
+		# o que vem depois
+		var nexts := _next_types()
+		if not nexts.is_empty():
+			draw_string(bf, Vector2(r.position.x, y + 66), "Leva a", HORIZONTAL_ALIGNMENT_CENTER, W, 13, Color(Palette.INK_SOFT, 0.8))
+			var n := nexts.size()
+			var sx := r.position.x + W * 0.5 - (n * 34.0 - 6.0) * 0.5
+			for i in n:
+				var c := Vector2(sx + i * 34.0 + 14.0, y + 88)
+				draw_circle(c, 14.0, Palette.CHARCOAL_DEEP)
+				MapCanvas.NodeIcon.draw_type(self, nexts[i], Rect2(c - Vector2(9, 9), Vector2(18, 18)), 1.0)
+		_rounded_outline(r, 12.0, col.darkened(0.2) if not _hover else col, 3 if _hover else 2)
+
+	## Retrato da criatura sobre o fundo (silhueta se ainda desconhecida); "?" nos mistérios.
+	func _draw_subject(ar: Rect2) -> void:
+		draw_rect(Rect2(ar.position.x, ar.end.y - 50, ar.size.x, 50), Color(0, 0, 0, 0.25))
+		if node.type == MapNode.Type.EVENT:
+			var tf := UiTheme.title_font if UiTheme.title_font != null else ThemeDB.fallback_font
+			draw_string(tf, Vector2(ar.position.x, ar.get_center().y + 30), "?", HORIZONTAL_ALIGNMENT_CENTER, ar.size.x, 90, Color(Palette.BONE_LIGHT, 0.75))
+			return
+		if node.monsters.is_empty():
+			return
+		var m: MonsterData = node.monsters[0]
+		if m.portrait == null:
+			return
+		var known := Profile.is_monster_known(m.id)
+		var ts := m.portrait.get_size()
+		var box := ar.grow(-14)
+		var s := minf(box.size.x / ts.x, box.size.y / ts.y)
+		var sz := ts * s
+		var dst := Rect2(Vector2(box.position.x + (box.size.x - sz.x) * 0.5, box.end.y - sz.y), sz)
+		draw_texture_rect(m.portrait, dst, false, Color.WHITE if known else Color(0.05, 0.04, 0.05, 0.92))
+
+	func _next_types() -> Array:
+		var out := []
+		var f := node.floor_index
+		if f + 1 >= RunState.map.size():
+			return out
+		for j in node.links:
+			var m: MapNode = RunState.map[f + 1][j]
+			out.append(m.type)
+		return out
+
+	func _subtitle() -> String:
+		match node.type:
+			MapNode.Type.COMBAT:
+				if node.monsters.size() > 1:
+					return "Grupo de %d criaturas" % node.monsters.size()
+				if node.monsters.is_empty():
+					return "Uma criatura"
+				return "Rastros de %s" % Family.get_name_of(node.monsters[0].family)
+			MapNode.Type.ELITE:
+				return "Espécime de elite, partes raras"
+			MapNode.Type.EVENT:
+				return "Pode ajudar ou ferir"
+			MapNode.Type.REST:
+				return "Descansar, aprimorar ou purgar"
+			MapNode.Type.BOSS:
+				if not node.monsters.is_empty() and Profile.is_monster_known(node.monsters[0].id):
+					return node.monsters[0].display_name
+				return "O chefe da região"
+		return ""
+
+	func _rounded(r: Rect2, rad: float, col: Color) -> void:
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = col
+		sb.set_corner_radius_all(int(rad))
+		sb.anti_aliasing = true
+		draw_style_box(sb, r)
+
+	func _rounded_outline(r: Rect2, rad: float, col: Color, w: int) -> void:
+		var sb := StyleBoxFlat.new()
+		sb.draw_center = false
+		sb.border_color = col
+		sb.set_border_width_all(w)
+		sb.set_corner_radius_all(int(rad))
+		sb.anti_aliasing = true
+		draw_style_box(sb, r)
 
 
 class MapCanvas:
