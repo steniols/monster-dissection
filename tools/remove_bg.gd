@@ -3,13 +3,15 @@ extends SceneTree
 ## O fundo é tudo que se alcança a partir da borda da imagem passando só por pixels "lisos"
 ## (pouca variação com os vizinhos) e não escuros. Contornos e texturas dos objetos param o preenchimento.
 ## Uso:
-##   Godot_console.exe --headless -s res://tools/remove_bg.gd -- <entrada.png> <saida.png> [limiar_gradiente=0.05]
+##   Godot_console.exe --headless -s res://tools/remove_bg.gd -- <entrada.png> <saida.png> [limiar_gradiente=0.05] [lum_minima=0.12]
+##   (lum_minima=0 aceita fundo escuro)
 
 func _initialize() -> void:
 	var a := OS.get_cmdline_user_args()
 	var img := Image.load_from_file(a[0])
 	img.convert(Image.FORMAT_RGBA8)
 	var grad_max := float(a[2]) if a.size() > 2 else 0.05
+	var min_lum := float(a[3]) if a.size() > 3 else 0.12
 	var w := img.get_width()
 	var h := img.get_height()
 	var lum := PackedFloat32Array()
@@ -25,7 +27,7 @@ func _initialize() -> void:
 			var i := y * w + x
 			var l := lum[i]
 			var g := maxf(maxf(absf(l - lum[i - 1]), absf(l - lum[i + 1])), maxf(absf(l - lum[i - w]), absf(l - lum[i + w])))
-			if g < grad_max and l > 0.12:
+			if g < grad_max and l > min_lum:
 				smooth[i] = 1
 	for x in w:
 		smooth[x] = 1

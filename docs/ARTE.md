@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: falta a folha A1 (acampamento); a L1b é opcional
+## Status: falta a folha A1 (ícones das opções do acampamento); a L1b é opcional
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -14,7 +14,8 @@
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 | **Pronto** |
-| Acampamento (fogueira + 3 opções) | 4 | **Pedir: folha A1** |
+| Acampamento: fundo novo | 1 | **Pronto** (fogueira no centro; a versão antiga está em `assets/art/extra/backgrounds/`) |
+| Acampamento: ícones das opções | 3 | **Pedir: folha A1** |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -256,31 +257,30 @@ Complemento de cada um (cole depois do cabeçalho):
 gerar, me diga qual arquivo é qual. Eu ajusto o corte e coloco no jogo; a versão de hoje fica guardada em
 `assets/art/extra/lowres/`.
 
-## Acampamento: pedir agora (folha A1)
+## Acampamento: pedir agora (folha A1, 3 ícones)
 
-O jogo já aceita estas imagens. Sem o arquivo, continua o desenho atual (um círculo no lugar da fogueira e
-as opções sem ícone). Ficam em `assets/art/camp/`.
+O **fundo novo** (com a fogueira no centro) já está no jogo, e a tela foi reorganizada: título em cima,
+fogueira do fundo livre no meio, opções embaixo. Por isso a fogueira avulsa **não é mais necessária** (a
+recortada da folha "Fogueiras e Acampamento" ficou guardada em `assets/art/extra/camp/`).
 
-- **Fogueira** (1): fica no centro da tela, acima das opções, sobre o fundo do acampamento.
-- **Ícones das opções** (3): um no topo de cada quadro (Descansar, Aprimorar, Purgar).
+Faltam só os **ícones das opções** (3), um no topo de cada quadro (Descansar, Aprimorar, Purgar). O jogo já
+aceita as imagens em `assets/art/camp/`; sem o arquivo, o quadro fica sem ícone.
 
 Peça em **folha**, como as outras: objetos isolados, fundo transparente ou liso, **na ordem da lista** e sem
 texto. Anexe a folha de partes como referência de estilo. Eu recorto e coloco cada um no lugar.
 
 ```
-Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, warm firelight tones against a dark night palette. Each icon is ONE single object, centered, simple bold silhouette that reads clearly at 100 pixels; no scenery, no ground plane, no people. Transparent or plain blurred background. Exactly 4 separate isolated icons in a single row with wide spacing, in the exact order listed, left to right. No text, no numbers, no labels, no frames, no gore.
-1. a small campfire: a ring of dark stones with crossed logs and warm orange flames, a few sparks rising (this one slightly larger than the others)
-2. a rolled-up leather bedroll tied with straps, with a small steaming tin cup beside it
-3. a whetstone with a surgical scalpel being sharpened on it, a small bright spark at the blade edge
-4. a single illustrated playing card curling and burning at one corner, with orange embers and a wisp of smoke
+Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, warm firelight tones against a dark night palette. Each icon is ONE single object, centered, simple bold silhouette that reads clearly at 100 pixels; no scenery, no ground plane, no people. Transparent or plain blurred background. Exactly 3 separate isolated icons in a single row with wide spacing, in the exact order listed, left to right. No text, no numbers, no labels, no frames, no gore.
+1. a rolled-up leather bedroll tied with straps, with a small steaming tin cup beside it
+2. a whetstone with a surgical scalpel being sharpened on it, a small bright spark at the blade edge
+3. a single illustrated playing card curling and burning at one corner, with orange embers and a wisp of smoke
 ```
 
 | Ordem | Arquivo | Onde aparece |
 |---|---|---|
-| 1 | `campfire.png` | Centro do acampamento |
-| 2 | `rest.png` | Opção Descansar |
-| 3 | `upgrade.png` | Opção Aprimorar |
-| 4 | `purge.png` | Opção Purgar |
+| 1 | `rest.png` | Opção Descansar |
+| 2 | `upgrade.png` | Opção Aprimorar |
+| 3 | `purge.png` | Opção Purgar |
 
 ## Próximas artes possíveis
 
