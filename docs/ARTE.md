@@ -1,10 +1,10 @@
 # MONSTER DISSECTION: arte
 
-## Status: tudo pronto; monstros podem ganhar versão em alta resolução
+## Status: tudo pronto
 
 | Grupo | Qtde | Situação |
 |---|---|---|
-| Monstros | 10 | **Pronto**, mas em baixa resolução. Veja "Monstros em alta resolução" |
+| Monstros | 10 | **Pronto**, em alta resolução |
 | Partes anatômicas | 30 | **Pronto** |
 | Cartas | 43 | **Pronto** |
 | Mutações | 7 | **Pronto** |
@@ -81,9 +81,12 @@ detalhes vão para as bordas e para o fundo distante.
 Depois de gerar, salve na pasta Downloads e me diga qual arquivo é qual. Eu ajusto o corte e o
 escurecimento de cada tela olhando as capturas.
 
-## Monstros em alta resolução: pedir agora
+## Monstros em alta resolução
 
-Os retratos atuais foram recortados de uma folha com os 11 monstros juntos, então cada um tem só de 360 a
+**Prontos** (1100 a 1900 px). As versões antigas, de baixa resolução, ficaram em `assets/art/extra/lowres/`.
+Os pedidos abaixo servem para refazer um monstro ou criar novos.
+
+Os retratos antigos tinham sido recortados de uma folha com os 11 monstros juntos, então cada um tinha só de 360 a
 710 px de largura. No combate em tela cheia eles aparecem com uns 600 px, e na dissecação com uns 1000 px, então
 ficam ampliados e um pouco borrados. A ideia é **redesenhar cada um sozinho, em alta resolução, mantendo o
 mesmo visual**.
