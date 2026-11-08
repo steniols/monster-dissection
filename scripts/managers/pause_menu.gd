@@ -173,7 +173,7 @@ class GearIcon:
 
 	func _draw() -> void:
 		var c := size * 0.5
-		var r := minf(size.x, size.y) * 0.3
+		var r := minf(size.x, size.y) * 0.23
 		var col := Palette.BONE_LIGHT if hover else Palette.BONE
 		var teeth := 8
 		var pts := PackedVector2Array()
