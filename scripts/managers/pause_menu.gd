@@ -104,8 +104,8 @@ func _show_main() -> void:
 	panel_width(420)
 	_title("Pausa")
 	_button("Continuar", close)
-	_button("Opções", _show_options)
-	_button("Voltar ao laboratório", func(): _confirm_leave("lab"))
+	UiTheme.with_icon(_button("Opções", _show_options), &"nav_settings")
+	UiTheme.with_icon(_button("Voltar ao laboratório", func(): _confirm_leave("lab")), &"nav_lab")
 	_button("Menu principal", func(): _confirm_leave("menu"))
 
 
@@ -165,7 +165,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 
-## Engrenagem desenhada em código.
+## Engrenagem pintada (assets/art/ui/nav_settings.png); sem o arquivo, desenhada em código.
 class GearIcon:
 	extends Control
 
@@ -173,6 +173,11 @@ class GearIcon:
 
 	func _draw() -> void:
 		var c := size * 0.5
+		var art := Database.get_art("ui", &"nav_settings")
+		if art != null:
+			var s := minf(size.x, size.y) * 0.72
+			draw_texture_rect(art, Rect2(c - Vector2(s, s) * 0.5, Vector2(s, s)), false, Color(1.15, 1.15, 1.15) if hover else Color.WHITE)
+			return
 		var r := minf(size.x, size.y) * 0.23
 		var col := Palette.BONE_LIGHT if hover else Palette.BONE
 		var teeth := 8

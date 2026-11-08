@@ -52,13 +52,16 @@ func _ready() -> void:
 	if RunState.has_save():
 		var cont := UiTheme.make_button("Continuar expedição", Game.continue_expedition, 300, "MossButton")
 		cont.custom_minimum_size.y = 44
+		UiTheme.with_icon(cont, &"nav_pack")
 		cont.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(cont)
 	var enter := UiTheme.make_button("Entrar no laboratório", func(): Game.goto("lab"), 300, "PrimaryButton")
 	enter.custom_minimum_size.y = 44
+	UiTheme.with_icon(enter, &"nav_lab")
 	enter.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(enter)
 	var opts := UiTheme.make_button("Opções", func(): Game.open_options("menu"), 300)
+	UiTheme.with_icon(opts, &"nav_settings")
 	opts.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(opts)
 	var reset := UiTheme.make_button("Apagar progresso", _confirm_reset, 300)

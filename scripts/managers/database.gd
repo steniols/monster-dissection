@@ -56,12 +56,22 @@ func _attach_art() -> void:
 			m.portrait = get_art("monsters", m.id)
 
 
+## Ícones de interface ficam guardados: quem os desenha em _draw() não mantém referência à textura,
+## e sem isso ela seria liberada antes de ir para a tela (aparece um quadrado branco).
+var _ui_art: Dictionary = {}
+
+
 ## Textura em assets/art/<kind>/<id>.png (ou .jpg/.webp), ou null.
 func get_art(kind: String, id: StringName) -> Texture2D:
+	if kind == "ui" and _ui_art.has(id):
+		return _ui_art[id]
 	for ext in ["png", "jpg", "webp"]:
 		var path := "%s/%s/%s.%s" % [ART_DIR, kind, id, ext]
 		if ResourceLoader.exists(path):
-			return load(path) as Texture2D
+			var tex := load(path) as Texture2D
+			if kind == "ui":
+				_ui_art[id] = tex
+			return tex
 	return null
 
 

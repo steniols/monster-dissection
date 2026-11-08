@@ -157,6 +157,17 @@ static func make_button(text: String, callback: Callable, min_width: int = 0, va
 	return b
 
 
+## Coloca um ícone pintado (assets/art/ui/<id>.png) à esquerda do texto do botão. Sem o arquivo, fica só o texto.
+static func with_icon(b: Button, id: StringName, px: int = 26) -> Button:
+	var tex := Database.get_art("ui", id)
+	if tex != null:
+		b.icon = tex
+		b.expand_icon = true
+		b.add_theme_constant_override("icon_max_width", px)
+		b.add_theme_constant_override("h_separation", 8)
+	return b
+
+
 ## Envolve um controle numa margem (para o selo de custo das cartas não ser cortado dentro de rolagens).
 static func padded(child: Control, px: int = 6) -> MarginContainer:
 	var m := MarginContainer.new()

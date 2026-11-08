@@ -39,7 +39,7 @@ func _ready() -> void:
 		var cont := UiTheme.make_button("Continuar expedição", Game.continue_expedition)
 		cont.theme_type_variation = "MossButton"
 		top.add_child(cont)
-	top.add_child(UiTheme.make_button("Opções", func(): Game.open_options("lab")))
+	top.add_child(UiTheme.with_icon(UiTheme.make_button("Opções", func(): Game.open_options("lab")), &"nav_settings"))
 	top.add_child(UiTheme.make_button("Menu", func(): Game.goto("menu")))
 
 	# atributos do caçador

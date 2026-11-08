@@ -95,7 +95,7 @@ func _build_choices() -> void:
 		card.chosen.connect(Game.enter_node)
 		row.add_child(card)
 
-	var full := UiTheme.make_button("Ver mapa completo", _open_full_map, 240)
+	var full := UiTheme.with_icon(UiTheme.make_button("Ver mapa completo", _open_full_map, 260), &"nav_map")
 	full.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	center.add_child(full)
 
@@ -714,7 +714,18 @@ class MapCanvas:
 			draw_arc(c, size.x * 0.5 - 1.0, 0, TAU, 32, col, 1.5, true)
 			draw_type(self, type, Rect2(Vector2(5, 5), size - Vector2(10, 10)), 1.0)
 
+		## Ícones pintados por tipo de ponto do mapa; quem não está aqui usa o desenho em código.
+		const PAINTED := {
+			MapNode.Type.COMBAT: &"nav_dissect",
+			MapNode.Type.REST: &"nav_camp",
+			MapNode.Type.EVENT: &"nav_event",
+		}
+
 		static func draw_type(ci: CanvasItem, t: MapNode.Type, r: Rect2, alpha: float) -> void:
+			var art := Database.get_art("ui", PAINTED[t]) if PAINTED.has(t) else null
+			if art != null:
+				ci.draw_texture_rect(art, r.grow(r.size.x * 0.14), false, Color(1, 1, 1, alpha))
+				return
 			match t:
 				MapNode.Type.COMBAT:
 					ProceduralArt.draw_icon(ci, &"attack", r, Color(Palette.PAPER, alpha))

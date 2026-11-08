@@ -63,7 +63,7 @@ func _ready() -> void:
 			v.scale = Vector2(0.85, 0.85)
 			row.add_child(v)
 
-	var b := UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab"), 280)
+	var b := UiTheme.with_icon(UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab"), 280), &"nav_lab")
 	b.custom_minimum_size.y = 48
 	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(b)
