@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: faltam as folhas L1b (opcional) e L2
+## Status: tudo pronto (só a folha L1b, opcional)
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -13,7 +13,7 @@
 | Fundos de batalha (neutros, por família) | 4 | **Pronto** |
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
-| Melhorias da Oficina | 5 | Folha L2 |
+| Melhorias da Oficina | 5 | **Pronto** |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -129,7 +129,7 @@ Complemento de cada um (cole depois do cabeçalho):
 Colosso), que aparecem maiores na tela. Depois de gerar, me diga qual arquivo é qual. Eu removo o fundo, coloco
 no jogo e recalibro os pontos de dissecação.
 
-## Laboratório: falta a L2 (e a L1b, opcional)
+## Laboratório: falta só a L1b (opcional)
 
 O jogo já aceita estas imagens. Sem o arquivo, continua o desenho atual.
 
@@ -197,7 +197,7 @@ Dark fantasy hand-painted game icon sheet, same style as the attached reference:
 Mande a folha inteira; eu recorto as 12, mostro lado a lado com a versão atual e você escolhe qual fica em
 cada estação (pode até manter a atual em algumas).
 
-### Folha L2: Melhorias da Oficina (5)
+### Folha L2: Melhorias da Oficina (5): pronta
 
 ```
 Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, gothic naturalist laboratory tools, bold simple readable silhouettes. Transparent or plain blurred background. Exactly 5 separate isolated objects in a single row with wide spacing, in the exact order listed, left to right. Draw exactly these objects and nothing else. No text, no numbers, no labels, no frames, no people, no gore.
