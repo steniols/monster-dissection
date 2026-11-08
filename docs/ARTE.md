@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: faltam as imagens do laboratório
+## Status: falta só a folha L2 (melhorias da Oficina)
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -10,7 +10,7 @@
 | Mutações | 7 | **Pronto** |
 | Eventos | 6 | **Pronto** |
 | Fundos (paisagens) | 6 | **Pronto** |
-| Ícones das estações do laboratório | 6 | Folha L1 |
+| Ícones das estações do laboratório | 6 | **Pronto** |
 | Melhorias da Oficina | 5 | Folha L2 |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds>/<id>.png` e o jogo as carrega
