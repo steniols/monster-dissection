@@ -101,7 +101,7 @@ func _collection() -> Control:
 	grid.columns = 7
 	grid.add_theme_constant_override("h_separation", 12)
 	grid.add_theme_constant_override("v_separation", 12)
-	scroll.add_child(grid)
+	scroll.add_child(UiTheme.padded(grid))
 	for card in Database.get_sorted_cards():
 		var v := CardView.create(card)
 		v.interactive = false

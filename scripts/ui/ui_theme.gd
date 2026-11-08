@@ -137,6 +137,16 @@ static func make_button(text: String, callback: Callable, min_width: int = 0) ->
 	return b
 
 
+## Envolve um controle numa margem (para o selo de custo das cartas não ser cortado dentro de rolagens).
+static func padded(child: Control, px: int = 6) -> MarginContainer:
+	var m := MarginContainer.new()
+	m.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for side in ["left", "top", "right", "bottom"]:
+		m.add_theme_constant_override("margin_" + side, px)
+	m.add_child(child)
+	return m
+
+
 ## Cria a camada de fundo padrão das telas (carvão com vinheta).
 ## art: nome da imagem em assets/art/backgrounds (ex.: "lab"); sem imagem, usa o gradiente.
 static func add_background(parent: Control, tint: Color = Palette.CHARCOAL, art: String = "", dim: float = 0.35) -> Control:

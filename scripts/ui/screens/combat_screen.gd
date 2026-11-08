@@ -96,7 +96,7 @@ func _build_ui() -> void:
 	spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(spacer2)
 	top.add_child(UiTheme.make_button("Baralho (%d)" % RunState.deck.size(), _show_run_deck))
-	top.add_child(PauseMenu.gear_space())
+	top.add_child(PauseMenu.make_gear_button())
 
 	# monstros
 	_monster_row = HBoxContainer.new()

@@ -48,7 +48,7 @@ func _build(title: String, cards: Array[CardData], selectable: bool, subtitle: S
 	root.add_child(scroll)
 	var center := CenterContainer.new()
 	center.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	scroll.add_child(center)
+	scroll.add_child(UiTheme.padded(center))
 	_grid = GridContainer.new()
 	_grid.columns = 6
 	_grid.add_theme_constant_override("h_separation", 14)

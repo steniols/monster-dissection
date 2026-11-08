@@ -42,7 +42,7 @@ func _ready() -> void:
 	_collection.columns = 5
 	_collection.add_theme_constant_override("h_separation", 12)
 	_collection.add_theme_constant_override("v_separation", 12)
-	scroll.add_child(_collection)
+	scroll.add_child(UiTheme.padded(_collection))
 
 	var side := PanelContainer.new()
 	side.custom_minimum_size.x = 300

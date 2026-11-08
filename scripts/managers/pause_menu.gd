@@ -20,32 +20,38 @@ func _ready() -> void:
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.theme = get_tree().root.theme if get_tree().root.theme else UiTheme.build()
 	add_child(_root)
-	_gear = Button.new()
-	_gear.tooltip_text = "Menu (Esc)"
-	_gear.custom_minimum_size = Vector2(44, 44)
+	_gear = _gear_button()
 	_gear.set_anchors_preset(Control.PRESET_TOP_RIGHT)
 	_gear.offset_left = -56
 	_gear.offset_right = -12
 	_gear.offset_top = 12
 	_gear.offset_bottom = 56
-	_gear.focus_mode = Control.FOCUS_NONE
-	_gear.pressed.connect(open)
-	var icon := GearIcon.new()
-	icon.set_anchors_preset(Control.PRESET_FULL_RECT)
-	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_gear.add_child(icon)
-	_gear.mouse_entered.connect(func(): icon.hover = true; icon.queue_redraw())
-	_gear.mouse_exited.connect(func(): icon.hover = false; icon.queue_redraw())
 	_root.add_child(_gear)
 	_gear.visible = false
 
 
-## Espaço vazio para pôr no fim de um cabeçalho, onde a engrenagem fica por cima.
-static func gear_space() -> Control:
-	var c := Control.new()
-	c.custom_minimum_size.x = 50
-	c.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	return c
+## Engrenagem para pôr no cabeçalho de uma tela, alinhada aos outros botões.
+## A engrenagem solta do canto some enquanto essa tela estiver aberta.
+func make_gear_button() -> Button:
+	_gear.visible = false
+	var b := _gear_button()
+	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return b
+
+
+func _gear_button() -> Button:
+	var b := Button.new()
+	b.tooltip_text = "Menu (Esc)"
+	b.custom_minimum_size = Vector2(46, 44)
+	b.focus_mode = Control.FOCUS_NONE
+	b.pressed.connect(open)
+	var icon := GearIcon.new()
+	icon.set_anchors_preset(Control.PRESET_FULL_RECT)
+	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(icon)
+	b.mouse_entered.connect(func(): icon.hover = true; icon.queue_redraw())
+	b.mouse_exited.connect(func(): icon.hover = false; icon.queue_redraw())
+	return b
 
 
 ## Chamado pelo Game a cada troca de tela.
@@ -154,7 +160,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _overlay != null:
 		close()
 		get_viewport().set_input_as_handled()
-	elif _gear.visible:
+	elif Game.current in RUN_SCREENS:
 		open()
 		get_viewport().set_input_as_handled()
 
