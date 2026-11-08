@@ -41,6 +41,18 @@ static func build() -> Theme:
 	t.set_font("font", "Button", button_font)
 	t.set_font_size("font_size", "Button", 16)
 
+	# Caixas de seleção: respiro entre o quadrado e o texto, realce leve no hover
+	t.set_constant("h_separation", "CheckBox", 12)
+	t.set_stylebox("normal", "CheckBox", panel_style(Color(0, 0, 0, 0), Color(0, 0, 0, 0), 1, 4, 8))
+	t.set_stylebox("pressed", "CheckBox", panel_style(Color(0, 0, 0, 0), Color(0, 0, 0, 0), 1, 4, 8))
+	t.set_stylebox("hover", "CheckBox", panel_style(Palette.PANEL_LIGHT, Palette.BONE.darkened(0.35), 1, 4, 8))
+	t.set_stylebox("hover_pressed", "CheckBox", panel_style(Palette.PANEL_LIGHT, Palette.BONE.darkened(0.35), 1, 4, 8))
+	t.set_stylebox("focus", "CheckBox", StyleBoxEmpty.new())
+	t.set_color("font_color", "CheckBox", Palette.PAPER)
+	t.set_color("font_hover_color", "CheckBox", Palette.BONE_LIGHT)
+	t.set_color("font_pressed_color", "CheckBox", Palette.PAPER)
+	t.set_color("font_hover_pressed_color", "CheckBox", Palette.BONE_LIGHT)
+
 	# Painéis
 	t.set_stylebox("panel", "Panel", panel_style(Palette.CHARCOAL, Palette.INK_SOFT, 1, 6))
 	t.set_stylebox("panel", "PanelContainer", panel_style(Palette.CHARCOAL, Palette.INK_SOFT, 1, 6, 12))
