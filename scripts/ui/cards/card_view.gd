@@ -33,7 +33,10 @@ var selected: bool = false:
 		selected = v
 		queue_redraw()
 var dimmed_note: String = "" ## ex.: "x2" ou "Bloqueada"
-var interactive: bool = true
+var interactive: bool = true:
+	set(v):
+		interactive = v
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if v else Control.CURSOR_ARROW
 
 var _name_label: Label
 var _art: MotifArt
@@ -61,6 +64,7 @@ func _init() -> void:
 func _ready() -> void:
 	_build()
 	refresh()
+	mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if interactive else Control.CURSOR_ARROW
 	mouse_entered.connect(func(): if interactive: hover_changed.emit(self, true))
 	mouse_exited.connect(func(): if interactive: hover_changed.emit(self, false))
 

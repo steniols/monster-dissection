@@ -29,10 +29,16 @@ func _ready() -> void:
 	get_tree().node_added.connect(_on_node_added)
 
 
-## Som de clique em qualquer botão do jogo.
+## Som de clique em qualquer botão do jogo, e cursor de mãozinha em tudo que é clicável.
 func _on_node_added(n: Node) -> void:
 	if n is BaseButton:
 		n.pressed.connect(func(): Sfx.play(&"click"))
+		var b := n as BaseButton
+		b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		# desativado: seta normal
+		b.mouse_entered.connect(func(): b.mouse_default_cursor_shape = Control.CURSOR_ARROW if b.disabled else Control.CURSOR_POINTING_HAND)
+	elif n is Slider:
+		n.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
 
 func goto(key: String) -> void:

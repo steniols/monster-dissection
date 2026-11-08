@@ -9,6 +9,8 @@ var combat: CombatManager
 var targetable: bool = false:
 	set(v):
 		targetable = v
+		# mãozinha só quando dá para escolher este monstro como alvo
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if v else Control.CURSOR_ARROW
 		_update_target_highlight()
 
 var _intent_icon: IconView

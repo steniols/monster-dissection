@@ -61,7 +61,7 @@ func _ready() -> void:
 	var opts := UiTheme.make_button("Opções", func(): Game.open_options("menu"), 300)
 	opts.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(opts)
-	var reset := UiTheme.make_button("Apagar progresso", _confirm_reset, 300, "GhostButton")
+	var reset := UiTheme.make_button("Apagar progresso", _confirm_reset, 300)
 	reset.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(reset)
 	var quit := UiTheme.make_button("Sair", func(): get_tree().quit(), 300)
