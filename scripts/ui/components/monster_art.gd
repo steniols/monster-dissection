@@ -5,7 +5,7 @@ extends Control
 
 const OUTLINE_SHADER := preload("res://scripts/ui/shaders/sprite_outline.gdshader")
 ## Espessura do contorno escuro, da linha clara de recorte e alcance da aura, em pixels de tela.
-const OUTLINE_SCREEN_PX := 3.0
+const OUTLINE_SCREEN_PX := 1.2
 const RIM_SCREEN_PX := 2.5
 const GLOW_SCREEN_PX := 18.0
 

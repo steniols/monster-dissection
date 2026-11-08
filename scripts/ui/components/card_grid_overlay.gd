@@ -16,7 +16,8 @@ static func open(parent: Node, title: String, cards: Array[CardData], selectable
 
 
 func _build(title: String, cards: Array[CardData], selectable: bool, subtitle: String) -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	# já está na árvore: ajusta âncoras E margens, senão o tamanho zero de antes é mantido
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	z_index = 200
 	var dim := ColorRect.new()

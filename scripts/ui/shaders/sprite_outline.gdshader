@@ -3,7 +3,7 @@ shader_type canvas_item;
 // contorno escuro colado na figura, linha clara na cor da família (luz de recorte) e aura difusa.
 // Os raios são em pixels da textura; MonsterArt converte de pixels de tela.
 
-uniform vec4 outline_color : source_color = vec4(0.03, 0.025, 0.02, 1.0);
+uniform vec4 outline_color : source_color = vec4(0.03, 0.025, 0.02, 0.55);
 uniform float outline_px = 3.0;
 uniform vec4 rim_color : source_color = vec4(1.0, 0.6, 0.5, 1.0);
 uniform float rim_px = 6.0;

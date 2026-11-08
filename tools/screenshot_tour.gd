@@ -1,10 +1,11 @@
 extends Node
 ## Abre cada tela e salva uma captura. Uso (precisa de janela, não headless):
 ##   Godot.exe --path . res://tools/screenshot_tour.tscn -- <pasta_de_saida>
-## Faz backup e restaura o perfil do jogador.
+## Faz backup e restaura o perfil e a expedição salva do jogador.
 
 var _out := "user://screenshots"
 var _backup := ""
+var _run_backup := ""
 
 
 func _ready() -> void:
@@ -15,11 +16,18 @@ func _ready() -> void:
 	DirAccess.make_dir_recursive_absolute(_out)
 	if FileAccess.file_exists(Profile.SAVE_PATH):
 		_backup = FileAccess.get_file_as_string(Profile.SAVE_PATH)
+	if FileAccess.file_exists(RunState.SAVE_PATH):
+		_run_backup = FileAccess.get_file_as_string(RunState.SAVE_PATH)
 	await _tour()
 	if _backup.is_empty():
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(Profile.SAVE_PATH))
 	else:
 		FileAccess.open(Profile.SAVE_PATH, FileAccess.WRITE).store_string(_backup)
+	# a expedição salva também volta como estava
+	if _run_backup.is_empty():
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(RunState.SAVE_PATH))
+	else:
+		FileAccess.open(RunState.SAVE_PATH, FileAccess.WRITE).store_string(_run_backup)
 	get_tree().quit()
 
 
