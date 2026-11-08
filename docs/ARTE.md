@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: falta a folha A1 (ícones das opções do acampamento); a L1b é opcional
+## Status: tudo pronto (só a folha L1b, opcional)
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -15,7 +15,7 @@
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 | **Pronto** |
 | Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
-| Acampamento: ícones das opções | 3 | **Pedir: folha A1** |
+| Acampamento: ícones das opções | 3 | **Pronto** (Descansar da folha 4, Aprimorar e Purgar da folha 3; as outras versões estão em `assets/art/extra/camp/alt/`) |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -257,14 +257,15 @@ Complemento de cada um (cole depois do cabeçalho):
 gerar, me diga qual arquivo é qual. Eu ajusto o corte e coloco no jogo; a versão de hoje fica guardada em
 `assets/art/extra/lowres/`.
 
-## Acampamento: pedir agora (folha A1, 3 ícones)
+## Acampamento: pronto
 
 A **barraca com fogueira** no centro já está no jogo (recortada da folha "Fogueiras e Acampamento"), com o fundo e a
 distribuição originais. O fundo alternativo, com a fogueira no meio, ficou guardado em
 `assets/art/extra/backgrounds/camp_v2.png`.
 
-Faltam só os **ícones das opções** (3), um no topo de cada quadro (Descansar, Aprimorar, Purgar). O jogo já
-aceita as imagens em `assets/art/camp/`; sem o arquivo, o quadro fica sem ícone.
+Os **ícones das opções** (3) também estão no jogo, escolhidos entre 4 folhas: Descansar da folha 4,
+Aprimorar e Purgar da folha 3. As 12 versões ficam em `assets/art/extra/camp/alt/` (`<opção>_v<folha>.png`);
+para trocar, copie a escolhida para `assets/art/camp/<opção>.png`. O pedido abaixo fica para refazer.
 
 Peça em **folha**, como as outras: objetos isolados, fundo transparente ou liso, **na ordem da lista** e sem
 texto. Anexe a folha de partes como referência de estilo. Eu recorto e coloco cada um no lugar.
