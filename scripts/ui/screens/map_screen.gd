@@ -67,6 +67,7 @@ func _build_header() -> void:
 	ab.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	ab.modulate = Color(1, 1, 1, 0.8)
 	top.add_child(ab)
+	top.add_child(PauseMenu.gear_space())
 
 
 func _build_choices() -> void:

@@ -96,6 +96,7 @@ func _build_ui() -> void:
 	spacer2.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(spacer2)
 	top.add_child(UiTheme.make_button("Baralho (%d)" % RunState.deck.size(), _show_run_deck))
+	top.add_child(PauseMenu.gear_space())
 
 	# monstros
 	_monster_row = HBoxContainer.new()
@@ -216,7 +217,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_E:
 		_on_end_turn()
 	elif event.is_action_pressed("ui_cancel") or (event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT):
-		_cancel_pending()
+		# Esc sem carta selecionada fica para o menu de pausa
+		if _pending != null or not event.is_action_pressed("ui_cancel"):
+			_cancel_pending()
+			get_viewport().set_input_as_handled()
 
 
 # --- Cartas -----------------------------------------------------------------

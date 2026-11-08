@@ -20,6 +20,8 @@ const SCENES := {
 
 ## Tela para onde "Voltar" leva a partir das opções.
 var options_return: String = "menu"
+## Chave da tela atual (ver SCENES).
+var current: String = "menu"
 
 
 func _ready() -> void:
@@ -38,6 +40,8 @@ func goto(key: String) -> void:
 	if path.is_empty():
 		push_error("Game: cena desconhecida " + key)
 		return
+	current = key
+	PauseMenu.on_screen(key)
 	get_tree().change_scene_to_file.call_deferred(path)
 
 

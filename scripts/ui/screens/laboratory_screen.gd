@@ -44,18 +44,33 @@ func _ready() -> void:
 
 	# atributos do caçador
 	var stats := PanelContainer.new()
+	stats.add_theme_stylebox_override("panel", UiTheme.panel_style(Color("#2F2A22", 0.94), Palette.BONE.darkened(0.45), 1, 6, 10))
 	root.add_child(stats)
 	var sh := HBoxContainer.new()
-	sh.add_theme_constant_override("separation", 28)
+	sh.add_theme_constant_override("separation", 0)
 	stats.add_child(sh)
-	sh.add_child(_stat("Vida máxima", str(Profile.get_max_hp()), Palette.BLOOD_BRIGHT))
-	sh.add_child(_stat("Energia", str(Profile.get_max_energy()), Palette.PETROL_BRIGHT))
-	sh.add_child(_stat("Incisões", str(Profile.get_incisions()), Palette.BONE_LIGHT))
-	sh.add_child(_stat("Mutações", "%d / %d" % [Profile.mutations.size(), Profile.MAX_MUTATIONS], Palette.VIOLET_BRIGHT))
-	var corr := _stat("Corrupção", str(Profile.get_corruption()), Palette.VIOLET_BRIGHT)
-	corr.tooltip_text = "A cada %d pontos, você inicia cada combate com 1 de Corrupção." % Profile.CORRUPTION_STEP
-	sh.add_child(corr)
-	sh.add_child(_stat("Cartas catalogadas", "%d / %d" % [Profile.unlocked_cards.size(), Database.cards.size()], Palette.MOSS_BRIGHT))
+	var n_cards := Profile.unlocked_cards.size()
+	var tiles := [
+		_stat(&"heart", "Vida máxima", str(Profile.get_max_hp()), Palette.BLOOD_BRIGHT,
+			"Vida com que você começa cada expedição."),
+		_stat(&"energy", "Energia", str(Profile.get_max_energy()), Palette.PETROL_BRIGHT,
+			"Energia por turno para jogar cartas."),
+		_stat(&"attack", "Incisões", str(Profile.get_incisions()), Palette.BONE_LIGHT,
+			"Cortes disponíveis em cada dissecação."),
+		_stat(&"vial", "Mutações", "%d / %d" % [Profile.mutations.size(), Profile.MAX_MUTATIONS], Palette.VIOLET_BRIGHT,
+			"Tecidos implantados na Câmara de Mutação.", float(Profile.mutations.size()) / Profile.MAX_MUTATIONS),
+		_stat(&"debuff", "Corrupção", str(Profile.get_corruption()), Palette.VIOLET_BRIGHT,
+			"A cada %d pontos, você inicia cada combate com 1 de Corrupção." % Profile.CORRUPTION_STEP),
+		_stat(&"card", "Cartas catalogadas", "%d / %d" % [n_cards, Database.cards.size()], Palette.MOSS_BRIGHT,
+			"Cartas que você já pode pôr no baralho inicial.", float(n_cards) / maxi(1, Database.cards.size())),
+	]
+	for i in tiles.size():
+		if i > 0:
+			var sep := ColorRect.new()
+			sep.color = Palette.BONE.darkened(0.55)
+			sep.custom_minimum_size.x = 1
+			sh.add_child(sep)
+		sh.add_child(tiles[i])
 
 	# estações
 	var grid := GridContainer.new()
@@ -99,14 +114,39 @@ func _ready() -> void:
 		flow.add_child(material_chip(part, Profile.get_material(id)))
 
 
-func _stat(label: String, value: String, color: Color) -> Control:
+## Um atributo: ícone, número grande, rótulo e (opcional) barra de progresso.
+func _stat(icon: StringName, label: String, value: String, color: Color, tip: String, progress: float = -1.0) -> Control:
+	var tile := MarginContainer.new()
+	tile.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tile.mouse_filter = Control.MOUSE_FILTER_STOP
+	tile.tooltip_text = tip
+	for side in ["left", "right"]:
+		tile.add_theme_constant_override("margin_" + side, 14)
+	var h := HBoxContainer.new()
+	h.alignment = BoxContainer.ALIGNMENT_CENTER
+	h.add_theme_constant_override("separation", 12)
+	tile.add_child(h)
+	var ic := IconView.create(icon, color, 34)
+	ic.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(ic)
 	var v := VBoxContainer.new()
-	v.mouse_filter = Control.MOUSE_FILTER_STOP
-	v.add_child(UiTheme.make_label(label, 12, Palette.TEXT_DIM))
-	var val := UiTheme.make_label(value, 22, color)
+	v.add_theme_constant_override("separation", 0)
+	v.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(v)
+	var val := UiTheme.make_label(value, 26, color)
 	val.add_theme_font_override("font", UiTheme.number_font)
 	v.add_child(val)
-	return v
+	v.add_child(UiTheme.make_label(label, 13, Palette.BONE))
+	if progress >= 0.0:
+		var bar := ProgressBar.new()
+		bar.show_percentage = false
+		bar.max_value = 1.0
+		bar.value = progress
+		bar.custom_minimum_size = Vector2(90, 5)
+		bar.add_theme_stylebox_override("background", UiTheme.panel_style(Palette.CHARCOAL_DEEP, Color(0, 0, 0, 0), 0, 2))
+		bar.add_theme_stylebox_override("fill", UiTheme.panel_style(color.darkened(0.15), Color(0, 0, 0, 0), 0, 2))
+		v.add_child(bar)
+	return tile
 
 
 func _station(title: String, motif: StringName, accent: Color, desc: String, action: String, cb: Callable) -> Control:
@@ -134,10 +174,9 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	var b := UiTheme.make_button(action, cb)
 	if title == "Mesa de Expedição":
 		# é o "começar a partida": botão em destaque
-		b.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.BLOOD.darkened(0.25), Palette.BLOOD_BRIGHT, 2, 6, 10))
-		b.add_theme_stylebox_override("hover", UiTheme.panel_style(Palette.BLOOD.lightened(0.05), Palette.BONE_LIGHT, 2, 6, 10))
+		b.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.BLOOD.darkened(0.25), Palette.BLOOD_BRIGHT, 1, 4, 10))
+		b.add_theme_stylebox_override("hover", UiTheme.panel_style(Palette.BLOOD.lightened(0.05), Palette.BONE_LIGHT, 1, 4, 10))
 		b.add_theme_color_override("font_color", Palette.BONE_LIGHT)
-		b.add_theme_font_size_override("font_size", 22)
 	b.custom_minimum_size.y = 38
 	v.add_child(b)
 	return p

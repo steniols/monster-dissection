@@ -56,6 +56,10 @@ func _tour() -> void:
 	RunState.current = RunState.get_available_nodes()[0]
 	RunState.current.monsters = [Database.get_monster(&"bloodfang")]
 	await _shot("combat", "07_combate", 1.2)
+	PauseMenu.open()
+	await _wait(0.3)
+	await _capture("07b_pausa")
+	PauseMenu.close()
 	# passa o mouse numa carta
 	var screen := get_tree().current_scene
 	var hv: HandView = screen._hand
@@ -111,6 +115,8 @@ func _dead(id: StringName) -> MonsterCombatant:
 
 
 func _shot(key: String, name: String, delay: float = 0.5) -> void:
+	Game.current = key
+	PauseMenu.on_screen(key)
 	get_tree().change_scene_to_file(Game.SCENES[key])
 	await _wait(delay)
 	await _capture(name)

@@ -647,6 +647,22 @@ static func draw_icon(ci: CanvasItem, icon: StringName, rect: Rect2, color: Colo
 			ci.draw_polyline(pts, color, s * 0.1, true)
 		&"defend":
 			draw_icon(ci, &"shield", rect, color)
+		&"card":
+			var back := Rect2(c + Vector2(-s * 0.22, -s * 0.44), Vector2(s * 0.5, s * 0.7))
+			ci.draw_set_transform(c, 0.25, Vector2.ONE)
+			ci.draw_rect(Rect2(back.position - c, back.size), color.darkened(0.45))
+			ci.draw_set_transform(c, -0.12, Vector2.ONE)
+			var front := Rect2(Vector2(-s * 0.3, -s * 0.38), Vector2(s * 0.5, s * 0.72))
+			ci.draw_rect(front, color)
+			ci.draw_rect(front.grow(-s * 0.07), Palette.CHARCOAL_DEEP, false, maxf(1.0, s * 0.04))
+			ci.draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		&"vial":
+			var neck := Rect2(c + Vector2(-s * 0.09, -s * 0.46), Vector2(s * 0.18, s * 0.3))
+			ci.draw_rect(neck, color.darkened(0.3))
+			ci.draw_rect(Rect2(c + Vector2(-s * 0.13, -s * 0.5), Vector2(s * 0.26, s * 0.09)), Palette.BONE)
+			ci.draw_circle(c + Vector2(0, s * 0.14), s * 0.32, color.darkened(0.3))
+			ci.draw_circle(c + Vector2(0, s * 0.18), s * 0.25, color)
+			ci.draw_circle(c + Vector2(-s * 0.09, s * 0.08), s * 0.06, color.lightened(0.5))
 		&"unknown":
 			ci.draw_circle(c, s * 0.4, color)
 		_:
