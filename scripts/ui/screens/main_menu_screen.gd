@@ -21,17 +21,27 @@ func _ready() -> void:
 
 	var box := VBoxContainer.new()
 	box.set_anchors_preset(Control.PRESET_LEFT_WIDE)
-	box.offset_left = 90
-	box.offset_right = 600
+	box.offset_left = 70
+	box.offset_right = 700
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
 	box.add_theme_constant_override("separation", 12)
 	add_child(box)
 
-	var t1 := UiTheme.make_label("MONSTER", 64, Palette.PAPER, true)
-	var t2 := UiTheme.make_label("DISSECTION", 64, Palette.BLOOD_BRIGHT, true)
-	t2.add_theme_constant_override("line_spacing", -10)
-	box.add_child(t1)
-	box.add_child(t2)
+	var logo_tex := Database.get_art("ui", &"logo")
+	if logo_tex != null:
+		var logo := TextureRect.new()
+		logo.texture = logo_tex
+		logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		logo.custom_minimum_size = Vector2(600, 305)
+		logo.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		box.add_child(logo)
+	else:
+		var t1 := UiTheme.make_label("MONSTER", 64, Palette.PAPER, true)
+		var t2 := UiTheme.make_label("DISSECTION", 64, Palette.BLOOD_BRIGHT, true)
+		t2.add_theme_constant_override("line_spacing", -10)
+		box.add_child(t1)
+		box.add_child(t2)
 	var sub := UiTheme.make_label("Cada criatura derrotada pode transformar seu baralho —\ne seu próprio corpo.", 18, Palette.TEXT_DIM)
 	box.add_child(sub)
 	var gap := Control.new()

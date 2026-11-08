@@ -132,6 +132,12 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	d.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	v.add_child(d)
 	var b := UiTheme.make_button(action, cb)
+	if title == "Mesa de Expedição":
+		# é o "começar a partida": botão em destaque
+		b.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.BLOOD.darkened(0.25), Palette.BLOOD_BRIGHT, 2, 6, 10))
+		b.add_theme_stylebox_override("hover", UiTheme.panel_style(Palette.BLOOD.lightened(0.05), Palette.BONE_LIGHT, 2, 6, 10))
+		b.add_theme_color_override("font_color", Palette.BONE_LIGHT)
+		b.add_theme_font_size_override("font_size", 22)
 	b.custom_minimum_size.y = 38
 	v.add_child(b)
 	return p

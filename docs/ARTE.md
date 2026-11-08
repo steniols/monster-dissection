@@ -10,6 +10,8 @@
 | Mutações | 7 | **Pronto** |
 | Eventos | 6 | **Pronto** |
 | Fundos (paisagens) | 6 | **Pronto** |
+| Fundos de batalha (neutros, por família) | 4 | **Pronto** |
+| Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
 | Ícones das estações do laboratório | 6 | **Pronto** |
 | Melhorias da Oficina | 5 | Folha L2 |
 

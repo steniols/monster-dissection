@@ -6,8 +6,8 @@ extends Control
 const OUTLINE_SHADER := preload("res://scripts/ui/shaders/sprite_outline.gdshader")
 ## Espessura do contorno escuro, da linha clara de recorte e alcance da aura, em pixels de tela.
 const OUTLINE_SCREEN_PX := 1.2
-const RIM_SCREEN_PX := 2.5
-const GLOW_SCREEN_PX := 18.0
+const RIM_SCREEN_PX := 1.5
+const GLOW_SCREEN_PX := 12.0
 
 @export var animate: bool = true
 
@@ -79,8 +79,8 @@ func _update_material() -> void:
 	_mat.set_shader_parameter("glow_px", GLOW_SCREEN_PX * (1.0 + highlight * 0.5) * tex_per_screen)
 	var fam := Family.get_color(data.family) if data != null else Palette.BONE
 	# linha de recorte clara e quente; mais clara ainda quando o monstro é o alvo
-	_mat.set_shader_parameter("rim_color", Color(fam.lightened(lerpf(0.35, 0.6, highlight)), lerpf(0.85, 1.0, highlight)))
-	_mat.set_shader_parameter("glow_color", Color(fam, lerpf(0.8, 1.0, highlight)))
+	_mat.set_shader_parameter("rim_color", Color(fam.lightened(lerpf(0.15, 0.45, highlight)), lerpf(0.35, 0.9, highlight)))
+	_mat.set_shader_parameter("glow_color", Color(fam.darkened(0.1), lerpf(0.3, 0.85, highlight)))
 
 
 func _portrait_box() -> Rect2:

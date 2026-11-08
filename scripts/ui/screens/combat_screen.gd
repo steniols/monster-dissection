@@ -32,10 +32,23 @@ func _debug_setup() -> void:
 	RunState.current = nodes[0]
 
 
+## Fundo de batalha por família de criatura (assets/art/backgrounds).
+const BATTLE_BACKGROUNDS := {
+	Family.Id.BLOODFANG: "battle_red_wasteland",
+	Family.Id.IRONBACK: "battle_marsh",
+	Family.Id.VOIDSPAWN: "battle_violet_cavern",
+	Family.Id.ROTWALKER: "battle_ruins",
+}
+
+
 func _build_ui() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	var bg := UiTheme.add_background(self, Palette.CHARCOAL, String(RunState.expedition.id) if RunState.expedition else "", 0.2) as BackgroundView
 	var fam := RunState.current.monsters[0].family if not RunState.current.monsters.is_empty() else Family.Id.NEUTRAL
+	# fundo de batalha neutro, escolhido pela família da criatura (cai no fundo da região se faltar)
+	var battle_art: String = BATTLE_BACKGROUNDS.get(fam, "")
+	if Database.get_art("backgrounds", StringName(battle_art)) == null:
+		battle_art = String(RunState.expedition.id) if RunState.expedition else ""
+	var bg := UiTheme.add_background(self, Palette.CHARCOAL, battle_art, 0.12) as BackgroundView
 	bg.glow_color = Family.get_dark_color(fam)
 	bg.glow_center = Vector2(0.5, 0.35)
 
