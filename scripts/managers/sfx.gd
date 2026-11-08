@@ -1,5 +1,5 @@
 extends Node
-## Autoload "Sfx": efeitos sonoros e ambiente sintetizados em código (nenhum arquivo de áudio).
+## Autoload "Sfx": efeitos sonoros sintetizados em código e a trilha de fundo (assets/audio/music).
 ## Para trocar por áudio gravado: coloque um AudioStream em CUSTOM com a mesma chave.
 
 const RATE := 22050
@@ -26,10 +26,35 @@ func _ready() -> void:
 	_build_all()
 	_music = AudioStreamPlayer.new()
 	_music.bus = "Music"
-	_music.volume_db = -8.0
+	_music.volume_db = -40.0
 	add_child(_music)
-	_music.stream = _ambient()
+	_music.stream = _load_music()
 	_music.play()
+	# entra devagar
+	create_tween().tween_property(_music, "volume_db", MUSIC_DB, 4.0)
+
+
+## Volume base da música (o controle de Música nas Opções ajusta por cima disso).
+const MUSIC_DB := -6.0
+## Trilha de fundo: um arquivo seu (main.ogg/main.mp3) tem prioridade sobre a trilha composta (main.wav).
+const MUSIC_FILES := ["res://assets/audio/music/main.ogg", "res://assets/audio/music/main.mp3", "res://assets/audio/music/main.wav"]
+
+
+func _load_music() -> AudioStream:
+	for path in MUSIC_FILES:
+		if not ResourceLoader.exists(path):
+			continue
+		var s := load(path) as AudioStream
+		if s is AudioStreamWAV:
+			var w := s as AudioStreamWAV
+			w.loop_mode = AudioStreamWAV.LOOP_FORWARD
+			w.loop_begin = 0
+			w.loop_end = w.data.size() / (4 if w.stereo else 2)
+		elif "loop" in s:
+			s.set("loop", true)
+		if s != null:
+			return s
+	return _ambient()
 
 
 func play(key: StringName, volume_db: float = 0.0, pitch_jitter: float = 0.06) -> void:

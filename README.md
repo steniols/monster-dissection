@@ -47,7 +47,9 @@ Conteúdo: 43 cartas (8 híbridas), 30 partes, 10 monstros de 4 famílias (Blood
   (`illustration`, `portrait`, `icon`): preenchido, a arte final substitui o desenho automaticamente.
   `MonsterData.tint` cria variações (elite/chefe) da mesma silhueta.
 - **Fontes** (licença SIL OFL, em `assets/fonts/`): Cormorant Garamond (títulos) e Source Sans 3 (texto e números).
-- **Áudio**: gerado em código, sem arquivos. Para usar sons gravados, coloque um `AudioStream` em
+- **Música**: trilha ambiente composta por código (`tools/compose_music.gd` gera `assets/audio/music/main.wav`).
+  Para usar outra música, salve `assets/audio/music/main.ogg` (ou `.mp3`): ela tem prioridade.
+- **Efeitos**: gerados em código, sem arquivos. Para usar sons gravados, coloque um `AudioStream` em
   `Sfx.CUSTOM[&"hit"]` (mesmas chaves: `click`, `card`, `hit`, `hit_big`, `block`, `heal`, `cut`, `fail`,
   `unlock`, `turn`, `death`, `instinct`).
 
