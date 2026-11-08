@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: tudo pronto (só a folha L1b, opcional)
+## Status: conteúdo atual pronto; pedir as artes das fases 3 e 4 (78 imagens)
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -16,6 +16,7 @@
 | Melhorias da Oficina | 5 | **Pronto** |
 | Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
 | Acampamento: ícones das opções | 3 | **Pronto** (os três da folha 3; as outras versões estão em `assets/art/extra/camp/alt/`) |
+| **Fases 3 e 4** (monstros, fundos, partes, cartas, mutações, eventos) | 78 | **Pedir**: ver "Fases 3 e 4" abaixo |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -44,6 +45,270 @@ Regras que funcionaram:
 - **Ordem fixa e número exato de itens.** É a ordem que diz qual figura é qual.
 - Fundo transparente ou liso funciona; eu removo. Peça sempre a **folha original inteira**, mesmo que o
   ChatGPT também mande recortes.
+
+## Fases 3 e 4: pedir agora
+
+Duas regiões novas, cada uma com **uma família nova de monstros**. As famílias atuais também aparecem nelas,
+misturadas. Esta seção lista **só as artes**; o código (dados, mecânicas, cartas) eu faço em paralelo, e os
+nomes de arquivo abaixo já são os definitivos.
+
+| Fase | Região | Família nova | Cores da família | Clima |
+|---|---|---|---|---|
+| 3 | **Bosque dos Esporos** (`fungal_grove`) | **Sporemaw**: criaturas-fungo | verde-água bioluminescente + bege/ocre de cogumelo | floresta úmida e escura, cogumelos gigantes que brilham |
+| 4 | **Pináculos de Cinza** (`ash_peaks`) | **Ashwing**: aves-morcego de cinza e brasa | laranja-brasa + cinza-carvão | picos vulcânicos, cinza caindo, tempestade |
+
+As cores novas foram escolhidas para não se confundir com as atuais (vermelho, verde-musgo, violeta,
+oliva/osso).
+
+### Quanto falta, em ordem de prioridade
+
+| Folha | O que é | Qtde | Formato |
+|---|---|---|---|
+| **M3** | Monstros novos | 8 | um por pedido, alta resolução |
+| **F3** | Fundos das regiões + fundos de batalha | 4 | um por pedido, 16:9 |
+| **P6 / P7** | Partes anatômicas (Sporemaw / Ashwing) | 12 + 12 | folha 4x3 |
+| **C5 / C6** | Cartas das partes (Sporemaw / Ashwing) | 12 + 12 | folha 4x3 |
+| **C7** | Cartas híbridas novas | 8 | folha 4x2 |
+| **MU2** | Mutações novas | 4 | folha 4x1 |
+| **E3** | Eventos novos | 6 | um por pedido (ou folha 3x2) |
+| | **Total** | **78** | |
+
+Comece pelos **monstros** e **fundos**: com eles eu já consigo montar as fases jogáveis (as partes e
+cartas usam desenho provisório até a arte chegar).
+
+### Folha M3: monstros novos (8)
+
+**Um monstro por pedido**, PNG na resolução máxima (ideal 1536×1024; os altos podem ser 1024×1536). Anexe
+como referência de estilo **dois monstros atuais** (ex.: `assets/art/monsters/bloodfang.png` e
+`voidspawn.png`). Fundo transparente ou liso e claro. **Olhando para a esquerda**, corpo inteiro.
+
+Cabeçalho de todo pedido:
+
+```
+Create a NEW creature in exactly the same art style as the attached reference creatures: dark fantasy hand-painted game art, bold dark outlines, cel shading, rich defined colors, natural history museum specimen theme. Full body, side view facing LEFT, centered with a small margin, nothing cropped. Transparent background (or plain flat light background). No ground, no shadow, no scenery, no text, no frame, no gore. Single image, maximum resolution.
+```
+
+| Arquivo | Nome no jogo | Papel | Complemento |
+|---|---|---|---|
+| `sporeling.png` | Sporeling | comum (vem em dupla) | A small fungal creature the size of a cat walking on four root-like legs, a round ochre mushroom cap as its body with glowing teal spots, tiny bead eyes under the cap, wisps of teal spores. |
+| `sporemaw.png` | Sporemaw | comum | A quadruped fungal beast the size of a bear: a huge ochre-beige mushroom cap as its back, a wide gilled maw with fibrous teeth underneath, thick root legs, glowing teal gills and spots, teal spore puffs. |
+| `mycostalker.png` | Mycostalker | elite | A tall thin mantis-like fungal hunter: long fibrous stalk body, two scythe arms made of hard shelf-fungus, a head of clustered glowing teal puffball eyes, ochre and pale beige tones. |
+| `mycelium_mother.png` | Matriz Micélica | chefe | An enormous bloated fungal mound with dozens of mushroom caps forming a crown, glowing teal lace-like veils hanging down, thick root tentacles, a pulsing teal heart-like core visible in the center. Larger and more imposing than the others. |
+| `ash_hatchling.png` | Ash Hatchling | comum (vem em dupla) | A small featherless bat-bird chick, wrinkled ash-grey skin with glowing ember cracks, oversized hooked beak, stubby leathery wings, bright ember-orange eyes. |
+| `ashwing.png` | Ashwing | comum | A bat-winged raptor: leathery ash-grey wings spread, glowing ember-orange cracks along wings and body, hooked bone beak, sharp talons, smoke trailing from the wing tips. |
+| `stormtalon.png` | Stormtalon | elite | A large storm raptor: crest of bone spikes, metallic dark feathers like blades, oversized talons crackling with small orange-white lightning, a glowing sac at the throat. |
+| `ember_roc.png` | Roca de Brasa | chefe | A colossal roc with huge wings with molten lava cracks, bone-armored beak, a glowing ember heart visible through the chest, trails of smoke and falling ash. Larger and more imposing than the others. |
+
+### Folha F3: fundos (4)
+
+Um por pedido, como em **Fundos (paisagens)** abaixo: mesmo cabeçalho de fundo, 16:9, cena vazia, e as
+mesmas regras de composição dos fundos de combate (horizonte na metade, chão aberto no centro e à direita,
+metade de baixo mais escura).
+
+| Arquivo | Onde aparece | Complemento |
+|---|---|---|
+| `fungal_grove.png` | Mapa, eventos e combate do **Bosque dos Esporos** | A dark damp forest of giant mushrooms at night, huge ochre caps overhead, glowing teal bioluminescent spots and spore motes in the air, twisted roots, soft teal mist. Horizon at the middle, open mossy ground in the center and right, darker simpler lower half. |
+| `ash_peaks.png` | Mapa, eventos e combate dos **Pináculos de Cinza** | Jagged volcanic peaks under a stormy sky, falling grey ash, faint orange lava glow in the cracks, a narrow rocky plateau, distant lightning. Horizon at the middle, open flat rocky ground in the center and right, darker simpler lower half. |
+| `battle_fungal_hollow.png` | Combate contra **Sporemaw** (fundo neutro da família) | A quiet hollow under giant mushrooms, dim teal glow, soft spore motes, very simple and calm, mostly empty dark ground. Neutral and low-contrast so creatures stand out. |
+| `battle_ash_ridge.png` | Combate contra **Ashwing** (fundo neutro da família) | A bare ash-covered ridge under a dark orange-grey sky, a few distant peaks, faint ember glow, very simple and calm, mostly empty dark ground. Neutral and low-contrast so creatures stand out. |
+
+### Folhas P6 e P7: partes anatômicas (12 + 12)
+
+Mesmo cabeçalho de folha de ícones do **Estilo aprovado** (com `Exactly 12 ... in a 4x3 grid`). Anexe a
+folha de partes atual como referência. Partes são **objetos isolados**, como espécimes de museu.
+
+**P6, Sporemaw:**
+
+```
+1. a round ochre mushroom cap with glowing teal spots
+2. a small translucent sac full of glowing teal spores
+3. the underside of a mushroom cap: radiating gills glowing teal
+4. a fungal jaw with fibrous pale teeth
+5. a bundle of thick twisting root legs
+6. a tangle of glowing white-teal mycelium threads
+7. a curved scythe blade made of hard shelf-fungus
+8. a long fibrous fungal stalk coiled like a spring
+9. a cluster of glowing teal puffball eyes
+10. a pulsing teal heart-like fungal core
+11. a hanging glowing lace-like fungal veil
+12. a small crown made of a ring of mushroom caps
+```
+
+| Ordem | Arquivo | Parte | Monstro |
+|---|---|---|---|
+| 1 | `sl_cap.png` | Chapéu Luminoso | Sporeling |
+| 2 | `sl_spores.png` | Saco de Esporos | Sporeling |
+| 3 | `sm_gills.png` | Lamelas | Sporemaw |
+| 4 | `sm_maw.png` | Mandíbula Fúngica | Sporemaw |
+| 5 | `sm_roots.png` | Raízes-Pernas | Sporemaw |
+| 6 | `sm_mycelium.png` | Rede de Micélio | Sporemaw |
+| 7 | `ms_scythe.png` | Foice de Orelha-de-pau | Mycostalker |
+| 8 | `ms_stalk.png` | Haste Fibrosa | Mycostalker |
+| 9 | `ms_eyes.png` | Olhos-Bufa | Mycostalker |
+| 10 | `mm_core.png` | Núcleo Pulsante | Matriz Micélica |
+| 11 | `mm_veil.png` | Véu Luminoso | Matriz Micélica |
+| 12 | `mm_crown.png` | Coroa de Chapéus | Matriz Micélica |
+
+**P7, Ashwing:**
+
+```
+1. a tuft of ash-grey down feathers with tiny glowing embers
+2. a small hooked hatchling beak with an egg tooth
+3. a folded leathery ash-grey wing membrane with ember cracks
+4. a hooked bone beak
+5. a pair of sharp black talons
+6. a glowing ember-orange gland, like a hot coal in a membrane
+7. a crest of bone spikes
+8. a throat sac crackling with small orange-white lightning
+9. three dark metallic feathers shaped like blades
+10. a heart glowing like molten lava, with dark cracked crust
+11. a huge wing bone with molten lava cracks
+12. a massive bone-armored beak
+```
+
+| Ordem | Arquivo | Parte | Monstro |
+|---|---|---|---|
+| 1 | `ah_down.png` | Penugem Fumegante | Ash Hatchling |
+| 2 | `ah_beak.png` | Bico de Filhote | Ash Hatchling |
+| 3 | `aw_wing.png` | Membrana da Asa | Ashwing |
+| 4 | `aw_beak.png` | Bico Curvo | Ashwing |
+| 5 | `aw_talons.png` | Garras de Mergulho | Ashwing |
+| 6 | `aw_gland.png` | Glândula de Brasa | Ashwing |
+| 7 | `st_crest.png` | Crista de Ossos | Stormtalon |
+| 8 | `st_storm_sac.png` | Bolsa de Tempestade | Stormtalon |
+| 9 | `st_feathers.png` | Penas de Aço | Stormtalon |
+| 10 | `er_heart.png` | Coração de Brasa | Roca de Brasa |
+| 11 | `er_wing.png` | Asa Fundida | Roca de Brasa |
+| 12 | `er_beak.png` | Bico Blindado | Roca de Brasa |
+
+### Folhas C5 e C6: cartas das partes (12 + 12)
+
+Cartas são **ilustrações de ação** do mesmo objeto da parte (como a "Mordida Profunda" mostra as presas e o
+"Rasgar" mostra as garras com rastros de corte). Mesmo cabeçalho de folha de ícones, `4x3 grid`. Anexe a
+folha de cartas atual como referência, se tiver; senão, a de partes.
+
+**C5, Sporemaw:**
+
+```
+1. a glowing ochre mushroom cap radiating teal light rays
+2. a burst cloud of glowing teal spores
+3. mushroom gills exhaling a soft teal mist
+4. a fungal jaw with fibrous teeth snapping shut
+5. thick roots gripping the ground and spreading out, like an anchor
+6. a web of glowing mycelium threads spreading outward
+7. a shelf-fungus scythe blade mid-slash with a teal arc
+8. a fibrous stalk springing up like a coiled spring
+9. glowing teal puffball eyes with a beam of light
+10. a pulsing teal fungal core sending out rings of light
+11. a glowing lace veil fluttering like a curtain
+12. a crown of mushroom caps glowing from within
+```
+
+| Ordem | Arquivo | Carta | Parte |
+|---|---|---|---|
+| 1 | `cap_glow.png` | Brilho do Chapéu | Chapéu Luminoso |
+| 2 | `spore_cloud.png` | Nuvem de Esporos | Saco de Esporos |
+| 3 | `filter_gills.png` | Lamelas Filtrantes | Lamelas |
+| 4 | `fungal_bite.png` | Bocada Fúngica | Mandíbula Fúngica |
+| 5 | `take_root.png` | Enraizar | Raízes-Pernas |
+| 6 | `mycelial_web.png` | Rede Micélica | Rede de Micélio |
+| 7 | `shelf_scythe.png` | Ceifa Fúngica | Foice de Orelha-de-pau |
+| 8 | `spring_stalk.png` | Haste Elástica | Haste Fibrosa |
+| 9 | `glow_gaze.png` | Olhar Bioluminescente | Olhos-Bufa |
+| 10 | `matrix_pulse.png` | Pulso da Matriz | Núcleo Pulsante |
+| 11 | `luminous_veil.png` | Véu Luminoso | Véu Luminoso |
+| 12 | `cap_crown.png` | Coroa Micélica | Coroa de Chapéus |
+
+**C6, Ashwing:**
+
+```
+1. ash-grey down feathers swirling with glowing embers
+2. a small hooked beak pecking through an eggshell
+3. a leathery wing beating with gust lines and ash
+4. a hooked bone beak striking downward with a motion arc
+5. black talons diving down with speed lines
+6. a glowing ember gland bursting into sparks
+7. a crest of bone spikes raised and bristling
+8. a throat sac discharging orange-white lightning
+9. metallic blade feathers fanned out like knives
+10. a molten heart pulsing with heat waves
+11. a molten-cracked wing spreading a wave of fire
+12. a bone-armored beak ramming forward, cracks of impact
+```
+
+| Ordem | Arquivo | Carta | Parte |
+|---|---|---|---|
+| 1 | `smoldering_down.png` | Penugem Fumegante | Penugem Fumegante |
+| 2 | `hatchling_peck.png` | Bicada de Filhote | Bico de Filhote |
+| 3 | `wing_gust.png` | Rajada de Asas | Membrana da Asa |
+| 4 | `hooked_strike.png` | Golpe de Bico | Bico Curvo |
+| 5 | `dive_talons.png` | Mergulho | Garras de Mergulho |
+| 6 | `ember_burst.png` | Explosão de Brasa | Glândula de Brasa |
+| 7 | `bristling_crest.png` | Crista Eriçada | Crista de Ossos |
+| 8 | `storm_discharge.png` | Descarga | Bolsa de Tempestade |
+| 9 | `steel_feathers.png` | Penas de Aço | Penas de Aço |
+| 10 | `molten_heart.png` | Coração Fundido | Coração de Brasa |
+| 11 | `molten_wing.png` | Asa Fundida | Asa Fundida |
+| 12 | `armored_ram.png` | Investida Blindada | Bico Blindado |
+
+### Folha C7: cartas híbridas novas (8)
+
+Combinações das famílias novas com as atuais (Experimentação). `Exactly 8 ... in a 4x2 grid`.
+
+```
+1. an olive-grey bone with glowing teal mushrooms sprouting from it
+2. a violet spore cloud with small amber eyes inside it
+3. a moss-green armored chitin plate overgrown with glowing teal fungus
+4. a pair of crimson fangs covered with pale fuzzy mold
+5. a crimson fang glowing ember-hot, with small flames
+6. a moss-green chitin plate with glowing molten lava cracks
+7. an ash-grey feather dissolving into violet smoke at the tip
+8. a glowing teal mushroom cap burning with orange embers
+```
+
+| Ordem | Arquivo | Carta | Combinação |
+|---|---|---|---|
+| 1 | `hb_rot_bloom.png` | Flor da Podridão | Sporemaw + Rotwalker |
+| 2 | `hb_void_spores.png` | Esporos do Vazio | Sporemaw + Voidspawn |
+| 3 | `hb_moss_plate.png` | Placa Micélica | Sporemaw + Ironback |
+| 4 | `hb_blood_mold.png` | Mofo Sanguíneo | Sporemaw + Bloodfang |
+| 5 | `hb_ember_fang.png` | Presa de Brasa | Ashwing + Bloodfang |
+| 6 | `hb_kiln_shell.png` | Casco de Forno | Ashwing + Ironback |
+| 7 | `hb_void_feather.png` | Pena do Vazio | Ashwing + Voidspawn |
+| 8 | `hb_burning_spores.png` | Esporos Ardentes | Ashwing + Sporemaw |
+
+### Folha MU2: mutações novas (4)
+
+Como as atuais: **o órgão dentro de um frasco ou relicário** de vidro e latão. `Exactly 4 ... in a single row`.
+Anexe uma mutação atual (ex.: `assets/art/mutations/mut_bf_heart.png`) como referência.
+
+```
+1. a glass jar with a cork lid containing glowing teal mushroom gills in clear fluid
+2. an ornate brass-and-glass reliquary holding a pulsing teal fungal core
+3. a glass jar with a cork lid containing a glowing ember-orange gland in amber fluid
+4. an ornate brass-and-glass reliquary holding a heart glowing like molten lava
+```
+
+| Ordem | Arquivo | Mutação |
+|---|---|---|
+| 1 | `mut_sm_gills.png` | Lamelas Implantadas |
+| 2 | `mut_mm_core.png` | Núcleo Micélico |
+| 3 | `mut_aw_gland.png` | Glândula Ardente |
+| 4 | `mut_er_heart.png` | Coração da Roca |
+
+### E3: eventos novos (6)
+
+Cenas quadradas que preenchem o quadro inteiro, como em **Eventos em alta resolução** (mesmo cabeçalho de
+evento). O ideal é **um por pedido**, 1024×1024 ou mais; uma folha 3x2 também serve, mas sai menos nítida.
+
+| Arquivo | Evento | Região | Complemento |
+|---|---|---|---|
+| `ev_fairy_ring.png` | Círculo de Cogumelos | Bosque | A perfect ring of glowing teal mushrooms in a dark forest clearing, spore motes floating, an eerie calm. |
+| `ev_spore_cocoon.png` | Casulo Fúngico | Bosque | A large creature-shaped cocoon wrapped in white mycelium hanging from a giant mushroom, faint teal glow inside. |
+| `ev_overgrown_cart.png` | Carroça Tomada | Bosque | An old wooden supply cart overgrown with mushrooms, crates and jars still on it, half-sunk in moss. |
+| `ev_cliff_nest.png` | Ninho no Penhasco | Pináculos | A huge nest of bones and branches on a cliff ledge, three eggs glowing ember-orange, ash falling. |
+| `ev_storm_shrine.png` | Santuário da Tempestade | Pináculos | A small ancient stone shrine on a mountain peak, struck by orange-white lightning, carved bird motifs. |
+| `ev_abandoned_gear.png` | Equipamento Abandonado | Pináculos | Abandoned climbing gear in grey ash: a pickaxe, coiled rope, a lantern and a backpack at the foot of a cliff. Nobody visible. |
 
 ## Fundos (paisagens)
 
