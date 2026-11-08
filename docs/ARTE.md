@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: falta só a folha L2 (melhorias da Oficina)
+## Status: faltam as folhas L1b (opcional) e L2
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -12,7 +12,7 @@
 | Fundos (paisagens) | 6 | **Pronto** |
 | Fundos de batalha (neutros, por família) | 4 | **Pronto** |
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
-| Ícones das estações do laboratório | 6 | **Pronto** |
+| Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 | Folha L2 |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds>/<id>.png` e o jogo as carrega
@@ -162,6 +162,40 @@ Dark fantasy hand-painted game icon sheet, same style as the attached reference:
 | 4 | `mutation.png` | Câmara de Mutação |
 | 5 | `workshop.png` | Oficina |
 | 6 | `archive.png` | Arquivo de Espécimes |
+
+### Folha L1b: outras versões dos ícones das estações (12)
+
+A primeira versão (L1) está no jogo, mas veio com composições cheias (mochila + mapa + lanterna, bigorna +
+engrenagem). Esta folha pede **2 opções por estação**, cada uma com **um objeto só**, mais limpo, para você
+escolher. A ordem é: estação 1 opção A, estação 1 opção B, estação 2 opção A, e assim por diante.
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors. Each icon is ONE single object only, centered, simple bold silhouette that reads clearly at 100 pixels; no extra props, no piles of items, no scenery. Transparent or plain blurred background. Exactly 12 separate isolated icons in a 4x3 grid with wide spacing, in the exact order listed, left to right, top to bottom. No text, no numbers, no labels, no frames, no people, no gore.
+1. a brass compass, open, with a red needle
+2. a rolled parchment map tied with a red ribbon
+3. three illustrated cards fanned out
+4. a single quill pen in an inkwell
+5. a round glass alchemy flask with glowing green liquid
+6. a small glass vial with crimson and violet liquids swirling together
+7. a crimson creature heart inside a small brass-and-glass capsule
+8. a large curved syringe-like brass injector with violet fluid
+9. a blacksmith hammer
+10. a brass gear crossed with a wrench
+11. a closed leather tome with a brass eye emblem on the cover
+12. a brass magnifying glass
+```
+
+| Ordem | Arquivo | Estação |
+|---|---|---|
+| 1 / 2 | `expedition_a.png` / `expedition_b.png` | Mesa de Expedição |
+| 3 / 4 | `deck_a.png` / `deck_b.png` | Bancada de Baralho |
+| 5 / 6 | `experiment_a.png` / `experiment_b.png` | Estação de Experimentação |
+| 7 / 8 | `mutation_a.png` / `mutation_b.png` | Câmara de Mutação |
+| 9 / 10 | `workshop_a.png` / `workshop_b.png` | Oficina |
+| 11 / 12 | `archive_a.png` / `archive_b.png` | Arquivo de Espécimes |
+
+Mande a folha inteira; eu recorto as 12, mostro lado a lado com a versão atual e você escolhe qual fica em
+cada estação (pode até manter a atual em algumas).
 
 ### Folha L2: Melhorias da Oficina (5)
 
