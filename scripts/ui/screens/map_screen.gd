@@ -157,17 +157,25 @@ func _confirm_abandon() -> void:
 
 class MapCanvas:
 	extends Control
+	## Trilha horizontal: o caminho anda da esquerda (início) para a direita (chefe).
+	## As próximas escolhas aparecem como cartões grandes; o que está longe fica pequeno e enevoado.
 	signal node_chosen(node: MapNode)
 
-	const MAX_WIDTH := 980.0
+	enum Tier { CARD, MEDIUM, SMALL }
 
 	var _buttons: Array[Control] = []
 	var _reachable: Dictionary = {}
+	var _col_x: PackedFloat32Array = []
+	var _t := 0.0
 
 	func _ready() -> void:
 		mouse_filter = Control.MOUSE_FILTER_PASS
 		resized.connect(_rebuild)
 		_rebuild()
+
+	func _process(d: float) -> void:
+		_t += d
+		queue_redraw()
 
 	func _rebuild() -> void:
 		for b in _buttons:
@@ -175,6 +183,7 @@ class MapCanvas:
 		_buttons.clear()
 		var available := RunState.get_available_nodes()
 		_compute_reachable(available)
+		_compute_columns()
 		for row in RunState.map:
 			for n: MapNode in row:
 				var b := NodeButton.new()
@@ -182,12 +191,59 @@ class MapCanvas:
 				b.available = available.has(n)
 				b.is_current = n == RunState.current
 				b.reachable = _reachable.has(n)
+				b.tier = _tier(n, b.available)
+				b.setup_size()
 				b.position = _pos(n) - b.size * 0.5
 				b.tooltip_text = _tooltip(n)
 				b.chosen.connect(func(node): node_chosen.emit(node))
 				add_child(b)
 				_buttons.append(b)
 		queue_redraw()
+
+	func _tier(n: MapNode, is_available: bool) -> int:
+		if is_available:
+			return Tier.CARD
+		var d := n.floor_index - RunState.get_floor()
+		if n == RunState.current or n.type == MapNode.Type.BOSS or (d >= 1 and d <= 2 and _reachable.has(n)):
+			return Tier.MEDIUM
+		return Tier.SMALL
+
+	## Largura de cada andar: as próximas escolhas ganham muito espaço; o passado e o futuro distante, pouco.
+	func _compute_columns() -> void:
+		var floors := RunState.map.size()
+		var cur := RunState.get_floor()
+		var weights: Array[float] = []
+		var total := 0.0
+		for f in floors:
+			var d := f - cur
+			var w := 0.5
+			if d < 0:
+				w = 0.45
+			elif d == 0:
+				w = 0.7
+			elif d == 1:
+				w = 2.1
+			elif d == 2:
+				w = 1.0
+			if f == floors - 1:
+				w = maxf(w, 1.0)
+			weights.append(w)
+			total += w
+		_col_x.resize(floors)
+		var margin := 40.0
+		var usable := size.x - margin * 2.0
+		var acc := 0.0
+		for f in floors:
+			_col_x[f] = margin + (acc + weights[f] * 0.5) / total * usable
+			acc += weights[f]
+
+	func _pos(n: MapNode) -> Vector2:
+		var top := 70.0
+		var h := size.y - 140.0
+		var x: float = _col_x[n.floor_index] if n.floor_index < _col_x.size() else size.x * 0.5
+		# a posição lateral sorteada pelo gerador vira a altura na trilha (espalhamento natural, sem grade)
+		var y := top + h * clampf((n.position.x - 0.12) / 0.76, 0.0, 1.0)
+		return Vector2(x, y)
 
 	## Nós que ainda podem ser alcançados a partir das opções atuais.
 	func _compute_reachable(available: Array) -> void:
@@ -197,28 +253,14 @@ class MapCanvas:
 			_reachable[n] = true
 		while not frontier.is_empty():
 			var n: MapNode = frontier.pop_back()
-			var f := _floor_of(n)
-			if f < 0 or f + 1 >= RunState.map.size():
+			var f := n.floor_index
+			if f + 1 >= RunState.map.size():
 				continue
 			for j in n.links:
 				var m: MapNode = RunState.map[f + 1][j]
 				if not _reachable.has(m):
 					_reachable[m] = true
 					frontier.append(m)
-
-	func _floor_of(n: MapNode) -> int:
-		for f in RunState.map.size():
-			if RunState.map[f].has(n):
-				return f
-		return -1
-
-	func _area() -> Rect2:
-		var w := minf(size.x - 120.0, MAX_WIDTH)
-		return Rect2(Vector2((size.x - w) * 0.5, 40), Vector2(w, size.y - 80))
-
-	func _pos(n: MapNode) -> Vector2:
-		var a := _area()
-		return a.position + n.position * a.size
 
 	func _tooltip(n: MapNode) -> String:
 		var t := n.get_type_name()
@@ -230,105 +272,79 @@ class MapCanvas:
 				t += " (grupo de %d)" % n.monsters.size()
 		return t
 
-	## Folha de papel onde o mapa é desenhado a tinta.
-	func _paper_rect() -> Rect2:
-		var a := _area()
-		var r := a.grow_individual(80, 40, 80, 40)
-		return r.intersection(Rect2(Vector2(0, 2), size - Vector2(0, 4)))
-
 	func _draw() -> void:
-		_draw_paper(_paper_rect())
+		var cur := RunState.get_floor()
+		# névoa sobre o futuro distante
+		if cur + 3 < _col_x.size():
+			var x0: float = (_col_x[cur + 2] + _col_x[cur + 3]) * 0.5 if cur + 2 >= 0 else 0.0
+			var steps := 12
+			for i in steps:
+				var f := float(i) / steps
+				var x := lerpf(x0, size.x, f)
+				draw_rect(Rect2(x, 0, size.x - x, size.y), Color(Palette.CHARCOAL_DEEP, 0.045))
+			for i in 7:
+				var p := Vector2(lerpf(x0, size.x, fmod(i * 0.37 + _t * 0.01, 1.0)), size.y * (0.15 + 0.12 * i))
+				draw_circle(p, 70.0 + 20.0 * sin(_t * 0.4 + i), Color(Palette.PAPER, 0.025))
 		var available := RunState.get_available_nodes()
 		for f in RunState.map.size() - 1:
 			for n: MapNode in RunState.map[f]:
 				for j in n.links:
-					var m: MapNode = RunState.map[f + 1][j]
-					_draw_edge(n, m, available)
-
-	func _draw_paper(r: Rect2) -> void:
-		# sombra da folha
-		for i in 6:
-			draw_rect(r.grow(10.0 - i * 1.6).grow_individual(0, 0, 0, 0) , Color(0, 0, 0, 0.07))
-		draw_rect(r, Palette.PAPER)
-		# manchas de idade
-		var rng := RandomNumberGenerator.new()
-		rng.seed = 4242
-		for i in 14:
-			var p := r.position + Vector2(rng.randf(), rng.randf()) * r.size
-			draw_circle(p, rng.randf_range(30, 110), Color(Palette.BONE, rng.randf_range(0.04, 0.09)))
-		# quadriculado, como nas cartas
-		var step := 26.0
-		var x := r.position.x + step
-		while x < r.end.x:
-			draw_line(Vector2(x, r.position.y), Vector2(x, r.end.y), Color(Palette.INK, 0.06), 1.0)
-			x += step
-		var y := r.position.y + step
-		while y < r.end.y:
-			draw_line(Vector2(r.position.x, y), Vector2(r.end.x, y), Color(Palette.INK, 0.06), 1.0)
-			y += step
-		# bordas queimadas pelo tempo
-		for i in 10:
-			draw_rect(r.grow(-i * 3.0), Color(Palette.INK_SOFT, 0.06 - i * 0.005), false, 3.0)
-		# moldura de prancha
-		draw_rect(r.grow(-14), Color(Palette.INK, 0.55), false, 2.0)
-		draw_rect(r.grow(-19), Color(Palette.INK, 0.3), false, 1.0)
-		_draw_compass(Vector2(r.end.x - 70, r.end.y - 70), 40.0)
-
-	## Rosa dos ventos simples no canto da folha.
-	func _draw_compass(c: Vector2, s: float) -> void:
-		var ink := Color(Palette.INK, 0.5)
-		draw_arc(c, s * 0.62, 0, TAU, 40, ink, 1.5, true)
-		for k in 4:
-			var ang := k * PI * 0.5 - PI * 0.5
-			var d := Vector2(cos(ang), sin(ang))
-			var side := Vector2(-d.y, d.x)
-			var pts := PackedVector2Array([c + d * s, c + side * s * 0.16, c - side * s * 0.16])
-			draw_colored_polygon(pts, Color(Palette.BLOOD, 0.75) if k == 0 else ink)
-		var font := UiTheme.title_font if UiTheme.title_font != null else ThemeDB.fallback_font
-		draw_string(font, c + Vector2(-5, -s - 4), "N", HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(Palette.INK, 0.7))
+					_draw_edge(n, RunState.map[f + 1][j], available)
+		# trilha começando antes do primeiro andar
+		if RunState.current == null:
+			for n in available:
+				_trail(Vector2(0, _pos(n).y), _pos(n), Color(Palette.BONE_LIGHT, 0.9), 3.0, false)
 
 	func _draw_edge(n: MapNode, m: MapNode, available: Array) -> void:
 		var p := _pos(n)
 		var q := _pos(m)
 		if n.visited and m.visited:
-			_line(p, q, Color(Palette.BLOOD, 0.85), 3.5, false)
+			_trail(p, q, Color(Palette.BONE, 0.85), 3.5, false)
 		elif n == RunState.current and available.has(m):
-			_line(p, q, Palette.BLOOD, 3.0, true)
-		elif _reachable.has(n) and _reachable.has(m) or (n == RunState.current and _reachable.has(m)):
-			_line(p, q, Color(Palette.INK, 0.7), 2.0, true)
+			_trail(p, q, Palette.BONE_LIGHT, 3.5, false)
+		elif _reachable.has(n) and _reachable.has(m):
+			var far := m.floor_index - RunState.get_floor()
+			_trail(p, q, Color(Palette.PAPER, 0.5 if far <= 2 else 0.22), 2.0, true)
 		else:
-			_line(p, q, Color(Palette.INK, 0.2), 1.5, true)
+			_trail(p, q, Color(Palette.PAPER, 0.08), 1.5, true)
 
-	## Traço de tinta (contínuo ou tracejado).
-	func _line(a: Vector2, b: Vector2, col: Color, w: float, dashed: bool) -> void:
-		var dist := a.distance_to(b)
-		var dir: Vector2 = (b - a) / maxf(1.0, dist)
-		var gap := 30.0
-		var s := a + dir * gap
-		var e := b - dir * gap
-		if dist <= gap * 2.0:
-			return
+	## Trilha curva (como um caminho de terra), com sombra por baixo.
+	func _trail(a: Vector2, b: Vector2, col: Color, w: float, dashed: bool) -> void:
+		var pts := PackedVector2Array()
+		var steps := 24
+		var c1 := Vector2(lerpf(a.x, b.x, 0.5), a.y)
+		var c2 := Vector2(lerpf(a.x, b.x, 0.5), b.y)
+		for i in steps + 1:
+			var t := float(i) / steps
+			var u := 1.0 - t
+			pts.append(a * u * u * u + c1 * 3.0 * u * u * t + c2 * 3.0 * u * t * t + b * t * t * t)
 		if not dashed:
-			draw_line(s, e, col, w, true)
+			draw_polyline(pts, Color(0, 0, 0, col.a * 0.55), w + 4.0, true)
+			draw_polyline(pts, col, w, true)
 			return
-		var d := 0.0
-		var total := dist - gap * 2.0
-		while d < total:
-			draw_line(s + dir * d, s + dir * minf(d + 9.0, total), col, w, true)
-			d += 15.0
+		for i in range(0, steps, 2):
+			draw_line(pts[i], pts[i + 1], Color(0, 0, 0, col.a * 0.5), w + 3.0, true)
+			draw_line(pts[i], pts[i + 1], col, w, true)
 
 	class NodeButton:
 		extends Control
 		signal chosen(node: MapNode)
+		const CARD_SIZE := Vector2(250, 112)
 		var node: MapNode
 		var available := false
 		var is_current := false
 		var reachable := false
+		var tier: int = 0
 		var _t := 0.0
 		var _hover := false
 
-		func _init() -> void:
-			size = Vector2(110, 110)
+		func setup_size() -> void:
+			if tier == 0:
+				size = CARD_SIZE + Vector2(24, 24)
+			elif tier == 1:
+				size = Vector2(90, 90) if node.type == MapNode.Type.BOSS else Vector2(64, 64)
+			else:
+				size = Vector2(40, 40)
 			mouse_filter = Control.MOUSE_FILTER_STOP
 
 		func _ready() -> void:
@@ -337,7 +353,9 @@ class MapCanvas:
 			mouse_exited.connect(func(): _hover = false; queue_redraw())
 
 		func _has_point(p: Vector2) -> bool:
-			return p.distance_to(size * 0.5) <= _radius() + 4.0
+			if tier == 0:
+				return Rect2(Vector2(12, 12), CARD_SIZE).has_point(p)
+			return p.distance_to(size * 0.5) <= size.x * 0.5
 
 		func _process(d: float) -> void:
 			if available or is_current:
@@ -349,64 +367,100 @@ class MapCanvas:
 				chosen.emit(node)
 				accept_event()
 
-		func _radius() -> float:
-			var r := 40.0 if node.type == MapNode.Type.BOSS else (26.0 if node.type == MapNode.Type.ELITE else 23.0)
-			if available and _hover:
-				r *= 1.15
-			return r
-
-		## Cor de tinta de cada tipo de nó (sobre papel).
 		static func type_color(t: MapNode.Type) -> Color:
 			match t:
-				MapNode.Type.ELITE: return Palette.BLOOD
-				MapNode.Type.EVENT: return Palette.VIOLET
-				MapNode.Type.REST: return Palette.MOSS.darkened(0.15)
-				MapNode.Type.BOSS: return Palette.VIOLET
-			return Palette.INK
+				MapNode.Type.ELITE:
+					return Palette.BLOOD_BRIGHT
+				MapNode.Type.EVENT:
+					return Palette.VIOLET_BRIGHT
+				MapNode.Type.REST:
+					return Palette.MOSS_BRIGHT
+				MapNode.Type.BOSS:
+					return Palette.VIOLET_BRIGHT
+			return Palette.BONE_LIGHT
+
+		func _subtitle() -> String:
+			match node.type:
+				MapNode.Type.COMBAT:
+					if node.monsters.size() > 1:
+						return "Grupo de %d criaturas" % node.monsters.size()
+					if node.monsters.is_empty():
+						return "Uma criatura"
+					return "Rastros de %s" % Family.get_name_of(node.monsters[0].family)
+				MapNode.Type.ELITE:
+					return "Elite com partes raras"
+				MapNode.Type.EVENT:
+					return "Pode ajudar ou ferir"
+				MapNode.Type.REST:
+					return "Descansar ou aprimorar"
+				MapNode.Type.BOSS:
+					if not node.monsters.is_empty() and Profile.is_monster_known(node.monsters[0].id):
+						return node.monsters[0].display_name
+					return "Desconhecido"
+			return ""
 
 		func _draw() -> void:
-			var c := size * 0.5
-			var r := _radius()
-			var col := type_color(node.type)
-			# opacidade: opções e caminho possível em destaque; o resto esmaecido, como lápis apagado
-			var alpha := 1.0
-			if not (available or node.visited or is_current):
-				alpha = 0.8 if reachable else 0.35
-			# círculos de tinta vermelha pulsando nas opções atuais
-			if available:
-				var pulse := 0.5 + 0.5 * sin(_t * 3.2)
-				draw_arc(c, r + 7.0 + pulse * 3.0, 0, TAU, 48, Color(Palette.BLOOD, 0.55 + pulse * 0.3), 2.5, true)
-				draw_arc(c, r + 13.0 + pulse * 4.0, 0, TAU, 48, Color(Palette.BLOOD, 0.2 + pulse * 0.15), 1.5, true)
-			# medalhão de papel
-			var fill := Palette.PAPER.lightened(0.1)
-			if node.visited:
-				fill = Palette.PAPER_DARK
-			draw_circle(c + Vector2(1.5, 2.5), r, Color(Palette.INK, 0.18 * alpha))
-			draw_circle(c, r, Color(fill, alpha))
-			if node.type == MapNode.Type.BOSS and _draw_boss_portrait(c, r - 4.0, alpha):
-				pass
+			if tier == 0:
+				_draw_card()
 			else:
-				var icon_r := r * 0.62
-				NodeIcon.draw_type(self, node.type, Rect2(c - Vector2(icon_r, icon_r), Vector2(icon_r, icon_r) * 2.0),
-					alpha * (0.5 if node.visited and not is_current else 1.0))
-			# aro de tinta
-			var rim_w := 3.0 if available or is_current else 2.0
-			var rim := Palette.BLOOD if available else (Palette.INK if node.visited else col)
-			draw_arc(c, r, 0, TAU, 48, Color(rim, alpha), rim_w, true)
-			if node.type == MapNode.Type.BOSS:
-				draw_arc(c, r + 5.0, 0, TAU, 48, Color(col, 0.7 * alpha), 1.5, true)
-			# visitado: risco de tinta, como item riscado da lista
+				_draw_medallion()
+
+		func _draw_card() -> void:
+			var col := type_color(node.type)
+			var lift := -6.0 if _hover else 0.0
+			var r := Rect2(Vector2(12, 12 + lift), CARD_SIZE)
+			var pulse := 0.5 + 0.5 * sin(_t * 3.0)
+			for i in 3:
+				_rounded(r.grow(4.0 + i * 4.0 + pulse * 2.0), 12.0 + i * 3.0, Color(col, (0.12 - i * 0.03) * (1.4 if _hover else 1.0)))
+			_rounded(Rect2(r.position + Vector2(0, 5), r.size), 10.0, Color(0, 0, 0, 0.45))
+			_rounded(r, 10.0, Palette.PAPER)
+			# faixa do tipo à esquerda
+			var band_col := Palette.CHARCOAL_DEEP.lerp(col, 0.18)
+			var band := Rect2(r.position, Vector2(64, r.size.y))
+			_rounded(band, 10.0, band_col)
+			draw_rect(Rect2(band.position + Vector2(band.size.x - 10, 0), Vector2(10, band.size.y)), band_col)
+			if not (node.type == MapNode.Type.BOSS and _boss_portrait(band.get_center(), 26.0, 1.0)):
+				NodeIcon.draw_type(self, node.type, Rect2(band.get_center() - Vector2(20, 20), Vector2(40, 40)), 1.0)
+			# texto
+			var tf := UiTheme.title_font if UiTheme.title_font != null else ThemeDB.fallback_font
+			var bf := UiTheme.body_font if UiTheme.body_font != null else ThemeDB.fallback_font
+			var tx := r.position.x + 76
+			var tw := r.size.x - 84
+			draw_string(tf, Vector2(tx, r.position.y + 42), node.get_type_name(), HORIZONTAL_ALIGNMENT_LEFT, tw, 22, Palette.INK)
+			draw_line(Vector2(tx, r.position.y + 52), Vector2(r.end.x - 10, r.position.y + 52), Color(col.darkened(0.3), 0.7), 1.5)
+			draw_string(bf, Vector2(tx, r.position.y + 76), _subtitle(), HORIZONTAL_ALIGNMENT_LEFT, tw, 14, Palette.INK_SOFT)
+			var hint_a := 0.55 + pulse * 0.45 if _hover else 0.55
+			draw_string(bf, Vector2(tx, r.position.y + 100), "Clique para seguir", HORIZONTAL_ALIGNMENT_LEFT, tw, 12, Color(Palette.INK_SOFT, hint_a))
+			_rounded_outline(r, 10.0, col.darkened(0.15), 3 if _hover else 2)
+
+		func _draw_medallion() -> void:
+			var c := size * 0.5
+			var r := size.x * 0.5 - 3.0
+			var col := type_color(node.type)
+			var alpha := 1.0
 			if node.visited and not is_current:
-				draw_line(c + Vector2(-r * 0.55, r * 0.55), c + Vector2(r * 0.55, -r * 0.55), Color(Palette.BLOOD, 0.6), 2.5, true)
-			# você está aqui
+				alpha = 0.55
+			elif not is_current:
+				if node.type == MapNode.Type.BOSS:
+					alpha = 0.95
+				elif tier == 1:
+					alpha = 0.85
+				else:
+					alpha = 0.55 if reachable else 0.2
+			draw_circle(c + Vector2(0, 3), r + 1.0, Color(0, 0, 0, 0.5 * alpha))
+			draw_circle(c, r, Color(Palette.CHARCOAL_DEEP.lerp(col, 0.15), alpha))
+			if not (node.type == MapNode.Type.BOSS and _boss_portrait(c, r - 3.0, alpha)):
+				var ir := r * 0.6
+				NodeIcon.draw_type(self, node.type, Rect2(c - Vector2(ir, ir), Vector2(ir, ir) * 2.0), alpha)
+			var rim := Palette.BONE_LIGHT if is_current else (Palette.BONE if node.visited else col)
+			draw_arc(c, r, 0, TAU, 40, Color(rim, alpha), 3.0 if is_current else 2.0, true)
 			if is_current:
-				var bob := sin(_t * 2.5) * 2.0
-				var tip := c + Vector2(0, -r - 6.0 + bob)
-				var tri := PackedVector2Array([tip, tip + Vector2(-9, -15), tip + Vector2(9, -15)])
-				draw_colored_polygon(tri, Palette.BLOOD)
+				var bf := UiTheme.body_font if UiTheme.body_font != null else ThemeDB.fallback_font
+				var w := bf.get_string_size("Você", HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
+				draw_string(bf, Vector2(c.x - w * 0.5, size.y + 12), "Você", HORIZONTAL_ALIGNMENT_LEFT, -1, 13, Palette.BONE_LIGHT)
 
 		## Retrato do chefe recortado em círculo (só se o jogador já conhece o monstro).
-		func _draw_boss_portrait(c: Vector2, r: float, alpha: float) -> bool:
+		func _boss_portrait(c: Vector2, r: float, alpha: float) -> bool:
 			if node.monsters.is_empty():
 				return false
 			var m: MonsterData = node.monsters[0]
@@ -415,17 +469,32 @@ class MapCanvas:
 			var tex := m.portrait
 			var ts := tex.get_size()
 			var focus := m.region_anchors[0] if m.region_anchors.size() > 0 else Vector2(0.5, 0.4)
-			var half := ts.y * 0.32 # recorte quadrado em volta da cabeça
+			var half := ts.y * 0.32
 			var center_px := Vector2(clampf(focus.x * ts.x, half, ts.x - half), clampf(focus.y * ts.y, half, ts.y - half))
 			var pts := PackedVector2Array()
 			var uvs := PackedVector2Array()
 			for i in 40:
-				var ang := TAU * i / 40.0
-				var d := Vector2(cos(ang), sin(ang))
+				var d := Vector2(cos(TAU * i / 40.0), sin(TAU * i / 40.0))
 				pts.append(c + d * r)
 				uvs.append((center_px + d * half) / ts)
 			draw_colored_polygon(pts, Color(1, 1, 1, alpha), uvs, tex)
 			return true
+
+		func _rounded(r: Rect2, rad: float, col: Color) -> void:
+			var sb := StyleBoxFlat.new()
+			sb.bg_color = col
+			sb.set_corner_radius_all(int(rad))
+			sb.anti_aliasing = true
+			draw_style_box(sb, r)
+
+		func _rounded_outline(r: Rect2, rad: float, col: Color, w: int) -> void:
+			var sb := StyleBoxFlat.new()
+			sb.draw_center = false
+			sb.border_color = col
+			sb.set_border_width_all(w)
+			sb.set_corner_radius_all(int(rad))
+			sb.anti_aliasing = true
+			draw_style_box(sb, r)
 
 	class NodeIcon:
 		extends Control
@@ -434,23 +503,22 @@ class MapCanvas:
 		func _draw() -> void:
 			var c := size * 0.5
 			var col := NodeButton.type_color(type)
-			draw_circle(c, size.x * 0.5, Palette.PAPER.lightened(0.1))
+			draw_circle(c, size.x * 0.5, Palette.CHARCOAL_DEEP.lerp(col, 0.15))
 			draw_arc(c, size.x * 0.5 - 1.0, 0, TAU, 32, col, 1.5, true)
 			draw_type(self, type, Rect2(Vector2(5, 5), size - Vector2(10, 10)), 1.0)
 
-		## Ícone do tipo, em tinta escura (feito para fundo de papel).
 		static func draw_type(ci: CanvasItem, t: MapNode.Type, r: Rect2, alpha: float) -> void:
 			match t:
 				MapNode.Type.COMBAT:
-					ProceduralArt.draw_icon(ci, &"attack", r, Color(Palette.INK, alpha))
+					ProceduralArt.draw_icon(ci, &"attack", r, Color(Palette.PAPER, alpha))
 				MapNode.Type.ELITE:
-					ProceduralArt.draw_motif(ci, &"fang", r, Color(Palette.BLOOD, alpha))
+					ProceduralArt.draw_motif(ci, &"fang", r, Color(Palette.BLOOD_BRIGHT, alpha))
 				MapNode.Type.REST:
-					ProceduralArt.draw_icon(ci, &"energy", r, Color(Palette.MOSS.darkened(0.15), alpha))
+					ProceduralArt.draw_icon(ci, &"energy", r, Color(Palette.MOSS_BRIGHT, alpha))
 				MapNode.Type.BOSS:
-					ProceduralArt.draw_motif(ci, &"eye", r, Color(Palette.VIOLET, alpha))
+					ProceduralArt.draw_motif(ci, &"eye", r, Color(Palette.VIOLET_BRIGHT, alpha))
 				MapNode.Type.EVENT:
 					var font := UiTheme.title_font if UiTheme.title_font != null else ThemeDB.fallback_font
 					var fs := int(r.size.y * 1.1)
 					var w := font.get_string_size("?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
-					ci.draw_string(font, r.get_center() + Vector2(-w * 0.5, fs * 0.34), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(Palette.VIOLET, alpha))
+					ci.draw_string(font, r.get_center() + Vector2(-w * 0.5, fs * 0.34), "?", HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Color(Palette.VIOLET_BRIGHT.lightened(0.3), alpha))

@@ -63,7 +63,7 @@ func _row(u: LabUpgradeData) -> Control:
 	p.add_child(h)
 	var art := MotifArt.new()
 	art.custom_minimum_size = Vector2(80, 80)
-	art.setup(u.art_motif, Palette.BONE)
+	art.setup(u.art_motif, Palette.BONE, Database.get_art("upgrades", u.id))
 	h.add_child(art)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL

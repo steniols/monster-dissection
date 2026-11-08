@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: tudo pronto
+## Status: faltam as imagens do laboratório
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -10,6 +10,8 @@
 | Mutações | 7 | **Pronto** |
 | Eventos | 6 | **Pronto** |
 | Fundos (paisagens) | 6 | **Pronto** |
+| Estações do laboratório | 6 | Folha L1 |
+| Melhorias da Oficina | 5 | Folha L2 |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -125,14 +127,63 @@ Complemento de cada um (cole depois do cabeçalho):
 Colosso), que aparecem maiores na tela. Depois de gerar, me diga qual arquivo é qual. Eu removo o fundo, coloco
 no jogo e recalibro os pontos de dissecação.
 
+## Laboratório: pedir agora
+
+O jogo já aceita estas imagens. Sem o arquivo, continua o desenho atual.
+
+- **Estações** (6): o quadro ilustrado de cada estação no laboratório. Ficam em `assets/art/stations/`.
+- **Melhorias da Oficina** (5): o ícone de cada melhoria. Ficam em `assets/art/upgrades/`.
+
+Peça em **folha**, como as cartas: objetos isolados, fundo transparente ou liso, **na ordem da lista** e sem
+texto. Anexe a folha de partes como referência de estilo. Eu recorto e coloco cada um no lugar.
+
+### Folha L1: Estações do laboratório (6)
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, gothic naturalist laboratory theme, bold simple readable silhouettes. Transparent or plain blurred background. Exactly 6 separate isolated objects in a 3x2 grid with wide spacing, in the exact order listed, left to right, top to bottom. Draw exactly these objects and nothing else. No text, no numbers, no labels, no frames, no people, no gore.
+1. an expedition table: an unrolled old map with a compass, a lantern and a hunting satchel on top
+2. a card-sorting desk: a wooden writing desk with neat stacks of illustrated cards, an inkwell and a quill
+3. an alchemy experiment bench: two glass flasks with different colored fluids (crimson and violet) joined by brass tubes into a glowing green flask
+4. a mutation chamber: a tall glass vat with brass fittings filled with glowing violet liquid, a dark creature organ floating inside
+5. a workshop: an anvil with a hammer, tongs and a half-finished bone-handled surgical blade, a few sparks
+6. a specimen archive: a tall wooden cabinet with many small labeled drawers, one drawer open showing a pinned creature eye
+```
+
+| Ordem | Arquivo | Estação |
+|---|---|---|
+| 1 | `expedition.png` | Mesa de Expedição |
+| 2 | `deck.png` | Bancada de Baralho |
+| 3 | `experiment.png` | Estação de Experimentação |
+| 4 | `mutation.png` | Câmara de Mutação |
+| 5 | `workshop.png` | Oficina |
+| 6 | `archive.png` | Arquivo de Espécimes |
+
+### Folha L2: Melhorias da Oficina (5)
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the attached reference: bold dark outlines, cel shading, rich defined colors, gothic naturalist laboratory tools, bold simple readable silhouettes. Transparent or plain blurred background. Exactly 5 separate isolated objects in a single row with wide spacing, in the exact order listed, left to right. Draw exactly these objects and nothing else. No text, no numbers, no labels, no frames, no people, no gore.
+1. a worn leather survival kit pouch, open, with bandages, a small flask and rope
+2. a row of three glass preservation jars with cork lids and greenish liquid
+3. a surgical scalpel with a glossy black obsidian blade and a bone handle
+4. a heavy wooden examination table with leather restraint straps and iron buckles
+5. two identical curved surgical blades crossed, polished steel with brass handles
+```
+
+| Ordem | Arquivo | Melhoria |
+|---|---|---|
+| 1 | `up_field_kit.png` | Kit de Sobrevivência |
+| 2 | `up_jars.png` | Frascos de Conservação |
+| 3 | `up_obsidian.png` | Bisturi de Obsidiana |
+| 4 | `up_table.png` | Mesa de Contenção |
+| 5 | `up_twin_blades.png` | Lâminas Gêmeas |
+
 ## Próximas artes possíveis
 
-Precisam de um ajuste pequeno no código antes; me avise que eu preparo e escrevo os pedidos.
+Precisa de um ajuste pequeno no código antes; me avise que eu preparo e escrevo o pedido.
 
 | Item | Onde aparece |
 |---|---|
 | O Pesquisador (personagem do jogador) | Combate, ao lado da vida; hoje é um vulto desenhado em código |
-| Ícones das 6 estações do laboratório | Laboratório |
 
 ## Ferramentas (para mim)
 

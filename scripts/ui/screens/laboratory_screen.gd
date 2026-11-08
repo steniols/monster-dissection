@@ -2,6 +2,17 @@ extends Control
 ## Laboratório (hub entre expedições): estações e prateleira de materiais.
 
 
+## Ilustração de cada estação em assets/art/stations/<arquivo>.png.
+const STATION_ART := {
+	"Mesa de Expedição": "expedition",
+	"Bancada de Baralho": "deck",
+	"Estação de Experimentação": "experiment",
+	"Câmara de Mutação": "mutation",
+	"Oficina": "workshop",
+	"Arquivo de Espécimes": "archive",
+}
+
+
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var bg := UiTheme.add_background(self, Color("#25231F"), "lab", 0.35) as BackgroundView
@@ -109,7 +120,7 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	var art := MotifArt.new()
 	art.custom_minimum_size = Vector2(104, 104)
 	art.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	art.setup(motif, accent)
+	art.setup(motif, accent, Database.get_art("stations", STATION_ART.get(title, "")))
 	h.add_child(art)
 	var v := VBoxContainer.new()
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL

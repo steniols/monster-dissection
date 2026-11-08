@@ -14,7 +14,8 @@ func _ready() -> void:
 	art.anchor_left = 0.45
 	art.offset_top = 60
 	art.offset_bottom = -40
-	art.modulate = Color(0.55, 0.5, 0.6, 0.55)
+	# arte nítida e opaca (antes ficava translúcida, parecendo borrada)
+	art.modulate = Color(0.92, 0.9, 0.95, 1.0)
 	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(art)
 
