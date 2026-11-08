@@ -29,11 +29,18 @@ static func build() -> Theme:
 	t.set_color("font_color", "Label", Palette.TEXT)
 
 	# Botões
-	t.set_stylebox("normal", "Button", panel_style(Palette.PANEL, Palette.BONE.darkened(0.35), 1, 4, 10))
-	t.set_stylebox("hover", "Button", panel_style(Palette.PANEL_LIGHT, Palette.BONE, 1, 4, 10))
-	t.set_stylebox("pressed", "Button", panel_style(Palette.CHARCOAL_DEEP, Palette.BONE_LIGHT, 1, 4, 10))
-	t.set_stylebox("disabled", "Button", panel_style(Palette.CHARCOAL, Palette.INK_SOFT, 1, 4, 10))
-	t.set_stylebox("focus", "Button", panel_style(Color(0, 0, 0, 0), Palette.BONE_LIGHT, 1, 4, 10))
+	# Botões em placa de latão (ver PlateStyle). Variantes: PrimaryButton, MossButton, GhostButton.
+	for kind in ["normal", "primary", "moss", "ghost"]:
+		var type: String = {"normal": "Button", "primary": "PrimaryButton", "moss": "MossButton", "ghost": "GhostButton"}[kind]
+		if type != "Button":
+			t.set_type_variation(type, "Button")
+		var st := PlateStyle.states(kind)
+		for state in st:
+			t.set_stylebox(state, type, st[state])
+		t.set_stylebox("focus", type, StyleBoxEmpty.new())
+	t.set_color("font_color", "PrimaryButton", Palette.BONE_LIGHT)
+	t.set_color("font_color", "MossButton", Palette.BONE_LIGHT)
+	t.set_color("font_color", "GhostButton", Palette.TEXT_DIM)
 	t.set_color("font_color", "Button", Palette.PAPER)
 	t.set_color("font_hover_color", "Button", Palette.BONE_LIGHT)
 	t.set_color("font_pressed_color", "Button", Palette.BONE_LIGHT)
@@ -140,8 +147,9 @@ static func make_rich(bbcode: String, size: int = 15, color: Color = Palette.TEX
 	return r
 
 
-static func make_button(text: String, callback: Callable, min_width: int = 0) -> Button:
+static func make_button(text: String, callback: Callable, min_width: int = 0, variant: String = "") -> Button:
 	var b := Button.new()
+	b.theme_type_variation = variant
 	b.text = text
 	if min_width > 0:
 		b.custom_minimum_size.x = min_width

@@ -37,7 +37,7 @@ func _ready() -> void:
 	titles.add_child(UiTheme.make_label("Bancadas manchadas, frascos rotulados e o cheiro persistente de formol.", 15, Palette.TEXT_DIM))
 	if RunState.has_save():
 		var cont := UiTheme.make_button("Continuar expedição", Game.continue_expedition)
-		cont.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.MOSS.darkened(0.4), Palette.MOSS_BRIGHT, 2, 4, 10))
+		cont.theme_type_variation = "MossButton"
 		top.add_child(cont)
 	top.add_child(UiTheme.make_button("Opções", func(): Game.open_options("lab")))
 	top.add_child(UiTheme.make_button("Menu", func(): Game.goto("menu")))
@@ -174,9 +174,7 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	var b := UiTheme.make_button(action, cb)
 	if title == "Mesa de Expedição":
 		# é o "começar a partida": botão em destaque
-		b.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.BLOOD.darkened(0.25), Palette.BLOOD_BRIGHT, 1, 4, 10))
-		b.add_theme_stylebox_override("hover", UiTheme.panel_style(Palette.BLOOD.lightened(0.05), Palette.BONE_LIGHT, 1, 4, 10))
-		b.add_theme_color_override("font_color", Palette.BONE_LIGHT)
+		b.theme_type_variation = "PrimaryButton"
 	b.custom_minimum_size.y = 38
 	v.add_child(b)
 	return p
@@ -220,7 +218,7 @@ func _choose_region() -> void:
 		b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		h.add_child(b)
 		box.add_child(p)
-	var cancel := UiTheme.make_button("Cancelar", overlay.queue_free, 200)
+	var cancel := UiTheme.make_button("Cancelar", overlay.queue_free, 200, "GhostButton")
 	cancel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(cancel)
 

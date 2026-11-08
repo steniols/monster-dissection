@@ -133,7 +133,7 @@ func _confirm_leave(to: String) -> void:
 	var go := _button("Sair", func():
 		close()
 		Game.goto(to))
-	go.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.BLOOD.darkened(0.25), Palette.BLOOD_BRIGHT, 2, 6, 10))
+	go.theme_type_variation = "PrimaryButton"
 	_button("Cancelar", _show_main)
 
 

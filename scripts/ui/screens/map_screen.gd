@@ -63,9 +63,8 @@ func _build_header() -> void:
 		func(): CardGridOverlay.open(self, "Baralho da expedição", RunState.get_deck_cards()))
 	deck_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	top.add_child(deck_btn)
-	var ab := UiTheme.make_button("Abandonar", _confirm_abandon)
+	var ab := UiTheme.make_button("Abandonar", _confirm_abandon, 0, "GhostButton")
 	ab.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	ab.modulate = Color(1, 1, 1, 0.8)
 	top.add_child(ab)
 	top.add_child(PauseMenu.make_gear_button())
 

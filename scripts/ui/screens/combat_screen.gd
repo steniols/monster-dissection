@@ -142,8 +142,7 @@ func _build_ui() -> void:
 	_end_turn = UiTheme.make_button("Encerrar turno", _on_end_turn)
 	_end_turn.custom_minimum_size = Vector2(184, 52)
 	_end_turn.tooltip_text = "Atalho: E"
-	_end_turn.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.BLOOD.darkened(0.35), Palette.BLOOD_BRIGHT, 2, 6, 10))
-	_end_turn.add_theme_stylebox_override("hover", UiTheme.panel_style(Palette.BLOOD.darkened(0.15), Palette.BONE_LIGHT, 2, 6, 10))
+	_end_turn.theme_type_variation = "PrimaryButton"
 	right.add_child(_end_turn)
 	_draw_btn = UiTheme.make_button("", func(): _show_pile("Pilha de compra (ordem oculta)", combat.draw_pile, true))
 	_discard_btn = UiTheme.make_button("", func(): _show_pile("Descarte", combat.discard_pile, false))

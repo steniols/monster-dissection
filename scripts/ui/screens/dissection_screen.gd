@@ -197,7 +197,12 @@ func _make_part_row(p: AnatomyPart) -> Button:
 	b.text = "%s  ·  %s  ·  %s  ·  %s%s" % [p.display_name, AnatomyPart.region_name(p.region), BodyCondition.state_name(state), chance_txt, result]
 	b.add_theme_color_override("font_color", STATE_COLORS[state] if not session.results.has(p.id) else Palette.TEXT_DIM)
 	if p == _selected:
-		b.add_theme_stylebox_override("normal", UiTheme.panel_style(Palette.PANEL_LIGHT, Palette.BONE_LIGHT, 1, 4, 10))
+		var sel: PlateStyle = PlateStyle.states("normal")["hover"]
+		sel.top = Color("#6E5D45")
+		sel.bottom = Color("#4C4033")
+		sel.brass = Palette.BONE_LIGHT
+		b.add_theme_stylebox_override("normal", sel)
+		b.add_theme_stylebox_override("hover", sel)
 	b.pressed.connect(_select.bind(p))
 	return b
 
@@ -261,6 +266,7 @@ func _rebuild_detail() -> void:
 		btn.disabled = true
 	else:
 		btn.text = "Extrair (%d%%)" % roundi(session.condition.chance_for(p) * 100)
+		btn.theme_type_variation = "PrimaryButton"
 		btn.pressed.connect(_extract.bind(p))
 	actions.add_child(btn)
 

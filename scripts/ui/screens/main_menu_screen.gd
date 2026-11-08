@@ -50,18 +50,18 @@ func _ready() -> void:
 	box.add_child(gap)
 
 	if RunState.has_save():
-		var cont := UiTheme.make_button("Continuar expedição", Game.continue_expedition, 300)
+		var cont := UiTheme.make_button("Continuar expedição", Game.continue_expedition, 300, "MossButton")
 		cont.custom_minimum_size.y = 44
 		cont.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(cont)
-	var enter := UiTheme.make_button("Entrar no laboratório", func(): Game.goto("lab"), 300)
+	var enter := UiTheme.make_button("Entrar no laboratório", func(): Game.goto("lab"), 300, "PrimaryButton")
 	enter.custom_minimum_size.y = 44
 	enter.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(enter)
 	var opts := UiTheme.make_button("Opções", func(): Game.open_options("menu"), 300)
 	opts.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(opts)
-	var reset := UiTheme.make_button("Apagar progresso", _confirm_reset, 300)
+	var reset := UiTheme.make_button("Apagar progresso", _confirm_reset, 300, "GhostButton")
 	reset.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(reset)
 	var quit := UiTheme.make_button("Sair", func(): get_tree().quit(), 300)
