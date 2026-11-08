@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: faltam os eventos em alta resolução e a folha A1 (acampamento); a L1b é opcional
+## Status: falta a folha A1 (acampamento); a L1b é opcional
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -8,7 +8,7 @@
 | Partes anatômicas | 30 | **Pronto** |
 | Cartas | 43 | **Pronto** |
 | Mutações | 7 | **Pronto** |
-| Eventos | 6 | **Pedir de novo em alta resolução** (hoje ~265 px) |
+| Eventos | 6 | **Pronto** (1024 px, ampliados de ~485 px; dá para refazer um por um) |
 | Fundos (paisagens) | 6 | **Pronto** |
 | Fundos de batalha (neutros, por família) | 4 | **Pronto** |
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
@@ -217,10 +217,13 @@ Dark fantasy hand-painted game icon sheet, same style as the attached reference:
 | 4 | `up_table.png` | Mesa de Contenção |
 | 5 | `up_twin_blades.png` | Lâminas Gêmeas |
 
-## Eventos em alta resolução: pedir agora
+## Eventos em alta resolução: prontos (opcional refazer)
 
-As 6 ilustrações de evento (a tela com "Mistério" no topo) vieram recortadas de uma folha e têm só uns
-**265 px**. Em tela cheia o quadro do evento aparece com uns 760 px, quase 3 vezes ampliado, por isso fica
+**No jogo desde a folha "EVENTS_HIRES"**: as 6 cenas vieram numa folha 3x2 (cada uma com ~485 px reais) e
+foram ampliadas para 1024 px. Já é quase o dobro da versão antiga; para nitidez máxima, peça **um evento por
+pedido**, como abaixo. As versões antigas estão em `assets/art/extra/lowres/events/`.
+
+A versão anterior tinha só uns **265 px**. Em tela cheia o quadro do evento aparece com uns 760 px, quase 3 vezes ampliado, por isso fica
 borrado. A ideia é **redesenhar cada uma sozinha, em alta resolução, mantendo a mesma cena**.
 
 **Como pedir:**
