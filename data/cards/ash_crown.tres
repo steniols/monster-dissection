@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_omb2r"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_d2qbb"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_b1sj3"]
+
+[sub_resource type="Resource" id="Resource_6xp5s"]
+script = ExtResource("2_d2qbb")
+status_id = &"strength"
+stacks = 3
+target = 1
+
+[resource]
+script = ExtResource("3_b1sj3")
+id = &"ash_crown"
+display_name = "Coroa de Cinzas"
+card_type = 2
+rarity = 3
+family = 6
+source_part = "Coroa de Cinzas"
+art_motif = &"crown"
+exhaust = true
+effects = Array[ExtResource("1_omb2r")]([SubResource("Resource_6xp5s")])

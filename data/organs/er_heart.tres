@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_lrlo1"]
+[ext_resource type="Resource" path="res://data/cards/molten_heart.tres" id="2_gsssb"]
+
+[resource]
+script = ExtResource("1_lrlo1")
+id = &"er_heart"
+display_name = "Coração de Brasa"
+family = 6
+rarity = 3
+preserve_chance = 0.45
+unlocks_card = ExtResource("2_gsssb")
+description = "Lava sob uma crosta negra. Ainda bate."

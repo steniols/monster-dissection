@@ -106,6 +106,47 @@ func _tour() -> void:
 	ab.lose_hp(999, Combatant.DeathCause.STATUS)
 	RunState.dissection_queue = [{"monster": ab.data, "condition": BodyCondition.from_combatant(ab)}]
 	await _shot("dissection", "21_dissecacao_abominacao")
+	# Fases 3 e 4
+	RunState.start(Database.expeditions[&"fungal_grove"])
+	await _shot("map", "22_mapa_bosque")
+	RunState.current = RunState.get_available_nodes()[0]
+	var grove: Array[MonsterData] = [Database.get_monster(&"sporemaw"), Database.get_monster(&"spore_wisp")]
+	RunState.current.monsters = grove
+	RunState.deck.append_array([&"fungal_bite", &"spore_cloud", &"hooked_strike", &"hb_burning_spores"])
+	await _shot("combat", "23_combate_bosque", 1.2)
+	var sc := get_tree().current_scene
+	sc.combat.monsters[0].add_status(&"spores", 4)
+	sc.combat.player.add_status(&"ember", 2)
+	await _wait(0.3)
+	await _capture("23b_status_novos")
+	RunState.current.event = Database.events[&"ev_spore_cocoon"]
+	await _shot("event", "24_evento_bosque")
+	RunState.start(Database.expeditions[&"ash_peaks"])
+	await _shot("map", "25_mapa_pinaculos")
+	RunState.current = RunState.get_available_nodes()[0]
+	var peaks: Array[MonsterData] = [Database.get_monster(&"ash_hatchling"), Database.get_monster(&"ash_hatchling")]
+	RunState.current.monsters = peaks
+	RunState.deck.append_array([&"molten_heart", &"dive_talons"])
+	await _shot("combat", "26_combate_pinaculos", 1.2)
+	var roc: Array[MonsterData] = [Database.get_monster(&"ember_roc")]
+	RunState.current.monsters = roc
+	await _shot("combat", "27_chefe_pinaculos", 1.2)
+	RunState.current.event = Database.events[&"ev_abandoned_gear"]
+	await _shot("event", "28_evento_pinaculos")
+	Profile.mark_cleared(&"flooded_catacombs")
+	Profile.mark_cleared(&"fungal_grove")
+	await _shot("lab", "29_laboratorio_fases")
+	get_tree().current_scene._choose_region()
+	await _wait(0.3)
+	await _capture("30_regioes_4")
+	await _shot("mutations", "31_mutacoes")
+	await _shot("workshop", "32_oficina")
+	var new_ids := [&"sporeling", &"sporemaw", &"spore_carrier", &"spore_wisp", &"mycostalker", &"spore_stag", &"mycelium_mother", &"ash_hatchling", &"ashwing", &"stormtalon", &"ember_roc"]
+	for id in new_ids:
+		var nm := MonsterCombatant.new(Database.get_monster(id))
+		nm.take_damage(nm.hp, null, true)
+		RunState.dissection_queue = [{"monster": nm.data, "condition": BodyCondition.from_combatant(nm)}]
+		await _shot("dissection", "d_" + String(id))
 
 
 func _dead(id: StringName) -> MonsterCombatant:

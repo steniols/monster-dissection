@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_4ho03"]
+[ext_resource type="Resource" path="res://data/cards/ash_gaze.tres" id="2_kgnhu"]
+
+[resource]
+script = ExtResource("1_4ho03")
+id = &"st_eye"
+display_name = "Olho de Cinza"
+family = 6
+region = 0
+rarity = 2
+preserve_chance = 0.55
+unlocks_card = ExtResource("2_kgnhu")
+art_motif = &"eye"
+description = "Pupila em fenda, cercada de escamas chamuscadas."

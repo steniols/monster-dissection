@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_ctbr3"]
+[ext_resource type="Resource" path="res://data/cards/ember_burst.tres" id="2_rr4j8"]
+
+[resource]
+script = ExtResource("1_ctbr3")
+id = &"aw_gland"
+display_name = "Núcleo de Brasa"
+family = 6
+region = 3
+rarity = 2
+preserve_chance = 0.6
+unlocks_card = ExtResource("2_rr4j8")
+art_motif = &"core"
+description = "Um carvão vivo dentro de uma crosta rachada."

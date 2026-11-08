@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_eiccw"]
+[ext_resource type="Resource" path="res://data/cards/take_root.tres" id="2_v3m6b"]
+
+[resource]
+script = ExtResource("1_eiccw")
+id = &"sm_roots"
+display_name = "Raízes-Pernas"
+family = 5
+region = 2
+preserve_chance = 0.85
+unlocks_card = ExtResource("2_v3m6b")
+art_motif = &"tendon"
+description = "Andam e se fixam com a mesma facilidade."

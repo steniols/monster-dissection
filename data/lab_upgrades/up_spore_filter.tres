@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="LabUpgradeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/lab_upgrade_data.gd" id="1_crbes"]
+
+[resource]
+script = ExtResource("1_crbes")
+id = &"up_spore_filter"
+display_name = "Máscara Filtrante"
+description = "+8 de vida máxima."
+family_cost = {
+5: 3
+}
+max_hp_bonus = 8
+art_motif = &"plates"

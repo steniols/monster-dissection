@@ -1,0 +1,73 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_u2wyq"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_oi2my"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_acu8o"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="4_ibkbp"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_5tjy8"]
+[ext_resource type="Resource" path="res://data/organs/ms_scythe.tres" id="6_jl84u"]
+[ext_resource type="Resource" path="res://data/organs/ms_stalk.tres" id="7_ogueh"]
+[ext_resource type="Resource" path="res://data/organs/ms_eyes.tres" id="8_u74lg"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="9_gvate"]
+
+[sub_resource type="Resource" id="Resource_qv8kj"]
+script = ExtResource("3_acu8o")
+status_id = &"strength"
+stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_mx3ng"]
+script = ExtResource("2_oi2my")
+display_name = "Afiar Foices"
+kind = 2
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_qv8kj")])
+
+[sub_resource type="Resource" id="Resource_d2d62"]
+script = ExtResource("4_ibkbp")
+amount = 8
+hits = 2
+
+[sub_resource type="Resource" id="Resource_pw6kt"]
+script = ExtResource("2_oi2my")
+display_name = "Ceifa Dupla"
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_d2d62")])
+
+[sub_resource type="Resource" id="Resource_jkv3w"]
+script = ExtResource("3_acu8o")
+status_id = &"vulnerable"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_ej548"]
+script = ExtResource("3_acu8o")
+status_id = &"spores"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_lo1no"]
+script = ExtResource("2_oi2my")
+display_name = "Olhar Fixo"
+kind = 3
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_jkv3w"), SubResource("Resource_ej548")])
+
+[sub_resource type="Resource" id="Resource_bu4hm"]
+script = ExtResource("4_ibkbp")
+amount = 17
+
+[sub_resource type="Resource" id="Resource_kgbvb"]
+script = ExtResource("2_oi2my")
+display_name = "Golpe de Foice"
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_bu4hm")])
+
+[resource]
+script = ExtResource("9_gvate")
+id = &"mycostalker"
+display_name = "Mycostalker"
+family = 5
+tier = 1
+max_hp = 96
+intents = Array[ExtResource("2_oi2my")]([SubResource("Resource_mx3ng"), SubResource("Resource_pw6kt"), SubResource("Resource_lo1no"), SubResource("Resource_kgbvb")])
+parts = Array[ExtResource("5_5tjy8")]([ExtResource("6_jl84u"), ExtResource("7_ogueh"), ExtResource("8_u74lg")])
+region_anchors = Array[Vector2]([Vector2(0.31, 0.2), Vector2(0.59, 0.49), Vector2(0.49, 0.81), Vector2(0.69, 0.31)])
+visual = &"voidspawn"
+scale = 1.15
+lore = "Um caçador alto e fino, com foices de fungo endurecido. Não faz barulho nenhum."
+weakness_note = "Fica mais forte a cada ciclo: a Fraqueza e a Armadura seguram as foices."

@@ -8,6 +8,8 @@ const BATTLE_ART := {
 	Family.Id.IRONBACK: "battle_marsh",
 	Family.Id.VOIDSPAWN: "battle_violet_cavern",
 	Family.Id.ROTWALKER: "battle_ruins",
+	Family.Id.SPOREMAW: "battle_fungal_hollow",
+	Family.Id.ASHWING: "battle_ash_ridge",
 }
 
 
@@ -719,6 +721,8 @@ class MapCanvas:
 			MapNode.Type.COMBAT: &"nav_dissect",
 			MapNode.Type.REST: &"nav_camp",
 			MapNode.Type.EVENT: &"nav_event",
+			MapNode.Type.ELITE: &"nav_elite",
+			MapNode.Type.BOSS: &"nav_boss",
 		}
 
 		static func draw_type(ci: CanvasItem, t: MapNode.Type, r: Rect2, alpha: float) -> void:

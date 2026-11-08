@@ -1,0 +1,69 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_8xaam"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_bk2fy"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_w8coh"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_qsir7"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_ivbpb"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_1u40x"]
+[ext_resource type="Resource" path="res://data/organs/aw_wing.tres" id="7_lgi05"]
+[ext_resource type="Resource" path="res://data/organs/aw_beak.tres" id="8_mywe8"]
+[ext_resource type="Resource" path="res://data/organs/aw_talons.tres" id="9_4yhkh"]
+[ext_resource type="Resource" path="res://data/organs/aw_gland.tres" id="10_uq72u"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_xee7a"]
+
+[sub_resource type="Resource" id="Resource_vl1rp"]
+script = ExtResource("3_w8coh")
+hits = 3
+
+[sub_resource type="Resource" id="Resource_rghw6"]
+script = ExtResource("2_bk2fy")
+display_name = "Mergulho"
+effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_vl1rp")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_ughbb"]
+script = ExtResource("3_w8coh")
+amount = 11
+
+[sub_resource type="Resource" id="Resource_cnaop"]
+script = ExtResource("4_qsir7")
+status_id = &"ember"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_766px"]
+script = ExtResource("2_bk2fy")
+display_name = "Asa em Brasa"
+kind = 4
+effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_ughbb"), SubResource("Resource_cnaop")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_kolm8"]
+script = ExtResource("5_ivbpb")
+amount = 10
+target = 1
+
+[sub_resource type="Resource" id="Resource_ou1ig"]
+script = ExtResource("4_qsir7")
+status_id = &"strength"
+target = 1
+
+[sub_resource type="Resource" id="Resource_ci45m"]
+script = ExtResource("2_bk2fy")
+display_name = "Alçar Voo"
+kind = 1
+effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_kolm8"), SubResource("Resource_ou1ig")])
+
+[resource]
+script = ExtResource("11_xee7a")
+id = &"ashwing"
+display_name = "Ashwing"
+family = 6
+max_hp = 74
+pattern = 1
+intents = Array[ExtResource("2_bk2fy")]([SubResource("Resource_rghw6"), SubResource("Resource_766px"), SubResource("Resource_ci45m")])
+parts = Array[ExtResource("6_1u40x")]([ExtResource("7_lgi05"), ExtResource("8_mywe8"), ExtResource("9_4yhkh"), ExtResource("10_uq72u")])
+region_anchors = Array[Vector2]([Vector2(0.14, 0.31), Vector2(0.38, 0.57), Vector2(0.57, 0.88), Vector2(0.77, 0.34)])
+scale = 1.05
+lore = "Ave de rapina com asas de morcego. O calor do corpo mantém a cinza no ar ao redor."
+weakness_note = "O Mergulho são três golpes, e cada golpe cobra a Brasa: nunca o receba com Brasa alta."

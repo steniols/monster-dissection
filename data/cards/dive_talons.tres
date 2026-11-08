@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_tngpb"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_llwpr"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_jsxyy"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_nfqdx"]
+
+[sub_resource type="Resource" id="Resource_geiyo"]
+script = ExtResource("2_llwpr")
+amount = 3
+hits = 3
+
+[sub_resource type="Resource" id="Resource_gtau0"]
+script = ExtResource("3_jsxyy")
+status_id = &"ember"
+
+[resource]
+script = ExtResource("4_nfqdx")
+id = &"dive_talons"
+display_name = "Mergulho"
+family = 6
+source_part = "Garra Incandescente"
+art_motif = &"claw"
+effects = Array[ExtResource("1_tngpb")]([SubResource("Resource_geiyo"), SubResource("Resource_gtau0")])
+flavor = "Você só ouve o vento depois."

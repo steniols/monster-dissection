@@ -10,6 +10,37 @@ extends RefCounted
 ## O processamento fica em CombatManager._tick_statuses().
 
 const DEFS := {
+	&"spores": {
+		"name": "Esporos",
+		"description": "No início do turno, perde {x} de vida. Diminui 1 por turno. Se um inimigo morrer com Esporos, eles passam para os outros inimigos.",
+		"color": Color("#5FBFA8"),
+		"debuff": true,
+		"tick": {"kind": "lose_hp"},
+		"decay": 1, "decay_on": "turn_start",
+	},
+	&"ember": {
+		"name": "Brasa",
+		"description": "Ao receber um ataque, perde {x} de vida, ignorando a Armadura. Diminui 1 a cada golpe.",
+		"color": Color("#E0803A"),
+		"debuff": true,
+		"decay": 0,
+	},
+	&"spore_crown": {
+		"name": "Coroa Micélica",
+		"description": "No início do turno, aplica {x} de Esporos a todos os oponentes.",
+		"color": Color("#5FBFA8"),
+		"debuff": false,
+		"tick": {"kind": "apply_opponents", "status": &"spores"},
+		"decay": 0,
+	},
+	&"molten_heart": {
+		"name": "Coração Fundido",
+		"description": "No início do turno, aplica {x} de Brasa a todos os oponentes.",
+		"color": Color("#E0803A"),
+		"debuff": false,
+		"tick": {"kind": "apply_opponents", "status": &"ember"},
+		"decay": 0,
+	},
 	&"bleed": {
 		"name": "Sangramento",
 		"description": "No início do turno, perde {x} de vida. Diminui 1 por turno.",

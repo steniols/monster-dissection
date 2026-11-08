@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_5vqd4"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_kcvia"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="3_33edh"]
+
+[sub_resource type="Resource" id="Resource_8b8bq"]
+script = ExtResource("2_kcvia")
+status_id = &"ember"
+stacks = 4
+target = 2
+
+[resource]
+script = ExtResource("3_33edh")
+id = &"mut_aw_gland"
+display_name = "Glândula Ardente"
+family = 6
+description = "No início de cada combate, aplique 4 de Brasa a todos os inimigos."
+material_cost = {
+"ah_down": 1,
+"aw_gland": 1
+}
+combat_start_effects = Array[ExtResource("1_5vqd4")]([SubResource("Resource_8b8bq")])
+corruption = 2
+art_motif = &"gland"

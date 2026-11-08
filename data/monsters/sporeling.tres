@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_kvc8a"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_87cte"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_vsdbb"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_8f1pu"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_t7pd3"]
+[ext_resource type="Resource" path="res://data/organs/sl_cap.tres" id="6_t2pr1"]
+[ext_resource type="Resource" path="res://data/organs/sl_spores.tres" id="7_6k2un"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="8_2r58q"]
+
+[sub_resource type="Resource" id="Resource_x25b0"]
+script = ExtResource("3_vsdbb")
+amount = 5
+
+[sub_resource type="Resource" id="Resource_r7y4c"]
+script = ExtResource("2_87cte")
+display_name = "Mordiscar"
+effects = Array[ExtResource("1_kvc8a")]([SubResource("Resource_x25b0")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_0ta2o"]
+script = ExtResource("4_8f1pu")
+status_id = &"spores"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_ojbvm"]
+script = ExtResource("2_87cte")
+display_name = "Soltar Esporos"
+kind = 3
+effects = Array[ExtResource("1_kvc8a")]([SubResource("Resource_0ta2o")])
+
+[resource]
+script = ExtResource("8_2r58q")
+id = &"sporeling"
+display_name = "Sporeling"
+family = 5
+max_hp = 24
+pattern = 1
+intents = Array[ExtResource("2_87cte")]([SubResource("Resource_r7y4c"), SubResource("Resource_ojbvm")])
+parts = Array[ExtResource("5_t7pd3")]([ExtResource("6_t2pr1"), ExtResource("7_6k2un")])
+region_anchors = Array[Vector2]([Vector2(0.26, 0.57), Vector2(0.5, 0.55), Vector2(0.55, 0.85), Vector2(0.38, 0.45)])
+visual = &"voidspawn"
+scale = 0.75
+lore = "Do tamanho de um gato, anda em grupo e deixa um rastro de pó verde-água."
+weakness_note = "Frágil, mas os esporos de um passam para o outro quando ele morre. Vale o cuidado de quem aplica, também."

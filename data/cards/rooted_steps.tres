@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_x2g3b"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_rknwg"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="3_rfbps"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_514e0"]
+
+[sub_resource type="Resource" id="Resource_0166x"]
+script = ExtResource("2_rknwg")
+target = 1
+
+[sub_resource type="Resource" id="Resource_jc576"]
+script = ExtResource("3_rfbps")
+target = 1
+
+[resource]
+script = ExtResource("4_514e0")
+id = &"rooted_steps"
+display_name = "Passos de Raiz"
+card_type = 2
+family = 5
+source_part = "Pernas de Raiz"
+art_motif = &"tendon"
+effects = Array[ExtResource("1_x2g3b")]([SubResource("Resource_0166x"), SubResource("Resource_jc576")])

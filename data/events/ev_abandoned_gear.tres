@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_abp7n"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_2c1rj"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_br7s6"]
+[ext_resource type="Resource" path="res://data/monsters/ashwing.tres" id="4_4fwgl"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_sg25f"]
+[ext_resource type="Resource" path="res://data/organs/aw_talons.tres" id="6_nd67b"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="7_t7rvy"]
+
+[sub_resource type="Resource" id="Resource_1bbb6"]
+script = ExtResource("1_abp7n")
+label = "Vasculhar o carrinho"
+description = "60%: ganhe Garra Incandescente. Falha: algo fez ninho aqui."
+success_chance = 0.6
+result_text = "Sob o minério, algo que não é pedra."
+gain_parts = Array[ExtResource("5_sg25f")]([ExtResource("6_nd67b")])
+fail_text = "Asas se abrem no fundo da galeria."
+fail_fight = Array[ExtResource("3_br7s6")]([ExtResource("4_4fwgl")])
+
+[sub_resource type="Resource" id="Resource_q8w1n"]
+script = ExtResource("1_abp7n")
+label = "Usar as ferramentas"
+description = "Perca 3 de vida. Aprimore uma carta."
+result_text = "A bigorna ainda serve, e seus instrumentos ficam melhores."
+hp_change = -3
+upgrade_card = true
+
+[sub_resource type="Resource" id="Resource_0f4ml"]
+script = ExtResource("1_abp7n")
+label = "Descansar na galeria"
+description = "Recupere 10 de vida."
+result_text = "O calor das paredes é quase agradável."
+hp_change = 10
+
+[resource]
+script = ExtResource("7_t7rvy")
+id = &"ev_abandoned_gear"
+title = "Mina Abandonada"
+text = "Engrenagens enferrujadas, um guincho parado e um carrinho de minério sobre os trilhos. A galeria ainda respira calor."
+art_motif = &"plates"
+choices = Array[ExtResource("1_abp7n")]([SubResource("Resource_1bbb6"), SubResource("Resource_q8w1n"), SubResource("Resource_0f4ml")])

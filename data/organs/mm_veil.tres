@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_r4766"]
+[ext_resource type="Resource" path="res://data/cards/luminous_veil.tres" id="2_6ch68"]
+
+[resource]
+script = ExtResource("1_r4766")
+id = &"mm_veil"
+display_name = "Véu Luminoso"
+family = 5
+region = 2
+rarity = 3
+preserve_chance = 0.55
+unlocks_card = ExtResource("2_6ch68")
+art_motif = &"hide"
+description = "Renda viva que escorre e se refaz."

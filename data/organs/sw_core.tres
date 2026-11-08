@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_cohh6"]
+[ext_resource type="Resource" path="res://data/cards/lantern_core.tres" id="2_dhwfg"]
+
+[resource]
+script = ExtResource("1_cohh6")
+id = &"sw_core"
+display_name = "Coração-Lanterna"
+family = 5
+rarity = 2
+preserve_chance = 0.65
+unlocks_card = ExtResource("2_dhwfg")
+art_motif = &"core"
+description = "Brilha sem calor. Faz o sangue correr mais rápido."

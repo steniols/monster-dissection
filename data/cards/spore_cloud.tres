@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_jvgon"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_uby3q"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_y5ff5"]
+
+[sub_resource type="Resource" id="Resource_iamkk"]
+script = ExtResource("2_uby3q")
+status_id = &"spores"
+stacks = 3
+target = 2
+
+[resource]
+script = ExtResource("3_y5ff5")
+id = &"spore_cloud"
+display_name = "Nuvem de Esporos"
+card_type = 2
+family = 5
+source_part = "Saco de Esporos"
+art_motif = &"blood"
+effects = Array[ExtResource("1_jvgon")]([SubResource("Resource_iamkk")])
+flavor = "Um sopro basta. Respire pelo nariz, dizem os manuais."

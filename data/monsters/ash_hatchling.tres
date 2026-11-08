@@ -1,0 +1,49 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_i7fyo"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_p5jry"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_emjum"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_dhpq5"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_t4nvy"]
+[ext_resource type="Resource" path="res://data/organs/ah_down.tres" id="6_dsu0m"]
+[ext_resource type="Resource" path="res://data/organs/ah_smoke.tres" id="7_a3mnj"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="8_1vb04"]
+
+[sub_resource type="Resource" id="Resource_uvcnn"]
+script = ExtResource("3_emjum")
+amount = 8
+
+[sub_resource type="Resource" id="Resource_f5a3j"]
+script = ExtResource("2_p5jry")
+display_name = "Bicada"
+effects = Array[ExtResource("1_i7fyo")]([SubResource("Resource_uvcnn")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_15jor"]
+script = ExtResource("3_emjum")
+amount = 3
+
+[sub_resource type="Resource" id="Resource_i7yy3"]
+script = ExtResource("4_dhpq5")
+status_id = &"ember"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_63aab"]
+script = ExtResource("2_p5jry")
+display_name = "Cuspir Brasa"
+kind = 4
+effects = Array[ExtResource("1_i7fyo")]([SubResource("Resource_15jor"), SubResource("Resource_i7yy3")])
+
+[resource]
+script = ExtResource("8_1vb04")
+id = &"ash_hatchling"
+display_name = "Filhote de Ashwing"
+family = 6
+max_hp = 28
+pattern = 1
+intents = Array[ExtResource("2_p5jry")]([SubResource("Resource_f5a3j"), SubResource("Resource_63aab")])
+parts = Array[ExtResource("5_t4nvy")]([ExtResource("6_dsu0m"), ExtResource("7_a3mnj")])
+region_anchors = Array[Vector2]([Vector2(0.23, 0.38), Vector2(0.48, 0.57), Vector2(0.47, 0.83), Vector2(0.36, 0.59)])
+scale = 0.75
+lore = "Nasce já com fome e com as penas fumegando. Vem sempre em dupla."
+weakness_note = "Pouca vida. A Brasa só cobra quando você é atingido: mate um deles antes que se acumule."

@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_pcb6y"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_4unhh"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_lunt7"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_ys4s8"]
+
+[sub_resource type="Resource" id="Resource_j44h3"]
+script = ExtResource("2_4unhh")
+amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_ucv88"]
+script = ExtResource("3_lunt7")
+status_id = &"spores"
+stacks = 2
+
+[resource]
+script = ExtResource("4_ys4s8")
+id = &"hb_moss_plate"
+display_name = "Placa Micélica"
+card_type = 1
+rarity = 2
+category = 1
+family = 5
+secondary_family = 2
+source_part = "Experimento"
+art_motif = &"carapace"
+effects = Array[ExtResource("1_pcb6y")]([SubResource("Resource_j44h3"), SubResource("Resource_ucv88")])

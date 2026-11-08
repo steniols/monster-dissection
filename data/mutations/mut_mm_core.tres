@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_i04lw"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_taetc"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="3_cbdh2"]
+
+[sub_resource type="Resource" id="Resource_snfp2"]
+script = ExtResource("2_taetc")
+status_id = &"spore_crown"
+target = 1
+
+[resource]
+script = ExtResource("3_cbdh2")
+id = &"mut_mm_core"
+display_name = "Núcleo Micélico"
+family = 5
+description = "No início de cada turno, aplique 1 de Esporos a todos os inimigos."
+material_cost = {
+"mm_core": 1,
+"sm_mycelium": 1
+}
+combat_start_effects = Array[ExtResource("1_i04lw")]([SubResource("Resource_snfp2")])
+corruption = 3
+art_motif = &"core"

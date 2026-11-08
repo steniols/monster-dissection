@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/sl_spores.tres" id="1_u20ba"]
+[ext_resource type="Resource" path="res://data/organs/vs_ichor.tres" id="2_4pgfp"]
+[ext_resource type="Resource" path="res://data/cards/hb_void_spores.tres" id="3_4s3wq"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_smwae"]
+
+[resource]
+script = ExtResource("4_smwae")
+id = &"rc_void_spores"
+part_a = ExtResource("1_u20ba")
+part_b = ExtResource("2_4pgfp")
+result = ExtResource("3_4s3wq")
+hint = "Esporos embebidos em um fluido frio e violeta."

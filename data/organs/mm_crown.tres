@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_5337g"]
+[ext_resource type="Resource" path="res://data/cards/cap_crown.tres" id="2_n1vku"]
+
+[resource]
+script = ExtResource("1_5337g")
+id = &"mm_crown"
+display_name = "Coroa de Chapéus"
+family = 5
+region = 0
+rarity = 3
+preserve_chance = 0.5
+unlocks_card = ExtResource("2_n1vku")
+art_motif = &"crown"
+description = "Dezenas de chapéus crescidos em círculo perfeito."

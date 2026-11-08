@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_25dly"]
+[ext_resource type="Resource" path="res://data/cards/molten_wing.tres" id="2_7fndy"]
+
+[resource]
+script = ExtResource("1_25dly")
+id = &"er_wing"
+display_name = "Asa Carbonizada"
+family = 6
+region = 2
+rarity = 3
+preserve_chance = 0.55
+unlocks_card = ExtResource("2_7fndy")
+art_motif = &"hide"
+description = "Penas de carvão que soltam fagulhas ao toque."

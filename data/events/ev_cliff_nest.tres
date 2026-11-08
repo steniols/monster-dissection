@@ -1,0 +1,40 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_mlpfp"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_1uh6d"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_t1gty"]
+[ext_resource type="Resource" path="res://data/monsters/ash_hatchling.tres" id="4_wyiri"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_5nnyc"]
+[ext_resource type="Resource" path="res://data/organs/ah_down.tres" id="6_bo6ye"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="7_sjdh3"]
+
+[sub_resource type="Resource" id="Resource_660rw"]
+script = ExtResource("1_mlpfp")
+label = "Recolher as penas"
+description = "70%: ganhe Pluma de Cinzas. Falha: os filhotes acordam."
+success_chance = 0.7
+result_text = "Você guarda uma pluma ainda quente em um frasco."
+gain_parts = Array[ExtResource("5_5nnyc")]([ExtResource("6_bo6ye")])
+fail_text = "Um dos ovos já estava aberto."
+fail_fight = Array[ExtResource("3_t1gty")]([ExtResource("4_wyiri"), ExtResource("4_wyiri")])
+
+[sub_resource type="Resource" id="Resource_bofom"]
+script = ExtResource("1_mlpfp")
+label = "Comer um ovo"
+description = "Recupere 14 de vida."
+result_text = "Quente, forte e estranhamente doce."
+hp_change = 14
+
+[sub_resource type="Resource" id="Resource_fyrts"]
+script = ExtResource("1_mlpfp")
+label = "Recuar"
+result_text = "Você desce pelo mesmo caminho, sem olhar para cima."
+
+[resource]
+script = ExtResource("7_sjdh3")
+id = &"ev_cliff_nest"
+title = "Ninho no Penhasco"
+text = "Um ninho de galhos na beira de um penhasco, com três ovos manchados. O dono não está à vista, mas as penas ainda fumegam."
+art_motif = &"hide"
+accent = Color(0.8784314, 0.5019608, 0.22745098, 1)
+choices = Array[ExtResource("1_mlpfp")]([SubResource("Resource_660rw"), SubResource("Resource_bofom"), SubResource("Resource_fyrts")])

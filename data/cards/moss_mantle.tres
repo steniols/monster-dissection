@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_lo576"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_04enc"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_thtwt"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_4er27"]
+
+[sub_resource type="Resource" id="Resource_csr3s"]
+script = ExtResource("2_04enc")
+target = 1
+
+[sub_resource type="Resource" id="Resource_3atji"]
+script = ExtResource("3_thtwt")
+status_id = &"regen"
+stacks = 3
+target = 1
+
+[resource]
+script = ExtResource("4_4er27")
+id = &"moss_mantle"
+display_name = "Manto de Musgo"
+card_type = 1
+family = 5
+source_part = "Manto de Musgo"
+art_motif = &"hide"
+effects = Array[ExtResource("1_lo576")]([SubResource("Resource_csr3s"), SubResource("Resource_3atji")])

@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_u7c8s"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_27jq4"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_5qtmu"]
+[ext_resource type="Resource" path="res://data/monsters/sporemaw.tres" id="4_gp8vf"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_blfnr"]
+[ext_resource type="Resource" path="res://data/organs/sm_mycelium.tres" id="6_jl5ih"]
+[ext_resource type="Resource" path="res://data/organs/sl_spores.tres" id="7_f0q73"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="8_drsx0"]
+
+[sub_resource type="Resource" id="Resource_pyu1v"]
+script = ExtResource("1_u7c8s")
+label = "Cortar a rede"
+description = "50%: ganhe Rede de Micélio. Falha: o casulo se abre."
+success_chance = 0.5
+result_text = "Os fios cedem sem resistência e ficam presos no seu bisturi."
+gain_parts = Array[ExtResource("5_blfnr")]([ExtResource("6_jl5ih")])
+fail_text = "A rede se rasga de dentro para fora."
+fail_fight = Array[ExtResource("3_5qtmu")]([ExtResource("4_gp8vf")])
+
+[sub_resource type="Resource" id="Resource_lkl6h"]
+script = ExtResource("1_u7c8s")
+label = "Furar uma bolsa lateral"
+description = "Perca 5 de vida. Ganhe Saco de Esporos."
+result_text = "Você enche um frasco com o pó verde-água, e tosse por um bom tempo."
+hp_change = -5
+gain_parts = Array[ExtResource("5_blfnr")]([ExtResource("7_f0q73")])
+
+[sub_resource type="Resource" id="Resource_em3wk"]
+script = ExtResource("1_u7c8s")
+label = "Deixar como está"
+result_text = "Algumas coisas ainda não estão prontas para sair."
+
+[resource]
+script = ExtResource("8_drsx0")
+id = &"ev_spore_cocoon"
+title = "Casulo Fúngico"
+text = "Um casulo de micélio pende de um cogumelo gigante. A forma lá dentro lembra uma criatura, e a luz verde-água pulsa devagar."
+art_motif = &"core"
+accent = Color(0.37254903, 0.7490196, 0.65882355, 1)
+choices = Array[ExtResource("1_u7c8s")]([SubResource("Resource_pyu1v"), SubResource("Resource_lkl6h"), SubResource("Resource_em3wk")])

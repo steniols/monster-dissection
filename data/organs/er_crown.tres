@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_7oej0"]
+[ext_resource type="Resource" path="res://data/cards/ash_crown.tres" id="2_6d1r7"]
+
+[resource]
+script = ExtResource("1_7oej0")
+id = &"er_crown"
+display_name = "Coroa de Cinzas"
+family = 6
+region = 0
+rarity = 3
+preserve_chance = 0.5
+unlocks_card = ExtResource("2_6d1r7")
+art_motif = &"crown"
+description = "Espinhos de osso queimado, formados ao redor do crânio."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_0c3f7"]
+[ext_resource type="Resource" path="res://data/cards/hooked_strike.tres" id="2_jpgyu"]
+
+[resource]
+script = ExtResource("1_0c3f7")
+id = &"aw_beak"
+display_name = "Bico Serrilhado"
+family = 6
+region = 0
+preserve_chance = 0.75
+unlocks_card = ExtResource("2_jpgyu")
+art_motif = &"fang"
+description = "Osso curvo com dentes que os pássaros não deveriam ter."

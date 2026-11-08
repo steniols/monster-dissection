@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/sm_mycelium.tres" id="1_by0t0"]
+[ext_resource type="Resource" path="res://data/organs/ib_carapace.tres" id="2_b340o"]
+[ext_resource type="Resource" path="res://data/cards/hb_moss_plate.tres" id="3_nu7tx"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_of5vq"]
+
+[resource]
+script = ExtResource("4_of5vq")
+id = &"rc_moss_plate"
+part_a = ExtResource("1_by0t0")
+part_b = ExtResource("2_b340o")
+result = ExtResource("3_nu7tx")
+hint = "Fios brancos crescendo sobre placas de quitina."

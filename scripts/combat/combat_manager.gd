@@ -39,7 +39,9 @@ func start_combat(p: PlayerCombatant, deck: Array[CardData], monster_list: Array
 	rng.randomize()
 	player = p
 	for data in monster_list:
-		monsters.append(MonsterCombatant.new(data, monster_hp_bonus))
+		var spawned := MonsterCombatant.new(data, monster_hp_bonus)
+		spawned.died.connect(_spread_spores.bind(spawned))
+		monsters.append(spawned)
 	for card_data in deck:
 		draw_pile.append(CardInstance.new(card_data))
 	_shuffle(draw_pile)
@@ -174,8 +176,25 @@ func _trigger_instinct(family: Family.Id) -> void:
 				m.add_status(&"corruption", 3)
 		Family.Id.ROTWALKER:
 			player.heal(5)
+		Family.Id.SPOREMAW:
+			for m in get_living_monsters():
+				m.add_status(&"spores", 3)
+			player.heal(3)
+		Family.Id.ASHWING:
+			for m in get_living_monsters():
+				m.add_status(&"ember", 3)
+			draw_cards(1)
 	instinct_triggered.emit(family)
 	message.emit("Instinto: %s! %s" % [Family.INSTINCT_NAMES.get(family, ""), Family.INSTINCT_DESCRIPTIONS.get(family, "")])
+
+
+## Quem morre com Esporos os passa para os outros inimigos.
+func _spread_spores(dead: MonsterCombatant) -> void:
+	var stacks := dead.get_status(&"spores")
+	if stacks <= 0:
+		return
+	for m in get_living_monsters():
+		m.add_status(&"spores", stacks)
 
 
 # --- Turno dos monstros -----------------------------------------------------

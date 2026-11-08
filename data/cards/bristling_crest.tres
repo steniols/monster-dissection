@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_x83e7"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_m508a"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="3_s1jat"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_ov7v2"]
+
+[sub_resource type="Resource" id="Resource_aau7i"]
+script = ExtResource("2_m508a")
+status_id = &"strength"
+target = 1
+
+[sub_resource type="Resource" id="Resource_4leup"]
+script = ExtResource("3_s1jat")
+target = 1
+
+[resource]
+script = ExtResource("4_ov7v2")
+id = &"bristling_crest"
+display_name = "Crista Eriçada"
+card_type = 2
+rarity = 2
+family = 6
+source_part = "Crista Flamejante"
+art_motif = &"crown"
+effects = Array[ExtResource("1_x83e7")]([SubResource("Resource_aau7i"), SubResource("Resource_4leup")])

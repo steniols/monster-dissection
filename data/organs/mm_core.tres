@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_n8p6h"]
+[ext_resource type="Resource" path="res://data/cards/matrix_pulse.tres" id="2_44a2r"]
+
+[resource]
+script = ExtResource("1_n8p6h")
+id = &"mm_core"
+display_name = "Núcleo Pulsante"
+family = 5
+rarity = 3
+preserve_chance = 0.5
+unlocks_card = ExtResource("2_44a2r")
+art_motif = &"core"
+description = "O centro da colônia. Pulsa em ritmo com todo o bosque."

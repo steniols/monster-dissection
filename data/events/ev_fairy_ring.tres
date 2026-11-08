@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_82jbj"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_vchjc"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_7ffei"]
+[ext_resource type="Resource" path="res://data/monsters/sporeling.tres" id="4_kxk1o"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_83jpw"]
+[ext_resource type="Resource" path="res://data/organs/sl_cap.tres" id="6_5m5kb"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="7_r3pty"]
+
+[sub_resource type="Resource" id="Resource_fdhix"]
+script = ExtResource("1_82jbj")
+label = "Entrar no círculo"
+description = "60%: +6 de vida máxima. Falha: o círculo acorda."
+success_chance = 0.6
+result_text = "Você respira fundo lá dentro. Algo em você se ajusta."
+max_hp_change = 6
+fail_text = "Os cogumelos da borda se levantam sobre pernas de raiz."
+fail_fight = Array[ExtResource("3_7ffei")]([ExtResource("4_kxk1o"), ExtResource("4_kxk1o")])
+
+[sub_resource type="Resource" id="Resource_s7bnf"]
+script = ExtResource("1_82jbj")
+label = "Colher um chapéu"
+description = "Perca 3 de vida. Ganhe Chapéu Luminoso."
+result_text = "O chapéu sai inteiro e continua aceso na sua mão."
+hp_change = -3
+gain_parts = Array[ExtResource("5_83jpw")]([ExtResource("6_5m5kb")])
+
+[sub_resource type="Resource" id="Resource_aaeoe"]
+script = ExtResource("1_82jbj")
+label = "Contornar a clareira"
+result_text = "Você dá a volta sem pisar no musgo."
+
+[resource]
+script = ExtResource("7_r3pty")
+id = &"ev_fairy_ring"
+title = "Círculo de Cogumelos"
+text = "Um anel perfeito de cogumelos em uma clareira. Dentro dele, o ar para de se mover e os esporos ficam suspensos."
+art_motif = &"crown"
+accent = Color(0.37254903, 0.7490196, 0.65882355, 1)
+choices = Array[ExtResource("1_82jbj")]([SubResource("Resource_fdhix"), SubResource("Resource_s7bnf"), SubResource("Resource_aaeoe")])

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/ah_down.tres" id="1_w1txp"]
+[ext_resource type="Resource" path="res://data/organs/vs_ichor.tres" id="2_66fj2"]
+[ext_resource type="Resource" path="res://data/cards/hb_void_feather.tres" id="3_fy4qh"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_1nsya"]
+
+[resource]
+script = ExtResource("4_1nsya")
+id = &"rc_void_feather"
+part_a = ExtResource("1_w1txp")
+part_b = ExtResource("2_66fj2")
+result = ExtResource("3_fy4qh")
+hint = "Uma pluma de cinzas mergulhada em um fluido violeta."

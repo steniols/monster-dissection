@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_fw3or"]
+[ext_resource type="Resource" path="res://data/cards/rooted_steps.tres" id="2_wnv47"]
+
+[resource]
+script = ExtResource("1_fw3or")
+id = &"sc_legs"
+display_name = "Pernas de Raiz"
+family = 5
+region = 2
+unlocks_card = ExtResource("2_wnv47")
+art_motif = &"tendon"
+description = "Grossas, lentas e impossíveis de derrubar."

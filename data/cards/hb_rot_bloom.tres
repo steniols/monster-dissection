@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_p1gop"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_fmhp3"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_21it3"]
+
+[sub_resource type="Resource" id="Resource_cpe1p"]
+script = ExtResource("2_fmhp3")
+status_id = &"regen"
+stacks = 4
+target = 1
+
+[sub_resource type="Resource" id="Resource_5lge0"]
+script = ExtResource("2_fmhp3")
+status_id = &"spores"
+stacks = 2
+
+[resource]
+script = ExtResource("3_21it3")
+id = &"hb_rot_bloom"
+display_name = "Flor da Podridão"
+card_type = 2
+rarity = 2
+category = 1
+family = 5
+secondary_family = 4
+source_part = "Experimento"
+art_motif = &"flesh"
+effects = Array[ExtResource("1_p1gop")]([SubResource("Resource_cpe1p"), SubResource("Resource_5lge0")])
+flavor = "Floresce onde algo deveria ter morrido."

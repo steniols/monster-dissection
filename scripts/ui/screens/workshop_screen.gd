@@ -43,7 +43,7 @@ func _ready() -> void:
 
 func _refresh() -> void:
 	var stock: PackedStringArray = []
-	for f in [Family.Id.BLOODFANG, Family.Id.IRONBACK, Family.Id.VOIDSPAWN, Family.Id.ROTWALKER]:
+	for f in [Family.Id.BLOODFANG, Family.Id.IRONBACK, Family.Id.VOIDSPAWN, Family.Id.ROTWALKER, Family.Id.SPOREMAW, Family.Id.ASHWING]:
 		stock.append("%s %d" % [Family.get_name_of(f), Profile.get_family_material(f)])
 	_header.text = "Pague com quaisquer partes da família indicada (as mais abundantes são usadas primeiro).   Estoque: " + "  ·  ".join(stock)
 	for c in _list.get_children():

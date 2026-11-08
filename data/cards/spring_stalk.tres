@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_nkk26"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_si01p"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="3_dvwu4"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_iiqe5"]
+
+[sub_resource type="Resource" id="Resource_m04dm"]
+script = ExtResource("2_si01p")
+amount = 3
+target = 1
+
+[sub_resource type="Resource" id="Resource_a67yd"]
+script = ExtResource("3_dvwu4")
+target = 1
+
+[resource]
+script = ExtResource("4_iiqe5")
+id = &"spring_stalk"
+display_name = "Haste Elástica"
+cost = 0
+card_type = 2
+family = 5
+source_part = "Haste Fibrosa"
+art_motif = &"tendon"
+effects = Array[ExtResource("1_nkk26")]([SubResource("Resource_m04dm"), SubResource("Resource_a67yd")])

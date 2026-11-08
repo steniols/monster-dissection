@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/sm_maw.tres" id="1_mpeiq"]
+[ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="2_b14xh"]
+[ext_resource type="Resource" path="res://data/cards/hb_blood_mold.tres" id="3_pxov3"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_tlt41"]
+
+[resource]
+script = ExtResource("4_tlt41")
+id = &"rc_blood_mold"
+part_a = ExtResource("1_mpeiq")
+part_b = ExtResource("2_b14xh")
+result = ExtResource("3_pxov3")
+hint = "Dentes de fibra junto a presas serrilhadas."

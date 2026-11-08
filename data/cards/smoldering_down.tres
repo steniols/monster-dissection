@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_14rm0"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_6oy2w"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_ajjrh"]
+
+[sub_resource type="Resource" id="Resource_0po2q"]
+script = ExtResource("2_6oy2w")
+status_id = &"ember"
+stacks = 4
+
+[resource]
+script = ExtResource("3_ajjrh")
+id = &"smoldering_down"
+display_name = "Penugem Fumegante"
+card_type = 2
+family = 6
+source_part = "Pluma de Cinzas"
+art_motif = &"hide"
+effects = Array[ExtResource("1_14rm0")]([SubResource("Resource_0po2q")])
+flavor = "Cai devagar. Queima o que encontra."

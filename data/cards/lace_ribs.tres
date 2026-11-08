@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_smysj"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_jsy53"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_1k7g8"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_wlmw5"]
+
+[sub_resource type="Resource" id="Resource_3qtbw"]
+script = ExtResource("2_jsy53")
+amount = 7
+target = 1
+
+[sub_resource type="Resource" id="Resource_trq3r"]
+script = ExtResource("3_1k7g8")
+status_id = &"thorns"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("4_wlmw5")
+id = &"lace_ribs"
+display_name = "Costelas Rendadas"
+card_type = 1
+rarity = 2
+family = 5
+source_part = "Costelas Rendadas"
+art_motif = &"ribs"
+effects = Array[ExtResource("1_smysj")]([SubResource("Resource_3qtbw"), SubResource("Resource_trq3r")])

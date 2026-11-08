@@ -1,0 +1,42 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_63mgp"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_pdb38"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_h8ek4"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_vrkh7"]
+[ext_resource type="Resource" path="res://data/organs/aw_gland.tres" id="5_pr3qb"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="6_io0on"]
+
+[sub_resource type="Resource" id="Resource_rrjk5"]
+script = ExtResource("1_63mgp")
+label = "Oferecer uma carta"
+description = "Remova uma carta do baralho."
+result_text = "As chamas sobem por um instante. Você se sente mais leve."
+remove_card = true
+
+[sub_resource type="Resource" id="Resource_1lyfq"]
+script = ExtResource("1_63mgp")
+label = "Tocar a pedra"
+description = "Perca 8 de vida. Aprimore uma carta."
+result_text = "O choque atravessa o braço, e sua mão fica mais firme."
+hp_change = -8
+upgrade_card = true
+
+[sub_resource type="Resource" id="Resource_krc86"]
+script = ExtResource("1_63mgp")
+label = "Pegar o que há na bacia"
+description = "60%: ganhe Núcleo de Brasa. Falha: perca 10 de vida."
+success_chance = 0.6
+result_text = "Entre as cinzas, um carvão que não esfria."
+gain_parts = Array[ExtResource("4_vrkh7")]([ExtResource("5_pr3qb")])
+fail_text = "O raio não erra desta vez."
+fail_hp_change = -10
+
+[resource]
+script = ExtResource("6_io0on")
+id = &"ev_storm_shrine"
+title = "Santuário da Tempestade"
+text = "Pedras marcadas com o desenho de uma ave cercam uma bacia em chamas. Os raios caem perto demais para ser acaso."
+art_motif = &"crown"
+accent = Color(0.8784314, 0.5019608, 0.22745098, 1)
+choices = Array[ExtResource("1_63mgp")]([SubResource("Resource_rrjk5"), SubResource("Resource_1lyfq"), SubResource("Resource_krc86")])

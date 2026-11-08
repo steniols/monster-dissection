@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_jro1w"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_e0n1b"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="3_rfs76"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_0qwfw"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_37eyj"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_ejmus"]
+[ext_resource type="Resource" path="res://data/organs/sg_antlers.tres" id="7_xfca8"]
+[ext_resource type="Resource" path="res://data/organs/sg_ribs.tres" id="8_uu6we"]
+[ext_resource type="Resource" path="res://data/organs/sg_eye.tres" id="9_vvlhx"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="10_6mmpy"]
+
+[sub_resource type="Resource" id="Resource_wwrn4"]
+script = ExtResource("3_rfs76")
+amount = 12
+target = 1
+
+[sub_resource type="Resource" id="Resource_1ym7l"]
+script = ExtResource("4_0qwfw")
+status_id = &"strength"
+target = 1
+
+[sub_resource type="Resource" id="Resource_ye1wq"]
+script = ExtResource("2_e0n1b")
+display_name = "Bramido"
+kind = 1
+effects = Array[ExtResource("1_jro1w")]([SubResource("Resource_wwrn4"), SubResource("Resource_1ym7l")])
+
+[sub_resource type="Resource" id="Resource_efipu"]
+script = ExtResource("5_37eyj")
+amount = 18
+
+[sub_resource type="Resource" id="Resource_ynw72"]
+script = ExtResource("2_e0n1b")
+display_name = "Investida"
+effects = Array[ExtResource("1_jro1w")]([SubResource("Resource_efipu")])
+
+[sub_resource type="Resource" id="Resource_abdkk"]
+script = ExtResource("4_0qwfw")
+status_id = &"spores"
+stacks = 4
+
+[sub_resource type="Resource" id="Resource_4e3hh"]
+script = ExtResource("4_0qwfw")
+status_id = &"weak"
+
+[sub_resource type="Resource" id="Resource_w7an4"]
+script = ExtResource("2_e0n1b")
+display_name = "Chuva de Esporos"
+kind = 3
+effects = Array[ExtResource("1_jro1w")]([SubResource("Resource_abdkk"), SubResource("Resource_4e3hh")])
+
+[resource]
+script = ExtResource("10_6mmpy")
+id = &"spore_stag"
+display_name = "Cervo de Esporos"
+family = 5
+tier = 1
+max_hp = 110
+intents = Array[ExtResource("2_e0n1b")]([SubResource("Resource_ye1wq"), SubResource("Resource_ynw72"), SubResource("Resource_w7an4")])
+parts = Array[ExtResource("6_ejmus")]([ExtResource("7_xfca8"), ExtResource("8_uu6we"), ExtResource("9_vvlhx")])
+region_anchors = Array[Vector2]([Vector2(0.21, 0.36), Vector2(0.54, 0.54), Vector2(0.41, 0.85), Vector2(0.6, 0.36)])
+visual = &"voidspawn"
+scale = 1.2
+lore = "Já foi um cervo. O fungo manteve a forma, comeu o resto e aprendeu a andar."
+weakness_note = "Avisa a Investida com um turno de antecedência: guarde Armadura para ela."

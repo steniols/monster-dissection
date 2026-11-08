@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="EventData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/event_choice.gd" id="1_twyqj"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_sxfb4"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_1bkt1"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_ripks"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="5_k1bsj"]
+
+[sub_resource type="Resource" id="Resource_g2q82"]
+script = ExtResource("1_twyqj")
+label = "Abrir o saco"
+description = "Recupere 12 de vida."
+result_text = "Provisões secas, por milagre ainda boas."
+hp_change = 12
+
+[sub_resource type="Resource" id="Resource_ako7m"]
+script = ExtResource("1_twyqj")
+label = "Forçar o caixote"
+description = "60%: aprimore uma carta. Falha: perca 6 de vida."
+success_chance = 0.6
+result_text = "Ferramentas bem conservadas. Você afia as suas com elas."
+upgrade_card = true
+fail_text = "A tampa estoura e uma nuvem de esporos sobe no seu rosto."
+fail_hp_change = -6
+
+[sub_resource type="Resource" id="Resource_ks8y2"]
+script = ExtResource("1_twyqj")
+label = "Limpar a mochila"
+description = "Remova uma carta do baralho."
+result_text = "Você deixa para trás o que não serve mais."
+remove_card = true
+
+[resource]
+script = ExtResource("5_k1bsj")
+id = &"ev_overgrown_cart"
+title = "Carroça Tomada"
+text = "Uma carroça de suprimentos afundada no musgo, coberta de cogumelos. O saco e o caixote ainda estão no lugar."
+choices = Array[ExtResource("1_twyqj")]([SubResource("Resource_g2q82"), SubResource("Resource_ako7m"), SubResource("Resource_ks8y2")])

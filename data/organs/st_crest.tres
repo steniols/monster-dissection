@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_2pmqg"]
+[ext_resource type="Resource" path="res://data/cards/bristling_crest.tres" id="2_uukti"]
+
+[resource]
+script = ExtResource("1_2pmqg")
+id = &"st_crest"
+display_name = "Crista Flamejante"
+family = 6
+region = 0
+rarity = 2
+preserve_chance = 0.65
+unlocks_card = ExtResource("2_uukti")
+art_motif = &"crown"
+description = "Eriça antes do ataque, como um aviso honesto."

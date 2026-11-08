@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_2qpmx"]
+[ext_resource type="Resource" path="res://data/cards/antler_charge.tres" id="2_w00q2"]
+
+[resource]
+script = ExtResource("1_2qpmx")
+id = &"sg_antlers"
+display_name = "Galhada Fúngica"
+family = 5
+region = 0
+rarity = 2
+preserve_chance = 0.6
+unlocks_card = ExtResource("2_w00q2")
+art_motif = &"horn"
+description = "Osso tomado por cogumelos, pesado como um tronco."

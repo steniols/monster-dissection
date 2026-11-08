@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/sl_cap.tres" id="1_y4jxe"]
+[ext_resource type="Resource" path="res://data/organs/rw_flesh.tres" id="2_u2tls"]
+[ext_resource type="Resource" path="res://data/cards/hb_rot_bloom.tres" id="3_n0e8o"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_v1kf5"]
+
+[resource]
+script = ExtResource("4_v1kf5")
+id = &"rc_rot_bloom"
+part_a = ExtResource("1_y4jxe")
+part_b = ExtResource("2_u2tls")
+result = ExtResource("3_n0e8o")
+hint = "Um chapéu aceso sobre carne que não para de se fechar."

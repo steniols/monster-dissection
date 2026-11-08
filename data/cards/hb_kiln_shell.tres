@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_ykw5y"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_f67hq"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_oo0y0"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_duwg4"]
+
+[sub_resource type="Resource" id="Resource_7tywl"]
+script = ExtResource("2_f67hq")
+amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_af37t"]
+script = ExtResource("3_oo0y0")
+status_id = &"thorns"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("4_duwg4")
+id = &"hb_kiln_shell"
+display_name = "Casco de Forno"
+card_type = 1
+rarity = 2
+category = 1
+family = 6
+secondary_family = 2
+source_part = "Experimento"
+art_motif = &"carapace"
+effects = Array[ExtResource("1_ykw5y")]([SubResource("Resource_7tywl"), SubResource("Resource_af37t")])

@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_jkkp0"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_alng7"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_i2mkt"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_82ys7"]
+
+[sub_resource type="Resource" id="Resource_7565s"]
+script = ExtResource("2_alng7")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_7kkdg"]
+script = ExtResource("3_i2mkt")
+status_id = &"regen"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("4_82ys7")
+id = &"filter_gills"
+display_name = "Lamelas Filtrantes"
+card_type = 1
+family = 5
+source_part = "Lamelas"
+art_motif = &"plates"
+effects = Array[ExtResource("1_jkkp0")]([SubResource("Resource_7565s"), SubResource("Resource_7kkdg")])

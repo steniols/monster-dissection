@@ -1,0 +1,77 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_fnc8m"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_cxh35"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="3_b4m8o"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_4buvx"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_kjqba"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_0nssc"]
+[ext_resource type="Resource" path="res://data/organs/st_crest.tres" id="7_7vnnc"]
+[ext_resource type="Resource" path="res://data/organs/st_eye.tres" id="8_0d34q"]
+[ext_resource type="Resource" path="res://data/organs/st_tail.tres" id="9_2cdwg"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="10_h6q03"]
+
+[sub_resource type="Resource" id="Resource_w5gww"]
+script = ExtResource("3_b4m8o")
+amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_pcha6"]
+script = ExtResource("4_4buvx")
+status_id = &"strength"
+stacks = 3
+target = 1
+
+[sub_resource type="Resource" id="Resource_t3q5y"]
+script = ExtResource("2_cxh35")
+display_name = "Eriçar"
+kind = 1
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_w5gww"), SubResource("Resource_pcha6")])
+
+[sub_resource type="Resource" id="Resource_ynfhs"]
+script = ExtResource("5_kjqba")
+hits = 3
+
+[sub_resource type="Resource" id="Resource_07kh1"]
+script = ExtResource("2_cxh35")
+display_name = "Garras"
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_ynfhs")])
+
+[sub_resource type="Resource" id="Resource_grlvu"]
+script = ExtResource("4_4buvx")
+status_id = &"vulnerable"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_cwtdy"]
+script = ExtResource("4_4buvx")
+status_id = &"ember"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_bmp5q"]
+script = ExtResource("2_cxh35")
+display_name = "Olhar Fixo"
+kind = 3
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_grlvu"), SubResource("Resource_cwtdy")])
+
+[sub_resource type="Resource" id="Resource_1agnu"]
+script = ExtResource("5_kjqba")
+amount = 18
+
+[sub_resource type="Resource" id="Resource_pk8g8"]
+script = ExtResource("2_cxh35")
+display_name = "Açoite de Fogo"
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_1agnu")])
+
+[resource]
+script = ExtResource("10_h6q03")
+id = &"stormtalon"
+display_name = "Stormtalon"
+family = 6
+tier = 1
+max_hp = 110
+intents = Array[ExtResource("2_cxh35")]([SubResource("Resource_t3q5y"), SubResource("Resource_07kh1"), SubResource("Resource_bmp5q"), SubResource("Resource_pk8g8")])
+parts = Array[ExtResource("6_0nssc")]([ExtResource("7_7vnnc"), ExtResource("8_0d34q"), ExtResource("9_2cdwg")])
+region_anchors = Array[Vector2]([Vector2(0.27, 0.41), Vector2(0.47, 0.54), Vector2(0.34, 0.87), Vector2(0.77, 0.39)])
+scale = 1.2
+lore = "Só desce das nuvens para caçar o que já está cansado."
+weakness_note = "O Olhar Fixo prepara o Açoite: guarde sua maior defesa para o turno seguinte."

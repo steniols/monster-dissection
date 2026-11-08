@@ -1,0 +1,78 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_bxdlv"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_nwbjh"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="3_bq7px"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_85qi4"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_bftex"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_t38a2"]
+[ext_resource type="Resource" path="res://data/organs/er_heart.tres" id="7_vo5m0"]
+[ext_resource type="Resource" path="res://data/organs/er_wing.tres" id="8_ylrum"]
+[ext_resource type="Resource" path="res://data/organs/er_crown.tres" id="9_b25bv"]
+[ext_resource type="Resource" path="res://data/organs/aw_gland.tres" id="10_llqo3"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_3c44v"]
+
+[sub_resource type="Resource" id="Resource_swggc"]
+script = ExtResource("3_bq7px")
+amount = 12
+target = 1
+
+[sub_resource type="Resource" id="Resource_qbjr1"]
+script = ExtResource("4_85qi4")
+status_id = &"strength"
+stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_qjoi8"]
+script = ExtResource("2_nwbjh")
+display_name = "Aquecer"
+kind = 1
+effects = Array[ExtResource("1_bxdlv")]([SubResource("Resource_swggc"), SubResource("Resource_qbjr1")])
+
+[sub_resource type="Resource" id="Resource_my5x7"]
+script = ExtResource("5_bftex")
+hits = 3
+
+[sub_resource type="Resource" id="Resource_uubam"]
+script = ExtResource("2_nwbjh")
+display_name = "Rajada de Penas"
+effects = Array[ExtResource("1_bxdlv")]([SubResource("Resource_my5x7")])
+
+[sub_resource type="Resource" id="Resource_v67b7"]
+script = ExtResource("4_85qi4")
+status_id = &"ember"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_34pkt"]
+script = ExtResource("4_85qi4")
+status_id = &"weak"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_0qrax"]
+script = ExtResource("2_nwbjh")
+display_name = "Chuva de Brasas"
+kind = 3
+effects = Array[ExtResource("1_bxdlv")]([SubResource("Resource_v67b7"), SubResource("Resource_34pkt")])
+
+[sub_resource type="Resource" id="Resource_5mbyu"]
+script = ExtResource("5_bftex")
+amount = 22
+
+[sub_resource type="Resource" id="Resource_87qsi"]
+script = ExtResource("2_nwbjh")
+display_name = "Bico Blindado"
+effects = Array[ExtResource("1_bxdlv")]([SubResource("Resource_5mbyu")])
+
+[resource]
+script = ExtResource("11_3c44v")
+id = &"ember_roc"
+display_name = "Roca de Brasa"
+family = 6
+tier = 2
+max_hp = 180
+intents = Array[ExtResource("2_nwbjh")]([SubResource("Resource_qjoi8"), SubResource("Resource_uubam"), SubResource("Resource_0qrax"), SubResource("Resource_87qsi")])
+parts = Array[ExtResource("6_t38a2")]([ExtResource("7_vo5m0"), ExtResource("8_ylrum"), ExtResource("9_b25bv"), ExtResource("10_llqo3")])
+region_anchors = Array[Vector2]([Vector2(0.18, 0.28), Vector2(0.44, 0.59), Vector2(0.56, 0.91), Vector2(0.74, 0.48)])
+scale = 1.35
+lore = "Dizem que o vulcão acordou quando ela fez o ninho. Ninguém voltou para confirmar."
+weakness_note = "A Força se acumula e a Chuva de Brasas prepara o golpe seguinte. Termine a luta cedo."

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_865nq"]
+[ext_resource type="Resource" path="res://data/cards/smoke_screen.tres" id="2_ajuc3"]
+
+[resource]
+script = ExtResource("1_865nq")
+id = &"ah_smoke"
+display_name = "Véu de Fumaça"
+family = 6
+region = 3
+preserve_chance = 0.75
+unlocks_card = ExtResource("2_ajuc3")
+art_motif = &"blood"
+description = "Fumaça densa, guardada em frasco, que ainda se move."

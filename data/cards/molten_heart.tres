@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_0rxx1"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_es6rt"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_c5235"]
+
+[sub_resource type="Resource" id="Resource_nacfa"]
+script = ExtResource("2_es6rt")
+status_id = &"molten_heart"
+stacks = 2
+target = 1
+
+[resource]
+script = ExtResource("3_c5235")
+id = &"molten_heart"
+display_name = "Coração Fundido"
+cost = 2
+card_type = 3
+rarity = 3
+family = 6
+source_part = "Coração de Brasa"
+art_motif = &"heart"
+effects = Array[ExtResource("1_0rxx1")]([SubResource("Resource_nacfa")])
+flavor = "Bate fora de hora, e cada batida esquenta o ar."

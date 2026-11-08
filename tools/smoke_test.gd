@@ -76,6 +76,25 @@ func _test_data() -> void:
 		_check(not e.encounters.is_empty() and e.boss != null and not e.events.is_empty(), "expedição incompleta: %s" % e.id)
 		for enc in e.encounters:
 			_check(not enc.monsters.is_empty(), "encontro vazio: %s" % enc.id)
+	# Toda arte das fases 3 e 4 precisa existir; cartas e partes dos monstros extras ainda usam o desenho provisório.
+	var no_art_yet := [&"antler_charge", &"lace_ribs", &"stag_gaze", &"burst_sacs", &"rooted_steps", &"moss_mantle", &"lantern_core", &"drift_tendrils",
+		&"sg_antlers", &"sg_ribs", &"sg_eye", &"sc_sacs", &"sc_legs", &"sc_moss", &"sw_core", &"sw_tendrils"]
+	for c: CardData in Database.cards.values():
+		if c.family in [Family.Id.SPOREMAW, Family.Id.ASHWING] and not no_art_yet.has(c.id):
+			_check(c.illustration != null, "carta sem arte: %s" % c.id)
+	for p: AnatomyPart in Database.parts.values():
+		if p.family in [Family.Id.SPOREMAW, Family.Id.ASHWING] and not no_art_yet.has(p.id):
+			_check(p.icon != null, "parte sem arte: %s" % p.id)
+	for m: MonsterData in Database.monsters.values():
+		_check(m.portrait != null, "monstro sem arte: %s" % m.id)
+		_check(m.region_anchors.size() == 4, "monstro sem pontos de dissecação: %s" % m.id)
+		_check(not m.parts.is_empty(), "monstro sem partes: %s" % m.id)
+	for m: MutationData in Database.mutations.values():
+		_check(Database.get_art("mutations", m.id) != null, "mutação sem arte: %s" % m.id)
+	for e: EventData in Database.events.values():
+		_check(Database.get_art("events", e.id) != null, "evento sem arte: %s" % e.id)
+	for id in [&"fungal_grove", &"ash_peaks", &"battle_fungal_hollow", &"battle_ash_ridge"]:
+		_check(Database.get_art("backgrounds", id) != null, "fundo ausente: %s" % id)
 
 
 # --- Efeitos e condição do corpo -------------------------------------------
@@ -124,6 +143,31 @@ func _test_effects() -> void:
 	cm.instinct_count = 1
 	cm._register_instinct(Database.get_card(&"hb_armored_heart"))
 	_check(cm.instinct_family == Family.Id.IRONBACK and cm.instinct_count == 2, "híbrida deveria contar para Ironback")
+	# Brasa: cobra a cada golpe, ignora Armadura e diminui
+	var em := MonsterCombatant.new(Database.get_monster(&"ashwing"))
+	em.add_status(&"ember", 3)
+	var em_hp := em.hp
+	em.add_block(100)
+	em.take_damage(5, p, true)
+	_check(em.hp == em_hp - 3 and em.get_status(&"ember") == 2, "Brasa deveria tirar 3 de vida e cair para 2 (hp=%d brasa=%d)" % [em.hp, em.get_status(&"ember")])
+	em.lose_hp(1)
+	_check(em.get_status(&"ember") == 2, "Brasa só cobra em ataques")
+	# Esporos: passam para os outros inimigos quando o portador morre
+	var sp1 := MonsterCombatant.new(Database.get_monster(&"sporeling"))
+	var sp2 := MonsterCombatant.new(Database.get_monster(&"sporeling"))
+	cm.monsters = [sp1, sp2]
+	sp1.died.connect(cm._spread_spores.bind(sp1))
+	sp1.add_status(&"spores", 4)
+	sp1.lose_hp(999, Combatant.DeathCause.STATUS)
+	_check(sp2.get_status(&"spores") == 4, "Esporos deveriam passar ao vizinho (%d)" % sp2.get_status(&"spores"))
+	# Instintos novos
+	var hand_before := cm.hand.size()
+	cm.draw_pile.append(CardInstance.new(Database.get_card(&"guard")))
+	cm._trigger_instinct(Family.Id.ASHWING)
+	_check(sp2.get_status(&"ember") == 3 and cm.hand.size() == hand_before + 1, "Instinto Ashwing")
+	p.hp = 20
+	cm._trigger_instinct(Family.Id.SPOREMAW)
+	_check(sp2.get_status(&"spores") == 7 and p.hp == 23, "Instinto Sporemaw")
 	cm.queue_free()
 	print("[efeitos] verificados")
 
@@ -219,10 +263,18 @@ func _test_balance() -> void:
 	var late_ids: Array = mid_ids.duplicate()
 	late_ids.append_array([&"hb_armored_heart", &"necrotic_bile", &"dry_sinew", &"deep_bite+", &"rend+"])
 	var late := Database.cards_from_ids(late_ids)
+	var grove_ids: Array = late_ids.duplicate()
+	grove_ids.append_array([&"fungal_bite", &"filter_gills", &"spore_cloud", &"take_root", &"fungal_bite+"])
+	var grove := Database.cards_from_ids(grove_ids)
+	var peaks_ids: Array = grove_ids.duplicate()
+	peaks_ids.append_array([&"hooked_strike", &"dive_talons", &"smoke_screen", &"luminous_veil", &"hb_burning_spores"])
+	var peaks := Database.cards_from_ids(peaks_ids)
 	var setups := [
 		["inicial", starter, [[&"bloodfang"], [&"ironback"], [&"voidspawn"], [&"bloodfang_pup", &"bloodfang_pup"], [&"rotwalker"], [&"ghoul", &"ghoul"]]],
 		["meio", mid, [[&"bloodfang_alpha"], [&"void_matriarch"], [&"voidspawn", &"bloodfang_pup"], [&"rotwalker", &"ghoul"]]],
 		["avançado", late, [[&"stitched_abomination"], [&"iron_colossus"], [&"void_matriarch"]]],
+		["bosque", grove, [[&"sporeling", &"sporeling"], [&"spore_wisp", &"spore_wisp"], [&"sporemaw"], [&"spore_carrier"], [&"sporemaw", &"spore_wisp"], [&"mycostalker"], [&"spore_stag"], [&"mycelium_mother"]]],
+		["pináculos", peaks, [[&"ash_hatchling", &"ash_hatchling"], [&"ashwing"], [&"ashwing", &"ash_hatchling"], [&"stormtalon"], [&"ember_roc"]]],
 	]
 	for setup in setups:
 		for group in setup[2]:
@@ -233,7 +285,7 @@ func _test_balance() -> void:
 			var turns := 0
 			var hp_left := 0
 			for i in SIMS_PER_MONSTER:
-				var r: Dictionary = await _simulate(datas, setup[1], 60)
+				var r: Dictionary = await _simulate(datas, setup[1], 60 if setup[0] in ["inicial", "meio", "avançado"] else 80)
 				wins += 1 if r["won"] else 0
 				turns += r["turns"]
 				hp_left += r["hp"]

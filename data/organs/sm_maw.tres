@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_4qj2a"]
+[ext_resource type="Resource" path="res://data/cards/fungal_bite.tres" id="2_6viye"]
+
+[resource]
+script = ExtResource("1_4qj2a")
+id = &"sm_maw"
+display_name = "Mandíbula Fúngica"
+family = 5
+region = 0
+preserve_chance = 0.75
+unlocks_card = ExtResource("2_6viye")
+art_motif = &"fang"
+description = "Dentes de fibra que voltam a crescer dentro do frasco."

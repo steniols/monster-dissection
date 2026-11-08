@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_au8xb"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_quvib"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_0vrel"]
+
+[sub_resource type="Resource" id="Resource_1j0n3"]
+script = ExtResource("2_quvib")
+status_id = &"spores"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_o2ane"]
+script = ExtResource("2_quvib")
+status_id = &"weak"
+
+[resource]
+script = ExtResource("3_0vrel")
+id = &"cap_glow"
+display_name = "Brilho do Chapéu"
+card_type = 2
+family = 5
+source_part = "Chapéu Luminoso"
+art_motif = &"eye"
+effects = Array[ExtResource("1_au8xb")]([SubResource("Resource_1j0n3"), SubResource("Resource_o2ane")])
+flavor = "A luz atrai. O resto vem depois."

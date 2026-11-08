@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_vevx7"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_06tn7"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="3_xp5vk"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_8i081"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_ty4cb"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_ddbdq"]
+[ext_resource type="Resource" path="res://data/organs/mm_core.tres" id="7_45sw7"]
+[ext_resource type="Resource" path="res://data/organs/mm_veil.tres" id="8_2vfkx"]
+[ext_resource type="Resource" path="res://data/organs/mm_crown.tres" id="9_gvhyt"]
+[ext_resource type="Resource" path="res://data/organs/sm_gills.tres" id="10_gp07h"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_wtwim"]
+
+[sub_resource type="Resource" id="Resource_j6ver"]
+script = ExtResource("3_xp5vk")
+amount = 14
+target = 1
+
+[sub_resource type="Resource" id="Resource_1v1u7"]
+script = ExtResource("4_8i081")
+status_id = &"regen"
+stacks = 5
+target = 1
+
+[sub_resource type="Resource" id="Resource_xpht1"]
+script = ExtResource("2_06tn7")
+display_name = "Germinar"
+kind = 1
+effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_j6ver"), SubResource("Resource_1v1u7")])
+
+[sub_resource type="Resource" id="Resource_mjxu0"]
+script = ExtResource("5_ty4cb")
+amount = 7
+hits = 3
+
+[sub_resource type="Resource" id="Resource_1w5u2"]
+script = ExtResource("2_06tn7")
+display_name = "Raízes"
+effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_mjxu0")])
+
+[sub_resource type="Resource" id="Resource_ahatr"]
+script = ExtResource("4_8i081")
+status_id = &"spores"
+stacks = 5
+
+[sub_resource type="Resource" id="Resource_8x2bd"]
+script = ExtResource("4_8i081")
+status_id = &"weak"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_dfd44"]
+script = ExtResource("2_06tn7")
+display_name = "Nuvem"
+kind = 3
+effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_ahatr"), SubResource("Resource_8x2bd")])
+
+[sub_resource type="Resource" id="Resource_enjkh"]
+script = ExtResource("5_ty4cb")
+amount = 22
+
+[sub_resource type="Resource" id="Resource_6tq13"]
+script = ExtResource("2_06tn7")
+display_name = "Esmagar"
+effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_enjkh")])
+
+[resource]
+script = ExtResource("11_wtwim")
+id = &"mycelium_mother"
+display_name = "Matriz Micélica"
+family = 5
+tier = 2
+max_hp = 160
+intents = Array[ExtResource("2_06tn7")]([SubResource("Resource_xpht1"), SubResource("Resource_1w5u2"), SubResource("Resource_dfd44"), SubResource("Resource_6tq13")])
+parts = Array[ExtResource("6_ddbdq")]([ExtResource("7_45sw7"), ExtResource("8_2vfkx"), ExtResource("9_gvhyt"), ExtResource("10_gp07h")])
+region_anchors = Array[Vector2]([Vector2(0.44, 0.21), Vector2(0.49, 0.43), Vector2(0.23, 0.8), Vector2(0.29, 0.43)])
+visual = &"voidspawn"
+scale = 1.3
+lore = "A colônia inteira ligada em um só corpo. Cada cogumelo do bosque responde a ela."
+weakness_note = "Regenera sem parar: Corrupção e Sangramento vencem a cura com o tempo, e a Nuvem pune lutas longas."

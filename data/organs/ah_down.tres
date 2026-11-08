@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_tv2du"]
+[ext_resource type="Resource" path="res://data/cards/smoldering_down.tres" id="2_7eaev"]
+
+[resource]
+script = ExtResource("1_tv2du")
+id = &"ah_down"
+display_name = "Pluma de Cinzas"
+family = 6
+unlocks_card = ExtResource("2_7eaev")
+art_motif = &"hide"
+description = "Cinza por fora, quente por dentro. Não apaga."

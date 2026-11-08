@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_iss1i"]
+[ext_resource type="Resource" path="res://data/cards/filter_gills.tres" id="2_gfkds"]
+
+[resource]
+script = ExtResource("1_iss1i")
+id = &"sm_gills"
+display_name = "Lamelas"
+family = 5
+unlocks_card = ExtResource("2_gfkds")
+art_motif = &"plates"
+description = "Filtram o ar e, ao que parece, também o sangue."

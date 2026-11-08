@@ -38,6 +38,8 @@ const BATTLE_BACKGROUNDS := {
 	Family.Id.IRONBACK: "battle_marsh",
 	Family.Id.VOIDSPAWN: "battle_violet_cavern",
 	Family.Id.ROTWALKER: "battle_ruins",
+	Family.Id.SPOREMAW: "battle_fungal_hollow",
+	Family.Id.ASHWING: "battle_ash_ridge",
 }
 
 

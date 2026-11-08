@@ -1,0 +1,66 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_kmmkw"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_fkisd"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_ejloq"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="4_tvvyv"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="5_1tef5"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_qpct6"]
+[ext_resource type="Resource" path="res://data/organs/sm_gills.tres" id="7_af2xn"]
+[ext_resource type="Resource" path="res://data/organs/sm_maw.tres" id="8_ub8pt"]
+[ext_resource type="Resource" path="res://data/organs/sm_roots.tres" id="9_dqk71"]
+[ext_resource type="Resource" path="res://data/organs/sm_mycelium.tres" id="10_jlyoo"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_k67ms"]
+
+[sub_resource type="Resource" id="Resource_pcxl7"]
+script = ExtResource("3_ejloq")
+amount = 16
+
+[sub_resource type="Resource" id="Resource_wmjgw"]
+script = ExtResource("2_fkisd")
+display_name = "Bocada"
+effects = Array[ExtResource("1_kmmkw")]([SubResource("Resource_pcxl7")])
+
+[sub_resource type="Resource" id="Resource_08g6q"]
+script = ExtResource("4_tvvyv")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_m1yxb"]
+script = ExtResource("5_1tef5")
+status_id = &"spores"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_mjjso"]
+script = ExtResource("2_fkisd")
+display_name = "Exalar"
+kind = 1
+effects = Array[ExtResource("1_kmmkw")]([SubResource("Resource_08g6q"), SubResource("Resource_m1yxb")])
+
+[sub_resource type="Resource" id="Resource_nxec2"]
+script = ExtResource("3_ejloq")
+amount = 9
+
+[sub_resource type="Resource" id="Resource_rj4hw"]
+script = ExtResource("5_1tef5")
+status_id = &"spores"
+stacks = 2
+
+[sub_resource type="Resource" id="Resource_8mhpu"]
+script = ExtResource("2_fkisd")
+display_name = "Mandíbula"
+kind = 4
+effects = Array[ExtResource("1_kmmkw")]([SubResource("Resource_nxec2"), SubResource("Resource_rj4hw")])
+
+[resource]
+script = ExtResource("11_k67ms")
+id = &"sporemaw"
+display_name = "Sporemaw"
+family = 5
+max_hp = 68
+intents = Array[ExtResource("2_fkisd")]([SubResource("Resource_wmjgw"), SubResource("Resource_mjjso"), SubResource("Resource_8mhpu")])
+parts = Array[ExtResource("6_qpct6")]([ExtResource("7_af2xn"), ExtResource("8_ub8pt"), ExtResource("9_dqk71"), ExtResource("10_jlyoo")])
+region_anchors = Array[Vector2]([Vector2(0.17, 0.54), Vector2(0.5, 0.45), Vector2(0.6, 0.77), Vector2(0.47, 0.25)])
+visual = &"voidspawn"
+lore = "Um chapéu enorme sobre uma boca de fibras. Caça parado, deixando a presa respirar."
+weakness_note = "Esporos somem aos poucos, mas se acumulam rápido. Não prolongue a luta sem Armadura."

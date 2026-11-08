@@ -1,0 +1,50 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_pmsl8"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_1qnfx"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_rdvbn"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_14kkj"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_qv3ww"]
+[ext_resource type="Resource" path="res://data/organs/sw_core.tres" id="6_ix8nv"]
+[ext_resource type="Resource" path="res://data/organs/sw_tendrils.tres" id="7_vt2ki"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="8_rbxa7"]
+
+[sub_resource type="Resource" id="Resource_bk25i"]
+script = ExtResource("3_rdvbn")
+amount = 4
+hits = 2
+
+[sub_resource type="Resource" id="Resource_5qu0y"]
+script = ExtResource("2_1qnfx")
+display_name = "Filamentos"
+effects = Array[ExtResource("1_pmsl8")]([SubResource("Resource_bk25i")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_q17ng"]
+script = ExtResource("4_14kkj")
+status_id = &"spores"
+
+[sub_resource type="Resource" id="Resource_5r4tb"]
+script = ExtResource("4_14kkj")
+status_id = &"weak"
+
+[sub_resource type="Resource" id="Resource_lktqt"]
+script = ExtResource("2_1qnfx")
+display_name = "Pairar"
+kind = 3
+effects = Array[ExtResource("1_pmsl8")]([SubResource("Resource_q17ng"), SubResource("Resource_5r4tb")])
+
+[resource]
+script = ExtResource("8_rbxa7")
+id = &"spore_wisp"
+display_name = "Fogo-Fátuo de Esporos"
+family = 5
+max_hp = 22
+pattern = 1
+intents = Array[ExtResource("2_1qnfx")]([SubResource("Resource_5qu0y"), SubResource("Resource_lktqt")])
+parts = Array[ExtResource("5_qv3ww")]([ExtResource("6_ix8nv"), ExtResource("7_vt2ki")])
+region_anchors = Array[Vector2]([Vector2(0.31, 0.18), Vector2(0.47, 0.37), Vector2(0.36, 0.69), Vector2(0.61, 0.33)])
+visual = &"voidspawn"
+scale = 0.75
+lore = "Um chapéu que flutua arrastando filamentos. Ninguém sabe o que o mantém no ar."
+weakness_note = "Pouca vida e muitos golpes pequenos: Armadura resolve quase tudo."

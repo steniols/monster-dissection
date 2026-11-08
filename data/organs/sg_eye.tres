@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_qwsgh"]
+[ext_resource type="Resource" path="res://data/cards/stag_gaze.tres" id="2_o5tvn"]
+
+[resource]
+script = ExtResource("1_qwsgh")
+id = &"sg_eye"
+display_name = "Olho Verde-Água"
+family = 5
+region = 0
+rarity = 3
+preserve_chance = 0.5
+unlocks_card = ExtResource("2_o5tvn")
+art_motif = &"eye"
+description = "A única parte do cervo que ainda parece estar viva."

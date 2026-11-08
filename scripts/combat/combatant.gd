@@ -44,6 +44,10 @@ func take_damage(amount: int, source: Combatant = null, is_attack: bool = false)
 	damaged.emit(through, blocked)
 	if is_attack and source != null and source.is_alive() and get_status(&"thorns") > 0:
 		source.take_damage(get_status(&"thorns"), self, false)
+	if is_attack and is_alive() and get_status(&"ember") > 0:
+		var ember := get_status(&"ember")
+		set_status(&"ember", ember - 1)
+		lost += lose_hp(ember, DeathCause.STATUS)
 	return lost
 
 

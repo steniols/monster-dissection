@@ -1,23 +1,22 @@
 # MONSTER DISSECTION: arte
 
-## Status: tudo pronto; as 78 imagens das fases 3 e 4 estão instaladas (só restam ajustes opcionais)
+## Status: as fases 3 e 4 já estão no jogo; faltam 18 imagens e há ajustes opcionais (ver "Novos pedidos")
 
 | Grupo | Qtde | Situação |
 |---|---|---|
-| Monstros | 10 | **Pronto**, em alta resolução |
-| Partes anatômicas | 30 | **Pronto** |
-| Cartas | 43 | **Pronto** |
-| Mutações | 7 | **Pronto** |
-| Eventos | 6 | **Pronto** (1024 px, ampliados de ~485 px; dá para refazer um por um) |
-| Fundos (paisagens) | 6 | **Pronto** |
-| Fundos de batalha (neutros, por família) | 4 | **Pronto** |
+| Monstros | 21 | **Pronto**, em alta resolução |
+| Partes anatômicas | 54 de 62 | **Faltam 8** (monstros extras) |
+| Cartas | 75 de 83 | **Faltam 8** (monstros extras) |
+| Mutações | 11 | **Pronto** (as 4 novas com líquido a ajustar) |
+| Eventos | 12 | **Pronto** (1024 px, ampliados de ~485 px; dá para refazer um por um) |
+| Fundos (paisagens) | 8 | **Pronto** |
+| Fundos de batalha (neutros, por família) | 6 | **Pronto** |
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
-| Melhorias da Oficina | 5 | **Pronto** |
+| Melhorias da Oficina | 5 de 7 | **Faltam 2** (novas) |
 | Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
 | Acampamento: ícones das opções | 3 | **Pronto** (os três da folha 3; as outras versões estão em `assets/art/extra/camp/alt/`) |
-| **Fases 3 e 4** (monstros, fundos, partes, cartas, mutações, eventos) | 78 | **Pronto**: ajustes opcionais em "Fases 3 e 4" abaixo |
-| Ícones de navegação | 10 | **Pronto** (`assets/art/ui/nav_*.png`, 96 px; originais em `assets/art/extra/fases34/nav_full/`). Em uso: `nav_dissect`, `nav_camp`, `nav_event`, `nav_map`, `nav_lab`, `nav_settings`, `nav_pack`. Ainda sem uso: `nav_book`, `nav_forge`, `nav_loot` |
+| Ícones de navegação | 10 de 12 | **Faltam 2** (elite e chefe) (`assets/art/ui/nav_*.png`, 96 px; originais em `assets/art/extra/fases34/nav_full/`). Em uso: `nav_dissect`, `nav_camp`, `nav_event`, `nav_map`, `nav_lab`, `nav_settings`, `nav_pack`. Ainda sem uso: `nav_book`, `nav_forge`, `nav_loot` |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -47,10 +46,10 @@ Regras que funcionaram:
 - Fundo transparente ou liso funciona; eu removo. Peça sempre a **folha original inteira**, mesmo que o
   ChatGPT também mande recortes.
 
-## Fases 3 e 4: arte pronta
+## Fases 3 e 4: no jogo, com novos pedidos
 
-Duas regiões novas, cada uma com **uma família nova de monstros**. O código (dados, mecânicas, cartas) ainda não
-foi feito; os nomes de arquivo abaixo já são os definitivos.
+Duas regiões novas, cada uma com **uma família nova de monstros**. O código já está pronto e os nomes de arquivo abaixo
+são os definitivos: arte nova entra sozinha, sem mexer no código.
 
 | Fase | Região | Família nova | Cores (como a arte aprovada saiu) |
 |---|---|---|---|
@@ -59,7 +58,7 @@ foi feito; os nomes de arquivo abaixo já são os definitivos.
 
 ### Situação de cada folha
 
-**As 78 imagens estão prontas.** O que resta é opcional (ver "Opcional, se sobrar tempo").
+**As 78 imagens do plano original estão prontas.** Os monstros extras e as melhorias novas pedem mais 18 (ver "Novos pedidos").
 
 | Folha | O que é | Qtde | Situação |
 |---|---|---|---|
@@ -75,31 +74,213 @@ foi feito; os nomes de arquivo abaixo já são os definitivos.
 | **C7** | Cartas híbridas | 8 | **Pronta**, instalada: serve no tamanho da carta (ver abaixo) |
 
 As cartas vieram da "Prancha de dissecação Ashwing e Sporemaw". O estilo ficou certo e o tamanho basta, porque a arte
-aparece com cerca de 140×80 px na carta. Elas mostram a peça parada, sem ação; refazer é opcional.
+aparece com cerca de 140×80 px na carta. Elas mostram a peça parada, sem ação; ver o pedido 7.
 
 ### Como pedir
 
-Para os ajustes opcionais ou artes novas. Pranchas com tudo junto, com títulos como "M3" e "C5" escritos na imagem, deixam as figuras
+Pranchas com tudo junto, com títulos como "M3" e "C5" escritos na imagem, deixam as figuras
 pequenas; um pedido por vez deu os melhores resultados.
 
 1. **Não cole este arquivo no ChatGPT.** Cole só **um** bloco de pedido por conversa, sem os códigos das folhas.
 2. **Anexe as imagens indicadas em cada pedido.** Os caminhos são relativos a `assets/art/`.
 3. **Confira o primeiro resultado** antes de pedir o resto. O resultado precisa ser uma imagem só, na resolução máxima.
 
-### Opcional, se sobrar tempo
+### Novos pedidos: o que ainda falta
 
-| O que | Por quê |
-|---|---|
-| Refazer `stormtalon.png` | Ficou parecido com o Ashwing e sem a cauda em chamas nem o olho de fenda |
-| Refazer as cartas C5, C6 e C7 | Servem no tamanho da carta, mas são pequenas e mostram a peça parada, sem ação |
+As fases já funcionam sem estes pedidos: o que não tem arte usa um desenho provisório. Em cada pedido, os caminhos
+são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 
-**Ajuste das mutações.** O líquido vermelho é o mesmo das mutações Bloodfang, então as famílias novas não se distinguem
-pela cor. Para corrigir, anexe só `extra/fases34/folhas/MU2_folha_original.png` e cole:
+| Prioridade | Pedido | Qtde | Por quê |
+|---|---|---|---|
+| **1** | Partes dos monstros extras (P8) | 8 | **Faltam de verdade:** hoje usam desenho provisório |
+| **2** | Cartas dos monstros extras (C8) | 8 | **Faltam de verdade:** hoje usam desenho provisório |
+| **3** | Melhorias novas da Oficina (L3) | 2 | **Faltam de verdade:** hoje usam desenho provisório |
+| **4** | Líquido das mutações | 4 | Frascos vermelhos, iguais aos do Bloodfang |
+| **5** | Ícones de elite e chefe no mapa | 2 | Ainda usam o desenho antigo |
+| **6** | Stormtalon | 1 | Parecido com o Ashwing |
+| **7** | Cartas com ação (C5, C6, C7) | 32 | As atuais mostram a peça parada |
+| **8** | Ovos do Ninho e raio do Santuário | 2 | Cores diferentes do pedido |
+
+#### 1. P8: partes dos monstros extras (8, em uma folha)
+
+Anexe `parts/bf_fangs.png`, `parts/bf_heart.png`, `monsters/spore_stag.png` e `monsters/spore_carrier.png`.
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the first two attached images: matte painted surfaces, natural colors, thick dark outline, simple cel shading, natural history museum specimen theme. The creatures in the other attached images show where these parts come from. Exactly 8 separate isolated objects in a 4x2 grid with wide spacing, in this exact order, left to right, top to bottom.
+1. a large bone antler overgrown with small orange mushrooms
+2. a section of lace-like bone ribs eaten away by fungus
+3. a single glowing teal eye in a socket of pale bone
+4. a cluster of large swollen green-yellow spore sacs
+5. a thick gnarled root leg ending in bone claws
+6. a mantle of thick green moss with small roots
+7. a small round lantern-like fungal heart with a soft teal light
+8. a bundle of long thin floating orange and teal filaments
+Plain flat light grey background, never black or checkered. No text, no numbers, no labels, no frames, no people, no gore. One image, maximum resolution, at least 2000 pixels wide.
+```
+
+| Ordem | Arquivo | Parte | Monstro |
+|---|---|---|---|
+| 1 | `sg_antlers.png` | Galhada Fúngica | Cervo de Esporos |
+| 2 | `sg_ribs.png` | Costelas Rendadas | Cervo de Esporos |
+| 3 | `sg_eye.png` | Olho Verde-Água | Cervo de Esporos |
+| 4 | `sc_sacs.png` | Bolsas Cheias | Carregador de Esporos |
+| 5 | `sc_legs.png` | Pernas de Raiz | Carregador de Esporos |
+| 6 | `sc_moss.png` | Manto de Musgo | Carregador de Esporos |
+| 7 | `sw_core.png` | Coração-Lanterna | Fogo-Fátuo de Esporos |
+| 8 | `sw_tendrils.png` | Filamentos | Fogo-Fátuo de Esporos |
+
+#### 2. C8: cartas dos monstros extras (8, em uma folha)
+
+Anexe `cards/bloodthirst.png`, `cards/abyssal_gaze.png` e a folha P8 que você acabou de gerar.
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the first two attached images: matte painted surfaces, natural colors, thick dark outline, simple cel shading. The third attached image shows the objects to use. Each figure is one simple object in action, readable at small size. Only the art: no card frame, no title, no text, no cost, no icons. Exactly 8 separate isolated figures in a 4x2 grid with wide spacing, in this exact order, left to right, top to bottom.
+1. a fungal bone antler charging forward with speed lines and small spores
+2. lace-like bone ribs closed like a cage, with small spikes
+3. a teal eye staring, with a thin beam of light
+4. a green-yellow spore sac bursting into a cloud
+5. a root leg stepping down and gripping the ground
+6. a green moss mantle wrapping like a cloak
+7. a lantern-like fungal heart pulsing with rings of teal light
+8. long floating filaments whipping through the air
+Plain flat light grey background, never black or checkered. No people, no gore. One image, maximum resolution, at least 2000 pixels wide.
+```
+
+| Ordem | Arquivo | Carta |
+|---|---|---|
+| 1 | `antler_charge.png` | Investida da Galhada |
+| 2 | `lace_ribs.png` | Costelas Rendadas |
+| 3 | `stag_gaze.png` | Olhar do Cervo |
+| 4 | `burst_sacs.png` | Bolsas Estouradas |
+| 5 | `rooted_steps.png` | Passos de Raiz |
+| 6 | `moss_mantle.png` | Manto de Musgo |
+| 7 | `lantern_core.png` | Coração-Lanterna |
+| 8 | `drift_tendrils.png` | Filamentos à Deriva |
+
+#### 3. L3: melhorias novas da Oficina (2, em uma folha)
+
+Anexe `upgrades/up_jars.png` e `upgrades/up_obsidian.png`.
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the attached images: matte painted surfaces, natural colors, thick dark outline, simple cel shading, gothic naturalist laboratory tools. Exactly 2 separate isolated objects in a single row with wide spacing, in this exact order, left to right.
+1. a leather and brass filter mask with round glass eye pieces and a canister
+2. a pair of long heavy iron tongs with a brass hinge, the tips glowing faintly orange
+Plain flat light grey background, never black or checkered. No text, no numbers, no labels, no frames, no people, no gore. One image, maximum resolution, at least 1536 pixels wide.
+```
+
+| Ordem | Arquivo | Melhoria |
+|---|---|---|
+| 1 | `up_spore_filter.png` | Máscara Filtrante |
+| 2 | `up_ember_tongs.png` | Pinças Refratárias |
+
+#### 4. Líquido das mutações (4, editar a folha)
+
+Anexe só `extra/fases34/folhas/MU2_folha_original.png`.
 
 ```
 Edit the attached image, keeping everything exactly the same: same 4 containers, same contents, same style, same layout, same plain grey background. Change only the color of the fluid inside each container. Container 1 (left): clear pale teal fluid. Container 2: clear pale teal fluid. Container 3: amber yellow fluid. Container 4 (right): dark amber orange fluid. No red fluid. No text, no labels. One image, maximum resolution.
 ```
 
+Os arquivos são os mesmos: `mut_sm_gills`, `mut_mm_core`, `mut_aw_gland` e `mut_er_heart`, nessa ordem.
+
+#### 5. Ícones de elite e chefe no mapa (2, em uma folha)
+
+Anexe `extra/fases34/folhas/Ícones de Navegação em Fantasia Sombria-1.png`.
+
+```
+Create 2 new icons in exactly the same style as the attached icon sheet: same thick black outline, same painted texture, same size and level of detail. Exactly 2 separate isolated icons in a single row with wide spacing, in this exact order, left to right.
+1. a large cracked monster skull with big horns and red war paint, on crossed bones
+2. a menacing bone crown with red gems, resting on a large monster skull
+Plain flat white background. No text, no numbers, no labels, no frames, no people, no gore. One image, maximum resolution, at least 1536 pixels wide.
+```
+
+| Ordem | Arquivo | Onde aparece |
+|---|---|---|
+| 1 | `nav_elite.png` | Pontos de elite no mapa |
+| 2 | `nav_boss.png` | Ponto do chefe no mapa, quando o chefe ainda é desconhecido |
+
+#### 6. Stormtalon (1)
+
+Anexe `monsters/ashwing.png` e `monsters/stormtalon.png`.
+
+```
+Redraw the creature from the second attached image, alone, in the same style and colors as the first attached image, but with a clearly different silhouette from the first image: a lean long body held low like a stalking raptor, wings folded back, a tall crest of flame-colored feathers, a fierce slit-pupil ember eye, and a very long feathered tail with a burning tip. Matte hand-painted dark fantasy game art, thick dark outline, cel shading. Full body, side view facing LEFT, centered with a small margin, nothing cropped. Transparent background. No ground, no shadow, no scenery, no text, no labels, no frame, no neon, no glowing aura. One single creature in one image, maximum resolution, at least 1536x1024.
+```
+
+O arquivo é o mesmo: `stormtalon.png`.
+
+#### 7. Cartas com ação (C5, C6, C7)
+
+Três folhas, uma por conversa. Anexe `cards/bloodthirst.png` e `cards/abyssal_gaze.png`. Cole o cabeçalho e, logo
+depois, a lista da folha. Use `Exactly 12` e `4x3` nas folhas C5 e C6, e `Exactly 8` e `4x2` na C7. A ordem das
+figuras é a mesma das tabelas em "Consulta" abaixo.
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the attached images: matte painted surfaces, natural colors, thick dark outline, simple cel shading. Each figure is one simple object in action, readable at small size. Only the art: no card frame, no title, no text, no cost, no icons. Plain flat light grey background, never black or checkered. No people, no gore. One image, maximum resolution, at least 2000 pixels wide. Exactly 12 separate isolated figures in a 4x3 grid with wide spacing, in this exact order, left to right, top to bottom:
+```
+
+**C5, Sporemaw:**
+
+```
+1. an orange mushroom cap radiating teal light rays
+2. a burst cloud of teal spores
+3. mushroom gills exhaling a soft teal mist
+4. a fungal jaw with fibrous teeth snapping shut
+5. thick roots gripping the ground and spreading out, like an anchor
+6. a web of white mycelium threads spreading outward
+7. a shelf-fungus scythe blade mid-slash with a teal arc
+8. a fibrous stalk springing upward
+9. teal puffball eyes with a beam of light
+10. a fungal core sending out rings of teal light
+11. a pale lace veil fluttering like a curtain
+12. a crown of mushroom caps lit from within
+```
+
+**C6, Ashwing:**
+
+```
+1. an ash-grey feather shedding small embers as it falls
+2. dark smoke spreading sideways like a curtain, with a few embers
+3. a torn leathery wing beating, with gust lines and ash
+4. a serrated bone beak striking downward with a motion arc
+5. ember-cracked talons diving down with speed lines
+6. a hot coal in a cracked crust bursting into sparks
+7. a crest of flame-colored feathers raised and bristling
+8. a slit-pupil ember eye staring, with a thin beam of light
+9. a burning feathered tail lashing like a whip
+10. a molten heart pulsing with heat waves
+11. a charred feathered wing spreading a wave of fire
+12. a crown of charred bone spikes radiating heat waves
+```
+
+**C7, híbridas:**
+
+```
+1. one olive-grey bone with a few small teal mushrooms growing on it
+2. a small violet spore cloud with two amber eyes inside it
+3. one moss-green chitin plate with a patch of teal fungus
+4. a pair of crimson fangs covered with pale fuzzy mold
+5. one crimson fang with an ember-hot orange tip
+6. one moss-green chitin plate with orange lava cracks
+7. one ash-grey feather fading into violet smoke at the tip
+8. one orange mushroom cap with embers on its edge
+```
+
+As tabelas de arquivos estão em "Consulta" abaixo. Na C5 e na C6 a ordem é a de cima para baixo em cada tabela.
+
+#### 8. Ovos do Ninho e raio do Santuário (2, editar cada imagem)
+
+**`ev_cliff_nest.png`:** anexe `events/ev_cliff_nest.png`.
+
+```
+Edit the attached image, keeping everything exactly the same: same composition, same style, same nest and background. Change only the three eggs: make them dark charcoal with glowing ember-orange cracks, and add a few old bones among the branches of the nest. No text, no frame. One square image, maximum resolution.
+```
+
+**`ev_storm_shrine.png`:** anexe `events/ev_storm_shrine.png`.
+
+```
+Edit the attached image, keeping everything exactly the same: same composition, same style, same shrine and background. Change only the lightning bolts in the sky: make them orange-white instead of violet. No text, no frame. One square image, maximum resolution.
+```
 
 ### Consulta: partes e cartas prontas
 
@@ -139,6 +320,14 @@ Não precisa pedir.
 | Roca de Brasa | `er_wing` | Asa Carbonizada | `molten_wing` | Asa em Chamas |
 | Roca de Brasa | `er_crown` | Coroa de Cinzas | `ash_crown` | Coroa de Cinzas |
 
+**Monstros extras** (partes e cartas ainda pendentes: pedidos 1 e 2)
+
+| Monstro | Papel |
+|---|---|
+| Fogo-Fátuo de Esporos (`spore_wisp`) | comum, vem em dupla |
+| Carregador de Esporos (`spore_carrier`) | comum |
+| Cervo de Esporos (`spore_stag`) | elite |
+
 **Híbridas**
 
 | Arquivo | Carta | Combinação |
@@ -158,13 +347,13 @@ Tudo em `assets/art/extra/fases34/`, fora do jogo por enquanto. Não precisa ped
 
 | Onde | O que é | Avaliação |
 |---|---|---|
-| `monstros_bonus/` | `spore_carrier`, `spore_stag`, `spore_wisp` + 4 variações do Sporemaw | **Estilo certo.** Os 3 podem virar monstros extras (cada um precisaria de partes e cartas) |
+| `monstros_bonus/` | 4 variações do Sporemaw (os 3 monstros extras já foram para o jogo) | **Estilo certo.** Só para consulta |
 | `neon/mutacoes_mu3/` | 8 ícones de mutação | **Fugiu muito**: neon sobre fundo preto |
 | `neon/ui3/`, `neon/ui4/` | 12 ícones de interface + 12 de status | **Fugiu muito**: neon sobre fundo preto. Os ícones atuais do jogo continuam |
-| `refazer/cartas_c7/`, `refazer/mutacoes_mu2/` | Versões neon de C7 e MU2 | **Fugiu do estilo**: substituídas ou a substituir |
+| `refazer/cartas_c7/`, `refazer/mutacoes_mu2/` | Primeiras versões neon de C7 e MU2 | **Fugiu do estilo**: já substituídas |
 | `fundos/spore_battle_02.png` | Bosque roxo | Estilo aceitável, mas o roxo se confunde com o Voidspawn |
 | `fundos/battle_*_v2.png` | Novas versões dos 4 fundos neutros | Mais vivos que os atuais; mantive os atuais, porque o combate pede fundo discreto |
-| `folhas/` | As pranchas originais, inclusive a "Prancha de Monstros Cinzentos e Cinzas" | Só para consulta: é a mais miniaturizada e tem títulos escritos na imagem |
+| `folhas/` | As pranchas originais, usadas como anexo em alguns pedidos | Só para consulta |
 
 ## Fundos (paisagens)
 

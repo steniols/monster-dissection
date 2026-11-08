@@ -1,0 +1,79 @@
+[gd_resource type="Resource" script_class="ExpeditionData" format=3]
+
+[ext_resource type="Resource" path="res://data/monsters/ember_roc.tres" id="1_mxw0t"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="2_brlax"]
+[ext_resource type="Resource" path="res://data/monsters/stormtalon.tres" id="3_56dln"]
+[ext_resource type="Resource" path="res://data/monsters/stitched_abomination.tres" id="4_bl3ym"]
+[ext_resource type="Resource" path="res://data/monsters/mycostalker.tres" id="5_sy40q"]
+[ext_resource type="Script" path="res://scripts/progression/encounter_data.gd" id="6_6l5yd"]
+[ext_resource type="Resource" path="res://data/monsters/ash_hatchling.tres" id="7_j101h"]
+[ext_resource type="Resource" path="res://data/monsters/ironback.tres" id="8_ati8m"]
+[ext_resource type="Resource" path="res://data/monsters/ashwing.tres" id="9_0y357"]
+[ext_resource type="Resource" path="res://data/monsters/rotwalker.tres" id="10_xbud7"]
+[ext_resource type="Resource" path="res://data/monsters/bloodfang.tres" id="11_oi423"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="12_atj6t"]
+[ext_resource type="Resource" path="res://data/events/ev_cliff_nest.tres" id="13_m4w2k"]
+[ext_resource type="Resource" path="res://data/events/ev_storm_shrine.tres" id="14_rufv6"]
+[ext_resource type="Resource" path="res://data/events/ev_abandoned_gear.tres" id="15_q2krx"]
+[ext_resource type="Resource" path="res://data/events/ev_hermit.tres" id="16_m1nk8"]
+[ext_resource type="Resource" path="res://data/events/ev_wounded_researcher.tres" id="17_y7xmf"]
+[ext_resource type="Resource" path="res://data/events/ev_old_carcass.tres" id="18_evjat"]
+[ext_resource type="Script" path="res://scripts/progression/expedition_data.gd" id="19_28pab"]
+
+[sub_resource type="Resource" id="Resource_0qdm3"]
+script = ExtResource("6_6l5yd")
+id = &"ap_hatchlings"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("7_j101h"), ExtResource("7_j101h")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_1a2b0"]
+script = ExtResource("6_6l5yd")
+id = &"ap_ironback"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("8_ati8m")])
+
+[sub_resource type="Resource" id="Resource_4ehyf"]
+script = ExtResource("6_6l5yd")
+id = &"ap_ashwing"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("9_0y357")])
+min_floor = 1
+weight = 3
+
+[sub_resource type="Resource" id="Resource_qc2wl"]
+script = ExtResource("6_6l5yd")
+id = &"ap_iron_hatchling"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("8_ati8m"), ExtResource("7_j101h")])
+min_floor = 2
+
+[sub_resource type="Resource" id="Resource_6ts6w"]
+script = ExtResource("6_6l5yd")
+id = &"ap_wing_hatchling"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("9_0y357"), ExtResource("7_j101h")])
+min_floor = 4
+weight = 2
+
+[sub_resource type="Resource" id="Resource_frcna"]
+script = ExtResource("6_6l5yd")
+id = &"ap_rot_hatchling"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("10_xbud7"), ExtResource("7_j101h")])
+min_floor = 3
+
+[sub_resource type="Resource" id="Resource_qvltr"]
+script = ExtResource("6_6l5yd")
+id = &"ap_alpha_hatchling"
+monsters = Array[ExtResource("2_brlax")]([ExtResource("11_oi423"), ExtResource("7_j101h")])
+min_floor = 5
+
+[resource]
+script = ExtResource("19_28pab")
+id = &"ash_peaks"
+display_name = "Pináculos de Cinza"
+description = "Picos vulcânicos sob uma tempestade de cinza. Quem caça aqui vem do alto, e sempre com o corpo em brasa."
+order = 3
+unlock_requirement = &"fungal_grove"
+floors = 11
+encounters = Array[ExtResource("6_6l5yd")]([SubResource("Resource_0qdm3"), SubResource("Resource_1a2b0"), SubResource("Resource_4ehyf"), SubResource("Resource_qc2wl"), SubResource("Resource_6ts6w"), SubResource("Resource_frcna"), SubResource("Resource_qvltr")])
+elite_pool = Array[ExtResource("2_brlax")]([ExtResource("3_56dln"), ExtResource("4_bl3ym"), ExtResource("5_sy40q")])
+boss = ExtResource("1_mxw0t")
+events = Array[ExtResource("12_atj6t")]([ExtResource("13_m4w2k"), ExtResource("14_rufv6"), ExtResource("15_q2krx"), ExtResource("16_m1nk8"), ExtResource("17_y7xmf"), ExtResource("18_evjat")])
+hp_per_floor = 4
+accent = Color(0.5411765, 0.2901961, 0.13333334, 1)

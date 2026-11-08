@@ -2,7 +2,7 @@ class_name Family
 extends RefCounted
 ## Famílias biológicas. Cada uma tem cor de identidade e um efeito de Instinto.
 
-enum Id { NEUTRAL, BLOODFANG, IRONBACK, VOIDSPAWN, ROTWALKER }
+enum Id { NEUTRAL, BLOODFANG, IRONBACK, VOIDSPAWN, ROTWALKER, SPOREMAW, ASHWING }
 
 const NAMES := {
 	Id.NEUTRAL: "Pesquisador",
@@ -10,6 +10,8 @@ const NAMES := {
 	Id.IRONBACK: "Ironback",
 	Id.VOIDSPAWN: "Voidspawn",
 	Id.ROTWALKER: "Rotwalker",
+	Id.SPOREMAW: "Sporemaw",
+	Id.ASHWING: "Ashwing",
 }
 
 const EPITHETS := {
@@ -18,6 +20,8 @@ const EPITHETS := {
 	Id.IRONBACK: "Inseto blindado",
 	Id.VOIDSPAWN: "Aberração",
 	Id.ROTWALKER: "Morto-vivo",
+	Id.SPOREMAW: "Fungo",
+	Id.ASHWING: "Ave de brasa",
 }
 
 ## Nome do efeito de conjunto ativado pelo Instinto.
@@ -26,6 +30,8 @@ const INSTINCT_NAMES := {
 	Id.IRONBACK: "Fortificação",
 	Id.VOIDSPAWN: "Corrupção",
 	Id.ROTWALKER: "Persistência",
+	Id.SPOREMAW: "Proliferação",
+	Id.ASHWING: "Incandescência",
 }
 
 const INSTINCT_DESCRIPTIONS := {
@@ -33,6 +39,8 @@ const INSTINCT_DESCRIPTIONS := {
 	Id.IRONBACK: "Ganhe 8 de Armadura e 2 de Espinhos.",
 	Id.VOIDSPAWN: "Aplique 3 de Corrupção a todos os inimigos.",
 	Id.ROTWALKER: "Recupere 5 de vida.",
+	Id.SPOREMAW: "Aplique 3 de Esporos a todos os inimigos e recupere 3 de vida.",
+	Id.ASHWING: "Aplique 3 de Brasa a todos os inimigos e compre 1 carta.",
 }
 
 
@@ -50,6 +58,10 @@ static func get_color(id: Id) -> Color:
 			return Palette.VIOLET_BRIGHT
 		Id.ROTWALKER:
 			return Palette.SICK_GREEN
+		Id.SPOREMAW:
+			return Color("#5FBFA8")
+		Id.ASHWING:
+			return Color("#E0803A")
 		_:
 			return Palette.BONE
 
@@ -64,5 +76,9 @@ static func get_dark_color(id: Id) -> Color:
 			return Palette.VIOLET
 		Id.ROTWALKER:
 			return Color("#5E6A3E")
+		Id.SPOREMAW:
+			return Color("#2F6B5E")
+		Id.ASHWING:
+			return Color("#8A4A22")
 		_:
 			return Palette.INK_SOFT

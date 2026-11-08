@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_52u3m"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_83keh"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_lbyl6"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_w8413"]
+
+[sub_resource type="Resource" id="Resource_0kvil"]
+script = ExtResource("2_83keh")
+amount = 7
+
+[sub_resource type="Resource" id="Resource_oxwtb"]
+script = ExtResource("3_lbyl6")
+status_id = &"ember"
+stacks = 2
+
+[resource]
+script = ExtResource("4_w8413")
+id = &"hooked_strike"
+display_name = "Golpe de Bico"
+family = 6
+source_part = "Bico Serrilhado"
+art_motif = &"fang"
+effects = Array[ExtResource("1_52u3m")]([SubResource("Resource_0kvil"), SubResource("Resource_oxwtb")])

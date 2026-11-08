@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_uluc7"]
+[ext_resource type="Resource" path="res://data/cards/dive_talons.tres" id="2_i2ylq"]
+
+[resource]
+script = ExtResource("1_uluc7")
+id = &"aw_talons"
+display_name = "Garra Incandescente"
+family = 6
+region = 2
+unlocks_card = ExtResource("2_i2ylq")
+art_motif = &"claw"
+description = "Continua quente horas depois da morte."

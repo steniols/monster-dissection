@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_fakg3"]
+[ext_resource type="Resource" path="res://data/cards/spring_stalk.tres" id="2_8fanw"]
+
+[resource]
+script = ExtResource("1_fakg3")
+id = &"ms_stalk"
+display_name = "Haste Fibrosa"
+family = 5
+unlocks_card = ExtResource("2_8fanw")
+art_motif = &"tendon"
+description = "Comprime e salta como uma mola."

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_oemhw"]
+[ext_resource type="Resource" path="res://data/cards/drift_tendrils.tres" id="2_exo2w"]
+
+[resource]
+script = ExtResource("1_oemhw")
+id = &"sw_tendrils"
+display_name = "Filamentos"
+family = 5
+region = 2
+unlocks_card = ExtResource("2_exo2w")
+art_motif = &"tentacle"
+description = "Fios que flutuam mesmo sem vento."

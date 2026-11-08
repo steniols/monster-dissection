@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="MutationData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_6mfri"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="2_6eis3"]
+[ext_resource type="Script" path="res://scripts/mutations/mutation_data.gd" id="3_hwose"]
+
+[sub_resource type="Resource" id="Resource_0kurl"]
+script = ExtResource("2_6eis3")
+status_id = &"regen"
+stacks = 4
+target = 1
+
+[resource]
+script = ExtResource("3_hwose")
+id = &"mut_sm_gills"
+display_name = "Lamelas Implantadas"
+family = 5
+description = "Comece cada combate com 4 de Regeneração."
+material_cost = {
+"sl_cap": 1,
+"sm_gills": 1
+}
+combat_start_effects = Array[ExtResource("1_6mfri")]([SubResource("Resource_0kurl")])
+art_motif = &"plates"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/aw_gland.tres" id="1_mg10l"]
+[ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="2_b3nks"]
+[ext_resource type="Resource" path="res://data/cards/hb_ember_fang.tres" id="3_x6nqc"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_1trr2"]
+
+[resource]
+script = ExtResource("4_1trr2")
+id = &"rc_ember_fang"
+part_a = ExtResource("1_mg10l")
+part_b = ExtResource("2_b3nks")
+result = ExtResource("3_x6nqc")
+hint = "Presas aquecidas em um carvão vivo."

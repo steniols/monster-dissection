@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/ah_smoke.tres" id="1_0ya41"]
+[ext_resource type="Resource" path="res://data/organs/sl_spores.tres" id="2_ng3w3"]
+[ext_resource type="Resource" path="res://data/cards/hb_burning_spores.tres" id="3_shpai"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_qupmj"]
+
+[resource]
+script = ExtResource("4_qupmj")
+id = &"rc_burning_spores"
+part_a = ExtResource("1_0ya41")
+part_b = ExtResource("2_ng3w3")
+result = ExtResource("3_shpai")
+hint = "Fumaça e esporos no mesmo frasco. Abra longe do rosto."

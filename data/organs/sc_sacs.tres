@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_7tlnl"]
+[ext_resource type="Resource" path="res://data/cards/burst_sacs.tres" id="2_kcawh"]
+
+[resource]
+script = ExtResource("1_7tlnl")
+id = &"sc_sacs"
+display_name = "Bolsas Cheias"
+family = 5
+region = 3
+rarity = 2
+preserve_chance = 0.6
+unlocks_card = ExtResource("2_kcawh")
+art_motif = &"gland"
+description = "Sacos enormes, prontos para estourar ao menor corte."

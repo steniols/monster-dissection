@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="MonsterData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_gqd1o"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_esxey"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="3_m8cjn"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_xpwnx"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="5_1436n"]
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="6_fjf50"]
+[ext_resource type="Resource" path="res://data/organs/sc_sacs.tres" id="7_bobbm"]
+[ext_resource type="Resource" path="res://data/organs/sc_legs.tres" id="8_fxsiu"]
+[ext_resource type="Resource" path="res://data/organs/sc_moss.tres" id="9_6wgp0"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="10_2bal4"]
+
+[sub_resource type="Resource" id="Resource_0cnhi"]
+script = ExtResource("3_m8cjn")
+amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_78kvt"]
+script = ExtResource("4_xpwnx")
+status_id = &"regen"
+stacks = 4
+target = 1
+
+[sub_resource type="Resource" id="Resource_m0yxo"]
+script = ExtResource("2_esxey")
+display_name = "Inchar"
+kind = 1
+effects = Array[ExtResource("1_gqd1o")]([SubResource("Resource_0cnhi"), SubResource("Resource_78kvt")])
+
+[sub_resource type="Resource" id="Resource_pjt0c"]
+script = ExtResource("5_1436n")
+amount = 8
+
+[sub_resource type="Resource" id="Resource_wfu32"]
+script = ExtResource("4_xpwnx")
+status_id = &"spores"
+stacks = 3
+
+[sub_resource type="Resource" id="Resource_p8xmu"]
+script = ExtResource("2_esxey")
+display_name = "Estourar Bolsa"
+kind = 4
+effects = Array[ExtResource("1_gqd1o")]([SubResource("Resource_pjt0c"), SubResource("Resource_wfu32")])
+
+[sub_resource type="Resource" id="Resource_n13op"]
+script = ExtResource("5_1436n")
+amount = 15
+
+[sub_resource type="Resource" id="Resource_7i011"]
+script = ExtResource("2_esxey")
+display_name = "Pisada"
+effects = Array[ExtResource("1_gqd1o")]([SubResource("Resource_n13op")])
+
+[resource]
+script = ExtResource("10_2bal4")
+id = &"spore_carrier"
+display_name = "Carregador de Esporos"
+family = 5
+max_hp = 72
+intents = Array[ExtResource("2_esxey")]([SubResource("Resource_m0yxo"), SubResource("Resource_p8xmu"), SubResource("Resource_7i011")])
+parts = Array[ExtResource("6_fjf50")]([ExtResource("7_bobbm"), ExtResource("8_fxsiu"), ExtResource("9_6wgp0")])
+region_anchors = Array[Vector2]([Vector2(0.23, 0.53), Vector2(0.63, 0.34), Vector2(0.5, 0.82), Vector2(0.77, 0.45)])
+visual = &"voidspawn"
+scale = 1.05
+lore = "Carrega bolsas do tamanho de um barril nas costas. Parece lento até uma delas estourar."
+weakness_note = "Regenera bastante: ataque logo depois de ele inchar, antes que a vida volte."

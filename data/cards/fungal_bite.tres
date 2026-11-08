@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_er85k"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_hall4"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_2e0jf"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_pm8kq"]
+
+[sub_resource type="Resource" id="Resource_hw0wa"]
+script = ExtResource("2_hall4")
+
+[sub_resource type="Resource" id="Resource_amddq"]
+script = ExtResource("3_2e0jf")
+status_id = &"spores"
+stacks = 2
+
+[resource]
+script = ExtResource("4_pm8kq")
+id = &"fungal_bite"
+display_name = "Bocada Fúngica"
+family = 5
+source_part = "Mandíbula Fúngica"
+art_motif = &"fang"
+effects = Array[ExtResource("1_er85k")]([SubResource("Resource_hw0wa"), SubResource("Resource_amddq")])
+flavor = "Os dentes são fibras. A mordida é só o começo."

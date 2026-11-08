@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="HybridRecipe" format=3]
+
+[ext_resource type="Resource" path="res://data/organs/aw_gland.tres" id="1_vfkfy"]
+[ext_resource type="Resource" path="res://data/organs/ib_plates.tres" id="2_y05sy"]
+[ext_resource type="Resource" path="res://data/cards/hb_kiln_shell.tres" id="3_gs1xo"]
+[ext_resource type="Script" path="res://scripts/cards/hybrid_recipe.gd" id="4_i4j0i"]
+
+[resource]
+script = ExtResource("4_i4j0i")
+id = &"rc_kiln_shell"
+part_a = ExtResource("1_vfkfy")
+part_b = ExtResource("2_y05sy")
+result = ExtResource("3_gs1xo")
+hint = "Placas pesadas, cozidas até trincar."

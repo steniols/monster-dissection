@@ -161,10 +161,18 @@ static func make_button(text: String, callback: Callable, min_width: int = 0, va
 static func with_icon(b: Button, id: StringName, px: int = 26) -> Button:
 	var tex := Database.get_art("ui", id)
 	if tex != null:
-		b.icon = tex
-		b.expand_icon = true
-		b.add_theme_constant_override("icon_max_width", px)
-		b.add_theme_constant_override("h_separation", 8)
+		# fica por cima do botão, sem empurrar o texto: botões com e sem ícone mantêm o texto centralizado
+		var r := TextureRect.new()
+		r.texture = tex
+		r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		r.set_anchors_preset(Control.PRESET_CENTER_LEFT)
+		r.offset_left = 12
+		r.offset_right = 12 + px
+		r.offset_top = -px * 0.5
+		r.offset_bottom = px * 0.5
+		b.add_child(r)
 	return b
 
 

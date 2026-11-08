@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_ojqc8"]
+[ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="2_c3mwm"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_wftom"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_7b35o"]
+
+[sub_resource type="Resource" id="Resource_s3laj"]
+script = ExtResource("2_c3mwm")
+amount = 3
+target = 2
+
+[sub_resource type="Resource" id="Resource_uvvwf"]
+script = ExtResource("3_wftom")
+status_id = &"spores"
+stacks = 2
+target = 2
+
+[resource]
+script = ExtResource("4_7b35o")
+id = &"burst_sacs"
+display_name = "Bolsas Estouradas"
+rarity = 2
+family = 5
+source_part = "Bolsas Cheias"
+art_motif = &"gland"
+effects = Array[ExtResource("1_ojqc8")]([SubResource("Resource_s3laj"), SubResource("Resource_uvvwf")])

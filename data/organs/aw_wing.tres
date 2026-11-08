@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_sl0hf"]
+[ext_resource type="Resource" path="res://data/cards/wing_gust.tres" id="2_fqcy6"]
+
+[resource]
+script = ExtResource("1_sl0hf")
+id = &"aw_wing"
+display_name = "Membrana Alada"
+family = 6
+region = 2
+unlocks_card = ExtResource("2_fqcy6")
+art_motif = &"hide"
+description = "Couro fino com veios de brasa."

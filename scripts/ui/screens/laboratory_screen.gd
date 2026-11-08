@@ -228,6 +228,14 @@ func _choose_region() -> void:
 	box.add_child(UiTheme.make_label("Escolha a região", 34, Palette.BONE_LIGHT, true))
 	if RunState.has_save():
 		box.add_child(UiTheme.make_label("Atenção: partir agora descarta a expedição salva.", 15, Palette.BLOOD_BRIGHT))
+	var scroll := ScrollContainer.new()
+	scroll.custom_minimum_size.y = 500
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	box.add_child(scroll)
+	var list := VBoxContainer.new()
+	list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	list.add_theme_constant_override("separation", 12)
+	scroll.add_child(list)
 	for e in Database.get_sorted_expeditions():
 		var unlocked := Profile.is_expedition_unlocked(e)
 		var p := PanelContainer.new()
@@ -249,7 +257,7 @@ func _choose_region() -> void:
 		b.disabled = not unlocked
 		b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		h.add_child(b)
-		box.add_child(p)
+		list.add_child(p)
 	var cancel := UiTheme.make_button("Cancelar", overlay.queue_free, 200, "GhostButton")
 	cancel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(cancel)

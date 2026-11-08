@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_7724o"]
+[ext_resource type="Script" path="res://scripts/cards/effects/draw_effect.gd" id="2_h5esw"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_de00i"]
+[ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_s451s"]
+
+[sub_resource type="Resource" id="Resource_emdwl"]
+script = ExtResource("2_h5esw")
+count = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_cjqyo"]
+script = ExtResource("3_de00i")
+status_id = &"spores"
+stacks = 2
+
+[resource]
+script = ExtResource("4_s451s")
+id = &"stag_gaze"
+display_name = "Olhar do Cervo"
+card_type = 2
+rarity = 3
+family = 5
+source_part = "Olho Verde-Água"
+art_motif = &"eye"
+effects = Array[ExtResource("1_7724o")]([SubResource("Resource_emdwl"), SubResource("Resource_cjqyo")])

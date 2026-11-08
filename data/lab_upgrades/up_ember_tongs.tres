@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="LabUpgradeData" format=3]
+
+[ext_resource type="Script" path="res://scripts/progression/lab_upgrade_data.gd" id="1_gcg2u"]
+
+[resource]
+script = ExtResource("1_gcg2u")
+id = &"up_ember_tongs"
+display_name = "Pinças Refratárias"
+description = "+10% de chance de extrair qualquer parte."
+family_cost = {
+5: 2,
+6: 3
+}
+preserve_bonus = 0.1
+art_motif = &"tendon"

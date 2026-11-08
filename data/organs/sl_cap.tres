@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_7xuyi"]
+[ext_resource type="Resource" path="res://data/cards/cap_glow.tres" id="2_o3g3b"]
+
+[resource]
+script = ExtResource("1_7xuyi")
+id = &"sl_cap"
+display_name = "Chapéu Luminoso"
+family = 5
+region = 0
+unlocks_card = ExtResource("2_o3g3b")
+art_motif = &"eye"
+description = "Um chapéu de cogumelo que continua aceso depois de colhido."

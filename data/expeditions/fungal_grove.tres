@@ -1,0 +1,80 @@
+[gd_resource type="Resource" script_class="ExpeditionData" format=3]
+
+[ext_resource type="Resource" path="res://data/monsters/mycelium_mother.tres" id="1_5jf4j"]
+[ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="2_4abgt"]
+[ext_resource type="Resource" path="res://data/monsters/mycostalker.tres" id="3_ullf2"]
+[ext_resource type="Resource" path="res://data/monsters/spore_stag.tres" id="4_4v488"]
+[ext_resource type="Script" path="res://scripts/progression/encounter_data.gd" id="5_we3y5"]
+[ext_resource type="Resource" path="res://data/monsters/sporeling.tres" id="6_j2ymp"]
+[ext_resource type="Resource" path="res://data/monsters/spore_wisp.tres" id="7_175fo"]
+[ext_resource type="Resource" path="res://data/monsters/sporemaw.tres" id="8_qu20c"]
+[ext_resource type="Resource" path="res://data/monsters/spore_carrier.tres" id="9_87wu4"]
+[ext_resource type="Resource" path="res://data/monsters/voidspawn.tres" id="10_ttp5x"]
+[ext_resource type="Resource" path="res://data/monsters/rotwalker.tres" id="11_a30ww"]
+[ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="12_r8gyo"]
+[ext_resource type="Resource" path="res://data/events/ev_fairy_ring.tres" id="13_pqp1o"]
+[ext_resource type="Resource" path="res://data/events/ev_spore_cocoon.tres" id="14_741m7"]
+[ext_resource type="Resource" path="res://data/events/ev_overgrown_cart.tres" id="15_7si0k"]
+[ext_resource type="Resource" path="res://data/events/ev_hermit.tres" id="16_y8kho"]
+[ext_resource type="Resource" path="res://data/events/ev_bone_altar.tres" id="17_3r6op"]
+[ext_resource type="Resource" path="res://data/events/ev_violet_pool.tres" id="18_vurqf"]
+[ext_resource type="Script" path="res://scripts/progression/expedition_data.gd" id="19_av1m5"]
+
+[sub_resource type="Resource" id="Resource_52k41"]
+script = ExtResource("5_we3y5")
+id = &"fg_sporelings"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("6_j2ymp"), ExtResource("6_j2ymp")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_ddqr0"]
+script = ExtResource("5_we3y5")
+id = &"fg_wisps"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("7_175fo"), ExtResource("7_175fo")])
+weight = 2
+
+[sub_resource type="Resource" id="Resource_yx8l7"]
+script = ExtResource("5_we3y5")
+id = &"fg_sporemaw"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("8_qu20c")])
+min_floor = 1
+weight = 2
+
+[sub_resource type="Resource" id="Resource_foqb1"]
+script = ExtResource("5_we3y5")
+id = &"fg_carrier"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("9_87wu4")])
+min_floor = 2
+weight = 2
+
+[sub_resource type="Resource" id="Resource_agpja"]
+script = ExtResource("5_we3y5")
+id = &"fg_void_sporeling"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("10_ttp5x"), ExtResource("6_j2ymp")])
+min_floor = 3
+
+[sub_resource type="Resource" id="Resource_ikkfw"]
+script = ExtResource("5_we3y5")
+id = &"fg_maw_wisp"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("8_qu20c"), ExtResource("7_175fo")])
+min_floor = 4
+
+[sub_resource type="Resource" id="Resource_uk6ty"]
+script = ExtResource("5_we3y5")
+id = &"fg_rot_carrier"
+monsters = Array[ExtResource("2_4abgt")]([ExtResource("11_a30ww"), ExtResource("6_j2ymp")])
+min_floor = 5
+
+[resource]
+script = ExtResource("19_av1m5")
+id = &"fungal_grove"
+display_name = "Bosque dos Esporos"
+description = "Floresta de cogumelos gigantes onde o ar é denso e tudo o que morre volta a andar coberto de fungo."
+order = 2
+unlock_requirement = &"flooded_catacombs"
+floors = 10
+encounters = Array[ExtResource("5_we3y5")]([SubResource("Resource_52k41"), SubResource("Resource_ddqr0"), SubResource("Resource_yx8l7"), SubResource("Resource_foqb1"), SubResource("Resource_agpja"), SubResource("Resource_ikkfw"), SubResource("Resource_uk6ty")])
+elite_pool = Array[ExtResource("2_4abgt")]([ExtResource("3_ullf2"), ExtResource("4_4v488")])
+boss = ExtResource("1_5jf4j")
+events = Array[ExtResource("12_r8gyo")]([ExtResource("13_pqp1o"), ExtResource("14_741m7"), ExtResource("15_7si0k"), ExtResource("16_y8kho"), ExtResource("17_3r6op"), ExtResource("18_vurqf")])
+hp_per_floor = 3
+accent = Color(0.18431373, 0.41960785, 0.36862746, 1)
