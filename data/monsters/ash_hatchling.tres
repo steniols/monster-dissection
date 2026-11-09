@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_p5jry"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_emjum"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_dhpq5"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_p5jry"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_t4nvy"]
 [ext_resource type="Resource" path="res://data/organs/ah_down.tres" id="6_dsu0m"]
 [ext_resource type="Resource" path="res://data/organs/ah_smoke.tres" id="7_a3mnj"]
@@ -34,6 +35,17 @@ display_name = "Cuspir Brasa"
 kind = 4
 effects = Array[ExtResource("1_i7fyo")]([SubResource("Resource_15jor"), SubResource("Resource_i7yy3")])
 
+[sub_resource type="Resource" id="Resource_p5jry"]
+script = ExtResource("5_p5jry")
+amount = 7
+target = 1
+
+[sub_resource type="Resource" id="Resource_emjum"]
+script = ExtResource("2_p5jry")
+display_name = "Penas Eriçadas"
+kind = 1
+effects = Array[ExtResource("1_i7fyo")]([SubResource("Resource_p5jry")])
+
 [resource]
 script = ExtResource("8_1vb04")
 id = &"ash_hatchling"
@@ -41,7 +53,7 @@ display_name = "Filhote de Ashwing"
 family = 6
 max_hp = 28
 pattern = 1
-intents = Array[ExtResource("2_p5jry")]([SubResource("Resource_f5a3j"), SubResource("Resource_63aab")])
+intents = Array[ExtResource("2_p5jry")]([SubResource("Resource_f5a3j"), SubResource("Resource_63aab"), SubResource("Resource_emjum")])
 parts = Array[ExtResource("5_t4nvy")]([ExtResource("6_dsu0m"), ExtResource("7_a3mnj")])
 region_anchors = Array[Vector2]([Vector2(0.23, 0.38), Vector2(0.48, 0.57), Vector2(0.47, 0.83), Vector2(0.36, 0.59)])
 scale = 0.75

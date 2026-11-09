@@ -25,7 +25,7 @@ func _ready() -> void:
 	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(titles)
 	titles.add_child(UiTheme.make_label("Bancada de Baralho", 32, Palette.BONE_LIGHT, true))
-	titles.add_child(UiTheme.make_label("Clique numa carta catalogada para adicioná-la; clique no baralho para remover. Máximo de %d cópias (%d para cartas básicas)." % [Profile.MAX_COPIES, Profile.MAX_COPIES_STARTER], 14, Palette.TEXT_DIM))
+	titles.add_child(UiTheme.make_label("Clique numa carta catalogada para adicioná-la (cada cópia de carta de criatura vem de uma dissecação); clique no baralho para remover. Máximo de %d cópias (%d para cartas básicas)." % [Profile.MAX_COPIES, Profile.MAX_COPIES_STARTER], 14, Palette.TEXT_DIM))
 	top.add_child(UiTheme.make_button("Restaurar padrão", _reset_default))
 	top.add_child(UiTheme.make_button("Voltar ao laboratório", _leave))
 
@@ -71,7 +71,8 @@ func _refresh() -> void:
 			continue
 		var v := CardView.create(card)
 		var count := Profile.starting_deck.count(card.id)
-		v.set_note("%d/%d" % [count, Profile.max_copies(card)] if count > 0 else "")
+		# cartas de criatura mostram sempre quantas cópias foram conquistadas
+		v.set_note("%d/%d" % [count, Profile.max_copies(card)] if count > 0 or card.family != Family.Id.NEUTRAL else "")
 		v.ready.connect(func(): v.playable = Profile.can_add_to_deck(card.id))
 		v.pressed.connect(func(_v):
 			if Profile.add_to_deck(card.id):

@@ -30,10 +30,10 @@ func is_alive() -> bool:
 
 
 ## Aplica dano (já calculado). Retorna a vida efetivamente perdida.
-func take_damage(amount: int, source: Combatant = null, is_attack: bool = false) -> int:
+func take_damage(amount: int, source: Combatant = null, is_attack: bool = false, pierce: bool = false) -> int:
 	if not is_alive() or amount <= 0:
 		return 0
-	var blocked: int = min(block, amount)
+	var blocked: int = 0 if pierce else min(block, amount)
 	if blocked > 0:
 		block -= blocked
 		block_changed.emit(block)

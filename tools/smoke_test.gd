@@ -143,6 +143,30 @@ func _test_effects() -> void:
 	cm.instinct_count = 1
 	cm._register_instinct(Database.get_card(&"hb_armored_heart"))
 	_check(cm.instinct_family == Family.Id.IRONBACK and cm.instinct_count == 2, "híbrida deveria contar para Ironback")
+	# Dano penetrante ignora a Armadura
+	var pz := MonsterCombatant.new(Database.get_monster(&"ironback"))
+	pz.add_block(50)
+	var pz_hp := pz.hp
+	pz.take_damage(7, null, true, true)
+	_check(pz.hp == pz_hp - 7 and pz.block == 50, "dano penetrante deveria ignorar a Armadura")
+	# Detonar consome os Esporos
+	var dz := MonsterCombatant.new(Database.get_monster(&"sporemaw"))
+	dz.add_status(&"spores", 4)
+	var dz_hp := dz.hp
+	var dctx := EffectContext.new(cm, p, dz)
+	var det := DetonateEffect.new()
+	det.multiplier = 2
+	det.apply(dctx)
+	_check(dz.hp == dz_hp - 8 and dz.get_status(&"spores") == 0, "Detonar deveria tirar 8 e zerar os Esporos")
+	# Cópias: cada extração dá uma cópia, até o limite
+	var cp_id := &"deep_bite"
+	Profile.card_copies.erase(cp_id)
+	Profile.unlocked_cards.erase(cp_id)
+	Profile.add_card_copy(cp_id)
+	_check(Profile.max_copies(Database.get_card(cp_id)) == 1, "primeira extração deveria dar 1 cópia")
+	for i in 5:
+		Profile.add_card_copy(cp_id)
+	_check(Profile.max_copies(Database.get_card(cp_id)) == Profile.MAX_EARNED_COPIES, "cópias deveriam parar no limite")
 	# Brasa: cobra a cada golpe, ignora Armadura e diminui
 	var em := MonsterCombatant.new(Database.get_monster(&"ashwing"))
 	em.add_status(&"ember", 3)
@@ -179,7 +203,7 @@ func _test_upgrades() -> void:
 	_check((up.effects[0] as DamageEffect).amount == (rend.effects[0] as DamageEffect).amount + 1, "Rasgar+ multi-golpe +1")
 	_check((rend.effects[0] as DamageEffect).amount == 3, "original não pode mudar ao aprimorar")
 	var core := Database.get_card(&"unstable_core+")
-	_check((core.effects[0] as LoseHpEffect).amount == 3, "Núcleo Instável+ perde menos vida")
+	_check((core.effects[0] as LoseHpEffect).amount == 4, "Núcleo Instável+ perde menos vida")
 	var pulse := Database.get_card(&"predatory_pulse+")
 	var inner := (pulse.effects[1] as ConditionalEffect).effects[0] as HealEffect
 	_check(inner.amount == 9, "efeito condicional aprimorado (cura %d)" % inner.amount)
@@ -269,37 +293,46 @@ func _test_balance() -> void:
 	var peaks_ids: Array = grove_ids.duplicate()
 	peaks_ids.append_array([&"hooked_strike", &"dive_talons", &"smoke_screen", &"luminous_veil", &"hb_burning_spores"])
 	var peaks := Database.cards_from_ids(peaks_ids)
+	# [nome, baralho, grupos, região, andar simulado, vida do caçador]
+	# A vida cresce com as regiões, como cresce com mutações e melhorias num jogo real.
 	var setups := [
-		["inicial", starter, [[&"bloodfang"], [&"ironback"], [&"voidspawn"], [&"bloodfang_pup", &"bloodfang_pup"], [&"rotwalker"], [&"ghoul", &"ghoul"]]],
-		["meio", mid, [[&"bloodfang_alpha"], [&"void_matriarch"], [&"voidspawn", &"bloodfang_pup"], [&"rotwalker", &"ghoul"]]],
-		["avançado", late, [[&"stitched_abomination"], [&"iron_colossus"], [&"void_matriarch"]]],
-		["bosque", grove, [[&"sporeling", &"sporeling"], [&"spore_wisp", &"spore_wisp"], [&"sporemaw"], [&"spore_carrier"], [&"sporemaw", &"spore_wisp"], [&"mycostalker"], [&"spore_stag"], [&"mycelium_mother"]]],
-		["pináculos", peaks, [[&"ash_hatchling", &"ash_hatchling"], [&"ashwing"], [&"ashwing", &"ash_hatchling"], [&"stormtalon"], [&"ember_roc"]]],
+		["inicial", starter, [[&"bloodfang"], [&"ironback"], [&"voidspawn"], [&"bloodfang_pup", &"bloodfang_pup"], [&"rotwalker"], [&"ghoul", &"ghoul"]], &"bone_moor", 2, 60],
+		["meio", mid, [[&"bloodfang_alpha"], [&"void_matriarch"], [&"voidspawn", &"bloodfang_pup"]], &"bone_moor", 5, 60],
+		["catacumbas", late, [[&"rotwalker", &"ghoul"], [&"stitched_abomination"], [&"iron_colossus"]], &"flooded_catacombs", 5, 70],
+		["bosque", grove, [[&"sporeling", &"sporeling"], [&"spore_wisp", &"spore_wisp"], [&"sporemaw"], [&"spore_carrier"], [&"sporemaw", &"spore_wisp"], [&"mycostalker"], [&"spore_stag"], [&"mycelium_mother"]], &"fungal_grove", 5, 80],
+		["pináculos", peaks, [[&"ash_hatchling", &"ash_hatchling"], [&"ashwing"], [&"ashwing", &"ash_hatchling"], [&"stormtalon"], [&"ember_roc"]], &"ash_peaks", 6, 90],
 	]
 	for setup in setups:
+		var expd: ExpeditionData = Database.expeditions[setup[3]]
+		var floor_n: int = setup[4]
 		for group in setup[2]:
 			var datas: Array[MonsterData] = []
 			for id in group:
 				datas.append(Database.get_monster(id))
+			var is_boss := datas[0].tier == MonsterData.Tier.BOSS
+			var hp_bonus := 0 if is_boss else floor_n * expd.hp_per_floor
+			var strength := expd.monster_strength / 2 if is_boss else expd.monster_strength
+			if not is_boss and expd.strength_floor_step > 0:
+				strength += floor_n / expd.strength_floor_step
 			var wins := 0
 			var turns := 0
 			var hp_left := 0
 			for i in SIMS_PER_MONSTER:
-				var r: Dictionary = await _simulate(datas, setup[1], 60 if setup[0] in ["inicial", "meio", "avançado"] else 80)
+				var r: Dictionary = await _simulate(datas, setup[1], setup[5], hp_bonus, strength)
 				wins += 1 if r["won"] else 0
 				turns += r["turns"]
 				hp_left += r["hp"]
-			print("[balanço · %-8s] %-36s vitórias %2d/%d  turnos %.1f  vida final %.1f" % [
-				setup[0], " + ".join(group), wins, SIMS_PER_MONSTER, float(turns) / SIMS_PER_MONSTER, float(hp_left) / SIMS_PER_MONSTER])
+			print("[balanço · %-10s] %-34s vitórias %2d/%d  turnos %4.1f  vida final %4.1f de %d" % [
+				setup[0], " + ".join(group), wins, SIMS_PER_MONSTER, float(turns) / SIMS_PER_MONSTER, float(hp_left) / SIMS_PER_MONSTER, setup[5]])
 
 
-func _simulate(datas: Array[MonsterData], deck: Array[CardData], hp: int) -> Dictionary:
+func _simulate(datas: Array[MonsterData], deck: Array[CardData], hp: int, hp_bonus: int = 0, strength: int = 0) -> Dictionary:
 	var cm := CombatManager.new()
 	add_child(cm)
 	var p := PlayerCombatant.new("Sim", hp, hp, 3)
 	var result := {}
 	cm.combat_ended.connect(func(v): result["won"] = v)
-	cm.start_combat(p, deck, datas)
+	cm.start_combat(p, deck, datas, [], hp_bonus, 0, strength)
 	var guard := 0
 	while not cm.is_over and guard < 60:
 		guard += 1

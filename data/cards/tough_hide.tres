@@ -3,10 +3,15 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/card_effect.gd" id="1_7xbmo"]
 [ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="2_lcai5"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="3_13hcc"]
+[ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_lcai5"]
 
-[sub_resource type="Resource" id="Resource_j5wih"]
+[sub_resource type="Resource" id="Resource_lcai5"]
 script = ExtResource("2_lcai5")
-amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_13hcc"]
+script = ExtResource("3_lcai5")
+status_id = &"strength"
 target = 1
 
 [resource]
@@ -17,4 +22,4 @@ card_type = 1
 family = 1
 source_part = "Pele"
 art_motif = &"hide"
-effects = Array[ExtResource("1_7xbmo")]([SubResource("Resource_j5wih")])
+effects = Array[ExtResource("1_7xbmo")]([SubResource("Resource_lcai5"), SubResource("Resource_13hcc")])

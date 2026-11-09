@@ -11,12 +11,17 @@ const BASE_INCISIONS := 2
 const MAX_MUTATIONS := 3
 const DECK_MIN := 8
 const DECK_MAX := 20
+## Instrumentos (cartas neutras) que não são básicas.
 const MAX_COPIES := 2
 const MAX_COPIES_STARTER := 5
+## Cartas de criatura: cada extração (ou experimento) bem-sucedida dá 1 cópia, até este limite.
+const MAX_EARNED_COPIES := 3
 ## A cada X pontos de corrupção, o caçador começa o combate com 1 de Corrupção.
 const CORRUPTION_STEP := 4
 
 var unlocked_cards: Array[StringName] = []
+## Cópias conquistadas de cada carta de criatura (id -> quantidade).
+var card_copies: Dictionary = {}
 var materials: Dictionary = {} # StringName -> int
 var mutations: Array[StringName] = []
 var starting_deck: Array[StringName] = []
@@ -38,6 +43,7 @@ func _ready() -> void:
 
 func reset() -> void:
 	unlocked_cards.clear()
+	card_copies.clear()
 	for c: CardData in Database.cards.values():
 		if c.family == Family.Id.NEUTRAL:
 			unlocked_cards.append(c.id)
@@ -68,6 +74,9 @@ func load_profile() -> void:
 		reset()
 		return
 	unlocked_cards = _to_names(data.get("unlocked_cards", []))
+	card_copies.clear()
+	for k in data.get("card_copies", {}):
+		card_copies[StringName(k)] = int(data["card_copies"][k])
 	mutations = _to_names(data.get("mutations", []))
 	starting_deck = _to_names(data.get("starting_deck", []))
 	materials.clear()
@@ -92,6 +101,11 @@ func load_profile() -> void:
 		if c.family == Family.Id.NEUTRAL and not unlocked_cards.has(c.id):
 			unlocked_cards.append(c.id)
 	starting_deck.assign(starting_deck.filter(func(id): return Database.get_card(id) != null))
+	# perfis antigos: cada carta já catalogada vale pelo menos as cópias que estão no baralho
+	for id in unlocked_cards:
+		var c := Database.get_card(id)
+		if c != null and c.family != Family.Id.NEUTRAL and not card_copies.has(id):
+			card_copies[id] = maxi(1, starting_deck.count(id))
 	if starting_deck.size() < DECK_MIN:
 		starting_deck = Database.STARTER_DECK.duplicate()
 	for s in SEEN_STATIONS:
@@ -110,6 +124,7 @@ func save_profile() -> void:
 	var data := {
 		"version": SAVE_VERSION,
 		"unlocked_cards": _to_strings(unlocked_cards),
+		"card_copies": _copies_to_save(),
 		"materials": mats,
 		"mutations": _to_strings(mutations),
 		"starting_deck": _to_strings(starting_deck),
@@ -148,11 +163,34 @@ func is_card_unlocked(id: StringName) -> bool:
 	return unlocked_cards.has(id)
 
 
+## Ganha 1 cópia de uma carta de criatura (até MAX_EARNED_COPIES) e a cataloga se for nova.
+## Retorna true se a carta era nova.
+func add_card_copy(id: StringName) -> bool:
+	if id == &"":
+		return false
+	card_copies[id] = mini(MAX_EARNED_COPIES, int(card_copies.get(id, 0)) + 1)
+	return unlock_card(id)
+
+
+func get_card_copies(id: StringName) -> int:
+	return int(card_copies.get(id, 0))
+
+
+func _copies_to_save() -> Dictionary:
+	var d := {}
+	for k in card_copies:
+		d[String(k)] = card_copies[k]
+	return d
+
+
 ## Retorna true se a carta era nova.
 func unlock_card(id: StringName) -> bool:
 	if id == &"" or unlocked_cards.has(id):
 		return false
 	unlocked_cards.append(id)
+	var c := Database.get_card(id)
+	if c != null and c.family != Family.Id.NEUTRAL and get_card_copies(id) == 0:
+		card_copies[id] = 1
 	changed.emit()
 	return true
 
@@ -363,7 +401,7 @@ func experiment(a: AnatomyPart, b: AnatomyPart) -> HybridRecipe:
 	spend_materials(cost)
 	if not discovered_recipes.has(r.id):
 		discovered_recipes.append(r.id)
-	unlock_card(r.result.id)
+	add_card_copy(r.result.id)
 	save_profile()
 	return r
 
@@ -387,8 +425,13 @@ func mark_cleared(id: StringName) -> void:
 
 # --- Baralho inicial --------------------------------------------------------
 
+## Quantas cópias da carta podem ir para o baralho inicial.
 func max_copies(card: CardData) -> int:
-	return MAX_COPIES_STARTER if card.rarity == CardData.Rarity.STARTER else MAX_COPIES
+	if card.rarity == CardData.Rarity.STARTER:
+		return MAX_COPIES_STARTER
+	if card.family == Family.Id.NEUTRAL:
+		return MAX_COPIES
+	return mini(MAX_EARNED_COPIES, get_card_copies(card.id))
 
 
 func can_add_to_deck(id: StringName) -> bool:

@@ -65,6 +65,18 @@ func get_deck_cards() -> Array[CardData]:
 	return Database.cards_from_ids(deck)
 
 
+## Força inicial dos monstros: base da região + 1 a cada strength_floor_step andares (o chefe recebe metade da base).
+func get_monster_strength() -> int:
+	if expedition == null:
+		return 0
+	if current != null and current.type == MapNode.Type.BOSS:
+		return expedition.monster_strength / 2 # o chefe já é duro por si
+	var s := expedition.monster_strength
+	if expedition.strength_floor_step > 0:
+		s += max(0, get_floor()) / expedition.strength_floor_step
+	return s
+
+
 func get_monster_hp_bonus() -> int:
 	if expedition == null or (current != null and current.type == MapNode.Type.BOSS):
 		return 0
@@ -103,7 +115,7 @@ func gather(part: AnatomyPart) -> bool:
 	gathered[part.id] = int(gathered.get(part.id, 0)) + 1
 	Profile.record_part(part.id)
 	var unlocked := false
-	if part.unlocks_card != null and Profile.unlock_card(part.unlocks_card.id):
+	if part.unlocks_card != null and Profile.add_card_copy(part.unlocks_card.id):
 		new_cards.append(part.unlocks_card.id)
 		unlocked = true
 	Profile.save_profile()

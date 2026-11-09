@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_hdlk7"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_l086v"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_fkcad"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_hdlk7"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_pl4ho"]
 [ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="6_jfinp"]
 [ext_resource type="Resource" path="res://data/organs/bf_claws.tres" id="7_fasqn"]
@@ -49,14 +50,28 @@ display_name = "Rosnar"
 kind = 2
 effects = Array[ExtResource("1_oo828")]([SubResource("Resource_ltx7d")])
 
+[sub_resource type="Resource" id="Resource_hdlk7"]
+script = ExtResource("3_l086v")
+
+[sub_resource type="Resource" id="Resource_l086v"]
+script = ExtResource("5_hdlk7")
+amount = 8
+target = 1
+
+[sub_resource type="Resource" id="Resource_fkcad"]
+script = ExtResource("2_hdlk7")
+display_name = "Eriçar o Pelo"
+kind = 5
+effects = Array[ExtResource("1_oo828")]([SubResource("Resource_hdlk7"), SubResource("Resource_l086v")])
+
 [resource]
 script = ExtResource("11_8uyov")
 id = &"bloodfang"
 display_name = "Bloodfang"
 max_hp = 46
-region_anchors = Array[Vector2]([Vector2(0.1, 0.5), Vector2(0.55, 0.42), Vector2(0.4, 0.82), Vector2(0.35, 0.57)])
 pattern = 1
-intents = Array[ExtResource("2_hdlk7")]([SubResource("Resource_cwije"), SubResource("Resource_ai0c6"), SubResource("Resource_5h6oc")])
+intents = Array[ExtResource("2_hdlk7")]([SubResource("Resource_cwije"), SubResource("Resource_ai0c6"), SubResource("Resource_5h6oc"), SubResource("Resource_fkcad")])
 parts = Array[ExtResource("5_pl4ho")]([ExtResource("6_jfinp"), ExtResource("7_fasqn"), ExtResource("8_4lgd8"), ExtResource("9_qpmy1"), ExtResource("10_nxvnb")])
+region_anchors = Array[Vector2]([Vector2(0.1, 0.5), Vector2(0.55, 0.42), Vector2(0.4, 0.82), Vector2(0.35, 0.57)])
 lore = "Predador quadrúpede de ombros altos e mandíbula desproporcional. Caça em silêncio e só ruge quando já provou sangue."
 weakness_note = "Pele fina: o sangramento o abate sem danificar o coração. Golpes finais exagerados destroem a cabeça."

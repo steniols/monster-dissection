@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_1qnfx"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_rdvbn"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_14kkj"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_1qnfx"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_qv3ww"]
 [ext_resource type="Resource" path="res://data/organs/sw_core.tres" id="6_ix8nv"]
 [ext_resource type="Resource" path="res://data/organs/sw_tendrils.tres" id="7_vt2ki"]
@@ -34,6 +35,21 @@ display_name = "Pairar"
 kind = 3
 effects = Array[ExtResource("1_pmsl8")]([SubResource("Resource_q17ng"), SubResource("Resource_5r4tb")])
 
+[sub_resource type="Resource" id="Resource_1qnfx"]
+script = ExtResource("5_1qnfx")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_rdvbn"]
+script = ExtResource("4_14kkj")
+status_id = &"spores"
+
+[sub_resource type="Resource" id="Resource_14kkj"]
+script = ExtResource("2_1qnfx")
+display_name = "Névoa"
+kind = 1
+effects = Array[ExtResource("1_pmsl8")]([SubResource("Resource_1qnfx"), SubResource("Resource_rdvbn")])
+
 [resource]
 script = ExtResource("8_rbxa7")
 id = &"spore_wisp"
@@ -41,7 +57,7 @@ display_name = "Fogo-Fátuo de Esporos"
 family = 5
 max_hp = 22
 pattern = 1
-intents = Array[ExtResource("2_1qnfx")]([SubResource("Resource_5qu0y"), SubResource("Resource_lktqt")])
+intents = Array[ExtResource("2_1qnfx")]([SubResource("Resource_5qu0y"), SubResource("Resource_lktqt"), SubResource("Resource_14kkj")])
 parts = Array[ExtResource("5_qv3ww")]([ExtResource("6_ix8nv"), ExtResource("7_vt2ki")])
 region_anchors = Array[Vector2]([Vector2(0.31, 0.18), Vector2(0.47, 0.37), Vector2(0.36, 0.69), Vector2(0.61, 0.33)])
 visual = &"voidspawn"

@@ -5,24 +5,25 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_6t8uo"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_fc084"]
 
-[sub_resource type="Resource" id="Resource_jnjd5"]
+[sub_resource type="Resource" id="Resource_qtfha"]
 script = ExtResource("2_8i8a8")
+amount = 9
 target = 2
 
-[sub_resource type="Resource" id="Resource_llbby"]
+[sub_resource type="Resource" id="Resource_8i8a8"]
 script = ExtResource("3_6t8uo")
-stacks = 3
+stacks = 4
 target = 2
 
 [resource]
 script = ExtResource("4_fc084")
 id = &"hb_hematic_tide"
 display_name = "Maré Hemática"
-cost = 2
+cost = 3
 rarity = 3
 category = 1
 family = 1
 secondary_family = 3
 source_part = "Experimento"
 art_motif = &"tentacle"
-effects = Array[ExtResource("1_qtfha")]([SubResource("Resource_jnjd5"), SubResource("Resource_llbby")])
+effects = Array[ExtResource("1_qtfha")]([SubResource("Resource_qtfha"), SubResource("Resource_8i8a8")])

@@ -12,14 +12,15 @@
 [ext_resource type="Resource" path="res://data/organs/aw_gland.tres" id="10_uq72u"]
 [ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="11_xee7a"]
 
-[sub_resource type="Resource" id="Resource_vl1rp"]
+[sub_resource type="Resource" id="Resource_8xaam"]
 script = ExtResource("3_w8coh")
+amount = 5
 hits = 3
 
 [sub_resource type="Resource" id="Resource_rghw6"]
 script = ExtResource("2_bk2fy")
 display_name = "Mergulho"
-effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_vl1rp")])
+effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_8xaam")])
 weight = 2
 
 [sub_resource type="Resource" id="Resource_ughbb"]

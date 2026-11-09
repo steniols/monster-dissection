@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_f72e4"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_btlnx"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_3vyne"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_f72e4"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_pr2tn"]
 [ext_resource type="Resource" path="res://data/organs/vs_tentacles.tres" id="6_bub1v"]
 [ext_resource type="Resource" path="res://data/organs/vs_eyes.tres" id="7_xvu75"]
@@ -50,16 +51,31 @@ display_name = "Pulsar"
 effects = Array[ExtResource("1_howd0")]([SubResource("Resource_1elom")])
 weight = 2
 
+[sub_resource type="Resource" id="Resource_f72e4"]
+script = ExtResource("5_f72e4")
+amount = 10
+target = 1
+
+[sub_resource type="Resource" id="Resource_btlnx"]
+script = ExtResource("4_3vyne")
+status_id = &"corruption"
+
+[sub_resource type="Resource" id="Resource_3vyne"]
+script = ExtResource("2_f72e4")
+display_name = "Membrana"
+kind = 1
+effects = Array[ExtResource("1_howd0")]([SubResource("Resource_f72e4"), SubResource("Resource_btlnx")])
+
 [resource]
 script = ExtResource("9_7qdoj")
 id = &"voidspawn"
 display_name = "Voidspawn"
 family = 3
 max_hp = 42
-region_anchors = Array[Vector2]([Vector2(0.55, 0.25), Vector2(0.42, 0.42), Vector2(0.3, 0.75), Vector2(0.72, 0.63)])
 pattern = 1
-intents = Array[ExtResource("2_f72e4")]([SubResource("Resource_gxte3"), SubResource("Resource_mgyum"), SubResource("Resource_lvd08")])
+intents = Array[ExtResource("2_f72e4")]([SubResource("Resource_gxte3"), SubResource("Resource_mgyum"), SubResource("Resource_lvd08"), SubResource("Resource_3vyne")])
 parts = Array[ExtResource("5_pr2tn")]([ExtResource("6_bub1v"), ExtResource("7_xvu75"), ExtResource("8_ijodc")])
+region_anchors = Array[Vector2]([Vector2(0.55, 0.25), Vector2(0.42, 0.42), Vector2(0.3, 0.75), Vector2(0.72, 0.63)])
 visual = &"voidspawn"
 lore = "Aberração assimétrica cujos olhos parecem observar coisas que ainda não aconteceram."
 weakness_note = "Corrupção acumulada demais degenera os órgãos do tórax."

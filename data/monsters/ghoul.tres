@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_5etak"]
 [ext_resource type="Script" path="res://scripts/cards/effects/heal_effect.gd" id="4_tyct7"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_0o8kc"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_6eqvo"]
 [ext_resource type="Resource" path="res://data/organs/gh_teeth.tres" id="6_5vb4y"]
 [ext_resource type="Resource" path="res://data/organs/gh_sinew.tres" id="7_k4h2f"]
 [ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="8_0sydt"]
@@ -33,17 +34,31 @@ script = ExtResource("2_6eqvo")
 display_name = "Roer"
 effects = Array[ExtResource("1_1370o")]([SubResource("Resource_46h4e"), SubResource("Resource_5xagt")])
 
+[sub_resource type="Resource" id="Resource_6eqvo"]
+script = ExtResource("3_5etak")
+amount = 4
+
+[sub_resource type="Resource" id="Resource_5etak"]
+script = ExtResource("5_6eqvo")
+amount = 6
+target = 1
+
+[sub_resource type="Resource" id="Resource_tyct7"]
+script = ExtResource("2_6eqvo")
+display_name = "Encolher"
+kind = 5
+effects = Array[ExtResource("1_1370o")]([SubResource("Resource_6eqvo"), SubResource("Resource_5etak")])
+
 [resource]
 script = ExtResource("8_0sydt")
 id = &"ghoul"
 display_name = "Carniçal"
 family = 4
 max_hp = 25
-region_anchors = Array[Vector2]([Vector2(0.19, 0.63), Vector2(0.55, 0.6), Vector2(0.3, 0.87), Vector2(0.66, 0.73)])
 pattern = 1
-intents = Array[ExtResource("2_6eqvo")]([SubResource("Resource_ssbhh"), SubResource("Resource_537t7")])
+intents = Array[ExtResource("2_6eqvo")]([SubResource("Resource_ssbhh"), SubResource("Resource_537t7"), SubResource("Resource_tyct7")])
 parts = Array[ExtResource("5_0o8kc")]([ExtResource("6_5vb4y"), ExtResource("7_k4h2f")])
+region_anchors = Array[Vector2]([Vector2(0.19, 0.63), Vector2(0.55, 0.6), Vector2(0.3, 0.87), Vector2(0.66, 0.73)])
 visual = &"ghoul"
-scale = 1.0
 lore = "Rastejam em bandos pelas catacumbas, roendo o que encontram."
 weakness_note = "Sempre em grupo: golpes em área resolvem o problema."

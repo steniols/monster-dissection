@@ -5,12 +5,12 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_s3u8y"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_pj3vv"]
 
-[sub_resource type="Resource" id="Resource_ou6f8"]
+[sub_resource type="Resource" id="Resource_h8uak"]
 script = ExtResource("2_d85v1")
-amount = 7
+amount = 8
 target = 2
 
-[sub_resource type="Resource" id="Resource_nuyg1"]
+[sub_resource type="Resource" id="Resource_d85v1"]
 script = ExtResource("3_s3u8y")
 status_id = &"corruption"
 stacks = 2
@@ -25,4 +25,4 @@ rarity = 2
 family = 3
 source_part = "Tentáculos-Mãe"
 art_motif = &"tentacle"
-effects = Array[ExtResource("1_h8uak")]([SubResource("Resource_ou6f8"), SubResource("Resource_nuyg1")])
+effects = Array[ExtResource("1_h8uak")]([SubResource("Resource_h8uak"), SubResource("Resource_d85v1")])

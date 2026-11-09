@@ -11,31 +11,32 @@
 [ext_resource type="Resource" path="res://data/organs/st_tail.tres" id="9_2cdwg"]
 [ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="10_h6q03"]
 
-[sub_resource type="Resource" id="Resource_w5gww"]
+[sub_resource type="Resource" id="Resource_fnc8m"]
 script = ExtResource("3_b4m8o")
 amount = 8
 target = 1
 
-[sub_resource type="Resource" id="Resource_pcha6"]
+[sub_resource type="Resource" id="Resource_cxh35"]
 script = ExtResource("4_4buvx")
 status_id = &"strength"
-stacks = 3
+stacks = 2
 target = 1
 
 [sub_resource type="Resource" id="Resource_t3q5y"]
 script = ExtResource("2_cxh35")
 display_name = "Eriçar"
 kind = 1
-effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_w5gww"), SubResource("Resource_pcha6")])
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_fnc8m"), SubResource("Resource_cxh35")])
 
-[sub_resource type="Resource" id="Resource_ynfhs"]
+[sub_resource type="Resource" id="Resource_b4m8o"]
 script = ExtResource("5_kjqba")
+amount = 5
 hits = 3
 
 [sub_resource type="Resource" id="Resource_07kh1"]
 script = ExtResource("2_cxh35")
 display_name = "Garras"
-effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_ynfhs")])
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_b4m8o")])
 
 [sub_resource type="Resource" id="Resource_grlvu"]
 script = ExtResource("4_4buvx")

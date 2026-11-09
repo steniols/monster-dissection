@@ -5,11 +5,11 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_ucmxm"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_134x8"]
 
-[sub_resource type="Resource" id="Resource_ndsgk"]
+[sub_resource type="Resource" id="Resource_cqf4k"]
 script = ExtResource("2_jhh3u")
-amount = 10
+amount = 12
 
-[sub_resource type="Resource" id="Resource_k8fny"]
+[sub_resource type="Resource" id="Resource_jhh3u"]
 script = ExtResource("3_ucmxm")
 status_id = &"thorns"
 stacks = 3
@@ -26,4 +26,4 @@ family = 2
 secondary_family = 1
 source_part = "Experimento"
 art_motif = &"mandible"
-effects = Array[ExtResource("1_cqf4k")]([SubResource("Resource_ndsgk"), SubResource("Resource_k8fny")])
+effects = Array[ExtResource("1_cqf4k")]([SubResource("Resource_cqf4k"), SubResource("Resource_jhh3u")])

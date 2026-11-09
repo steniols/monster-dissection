@@ -5,12 +5,12 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_1glko"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_qxbfi"]
 
-[sub_resource type="Resource" id="Resource_a4vey"]
+[sub_resource type="Resource" id="Resource_nich5"]
 script = ExtResource("2_f1hti")
-amount = 8
+amount = 12
 target = 2
 
-[sub_resource type="Resource" id="Resource_ttdwl"]
+[sub_resource type="Resource" id="Resource_f1hti"]
 script = ExtResource("3_1glko")
 status_id = &"ember"
 stacks = 3
@@ -20,9 +20,9 @@ target = 2
 script = ExtResource("4_qxbfi")
 id = &"molten_wing"
 display_name = "Asa em Chamas"
-cost = 2
+cost = 3
 rarity = 3
 family = 6
 source_part = "Asa Carbonizada"
 art_motif = &"hide"
-effects = Array[ExtResource("1_nich5")]([SubResource("Resource_a4vey"), SubResource("Resource_ttdwl")])
+effects = Array[ExtResource("1_nich5")]([SubResource("Resource_nich5"), SubResource("Resource_f1hti")])

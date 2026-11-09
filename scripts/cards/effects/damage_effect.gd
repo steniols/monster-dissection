@@ -6,6 +6,8 @@ extends CardEffect
 @export var hits: int = 1
 ## Dano extra por carta já jogada neste turno (antes desta).
 @export var bonus_per_card_played: int = 0
+## Dano penetrante: ignora a Armadura e vai direto na vida.
+@export var pierce: bool = false
 
 
 func get_base_amount(ctx: EffectContext) -> int:
@@ -19,7 +21,7 @@ func apply(ctx: EffectContext) -> void:
 	for i in hits:
 		for t in resolve_targets(ctx):
 			var dmg := ctx.combat.calc_attack_damage(ctx.source, t, get_base_amount(ctx))
-			t.take_damage(dmg, ctx.source, true)
+			t.take_damage(dmg, ctx.source, true, pierce)
 			if not t.is_alive() and not ctx.killed_targets.has(t):
 				ctx.killed_targets.append(t)
 		if not ctx.source.is_alive():
@@ -27,7 +29,7 @@ func apply(ctx: EffectContext) -> void:
 
 
 func describe() -> String:
-	var text := "Cause %d de dano" % amount
+	var text := "Cause %d de %s" % [amount, kw("dano penetrante", Palette.BONE_LIGHT) if pierce else "dano"]
 	if hits > 1:
 		text += " %d vezes" % hits
 	text += _target_suffix()

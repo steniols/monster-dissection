@@ -201,7 +201,7 @@ func _start_combat() -> void:
 
 	# Instancia as views depois de criar os monstros (start_combat cria os combatentes).
 	combat.start_combat(player, RunState.get_deck_cards(), RunState.current.monsters,
-		Profile.get_installed_mutations(), RunState.get_monster_hp_bonus(), Profile.get_starting_corruption_stacks())
+		Profile.get_installed_mutations(), RunState.get_monster_hp_bonus(), Profile.get_starting_corruption_stacks(), RunState.get_monster_strength())
 	for m in combat.monsters:
 		var mv := MonsterView.new()
 		mv.setup(m, combat)

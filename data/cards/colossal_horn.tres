@@ -5,11 +5,12 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_v3tlx"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_12opc"]
 
-[sub_resource type="Resource" id="Resource_l4s6g"]
+[sub_resource type="Resource" id="Resource_63git"]
 script = ExtResource("2_vccsc")
-amount = 14
+amount = 20
+pierce = true
 
-[sub_resource type="Resource" id="Resource_068rb"]
+[sub_resource type="Resource" id="Resource_vccsc"]
 script = ExtResource("3_v3tlx")
 status_id = &"vulnerable"
 stacks = 2
@@ -18,9 +19,9 @@ stacks = 2
 script = ExtResource("4_12opc")
 id = &"colossal_horn"
 display_name = "Chifrada Colossal"
-cost = 2
+cost = 3
 rarity = 3
 family = 2
 source_part = "Chifre Colossal"
 art_motif = &"horn"
-effects = Array[ExtResource("1_63git")]([SubResource("Resource_l4s6g"), SubResource("Resource_068rb")])
+effects = Array[ExtResource("1_63git")]([SubResource("Resource_63git"), SubResource("Resource_vccsc")])

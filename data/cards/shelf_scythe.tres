@@ -5,14 +5,15 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_kyr71"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_t87bn"]
 
-[sub_resource type="Resource" id="Resource_mai8e"]
+[sub_resource type="Resource" id="Resource_5etjt"]
 script = ExtResource("2_ud42y")
-amount = 8
+amount = 9
 target = 2
 
-[sub_resource type="Resource" id="Resource_uc8tl"]
+[sub_resource type="Resource" id="Resource_ud42y"]
 script = ExtResource("3_kyr71")
 status_id = &"spores"
+stacks = 2
 target = 2
 
 [resource]
@@ -24,4 +25,4 @@ rarity = 2
 family = 5
 source_part = "Foice de Orelha-de-pau"
 art_motif = &"claw"
-effects = Array[ExtResource("1_5etjt")]([SubResource("Resource_mai8e"), SubResource("Resource_uc8tl")])
+effects = Array[ExtResource("1_5etjt")]([SubResource("Resource_5etjt"), SubResource("Resource_ud42y")])

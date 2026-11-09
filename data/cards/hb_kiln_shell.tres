@@ -5,16 +5,16 @@
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_oo0y0"]
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="4_duwg4"]
 
-[sub_resource type="Resource" id="Resource_7tywl"]
+[sub_resource type="Resource" id="Resource_ykw5y"]
 script = ExtResource("2_f67hq")
 amount = 8
 target = 1
 
-[sub_resource type="Resource" id="Resource_af37t"]
+[sub_resource type="Resource" id="Resource_f67hq"]
 script = ExtResource("3_oo0y0")
-status_id = &"thorns"
+status_id = &"ember"
 stacks = 2
-target = 1
+target = 2
 
 [resource]
 script = ExtResource("4_duwg4")
@@ -27,4 +27,4 @@ family = 6
 secondary_family = 2
 source_part = "Experimento"
 art_motif = &"carapace"
-effects = Array[ExtResource("1_ykw5y")]([SubResource("Resource_7tywl"), SubResource("Resource_af37t")])
+effects = Array[ExtResource("1_ykw5y")]([SubResource("Resource_ykw5y"), SubResource("Resource_f67hq")])

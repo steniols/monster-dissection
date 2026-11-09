@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_87cte"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_vsdbb"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_8f1pu"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_87cte"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_t7pd3"]
 [ext_resource type="Resource" path="res://data/organs/sl_cap.tres" id="6_t2pr1"]
 [ext_resource type="Resource" path="res://data/organs/sl_spores.tres" id="7_6k2un"]
@@ -30,6 +31,17 @@ display_name = "Soltar Esporos"
 kind = 3
 effects = Array[ExtResource("1_kvc8a")]([SubResource("Resource_0ta2o")])
 
+[sub_resource type="Resource" id="Resource_87cte"]
+script = ExtResource("5_87cte")
+amount = 7
+target = 1
+
+[sub_resource type="Resource" id="Resource_vsdbb"]
+script = ExtResource("2_87cte")
+display_name = "Fechar o Chapéu"
+kind = 1
+effects = Array[ExtResource("1_kvc8a")]([SubResource("Resource_87cte")])
+
 [resource]
 script = ExtResource("8_2r58q")
 id = &"sporeling"
@@ -37,7 +49,7 @@ display_name = "Sporeling"
 family = 5
 max_hp = 24
 pattern = 1
-intents = Array[ExtResource("2_87cte")]([SubResource("Resource_r7y4c"), SubResource("Resource_ojbvm")])
+intents = Array[ExtResource("2_87cte")]([SubResource("Resource_r7y4c"), SubResource("Resource_ojbvm"), SubResource("Resource_vsdbb")])
 parts = Array[ExtResource("5_t7pd3")]([ExtResource("6_t2pr1"), ExtResource("7_6k2un")])
 region_anchors = Array[Vector2]([Vector2(0.26, 0.57), Vector2(0.5, 0.55), Vector2(0.55, 0.85), Vector2(0.38, 0.45)])
 visual = &"voidspawn"

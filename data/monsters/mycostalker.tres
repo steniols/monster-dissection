@@ -4,23 +4,29 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_oi2my"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="3_acu8o"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="4_ibkbp"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="4_oi2my"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_5tjy8"]
 [ext_resource type="Resource" path="res://data/organs/ms_scythe.tres" id="6_jl84u"]
 [ext_resource type="Resource" path="res://data/organs/ms_stalk.tres" id="7_ogueh"]
 [ext_resource type="Resource" path="res://data/organs/ms_eyes.tres" id="8_u74lg"]
 [ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="9_gvate"]
 
-[sub_resource type="Resource" id="Resource_qv8kj"]
+[sub_resource type="Resource" id="Resource_oi2my"]
 script = ExtResource("3_acu8o")
 status_id = &"strength"
 stacks = 2
+target = 1
+
+[sub_resource type="Resource" id="Resource_acu8o"]
+script = ExtResource("4_oi2my")
+amount = 10
 target = 1
 
 [sub_resource type="Resource" id="Resource_mx3ng"]
 script = ExtResource("2_oi2my")
 display_name = "Afiar Foices"
 kind = 2
-effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_qv8kj")])
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_oi2my"), SubResource("Resource_acu8o")])
 
 [sub_resource type="Resource" id="Resource_d2d62"]
 script = ExtResource("4_ibkbp")

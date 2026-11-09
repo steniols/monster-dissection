@@ -242,8 +242,13 @@ func _rebuild_detail() -> void:
 	body.add_child(actions)
 	if p.unlocks_card != null:
 		var known := Profile.is_card_unlocked(p.unlocks_card.id)
-		var l := UiTheme.make_label("Carta já catalogada." if known else "Extrair desbloqueia esta carta permanentemente.", 14,
-			Palette.TEXT_DIM if known else Palette.MOSS_BRIGHT)
+		var copies := Profile.get_card_copies(p.unlocks_card.id)
+		var msg := "Extrair desbloqueia esta carta permanentemente."
+		if known and copies >= Profile.MAX_EARNED_COPIES:
+			msg = "Carta catalogada, com todas as %d cópias." % Profile.MAX_EARNED_COPIES
+		elif known:
+			msg = "Extrair dá mais uma cópia para o baralho inicial (%d/%d)." % [copies, Profile.MAX_EARNED_COPIES]
+		var l := UiTheme.make_label(msg, 14, Palette.TEXT_DIM if known and copies >= Profile.MAX_EARNED_COPIES else Palette.MOSS_BRIGHT)
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		actions.add_child(l)
 	var state := session.condition.get_state(p.region)
@@ -282,6 +287,8 @@ func _extract(p: AnatomyPart) -> void:
 		if new_card:
 			Sfx.play(&"unlock", -2.0)
 			UiTheme.float_text(self, "Nova carta: %s" % p.unlocks_card.display_name, pos + Vector2(-40, 40), Palette.BONE_LIGHT, 20)
+		elif p.unlocks_card != null:
+			UiTheme.float_text(self, "+1 cópia: %s (%d/%d)" % [p.unlocks_card.display_name, Profile.get_card_copies(p.unlocks_card.id), Profile.MAX_EARNED_COPIES], pos + Vector2(-40, 40), Palette.BONE_LIGHT, 20)
 	else:
 		Sfx.play(&"fail")
 		UiTheme.float_text(self, "Tecido rompido", pos, Palette.BLOOD_BRIGHT, 28)
