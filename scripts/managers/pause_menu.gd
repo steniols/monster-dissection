@@ -49,8 +49,10 @@ func _gear_button() -> Button:
 	icon.set_anchors_preset(Control.PRESET_FULL_RECT)
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(icon)
-	b.mouse_entered.connect(func(): icon.hover = true; icon.queue_redraw())
-	b.mouse_exited.connect(func(): icon.hover = false; icon.queue_redraw())
+	b.mouse_entered.connect(func(): icon.hover = true)
+	b.mouse_exited.connect(func(): icon.hover = false)
+	# redesenha junto com a placa (hover, clique): a engrenagem sobe e afunda com ela
+	b.draw.connect(icon.queue_redraw)
 	return b
 
 
@@ -173,6 +175,9 @@ class GearIcon:
 
 	func _draw() -> void:
 		var c := size * 0.5
+		var parent_button := get_parent() as Button
+		if parent_button != null:
+			c.y += UiTheme.button_lift(parent_button)
 		var art := Database.get_art("ui", &"nav_settings")
 		if art != null:
 			var s := minf(size.x, size.y) * 0.72

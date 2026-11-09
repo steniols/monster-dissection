@@ -78,7 +78,7 @@ static func _chamfered(r: Rect2, c: float) -> PackedVector2Array:
 
 
 ## Gera os 4 estados (normal, hover, pressed, disabled) de uma variante.
-## kind: "normal", "primary" (vermelho-sangue), "moss" (verde) ou "ghost" (só texto).
+## kind: "normal", "primary" (vermelho-sangue), "moss" (verde), "gold" (dourado) ou "ghost" (só texto).
 static func states(kind: String) -> Dictionary:
 	var out := {}
 	for state in ["normal", "hover", "pressed", "disabled"]:
@@ -92,6 +92,10 @@ static func states(kind: String) -> Dictionary:
 				s.top = Color("#3F5236")
 				s.bottom = Color("#2A3825")
 				s.brass = Color("#B9C98F")
+			"gold":
+				s.top = Color("#C9A04A")
+				s.bottom = Color("#8E6C2C")
+				s.brass = Color("#F3DFA8")
 			"ghost":
 				s.ghost = true
 		match state:

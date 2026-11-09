@@ -63,12 +63,12 @@ são os definitivos: arte nova entra sozinha, sem mexer no código.
 | Folha | O que é | Qtde | Situação |
 |---|---|---|---|
 | **M3 Ashwing** | `ash_hatchling`, `ashwing`, `stormtalon`, `ember_roc` | 4 | **Pronta**, instalada. O Stormtalon ficou parecido com o Ashwing; refazer é opcional |
-| **F3 Pináculos** | `ash_peaks`, `battle_ash_ridge` | 2 | **Pronta**, instalada. `ash_peaks` aparece no mapa e nos eventos; `battle_ash_ridge`, no combate contra Ashwing |
+| **F3 Pináculos** | `ash_peaks`, `battle_ash_ridge` | 2 | **Pronta**, instalada. `ash_peaks` aparece no mapa e nos eventos; `battle_ash_ridge`, no combate contra Ashwing (refeito em tons frios para os monstros se destacarem; a versão laranja ficou em `assets/art/extra/backgrounds/battle_ash_ridge_v1.png`) |
 | **MU2** | Mutações | 4 | **Pronta**, instalada. O estilo está certo, mas os 4 frascos vieram com líquido vermelho; ajuste opcional abaixo |
 | **E3 Pináculos** | `ev_cliff_nest`, `ev_storm_shrine`, `ev_abandoned_gear` | 3 | **Pronta**, instalada. `ev_abandoned_gear` veio como uma mina abandonada, então o evento passa a se chamar **Mina Abandonada** |
 | **E3 Bosque** | `ev_fairy_ring`, `ev_spore_cocoon`, `ev_overgrown_cart` | 3 | **Pronta**, instalada |
-| **M3 Sporemaw** | `sporeling`, `sporemaw`, `mycostalker`, `mycelium_mother` | 4 | **Pronta**, instalada |
-| **F3 Bosque** | `fungal_grove`, `battle_fungal_hollow` | 2 | **Pronta**, instalada |
+| **M3 Sporemaw** | `sporeling`, `sporemaw`, `mycostalker`, `mycelium_mother` | 4 | **Pronta**, instalada. Sporeling, Mycostalker, Matriz e Carregador refeitos com contorno grosso (antigos em `assets/art/extra/monsters_v1/`); a versão refeita do Fogo-Fátuo ficou em `assets/art/extra/monsters_v2/`, sem uso |
+| **F3 Bosque** | `fungal_grove`, `battle_fungal_hollow` | 2 | **Pronta**, instalada. `battle_fungal_hollow` refeito em tons neutros para os monstros se destacarem (o antigo ficou em `assets/art/extra/backgrounds/battle_fungal_hollow_v1.png`) |
 | **P6 / P7** | Partes Sporemaw e Ashwing | 12 + 12 | **Pronta**, instalada |
 | **C5 / C6** | Cartas das partes | 12 + 12 | **Pronta**, instalada: serve no tamanho da carta (ver abaixo) |
 | **C7** | Cartas híbridas | 8 | **Pronta**, instalada: serve no tamanho da carta (ver abaixo) |

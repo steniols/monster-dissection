@@ -161,6 +161,19 @@ func _tour() -> void:
 	get_tree().current_scene._open_full_map()
 	await _wait(0.4)
 	await _capture("34_mapa_completo")
+	# Hover: a engrenagem e o ícone do "Ver mapa completo" acompanham a placa
+	await _shot("map", "36_mapa_hover_base")
+	for b in get_tree().current_scene.find_children("*", "Button", true, false):
+		if b.tooltip_text == "Menu (Esc)" or b.text == "Ver mapa completo":
+			get_viewport().warp_mouse(b.get_global_rect().get_center())
+			await _wait(0.3)
+			await _capture("37_hover_" + ("engrenagem" if b.text.is_empty() else "mapa"))
+	await _shot("menu", "38_menu_dourado")
+	for b in get_tree().current_scene.find_children("*", "Button", true, false):
+		if b.text == "Entrar no laboratório":
+			get_viewport().warp_mouse(b.get_global_rect().get_center())
+			await _wait(0.3)
+			await _capture("39_menu_dourado_hover")
 
 
 func _dead(id: StringName) -> MonsterCombatant:

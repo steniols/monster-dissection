@@ -54,7 +54,7 @@ func _ready() -> void:
 		cont.custom_minimum_size.y = 44
 		cont.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(cont)
-	var enter := UiTheme.make_button("Entrar no laboratório", func(): Game.goto("lab"), 300, "PrimaryButton")
+	var enter := UiTheme.make_button("Entrar no laboratório", func(): Game.goto("lab"), 300, "GoldButton")
 	enter.custom_minimum_size.y = 44
 	enter.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(enter)

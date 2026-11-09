@@ -29,9 +29,9 @@ static func build() -> Theme:
 	t.set_color("font_color", "Label", Palette.TEXT)
 
 	# Botões
-	# Botões em placa de latão (ver PlateStyle). Variantes: PrimaryButton, MossButton, GhostButton.
-	for kind in ["normal", "primary", "moss", "ghost"]:
-		var type: String = {"normal": "Button", "primary": "PrimaryButton", "moss": "MossButton", "ghost": "GhostButton"}[kind]
+	# Botões em placa de latão (ver PlateStyle). Variantes: PrimaryButton, MossButton, GoldButton, GhostButton.
+	for kind in ["normal", "primary", "moss", "gold", "ghost"]:
+		var type: String = {"normal": "Button", "primary": "PrimaryButton", "moss": "MossButton", "gold": "GoldButton", "ghost": "GhostButton"}[kind]
 		if type != "Button":
 			t.set_type_variation(type, "Button")
 		var st := PlateStyle.states(kind)
@@ -40,6 +40,9 @@ static func build() -> Theme:
 		t.set_stylebox("focus", type, StyleBoxEmpty.new())
 	t.set_color("font_color", "PrimaryButton", Palette.BONE_LIGHT)
 	t.set_color("font_color", "MossButton", Palette.BONE_LIGHT)
+	# texto escuro sobre a placa dourada
+	for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+		t.set_color(key, "GoldButton", Palette.INK)
 	t.set_color("font_color", "GhostButton", Palette.TEXT_DIM)
 	t.set_color("font_color", "Button", Palette.PAPER)
 	t.set_color("font_hover_color", "Button", Palette.BONE_LIGHT)
@@ -173,7 +176,26 @@ static func with_icon(b: Button, id: StringName, px: int = 26) -> Button:
 		r.offset_top = -px * 0.5
 		r.offset_bottom = px * 0.5
 		b.add_child(r)
+		# a placa sobe no hover e afunda ao clicar: o ícone acompanha
+		b.draw.connect(func():
+			var dy := button_lift(b)
+			r.offset_top = -px * 0.5 + dy
+			r.offset_bottom = px * 0.5 + dy)
 	return b
+
+
+## Deslocamento vertical da placa do botão no estado atual (ver PlateStyle.lift).
+static func button_lift(b: Button) -> float:
+	var key := "normal"
+	match b.get_draw_mode():
+		BaseButton.DRAW_HOVER:
+			key = "hover"
+		BaseButton.DRAW_PRESSED, BaseButton.DRAW_HOVER_PRESSED:
+			key = "pressed"
+		BaseButton.DRAW_DISABLED:
+			key = "disabled"
+	var sb := b.get_theme_stylebox(key)
+	return (sb as PlateStyle).lift if sb is PlateStyle else 0.0
 
 
 ## Envolve um controle numa margem (para o selo de custo das cartas não ser cortado dentro de rolagens).
