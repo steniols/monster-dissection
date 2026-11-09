@@ -27,6 +27,8 @@ func _ready() -> void:
 	top.add_child(titles)
 	titles.add_child(UiTheme.make_label("Oficina do Laboratório", 34, Palette.BONE_LIGHT, true))
 	_header = UiTheme.make_label("", 15, Palette.TEXT_DIM)
+	# quebra a linha em vez de alargar a tela
+	_header.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	titles.add_child(_header)
 	top.add_child(UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab")))
 
@@ -45,7 +47,7 @@ func _refresh() -> void:
 	var stock: PackedStringArray = []
 	for f in [Family.Id.BLOODFANG, Family.Id.IRONBACK, Family.Id.VOIDSPAWN, Family.Id.ROTWALKER, Family.Id.SPOREMAW, Family.Id.ASHWING]:
 		stock.append("%s %d" % [Family.get_name_of(f), Profile.get_family_material(f)])
-	_header.text = "Pague com quaisquer partes da família indicada (as mais abundantes são usadas primeiro).   Estoque: " + "  ·  ".join(stock)
+	_header.text = "Pague com quaisquer partes da família indicada (as mais abundantes são usadas primeiro).\nEstoque: " +"  ·  ".join(stock)
 	for c in _list.get_children():
 		c.queue_free()
 	for u in Database.get_sorted_upgrades():

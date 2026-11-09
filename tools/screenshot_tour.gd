@@ -147,6 +147,20 @@ func _tour() -> void:
 		nm.take_damage(nm.hp, null, true)
 		RunState.dissection_queue = [{"monster": nm.data, "condition": BodyCondition.from_combatant(nm)}]
 		await _shot("dissection", "d_" + String(id))
+	# Ícones de todos os tipos de ponto do mapa
+	RunState.start(Database.expeditions[&"bone_moor"])
+	var nodes := RunState.get_available_nodes()
+	var types := [MapNode.Type.ELITE, MapNode.Type.REST, MapNode.Type.EVENT]
+	for i in mini(nodes.size(), 3):
+		nodes[i].type = types[i]
+		if types[i] == MapNode.Type.EVENT:
+			nodes[i].event = Database.events[&"ev_hermit"]
+		if types[i] == MapNode.Type.ELITE:
+			nodes[i].monsters = [Database.get_monster(&"bloodfang_alpha")]
+	await _shot("map", "33_mapa_icones")
+	get_tree().current_scene._open_full_map()
+	await _wait(0.4)
+	await _capture("34_mapa_completo")
 
 
 func _dead(id: StringName) -> MonsterCombatant:

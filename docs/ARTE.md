@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status: as fases 3 e 4 já estão no jogo; faltam 18 imagens e há ajustes opcionais (ver "Novos pedidos")
+## Status: as fases 3 e 4 já estão no jogo; faltam 18 imagens (partes, cartas e melhorias) e há ajustes opcionais (ver "Novos pedidos")
 
 | Grupo | Qtde | Situação |
 |---|---|---|
@@ -16,7 +16,7 @@
 | Melhorias da Oficina | 5 de 7 | **Faltam 2** (novas) |
 | Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
 | Acampamento: ícones das opções | 3 | **Pronto** (os três da folha 3; as outras versões estão em `assets/art/extra/camp/alt/`) |
-| Ícones de navegação | 10 de 12 | **Faltam 2** (elite e chefe) (`assets/art/ui/nav_*.png`, 96 px; originais em `assets/art/extra/fases34/nav_full/`). Em uso: `nav_dissect`, `nav_camp`, `nav_event`, `nav_map`, `nav_lab`, `nav_settings`, `nav_pack`. Ainda sem uso: `nav_book`, `nav_forge`, `nav_loot` |
+| Ícones de navegação | 12 | **Pronto** (`assets/art/ui/nav_*.png`, 96 px; originais em `assets/art/extra/fases34/nav_full/`). Em uso: `nav_dissect`, `nav_camp`, `nav_event`, `nav_map`, `nav_lab`, `nav_settings`, `nav_pack`. `nav_elite`, `nav_boss`. Ainda sem uso: `nav_book`, `nav_forge`, `nav_loot` |
 
 As imagens ficam em `assets/art/<monsters|cards|parts|mutations|events|backgrounds|stations|upgrades|camp|ui>/<id>.png` e o jogo as carrega
 sozinho pelo nome do arquivo. Para trocar uma imagem, basta substituir o arquivo com o mesmo nome.
@@ -74,7 +74,7 @@ são os definitivos: arte nova entra sozinha, sem mexer no código.
 | **C7** | Cartas híbridas | 8 | **Pronta**, instalada: serve no tamanho da carta (ver abaixo) |
 
 As cartas vieram da "Prancha de dissecação Ashwing e Sporemaw". O estilo ficou certo e o tamanho basta, porque a arte
-aparece com cerca de 140×80 px na carta. Elas mostram a peça parada, sem ação; ver o pedido 7.
+aparece com cerca de 140×80 px na carta. Elas mostram a peça parada, sem ação; ver o pedido 6.
 
 ### Como pedir
 
@@ -96,10 +96,9 @@ são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 | **2** | Cartas dos monstros extras (C8) | 8 | **Faltam de verdade:** hoje usam desenho provisório |
 | **3** | Melhorias novas da Oficina (L3) | 2 | **Faltam de verdade:** hoje usam desenho provisório |
 | **4** | Líquido das mutações | 4 | Frascos vermelhos, iguais aos do Bloodfang |
-| **5** | Ícones de elite e chefe no mapa | 2 | Ainda usam o desenho antigo |
-| **6** | Stormtalon | 1 | Parecido com o Ashwing |
-| **7** | Cartas com ação (C5, C6, C7) | 32 | As atuais mostram a peça parada |
-| **8** | Ovos do Ninho e raio do Santuário | 2 | Cores diferentes do pedido |
+| **5** | Stormtalon | 1 | Parecido com o Ashwing |
+| **6** | Cartas com ação (C5, C6, C7) | 32 | As atuais mostram a peça parada |
+| **7** | Ovos do Ninho e raio do Santuário | 2 | Cores diferentes do pedido |
 
 #### 1. P8: partes dos monstros extras (8, em uma folha)
 
@@ -183,23 +182,7 @@ Edit the attached image, keeping everything exactly the same: same 4 containers,
 
 Os arquivos são os mesmos: `mut_sm_gills`, `mut_mm_core`, `mut_aw_gland` e `mut_er_heart`, nessa ordem.
 
-#### 5. Ícones de elite e chefe no mapa (2, em uma folha)
-
-Anexe `extra/fases34/folhas/Ícones de Navegação em Fantasia Sombria-1.png`.
-
-```
-Create 2 new icons in exactly the same style as the attached icon sheet: same thick black outline, same painted texture, same size and level of detail. Exactly 2 separate isolated icons in a single row with wide spacing, in this exact order, left to right.
-1. a large cracked monster skull with big horns and red war paint, on crossed bones
-2. a menacing bone crown with red gems, resting on a large monster skull
-Plain flat white background. No text, no numbers, no labels, no frames, no people, no gore. One image, maximum resolution, at least 1536 pixels wide.
-```
-
-| Ordem | Arquivo | Onde aparece |
-|---|---|---|
-| 1 | `nav_elite.png` | Pontos de elite no mapa |
-| 2 | `nav_boss.png` | Ponto do chefe no mapa, quando o chefe ainda é desconhecido |
-
-#### 6. Stormtalon (1)
+#### 5. Stormtalon (1)
 
 Anexe `monsters/ashwing.png` e `monsters/stormtalon.png`.
 
@@ -209,7 +192,7 @@ Redraw the creature from the second attached image, alone, in the same style and
 
 O arquivo é o mesmo: `stormtalon.png`.
 
-#### 7. Cartas com ação (C5, C6, C7)
+#### 6. Cartas com ação (C5, C6, C7)
 
 Três folhas, uma por conversa. Anexe `cards/bloodthirst.png` e `cards/abyssal_gaze.png`. Cole o cabeçalho e, logo
 depois, a lista da folha. Use `Exactly 12` e `4x3` nas folhas C5 e C6, e `Exactly 8` e `4x2` na C7. A ordem das
@@ -268,7 +251,7 @@ Dark fantasy hand-painted game icon sheet, same style as the attached images: ma
 
 As tabelas de arquivos estão em "Consulta" abaixo. Na C5 e na C6 a ordem é a de cima para baixo em cada tabela.
 
-#### 8. Ovos do Ninho e raio do Santuário (2, editar cada imagem)
+#### 7. Ovos do Ninho e raio do Santuário (2, editar cada imagem)
 
 **`ev_cliff_nest.png`:** anexe `events/ev_cliff_nest.png`.
 

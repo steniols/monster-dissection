@@ -104,8 +104,8 @@ func _show_main() -> void:
 	panel_width(420)
 	_title("Pausa")
 	_button("Continuar", close)
-	UiTheme.with_icon(_button("Opções", _show_options), &"nav_settings")
-	UiTheme.with_icon(_button("Voltar ao laboratório", func(): _confirm_leave("lab")), &"nav_lab")
+	_button("Opções", _show_options)
+	_button("Voltar ao laboratório", func(): _confirm_leave("lab"))
 	_button("Menu principal", func(): _confirm_leave("menu"))
 
 
