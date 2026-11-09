@@ -9,8 +9,8 @@ const BASE_MAX_HP := 60
 const BASE_ENERGY := 3
 const BASE_INCISIONS := 2
 const MAX_MUTATIONS := 3
-const DECK_MIN := 8
-const DECK_MAX := 20
+const DECK_MIN := 10
+const DECK_MAX := 30
 ## Instrumentos (cartas neutras) que não são básicas.
 const MAX_COPIES := 2
 const MAX_COPIES_STARTER := 5
