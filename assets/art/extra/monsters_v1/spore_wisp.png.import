@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6jihso2vmhml"
-path="res://.godot/imported/spore_wisp.png-a8b52004ee0c4108713b6e4763bef57a.ctex"
+uid="uid://ddlxgn8qcfv6h"
+path="res://.godot/imported/spore_wisp.png-b6ab5b44d51dd924dd9ad6458e919a67.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/extra/monsters_v2/spore_wisp.png"
-dest_files=["res://.godot/imported/spore_wisp.png-a8b52004ee0c4108713b6e4763bef57a.ctex"]
+source_file="res://assets/art/extra/monsters_v1/spore_wisp.png"
+dest_files=["res://.godot/imported/spore_wisp.png-b6ab5b44d51dd924dd9ad6458e919a67.ctex"]
 
 [params]
 
