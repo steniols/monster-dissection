@@ -213,7 +213,7 @@ func _test_lab_systems() -> void:
 	_check(Database.lab_upgrades[&"up_obsidian"] != null and twin.requires == &"up_obsidian", "pré-requisito")
 	# regiões
 	var cat: ExpeditionData = Database.expeditions[&"flooded_catacombs"]
-	_check(not Profile.is_expedition_unlocked(cat), "Catacumbas começam bloqueadas")
+	_check(Profile.UNLOCK_ALL_REGIONS or not Profile.is_expedition_unlocked(cat), "Catacumbas começam bloqueadas")
 	Profile.mark_cleared(&"bone_moor")
 	_check(Profile.is_expedition_unlocked(cat), "Catacumbas liberadas após a Charneca")
 	Profile.reset()

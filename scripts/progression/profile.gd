@@ -370,7 +370,13 @@ func experiment(a: AnatomyPart, b: AnatomyPart) -> HybridRecipe:
 
 # --- Regiões ----------------------------------------------------------------
 
+## TEMPORÁRIO (pedido em 2026-11-09 para testes): libera todas as regiões. Volte para false ao terminar os testes.
+const UNLOCK_ALL_REGIONS := true
+
+
 func is_expedition_unlocked(e: ExpeditionData) -> bool:
+	if UNLOCK_ALL_REGIONS:
+		return true
 	return e.unlock_requirement.is_empty() or cleared_expeditions.has(e.unlock_requirement)
 
 
