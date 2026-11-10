@@ -29,6 +29,7 @@ func attempt(part: AnatomyPart) -> bool:
 	if not can_attempt(part):
 		return false
 	incisions_left -= 1
+	RunState.incisions_left = incisions_left
 	var success := rng.randf() < condition.chance_for(part)
 	results[part.id] = success
 	if success:

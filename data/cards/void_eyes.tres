@@ -8,7 +8,7 @@
 [sub_resource type="Resource" id="Resource_q6w8h"]
 script = ExtResource("2_nms84")
 status_id = &"corruption"
-stacks = 3
+stacks = 2
 
 [sub_resource type="Resource" id="Resource_nms84"]
 script = ExtResource("3_itqlp")

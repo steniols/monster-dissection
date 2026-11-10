@@ -69,12 +69,25 @@ func _ready() -> void:
 	mouse_exited.connect(func(): if interactive: hover_changed.emit(self, false))
 
 
+var _press_started := false
+
+
+## O clique vale ao soltar, e só se a lista não tiver rolado: assim dá para rolar com o dedo em cima da carta.
 func _gui_input(event: InputEvent) -> void:
 	if not interactive:
 		return
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		pressed.emit(self)
-		accept_event()
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			_press_started = true
+		elif _press_started:
+			_press_started = false
+			if Rect2(Vector2.ZERO, size).has_point(get_local_mouse_position()):
+				pressed.emit(self)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_SCROLL_BEGIN:
+		_press_started = false
 
 
 func _build() -> void:

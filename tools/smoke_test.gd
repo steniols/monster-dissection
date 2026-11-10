@@ -204,6 +204,8 @@ func _test_upgrades() -> void:
 	_check((rend.effects[0] as DamageEffect).amount == 3, "original não pode mudar ao aprimorar")
 	var core := Database.get_card(&"unstable_core+")
 	_check((core.effects[0] as LoseHpEffect).amount == 4, "Núcleo Instável+ perde menos vida")
+	var notes_up := Database.get_card(&"field_notes+")
+	_check(notes_up.cost == 0 and (notes_up.effects[0] as DrawEffect).count == 2, "Anotações de Campo+ custa 0 e compra 2")
 	var pulse := Database.get_card(&"predatory_pulse+")
 	var inner := (pulse.effects[1] as ConditionalEffect).effects[0] as HealEffect
 	_check(inner.amount == 9, "efeito condicional aprimorado (cura %d)" % inner.amount)

@@ -39,6 +39,21 @@ func _on_node_added(n: Node) -> void:
 		b.mouse_entered.connect(func(): b.mouse_default_cursor_shape = Control.CURSOR_ARROW if b.disabled else Control.CURSOR_POINTING_HAND)
 	elif n is Slider:
 		n.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	if n is Control and not n is ScrollContainer and not n is ScrollBar:
+		_let_scroll_through.call_deferred(n)
+
+
+## Dentro de listas com rolagem, o toque precisa chegar até a lista: senão, arrastar o dedo em cima
+## de uma carta ou painel não rola. Os botões continuam funcionando (o clique é cancelado se a lista rolar).
+func _let_scroll_through(c: Control) -> void:
+	if not is_instance_valid(c) or c.mouse_filter != Control.MOUSE_FILTER_STOP:
+		return
+	var p := c.get_parent()
+	while p != null:
+		if p is ScrollContainer:
+			c.mouse_filter = Control.MOUSE_FILTER_PASS
+			return
+		p = p.get_parent()
 
 
 func goto(key: String) -> void:
@@ -95,6 +110,7 @@ func start_event_fight(monsters: Array[MonsterData]) -> void:
 func on_combat_won(bodies: Array[MonsterCombatant], player_hp: int) -> void:
 	RunState.hp = player_hp
 	RunState.dissection_queue.clear()
+	RunState.incisions_left = Profile.get_incisions()
 	for m in bodies:
 		RunState.kills += 1
 		Profile.record_kill(m.data.id)
@@ -109,6 +125,8 @@ func on_combat_lost() -> void:
 
 
 func on_dissection_done() -> void:
+	if RunState.incisions_left <= 0:
+		RunState.dissection_queue.clear()
 	if not RunState.dissection_queue.is_empty():
 		goto("dissection")
 	elif RunState.current != null and RunState.current.type == MapNode.Type.BOSS:

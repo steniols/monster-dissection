@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_518p3"]
 [ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="6_8qb6t"]
 [ext_resource type="Resource" path="res://data/organs/bf_hide.tres" id="7_mfe4a"]
+[ext_resource type="Resource" path="res://data/organs/bp_tongue.tres" id="8_17r44"]
 [ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="8_b7hyy"]
 
 [sub_resource type="Resource" id="Resource_w8f45"]
@@ -38,10 +39,10 @@ script = ExtResource("8_b7hyy")
 id = &"bloodfang_pup"
 display_name = "Filhote de Bloodfang"
 max_hp = 20
-region_anchors = Array[Vector2]([Vector2(0.15, 0.43), Vector2(0.55, 0.42), Vector2(0.45, 0.82), Vector2(0.35, 0.57)])
 pattern = 1
 intents = Array[ExtResource("2_17r44")]([SubResource("Resource_fugih"), SubResource("Resource_12nf3")])
-parts = Array[ExtResource("5_518p3")]([ExtResource("6_8qb6t"), ExtResource("7_mfe4a")])
+parts = Array[ExtResource("5_518p3")]([ExtResource("6_8qb6t"), ExtResource("7_mfe4a"), ExtResource("8_17r44")])
+region_anchors = Array[Vector2]([Vector2(0.15, 0.43), Vector2(0.55, 0.42), Vector2(0.45, 0.82), Vector2(0.35, 0.57)])
 scale = 0.7
 lore = "Filhotes caçam em dupla e aprendem rápido o gosto do sangue."
 weakness_note = "Frágeis: um golpe forte resolve, mas danifica a cabeça."

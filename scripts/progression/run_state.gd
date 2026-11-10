@@ -18,6 +18,8 @@ var new_cards: Array[StringName] = []
 var kills: int = 0
 ## Fila de corpos a dissecar: [{ "monster": MonsterData, "condition": BodyCondition }]
 var dissection_queue: Array = []
+## Incisões que sobram para todos os corpos deste combate (um combate com 2 monstros não dá 4 incisões).
+var incisions_left: int = 0
 var last_summary: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 

@@ -99,6 +99,7 @@ são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 | **5** | Stormtalon | 1 | Parecido com o Ashwing |
 | **6** | Cartas com ação (C5, C6, C7) | 32 | As atuais mostram a peça parada |
 | **7** | Ovos do Ninho e raio do Santuário | 2 | Cores diferentes do pedido |
+| **8** | Língua Áspera e Lambida Coagulante | 2 | **Faltam de verdade:** parte e carta novas do Filhote de Bloodfang |
 
 #### 1. P8: partes dos monstros extras (8, em uma folha)
 
@@ -264,6 +265,22 @@ Edit the attached image, keeping everything exactly the same: same composition, 
 ```
 Edit the attached image, keeping everything exactly the same: same composition, same style, same shrine and background. Change only the lightning bolts in the sky: make them orange-white instead of violet. No text, no frame. One square image, maximum resolution.
 ```
+
+#### 8. Língua Áspera e Lambida Coagulante (2, uma folha)
+
+Parte e carta novas do Filhote de Bloodfang. Anexe `parts/bf_fangs.png` e `cards/deep_bite.png`.
+
+```
+Dark fantasy hand-painted game icon sheet, same style as the attached images: matte painted surfaces, natural colors, thick dark outline, simple cel shading, natural history museum specimen theme. Exactly 2 separate isolated objects in a single row with wide spacing, in this exact order, left to right.
+1. a small rough creature tongue covered in tiny pale barbs, pink and crimson, as a museum specimen
+2. the same barbed tongue mid-lick, leaving a thin crimson trail that hardens into a dark scab, with small motion lines
+Plain flat light grey background, never black or checkered. No text, no numbers, no labels, no frames, no people, no gore. One image, maximum resolution, at least 1536 pixels wide.
+```
+
+| Ordem | Arquivo | Onde aparece |
+|---|---|---|
+| 1 | `parts/bp_tongue.png` | Parte Língua Áspera |
+| 2 | `cards/clotting_lick.png` | Carta Lambida Coagulante |
 
 ### Consulta: partes e cartas prontas
 

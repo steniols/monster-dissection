@@ -35,6 +35,8 @@ const RARITY_NAMES := {
 @export var art_motif: StringName = &"scalpel"
 ## Carta é banida (exaurida) até o fim do combate após ser jogada.
 @export var exhaust: bool = false
+## Se 0 ou mais, a versão aprimorada só troca o custo para este valor (os efeitos ficam iguais).
+@export var upgrade_cost: int = -1
 @export var effects: Array[CardEffect] = []
 ## Se preenchido, substitui o texto gerado automaticamente a partir dos efeitos.
 @export_multiline var description_override: String = ""
@@ -61,6 +63,16 @@ func can_upgrade() -> bool:
 ## Cria a versão aprimorada: cada efeito melhora a si mesmo; se nenhum puder, o custo cai em 1.
 func make_upgraded() -> CardData:
 	var c := duplicate() as CardData
+	if upgrade_cost >= 0:
+		var same: Array[CardEffect] = []
+		for e in effects:
+			same.append(e.clone())
+		c.effects = same
+		c.cost = upgrade_cost
+		c.id = StringName(String(id) + UPGRADE_SUFFIX)
+		c.display_name = display_name + UPGRADE_SUFFIX
+		c.upgraded = true
+		return c
 	var list: Array[CardEffect] = []
 	var improved := false
 	for e in effects:

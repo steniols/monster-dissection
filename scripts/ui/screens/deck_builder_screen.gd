@@ -25,7 +25,9 @@ func _ready() -> void:
 	titles.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(titles)
 	titles.add_child(UiTheme.make_label("Bancada de Baralho", 32, Palette.BONE_LIGHT, true))
-	titles.add_child(UiTheme.make_label("Clique numa carta catalogada para adicioná-la (cada cópia de carta de criatura vem de uma dissecação); clique no baralho para remover. Máximo de %d cópias (%d para cartas básicas)." % [Profile.MAX_COPIES, Profile.MAX_COPIES_STARTER], 14, Palette.TEXT_DIM))
+	var hint := UiTheme.make_label("Toque numa carta para pô-la no baralho e no baralho para tirar. Cartas de criatura: 1 cópia por dissecação, até %d. Instrumentos: até %d (básicas: %d)." % [Profile.MAX_EARNED_COPIES, Profile.MAX_COPIES, Profile.MAX_COPIES_STARTER], 14, Palette.TEXT_DIM)
+	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	titles.add_child(hint)
 	top.add_child(UiTheme.make_button("Restaurar padrão", _reset_default))
 	top.add_child(UiTheme.make_button("Voltar ao laboratório", _leave))
 

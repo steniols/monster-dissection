@@ -15,5 +15,6 @@ id = &"field_notes"
 display_name = "Anotações de Campo"
 card_type = 2
 art_motif = &"notes"
+upgrade_cost = 0
 effects = Array[ExtResource("1_gwwlp")]([SubResource("Resource_g3xfi")])
 flavor = "Página 41: não confiar em nada que tenha olhos ímpares."

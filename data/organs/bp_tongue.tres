@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AnatomyPart" format=3]
+
+[ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="1_blig5"]
+[ext_resource type="Resource" path="res://data/cards/clotting_lick.tres" id="2_f06sx"]
+
+[resource]
+script = ExtResource("1_blig5")
+id = &"bp_tongue"
+display_name = "Língua Áspera"
+family = 1
+region = 0
+rarity = 2
+preserve_chance = 0.7
+unlocks_card = ExtResource("2_f06sx")
+art_motif = &"blood"
+description = "Coberta de farpas finas. A saliva coagula o sangue de quem lambe, e afina o de quem é lambido."

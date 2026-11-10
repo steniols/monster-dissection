@@ -24,9 +24,13 @@ func _ready() -> void:
 	var entry: Dictionary
 	if RunState.dissection_queue.is_empty():
 		entry = _debug_entry()
+		RunState.incisions_left = Profile.get_incisions()
 	else:
 		entry = RunState.dissection_queue.pop_front()
-	session = DissectionSession.new(entry["monster"], entry["condition"], Profile.get_incisions())
+		if RunState.incisions_left <= 0: # fila montada fora de um combate (ferramentas de teste)
+			RunState.incisions_left = Profile.get_incisions()
+	# as incisões são do combate inteiro: o que for usado num corpo não volta no próximo
+	session = DissectionSession.new(entry["monster"], entry["condition"], RunState.incisions_left)
 	_build_ui()
 	if not session.monster.parts.is_empty():
 		_select(session.monster.parts[0])
@@ -318,7 +322,7 @@ func _show_summary() -> void:
 		var l := UiTheme.make_label("Nenhuma parte foi preservada desta vez.", 18, Palette.TEXT_DIM)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		box.add_child(l)
-		var b := UiTheme.make_button("Continuar", Game.on_dissection_done, 220)
+		var b := UiTheme.make_button("Continuar", _done, 220)
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(b)
 		return
@@ -345,11 +349,13 @@ func _show_summary() -> void:
 		var cv := CardView.create(p.unlocks_card)
 		var card := p.unlocks_card
 		cv.pressed.connect(func(_v):
+			if _finished:
+				return
 			RunState.deck.append(card.id)
-			Game.on_dissection_done())
+			_done())
 		row.add_child(cv)
 
-	var skip := UiTheme.make_button("Não adicionar (guardar apenas o material)", Game.on_dissection_done)
+	var skip := UiTheme.make_button("Não adicionar (guardar apenas o material)", _done)
 	skip.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(skip)
 
@@ -391,3 +397,14 @@ class RegionMarker:
 			var font := get_theme_default_font()
 			draw_string_outline(font, Vector2(c.x + 18, c.y + 5), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Palette.CHARCOAL_DEEP)
 			draw_string(font, Vector2(c.x + 18, c.y + 5), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Palette.PAPER)
+
+
+var _finished := false
+
+
+## Sai da dissecação uma vez só (um toque duplo abria de novo a mesa com um corpo de teste).
+func _done() -> void:
+	if _finished:
+		return
+	_finished = true
+	Game.on_dissection_done()
