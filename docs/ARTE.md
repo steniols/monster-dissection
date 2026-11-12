@@ -1,14 +1,14 @@
 # MONSTER DISSECTION: arte
 
-## Status (12/11/2026): faltam 2 imagens em 1 pedido; há também 4 ajustes opcionais
+## Status (12/11/2026): todas as imagens do jogo estão prontas; há 4 ajustes opcionais
 
-Conferido arquivo por arquivo contra os dados do jogo. O que falta hoje aparece no jogo com um desenho provisório.
+Conferido arquivo por arquivo contra os dados do jogo: nada usa mais desenho provisório. Os pedidos 4 a 7 abaixo são melhorias opcionais.
 
 | Pedido | O que é | Qtde | Arquivos |
 |---|---|---|---|
 | ~~1. P8~~ | Partes dos monstros extras | 8 | **Pronto** (12/11), instalado. Folha original em `extra/fases34/folhas/P8_folha_original.png` |
 | ~~2. C8~~ | Cartas dos monstros extras | 8 | **Pronto** (12/11), instalado |
-| **3. L3 (próximo e último)** | Melhorias novas da Oficina | 2 | `upgrades/up_spore_filter`, `up_ember_tongs` |
+| ~~3. L3~~ | Melhorias novas da Oficina | 2 | **Pronto** (12/11), instalado |
 | ~~8. Língua~~ | Parte e carta do Filhote de Bloodfang | 2 | **Pronto** (12/11), instalado |
 | *4, 5, 6, 7* | *Opcionais: líquido das mutações, Stormtalon, cartas com ação, ovos e raio* | | *já existe uma versão no jogo* |
 
@@ -41,7 +41,7 @@ Os pedidos 3 e 8 são independentes e podem ser feitos a qualquer momento.
 | Logo | 1 | **Pronto** (`assets/art/ui/logo.png`; também é a abertura do jogo) |
 | Ícone do app | 1 | **Pronto** (`assets/art/ui/app_icon.png`, 512 px, caveira com bisturi). Para trocar, basta um PNG quadrado de 512 px ou mais com esse nome |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
-| Melhorias da Oficina | 5 de 7 | **Faltam 2** (novas) |
+| Melhorias da Oficina | 7 | **Pronto** |
 | Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
 | Acampamento: ícones das opções | 3 | **Pronto** (os três da folha 3; as outras versões estão em `assets/art/extra/camp/alt/`) |
 | Ícones de navegação | 12 | **Pronto** (`assets/art/ui/nav_*.png`, 96 px; originais em `assets/art/extra/fases34/nav_full/`). Em uso: `nav_dissect`, `nav_camp`, `nav_event`, `nav_map`, `nav_lab`, `nav_settings`, `nav_pack`. `nav_elite`, `nav_boss`. Ainda sem uso: `nav_book`, `nav_forge`, `nav_loot` |
@@ -122,7 +122,7 @@ são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 |---|---|---|---|
 | ~~1~~ | Partes dos monstros extras (P8) | 8 | **Pronto** (12/11) |
 | ~~2~~ | Cartas dos monstros extras (C8) | 8 | **Pronto** (12/11) |
-| **3** | Melhorias novas da Oficina (L3) | 2 | **Faltam de verdade:** hoje usam desenho provisório |
+| ~~3~~ | Melhorias novas da Oficina (L3) | 2 | **Pronto** (12/11) |
 | **4** | Líquido das mutações | 4 | Frascos vermelhos, iguais aos do Bloodfang |
 | **5** | Stormtalon | 1 | Parecido com o Ashwing |
 | **6** | Cartas com ação (C5, C6, C7) | 32 | As atuais mostram a peça parada |
