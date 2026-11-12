@@ -6,23 +6,13 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var bg := UiTheme.add_background(self, Palette.CHARCOAL, "menu", 0.2) as BackgroundView
 	bg.glow_color = Palette.VIOLET
-	bg.glow_center = Vector2(0.72, 0.5)
+	bg.glow_center = Vector2(0.5, 0.35)
 
-	var art := MonsterArt.new()
-	art.setup(Database.get_monster(&"void_matriarch") if Database.get_monster(&"void_matriarch") else Database.get_sorted_monsters()[0])
-	art.set_anchors_preset(Control.PRESET_FULL_RECT)
-	art.anchor_left = 0.45
-	art.offset_top = 60
-	art.offset_bottom = -40
-	# arte nítida e opaca (antes ficava translúcida, parecendo borrada)
-	art.modulate = Color(0.92, 0.9, 0.95, 1.0)
-	art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(art)
-
+	# tudo centralizado: logo no alto, frase e botões abaixo
 	var box := VBoxContainer.new()
-	box.set_anchors_preset(Control.PRESET_LEFT_WIDE)
-	box.offset_left = 70
-	box.offset_right = 700
+	box.set_anchors_preset(Control.PRESET_FULL_RECT)
+	box.offset_top = 20
+	box.offset_bottom = -36
 	box.alignment = BoxContainer.ALIGNMENT_CENTER
 	box.add_theme_constant_override("separation", 9)
 	add_child(box)
@@ -33,7 +23,7 @@ func _ready() -> void:
 		logo.texture = logo_tex
 		logo.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 		logo.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		logo.custom_minimum_size = Vector2(520, 264)
+		logo.custom_minimum_size = Vector2(600, 300)
 		logo.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(logo)
 	else:
