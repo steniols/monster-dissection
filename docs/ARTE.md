@@ -1,13 +1,13 @@
 # MONSTER DISSECTION: arte
 
-## Status (12/11/2026): faltam 20 imagens em 4 pedidos; há também 4 ajustes opcionais
+## Status (12/11/2026): faltam 12 imagens em 3 pedidos; há também 4 ajustes opcionais
 
 Conferido arquivo por arquivo contra os dados do jogo. O que falta hoje aparece no jogo com um desenho provisório.
 
 | Pedido | O que é | Qtde | Arquivos |
 |---|---|---|---|
-| **1. P8** | Partes dos monstros extras | 8 | `parts/sg_antlers`, `sg_ribs`, `sg_eye`, `sc_sacs`, `sc_legs`, `sc_moss`, `sw_core`, `sw_tendrils` |
-| **2. C8** | Cartas dos monstros extras | 8 | `cards/antler_charge`, `lace_ribs`, `stag_gaze`, `burst_sacs`, `rooted_steps`, `moss_mantle`, `lantern_core`, `drift_tendrils` |
+| ~~1. P8~~ | Partes dos monstros extras | 8 | **Pronto** (12/11), instalado. Folha original em `extra/fases34/folhas/P8_folha_original.png` |
+| **2. C8 (próximo)** | Cartas dos monstros extras | 8 | `cards/antler_charge`, `lace_ribs`, `stag_gaze`, `burst_sacs`, `rooted_steps`, `moss_mantle`, `lantern_core`, `drift_tendrils` |
 | **3. L3** | Melhorias novas da Oficina | 2 | `upgrades/up_spore_filter`, `up_ember_tongs` |
 | **8. Língua** | Parte e carta do Filhote de Bloodfang | 2 | `parts/bp_tongue`, `cards/clotting_lick` |
 | *4, 5, 6, 7* | *Opcionais: líquido das mutações, Stormtalon, cartas com ação, ovos e raio* | | *já existe uma versão no jogo* |
@@ -24,7 +24,7 @@ Conferido arquivo por arquivo contra os dados do jogo. O que falta hoje aparece 
 6. Me avise com o nome do arquivo ou a pasta (ex.: "a P8 está em Downloads"). Eu recorto, removo o fundo,
    salvo com os nomes certos e confiro no jogo.
 
-Os pedidos 1 e 2 dependem um do outro: faça o **1 primeiro**, porque o 2 usa a folha do 1 como referência.
+O pedido 1 já está pronto, e o 2 usa a folha dele como referência.
 Os pedidos 3 e 8 são independentes e podem ser feitos a qualquer momento.
 
 ### Contagem geral
@@ -32,7 +32,7 @@ Os pedidos 3 e 8 são independentes e podem ser feitos a qualquer momento.
 | Grupo | Qtde | Situação |
 |---|---|---|
 | Monstros | 21 | **Pronto**, em alta resolução |
-| Partes anatômicas | 54 de 63 | **Faltam 9** (8 dos monstros extras + Língua Áspera) |
+| Partes anatômicas | 62 de 63 | **Falta 1** (Língua Áspera, pedido 8) |
 | Cartas | 73 de 82 | **Faltam 9** (8 dos monstros extras + Lambida Coagulante). Anotações de Campo e Bisturi Duplo saíram do jogo; a arte delas ficou em `assets/art/extra/removed_cards/` |
 | Mutações | 11 | **Pronto** (as 4 novas com líquido a ajustar) |
 | Eventos | 12 | **Pronto** (1024 px, ampliados de ~485 px; dá para refazer um por um) |
@@ -120,7 +120,7 @@ são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 
 | Prioridade | Pedido | Qtde | Por quê |
 |---|---|---|---|
-| **1** | Partes dos monstros extras (P8) | 8 | **Faltam de verdade:** hoje usam desenho provisório. Faça antes do 2 |
+| ~~1~~ | Partes dos monstros extras (P8) | 8 | **Pronto** (12/11) |
 | **2** | Cartas dos monstros extras (C8) | 8 | **Faltam de verdade:** hoje usam desenho provisório |
 | **3** | Melhorias novas da Oficina (L3) | 2 | **Faltam de verdade:** hoje usam desenho provisório |
 | **4** | Líquido das mutações | 4 | Frascos vermelhos, iguais aos do Bloodfang |
@@ -159,7 +159,7 @@ Plain flat light grey background, never black or checkered. No text, no numbers,
 
 #### 2. C8: cartas dos monstros extras (8, em uma folha)
 
-Anexe `cards/bloodthirst.png`, `cards/abyssal_gaze.png` e a folha P8 que você acabou de gerar.
+Anexe `cards/bloodthirst.png`, `cards/abyssal_gaze.png` e `extra/fases34/folhas/P8_folha_original.png` (a folha P8 pronta), nessa ordem.
 
 ```
 Dark fantasy hand-painted game icon sheet, same style as the first two attached images: matte painted surfaces, natural colors, thick dark outline, simple cel shading. The third attached image shows the objects to use. Each figure is one simple object in action, readable at small size. Only the art: no card frame, no title, no text, no cost, no icons. Exactly 8 separate isolated figures in a 4x2 grid with wide spacing, in this exact order, left to right, top to bottom.
@@ -348,7 +348,7 @@ Não precisa pedir.
 | Roca de Brasa | `er_wing` | Asa Carbonizada | `molten_wing` | Asa em Chamas |
 | Roca de Brasa | `er_crown` | Coroa de Cinzas | `ash_crown` | Coroa de Cinzas |
 
-**Monstros extras** (partes e cartas ainda pendentes: pedidos 1 e 2)
+**Monstros extras** (partes prontas; cartas pendentes: pedido 2)
 
 | Monstro | Papel |
 |---|---|
