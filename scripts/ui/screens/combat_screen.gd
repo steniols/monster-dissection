@@ -193,8 +193,9 @@ func _start_combat() -> void:
 	combat.instinct_changed.connect(_on_instinct_changed)
 	combat.instinct_triggered.connect(_on_instinct_triggered)
 	combat.message.connect(show_message)
-	combat.card_played.connect(func(_c):
+	combat.card_played.connect(func(c: CardInstance):
 		Sfx.play(&"card")
+		_player_panel.cast(c.data)
 		_refresh_intents())
 	player.energy_changed.connect(func(_e, _m): _hand.refresh_playable(combat.can_play))
 	player.statuses_changed.connect(_refresh_intents)

@@ -86,20 +86,56 @@ func _float_pos() -> Vector2:
 	return _art.global_position + Vector2(_art.size.x * 0.5, 20)
 
 
+## Chamado quando uma carta é jogada.
+func cast(card: CardData) -> void:
+	var col: Color = Family.get_color(card.family) if card.family != Family.Id.NEUTRAL else CardView.TYPE_COLORS.get(card.card_type, Palette.PETROL_BRIGHT)
+	_art.cast(col)
+
+
 func get_energy_orb() -> Control:
 	return _energy
 
 
 class HunterArt:
 	extends Control
+	## Com `assets/art/ui/player.png`, mostra o retrato (respirando e conjurando); sem ele, o vulto desenhado.
+	## Ponto das mãos, em fração da imagem: de onde sai o brilho ao conjurar.
+	const HANDS := Vector2(0.79, 0.265)
 	var _t := 0.0
+	var _cast := 0.0
+	var _cast_color := Palette.PETROL_BRIGHT
+	var _tex: Texture2D
+
+	func _ready() -> void:
+		_tex = Database.get_art("ui", &"player")
+		if _tex != null:
+			custom_minimum_size = Vector2(190, 270)
+
+	## Gesto de conjurar ao jogar uma carta: avança para a frente e acende as mãos na cor da carta.
+	func cast(color: Color) -> void:
+		_cast = 1.0
+		_cast_color = color
 
 	func _process(d: float) -> void:
 		_t += d
+		_cast = maxf(0.0, _cast - d * 2.2)
 		queue_redraw()
 
 	func _draw() -> void:
-		ProceduralArt.draw_hunter(self, Rect2(Vector2.ZERO, size), _t)
+		var r := Rect2(Vector2.ZERO, size)
+		if _tex == null:
+			ProceduralArt.draw_hunter(self, r, _t)
+			return
+		var ts := _tex.get_size()
+		var s := minf(r.size.x / ts.x, r.size.y / ts.y)
+		var w := ts.x * s
+		var h := ts.y * s * (1.0 + 0.012 * sin(_t * 2.0))
+		var dst := Rect2((r.size.x - w) * 0.5 + 8.0 * _cast, r.size.y - h, w, h)
+		draw_texture_rect(_tex, dst, false)
+		var hands := dst.position + dst.size * HANDS
+		var glow := 0.35 + 0.15 * sin(_t * 3.0) + _cast * 0.9
+		for i in 6:
+			draw_circle(hands, 6.0 + i * 5.0 + _cast * 14.0, Color(_cast_color, glow * 0.09))
 
 
 class EnergyOrb:
