@@ -151,42 +151,102 @@ static func make_rich(bbcode: String, size: int = 15, color: Color = Palette.TEX
 	return r
 
 
-## Botões do menu inicial com placas pintadas (assets/art/ui/btn_<cor>.png): as pontas ficam fixas e o meio estica.
-## Variantes: MenuGreen, MenuGold, MenuDark. Sem os arquivos, caem nos botões de latão normais.
+## Placas pintadas dos botões (assets/art/ui):
+## - tab_<cor>.png: placa reta com rebites, serve em qualquer tamanho (padrão de todos os botões);
+## - btn_<cor>.png: placa ornamentada com pontas, usada quando o botão é largo (ver fit_plate).
+## Cor por variante do botão. Sem os arquivos, ficam as placas de latão desenhadas em código.
+const PLATE_COLORS := {
+	"Button": "dark", "PrimaryButton": "red", "MossButton": "green", "GoldButton": "gold",
+	"MenuGreen": "green", "MenuGold": "gold", "MenuDark": "dark", "MenuRed": "red",
+}
+## Largura mínima para o botão usar a placa ornamentada (as pontas precisam de espaço).
+const ORNATE_MIN_W := 230.0
+const ORNATE_MIN_H := 38.0
+## Altura que o botão ganha ao usar a placa ornamentada.
+const ORNATE_HEIGHT := 50.0
+static var _ornate: Dictionary = {} # cor -> {estado -> StyleBoxTexture}
+static var _fitting := false
+
+
+static func _plate_box(tex: Texture2D, margin_x: float, margin_y: float, pad_x: float, state: String) -> StyleBoxTexture:
+	var sb := StyleBoxTexture.new()
+	sb.texture = tex
+	sb.texture_margin_left = margin_x
+	sb.texture_margin_right = margin_x
+	sb.texture_margin_top = margin_y
+	sb.texture_margin_bottom = margin_y
+	sb.set_content_margin_all(4)
+	sb.content_margin_left = pad_x
+	sb.content_margin_right = pad_x
+	match state:
+		"hover": sb.modulate_color = Color(1.18, 1.14, 1.05)
+		"pressed": sb.modulate_color = Color(0.82, 0.8, 0.78)
+		"disabled": sb.modulate_color = Color(0.5, 0.5, 0.5)
+	return sb
+
+
 static func _add_menu_plates(t: Theme) -> void:
-	var colors := {"MenuGreen": ["btn_green", "moss", Palette.BONE_LIGHT],
-		"MenuGold": ["btn_gold", "gold", Palette.INK], "MenuDark": ["btn_dark", "normal", Palette.PAPER]}
-	for type: String in colors:
-		var spec: Array = colors[type]
-		t.set_type_variation(type, "Button")
-		var tex := Database.get_art("ui", StringName(spec[0]))
+	var text_colors := {"red": Palette.BONE_LIGHT, "green": Palette.BONE_LIGHT, "gold": Palette.INK, "dark": Palette.PAPER}
+	for type: String in PLATE_COLORS:
+		var color: String = PLATE_COLORS[type]
+		var menu := type.begins_with("Menu")
+		if menu:
+			t.set_type_variation(type, "Button")
+		var orn := Database.get_art("ui", StringName("btn_" + color))
+		var tab := Database.get_art("ui", StringName("tab_" + color))
+		if orn != null and not _ornate.has(color):
+			var states := {}
+			for s in ["normal", "hover", "pressed", "disabled"]:
+				# pontas com a tacha (62 px de cada lado) ficam fixas; a placa tem 64 px de altura
+				states[s] = _plate_box(orn, 62, 14, 58, s)
+			_ornate[color] = states
+		# menu: sempre ornamentada; demais botões: placa com rebites (vira ornamentada se for larga)
+		var tex := orn if menu else tab
 		if tex == null:
-			var st := PlateStyle.states(spec[1])
-			for state in st:
-				t.set_stylebox(state, type, st[state])
-		else:
-			for state in ["normal", "hover", "pressed", "disabled"]:
-				var sb := StyleBoxTexture.new()
-				sb.texture = tex
-				# pontas com a tacha (56 px de cada lado) e bordas de cima/baixo (14 px) ficam fixas; a placa tem 64 px de altura
-				sb.texture_margin_left = 56
-				sb.texture_margin_right = 56
-				sb.texture_margin_top = 14
-				sb.texture_margin_bottom = 14
-				sb.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_STRETCH
-				sb.set_content_margin_all(0)
-				sb.content_margin_left = 54
-				sb.content_margin_right = 54
-				match state:
-					"hover": sb.modulate_color = Color(1.18, 1.14, 1.05)
-					"pressed": sb.modulate_color = Color(0.82, 0.8, 0.78)
-					"disabled": sb.modulate_color = Color(0.55, 0.55, 0.55)
-				t.set_stylebox(state, type, sb)
+			continue
+		for s in ["normal", "hover", "pressed", "disabled"]:
+			var sb: StyleBox = _ornate[color][s] if menu else _plate_box(tex, 16, 11, 18, s)
+			t.set_stylebox(s, type, sb)
 		t.set_stylebox("focus", type, StyleBoxEmpty.new())
-		for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
-			t.set_color(key, type, spec[2])
-		t.set_font("font", type, title_font)
-		t.set_font_size("font_size", type, 19)
+		if menu:
+			for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+				t.set_color(key, type, text_colors[color])
+			t.set_font("font", type, title_font)
+			t.set_font_size("font_size", type, 19)
+
+
+## Troca a placa do botão pela ornamentada quando ele é largo o bastante (e volta para a com rebites se encolher).
+## Ligado a todos os botões pelo Game; não mexe em botões que já têm estilo próprio.
+static func fit_plate(b: Button) -> void:
+	if not is_instance_valid(b) or b.is_queued_for_deletion() or not b.is_inside_tree() or b.get_meta("own_style", false):
+		return
+	if _fitting:
+		return
+	var type := b.theme_type_variation if b.theme_type_variation != &"" else &"Button"
+	var color: String = PLATE_COLORS.get(String(type), "")
+	if color.is_empty() or String(type).begins_with("Menu") or not _ornate.has(color):
+		return
+	var was: bool = b.get_meta("ornate", false)
+	# folga na volta: a placa ornamentada pode mudar um pouco o tamanho, e não pode ficar trocando
+	var slack := 24.0 if was else 0.0
+	var wide := b.size.x >= ORNATE_MIN_W - slack and b.size.y >= ORNATE_MIN_H - slack
+	if wide == b.get_meta("ornate", false) and b.has_meta("ornate"):
+		return
+	_fitting = true
+	b.set_meta("ornate", wide)
+	# a placa ornamentada precisa de altura para as pontas não ficarem achatadas
+	if wide:
+		if not b.has_meta("base_min_h"):
+			b.set_meta("base_min_h", b.custom_minimum_size.y)
+		b.custom_minimum_size.y = maxf(b.custom_minimum_size.y, ORNATE_HEIGHT)
+	elif b.has_meta("base_min_h"):
+		b.custom_minimum_size.y = b.get_meta("base_min_h")
+	for s in ["normal", "hover", "pressed", "disabled"]:
+		if wide:
+			b.add_theme_stylebox_override(s, _ornate[color][s])
+		else:
+			b.remove_theme_stylebox_override(s)
+	_fitting = false
 
 
 static func make_button(text: String, callback: Callable, min_width: int = 0, variant: String = "") -> Button:
