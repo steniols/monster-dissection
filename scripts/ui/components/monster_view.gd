@@ -35,6 +35,14 @@ func setup(m: MonsterCombatant, c: CombatManager) -> void:
 	_intent_panel.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	_intent_panel.add_theme_stylebox_override("panel", UiTheme.panel_style(Color(Palette.CHARCOAL_DEEP, 0.85), Palette.INK_SOFT, 1, 12, 6))
 	_intent_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_intent_panel.gui_input.connect(func(e: InputEvent):
+		if e is InputEventMouseButton and not e.pressed and e.button_index == MOUSE_BUTTON_LEFT and monster != null and monster.current_intent != null:
+			var txt := monster.current_intent.describe()
+			var terms := InfoPopup.explain(txt)
+			InfoPopup.open(_intent_panel, "Intenção: %s" % monster.current_intent.display_name, txt + ("
+
+" + terms if not terms.is_empty() else ""))
+			_intent_panel.accept_event())
 	var ib := HBoxContainer.new()
 	ib.add_theme_constant_override("separation", 6)
 	ib.mouse_filter = Control.MOUSE_FILTER_IGNORE

@@ -174,6 +174,17 @@ func _tour() -> void:
 			get_viewport().warp_mouse(b.get_global_rect().get_center())
 			await _wait(0.3)
 			await _capture("39_menu_dourado_hover")
+	await _shot("lab", "40_laboratorio_ordem")
+	# Explicação ao segurar uma carta e ao tocar num status
+	InfoPopup.open_card(get_tree().current_scene, Database.get_card(&"clotting_lick"))
+	await _wait(0.3)
+	await _capture("42_info_carta")
+	for n in get_tree().current_scene.get_children():
+		if n is InfoPopup:
+			n.queue_free()
+	InfoPopup.open_status(get_tree().current_scene, &"spores", 4)
+	await _wait(0.3)
+	await _capture("43_info_status")
 
 
 func _dead(id: StringName) -> MonsterCombatant:

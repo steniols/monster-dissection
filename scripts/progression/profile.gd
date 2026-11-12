@@ -10,7 +10,7 @@ const BASE_ENERGY := 3
 const BASE_INCISIONS := 2
 const MAX_MUTATIONS := 3
 const DECK_MIN := 10
-const DECK_MAX := 30
+const DECK_MAX := 20
 ## Instrumentos (cartas neutras) que não são básicas.
 const MAX_COPIES := 2
 const MAX_COPIES_STARTER := 5
@@ -45,7 +45,7 @@ func reset() -> void:
 	unlocked_cards.clear()
 	card_copies.clear()
 	for c: CardData in Database.cards.values():
-		if c.family == Family.Id.NEUTRAL:
+		if c.family == Family.Id.NEUTRAL and c.rarity == CardData.Rarity.STARTER:
 			unlocked_cards.append(c.id)
 	materials.clear()
 	mutations.clear()
@@ -98,9 +98,15 @@ func load_profile() -> void:
 		seen[s] = int(seen_data[s]) if seen_data.has(s) else -1
 	# Garante integridade caso o conteúdo do jogo mude entre versões.
 	for c: CardData in Database.cards.values():
-		if c.family == Family.Id.NEUTRAL and not unlocked_cards.has(c.id):
+		if c.family == Family.Id.NEUTRAL and c.rarity == CardData.Rarity.STARTER and not unlocked_cards.has(c.id):
 			unlocked_cards.append(c.id)
-	starting_deck.assign(starting_deck.filter(func(id): return Database.get_card(id) != null))
+	# só as cartas básicas são instrumentos iniciais (Bisturi Duplo e Anotações de Campo saíram)
+	unlocked_cards.assign(unlocked_cards.filter(func(id):
+		var cd := Database.get_card(id)
+		return cd != null and not (cd.family == Family.Id.NEUTRAL and cd.rarity != CardData.Rarity.STARTER)))
+	starting_deck.assign(starting_deck.filter(func(id): return Database.get_card(id) != null and unlocked_cards.has(id)))
+	if starting_deck.size() > DECK_MAX:
+		starting_deck.resize(DECK_MAX)
 	# perfis antigos: cada carta já catalogada vale pelo menos as cópias que estão no baralho
 	for id in unlocked_cards:
 		var c := Database.get_card(id)

@@ -27,6 +27,11 @@ func _make_chip(id: StringName, stacks: int) -> Control:
 	chip.add_theme_stylebox_override("panel", style)
 	chip.tooltip_text = StatusLibrary.describe(id, stacks)
 	chip.mouse_filter = Control.MOUSE_FILTER_STOP
+	chip.gui_input.connect(func(e: InputEvent):
+		if e is InputEventMouseButton and not e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+			InfoPopup.open_status(chip, id, stacks)
+			chip.accept_event())
+	chip.mouse_default_cursor_shape = Control.CURSOR_HELP
 	var sname := StatusLibrary.get_display_name(id)
 	var l := UiTheme.make_label("%s %d" % [sname, stacks], 12, color)
 	l.mouse_filter = Control.MOUSE_FILTER_IGNORE

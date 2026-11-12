@@ -80,6 +80,7 @@ func _init() -> void:
 	pup.parts = parts
 	_save(pup)
 
+	_round_two()
 	print("Balanceamento 2 aplicado.")
 	quit()
 
@@ -88,3 +89,24 @@ func _save(res: Resource) -> void:
 	var err := ResourceSaver.save(res, res.resource_path)
 	if err != OK:
 		push_error("Falha ao salvar %s (%d)" % [res.resource_path, err])
+
+
+## Segunda rodada de pedidos (teste no tablet).
+func _round_two() -> void:
+	# Manto de Musgo dobrava a Regeneração: forte demais. Custo 3 e Banir.
+	var moss: CardData = load("res://data/cards/moss_mantle.tres")
+	moss.cost = 3
+	moss.exhaust = true
+	_save(moss)
+	# Mordida Infecta: recupera 4
+	var bite: CardData = load("res://data/cards/infected_bite.tres")
+	for e in bite.effects:
+		if e is HealEffect:
+			e.amount = 4
+	_save(bite)
+	# Toque Corruptor: 1 de Corrupção a menos
+	var touch: CardData = load("res://data/cards/corrupting_touch.tres")
+	for e in touch.effects:
+		if e is ApplyStatusEffect and e.status_id == &"corruption":
+			e.stacks = 2
+	_save(touch)

@@ -81,8 +81,6 @@ func _ready() -> void:
 	root.add_child(grid)
 	grid.add_child(_station("Mesa de Expedição", &"scalpel", Palette.BLOOD_BRIGHT,
 		"Escolha uma região e parta. Baralho inicial de %d cartas." % Profile.starting_deck.size(), "Partir", _choose_region))
-	grid.add_child(_station("Bancada de Baralho", &"notes", Palette.BONE,
-		"Monte o baralho inicial com as cartas catalogadas.", "Montar baralho", func(): Game.goto("deck")))
 	grid.add_child(_station("Estação de Experimentação", &"gland", Palette.MOSS_BRIGHT,
 		"Combine partes de espécies diferentes e descubra cartas híbridas (%d/%d)." % [Profile.discovered_recipes.size(), Database.recipes.size()],
 		"Experimentar", func(): Game.goto("experiment")))
@@ -91,6 +89,8 @@ func _ready() -> void:
 	grid.add_child(_station("Oficina", &"plates", Palette.BONE_LIGHT,
 		"Melhore ferramentas e instalações (%d/%d construídas)." % [Profile.lab_upgrades.size(), Database.lab_upgrades.size()],
 		"Abrir oficina", func(): Game.goto("workshop")))
+	grid.add_child(_station("Bancada de Baralho", &"notes", Palette.BONE,
+		"Monte o baralho inicial com as cartas catalogadas.", "Montar baralho", func(): Game.goto("deck")))
 	grid.add_child(_station("Arquivo de Espécimes", &"eye", Palette.PETROL_BRIGHT,
 		"Bestiário, partes conhecidas e a coleção de cartas.", "Consultar arquivo", func(): Game.goto("archive")))
 

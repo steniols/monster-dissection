@@ -70,19 +70,38 @@ func _ready() -> void:
 
 
 var _press_started := false
+var _press_id := 0
+const LONG_PRESS := 0.45
 
 
 ## O clique vale ao soltar, e só se a lista não tiver rolado: assim dá para rolar com o dedo em cima da carta.
+## Segurar (ou clique direito) abre a explicação da carta e dos termos dela.
+## Cartas só de exibição (não interativas) mostram a explicação com um toque.
 func _gui_input(event: InputEvent) -> void:
-	if not interactive:
+	if not (event is InputEventMouseButton):
 		return
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_press_started = true
-		elif _press_started:
-			_press_started = false
-			if Rect2(Vector2.ZERO, size).has_point(get_local_mouse_position()):
-				pressed.emit(self)
+	if data != null and event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+		InfoPopup.open_card(self, data)
+		accept_event()
+		return
+	if event.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if event.pressed:
+		_press_started = true
+		_press_id += 1
+		var id := _press_id
+		get_tree().create_timer(LONG_PRESS).timeout.connect(func():
+			if is_instance_valid(self) and _press_started and _press_id == id and data != null:
+				_press_started = false
+				InfoPopup.open_card(self, data))
+	elif _press_started:
+		_press_started = false
+		if not Rect2(Vector2.ZERO, size).has_point(get_local_mouse_position()):
+			return
+		if interactive:
+			pressed.emit(self)
+		elif data != null:
+			InfoPopup.open_card(self, data)
 
 
 func _notification(what: int) -> void:
@@ -161,6 +180,9 @@ func refresh() -> void:
 	_origin.text = data.get_origin_label()
 	_note.text = dimmed_note
 	var tip := "%s (%s)\n%s" % [data.display_name, data.get_origin_label(), _strip_bbcode(data.get_description())]
+	var terms := _strip_bbcode(InfoPopup.explain(data.get_description()))
+	if not terms.is_empty():
+		tip += "\n\n" + terms
 	if not data.flavor.is_empty():
 		tip += "\n\n\"%s\"" % data.flavor
 	tooltip_text = tip
