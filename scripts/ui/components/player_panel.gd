@@ -72,8 +72,7 @@ func _on_damaged(amount: int, blocked: int) -> void:
 		if big:
 			Fx.hit_stop(0.06)
 		UiTheme.float_text(get_tree().current_scene, "-%d" % amount, _float_pos(), Palette.BLOOD_BRIGHT)
-		_art.modulate = Color(1.8, 0.6, 0.6)
-		_art.create_tween().tween_property(_art, "modulate", Color.WHITE, 0.3)
+		_art.hurt(2.0 if big else 1.0)
 	elif blocked > 0:
 		UiTheme.float_text(get_tree().current_scene, "Bloqueado", _float_pos(), Palette.PETROL_BRIGHT, 20)
 
@@ -96,22 +95,30 @@ class HunterArt:
 	extends Control
 	## Com `assets/art/ui/player.png`, mostra o retrato (respirando e conjurando); sem ele, o vulto desenhado.
 	## Com `assets/art/ui/player_cast.png`, troca para essa pose por um instante ao jogar uma carta.
+	## Com `assets/art/ui/player_hurt.png`, troca para essa pose ao tomar dano (sem ela, só o recuo).
 	## Pontos em fração da imagem: mãos (de onde sai o brilho) e centro do corpo (fica no meio do espaço).
 	const HANDS := Vector2(0.81, 0.27)
 	const BODY_X := 0.38
 	const HANDS_CAST := Vector2(0.865, 0.085)
 	const BODY_X_CAST := 0.38
+	const BODY_X_HURT := 0.38
 	## Quanto tempo a pose de conjurar fica (segundos), contando a volta.
 	const CAST_TIME := 0.7
+	## Quanto tempo dura a reação ao dano (segundos).
+	const HURT_TIME := 0.55
 	var _t := 0.0
 	var _cast := 0.0
+	var _hurt := 0.0
+	var _hurt_power := 1.0
 	var _cast_color := Palette.PETROL_BRIGHT
 	var _tex: Texture2D
 	var _tex_cast: Texture2D
+	var _tex_hurt: Texture2D
 
 	func _ready() -> void:
 		_tex = Database.get_art("ui", &"player")
 		_tex_cast = Database.get_art("ui", &"player_cast")
+		_tex_hurt = Database.get_art("ui", &"player_hurt")
 		if _tex != null:
 			custom_minimum_size = Vector2(230, 258)
 
@@ -120,9 +127,16 @@ class HunterArt:
 		_cast = 1.0
 		_cast_color = color
 
+	## Reação ao dano: recua para trás (longe do monstro), inclina, pisca em vermelho e treme. power 1 = golpe normal, 2 = forte.
+	func hurt(power: float) -> void:
+		_hurt = 1.0
+		_hurt_power = power
+		_cast = 0.0
+
 	func _process(d: float) -> void:
 		_t += d
 		_cast = maxf(0.0, _cast - d / CAST_TIME)
+		_hurt = maxf(0.0, _hurt - d / HURT_TIME)
 		queue_redraw()
 
 	func _draw() -> void:
@@ -131,21 +145,41 @@ class HunterArt:
 			ProceduralArt.draw_hunter(self, r, _t)
 			return
 		var breathe := 1.0 + 0.012 * sin(_t * 2.0)
+		# recuo: sai rápido e volta com uma leve sobra (curva de mola), inclinando para trás a partir dos pés
+		var e := _hurt * _hurt
+		var recoil := -22.0 * _hurt_power * e
+		var shake := sin(_t * 70.0) * 3.0 * _hurt_power * e
+		var tilt := -0.07 * _hurt_power * e
+		var feet := Vector2(size.x * 0.5, size.y)
+		draw_set_transform(feet + Vector2(recoil + shake, 0), tilt, Vector2.ONE)
+		var off := -feet
+		var tint := Color(1, 1, 1).lerp(Color(1.6, 0.75, 0.72), clampf(_hurt * 1.4, 0.0, 1.0))
+		if _hurt > 0.0 and _tex_hurt != null:
+			var hp := _place(_tex_hurt, BODY_X_HURT, 1.0, 0.0)
+			hp.position += off
+			draw_texture_rect(_tex_hurt, hp, false, tint)
+			draw_set_transform(Vector2.ZERO)
+			return
 		if _tex_cast == null:
 			var dst := _place(_tex, BODY_X, breathe, 8.0 * _cast)
-			draw_texture_rect(_tex, dst, false)
+			dst.position += off
+			draw_texture_rect(_tex, dst, false, tint)
 			_draw_glow(dst.position + dst.size * HANDS, _cast)
+			draw_set_transform(Vector2.ZERO)
 			return
 		# troca rápida para a pose de conjurar, segura e volta devagar
 		var k := clampf(_cast / 0.6, 0.0, 1.0)
 		var base := _place(_tex, BODY_X, breathe, 0.0)
 		var pose := _place(_tex_cast, BODY_X_CAST, breathe, 0.0)
+		base.position += off
+		pose.position += off
 		if k < 1.0:
-			draw_texture_rect(_tex, base, false, Color(1, 1, 1, 1.0 - k))
+			draw_texture_rect(_tex, base, false, Color(tint, 1.0 - k))
 		if k > 0.0:
-			draw_texture_rect(_tex_cast, pose, false, Color(1, 1, 1, k))
+			draw_texture_rect(_tex_cast, pose, false, Color(tint, k))
 		var hands := (base.position + base.size * HANDS).lerp(pose.position + pose.size * HANDS_CAST, k)
 		_draw_glow(hands, _cast)
+		draw_set_transform(Vector2.ZERO)
 
 	## Retângulo da imagem: pela altura (os braços podem passar da largura, na direção das cartas).
 	func _place(tex: Texture2D, body_x: float, breathe: float, push: float) -> Rect2:

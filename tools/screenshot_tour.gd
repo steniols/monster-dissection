@@ -61,6 +61,12 @@ func _tour() -> void:
 		pp.cast(Database.get_card(&"rend"))
 	await _wait(0.12)
 	await _capture("07c_conjurar")
+	# reação ao dano (golpe forte, no meio do recuo)
+	await _wait(0.8)
+	for pp in get_tree().current_scene.find_children("*", "PlayerPanel", true, false):
+		pp._art.hurt(2.0)
+	await _wait(0.08)
+	await _capture("07d_dano")
 	PauseMenu.open()
 	await _wait(0.3)
 	await _capture("07b_pausa")
