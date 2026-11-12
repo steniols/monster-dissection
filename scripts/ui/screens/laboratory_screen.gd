@@ -59,8 +59,8 @@ func _ready() -> void:
 			"Cortes disponíveis em cada dissecação."),
 		_stat(&"vial", "Mutações", "%d / %d" % [Profile.mutations.size(), Profile.MAX_MUTATIONS], Palette.VIOLET_BRIGHT,
 			"Tecidos implantados na Câmara de Mutação.", float(Profile.mutations.size()) / Profile.MAX_MUTATIONS),
-		_stat(&"debuff", "Corrupção", str(Profile.get_corruption()), Palette.VIOLET_BRIGHT,
-			"A cada %d pontos, você inicia cada combate com 1 de Corrupção." % Profile.CORRUPTION_STEP),
+		_stat(&"debuff", "Corrupção no combate", str(Profile.get_starting_corruption_stacks()), Palette.VIOLET_BRIGHT,
+			"Corrupção com que você começa cada combate: no início de cada turno, você perde 1 de vida por acúmulo.\nVem das mutações: a cada %d pontos de corrupção, +1 (você tem %d pontos)." % [Profile.CORRUPTION_STEP, Profile.get_corruption()]),
 		_stat(&"card", "Cartas catalogadas", "%d / %d" % [n_cards, Database.cards.size()], Palette.MOSS_BRIGHT,
 			"Cartas que você já pode pôr no baralho inicial.", float(n_cards) / maxi(1, Database.cards.size())),
 	]
@@ -120,6 +120,10 @@ func _stat(icon: StringName, label: String, value: String, color: Color, tip: St
 	tile.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	tile.mouse_filter = Control.MOUSE_FILTER_STOP
 	tile.tooltip_text = tip
+	# no toque não há dica de mouse: tocar mostra a explicação
+	tile.gui_input.connect(func(e: InputEvent):
+		if e is InputEventMouseButton and not e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+			InfoPopup.open(tile, label, tip))
 	for side in ["left", "right"]:
 		tile.add_theme_constant_override("margin_" + side, 14)
 	var h := HBoxContainer.new()

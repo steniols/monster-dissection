@@ -29,6 +29,7 @@ func _ready() -> void:
 	top.add_child(titles)
 	titles.add_child(UiTheme.make_label("Câmara de Mutação", 32, Palette.VIOLET_BRIGHT, true))
 	_header = UiTheme.make_label("", 15, Palette.TEXT_DIM)
+	_header.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	titles.add_child(_header)
 	top.add_child(UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab")))
 
@@ -44,8 +45,8 @@ func _ready() -> void:
 
 
 func _refresh() -> void:
-	_header.text = "Mutações instaladas: %d / %d   ·   Corrupção: %d (início de combate com %d de Corrupção)   ·   Remover descarta o tecido." % [
-		Profile.mutations.size(), Profile.MAX_MUTATIONS, Profile.get_corruption(), Profile.get_starting_corruption_stacks()]
+	_header.text = "Mutações instaladas: %d / %d   ·   Pontos de corrupção: %d   ·   Remover descarta o tecido.\nCada mutação soma pontos de corrupção. A cada %d pontos, você inicia a batalha com 1 de Corrupção (atual: %d)." % [
+		Profile.mutations.size(), Profile.MAX_MUTATIONS, Profile.get_corruption(), Profile.CORRUPTION_STEP, Profile.get_starting_corruption_stacks()]
 	for c in _list.get_children():
 		c.queue_free()
 	var all: Array[MutationData] = []
@@ -87,7 +88,7 @@ func _row(m: MutationData) -> Control:
 				cost.add_child(LabScreen.material_chip(part, Profile.get_material(part.id), int(m.material_cost[k])))
 			else:
 				cost.add_child(UiTheme.make_label("??? (parte desconhecida) ×%d" % int(m.material_cost[k]), 14, Palette.BLOOD_BRIGHT))
-	cost.add_child(UiTheme.make_label("  +%d Corrupção" % m.corruption, 14, Palette.VIOLET_BRIGHT))
+	cost.add_child(UiTheme.make_label("  +%d %s de corrupção" % [m.corruption, "ponto" if m.corruption == 1 else "pontos"], 14, Palette.VIOLET_BRIGHT))
 	var b := Button.new()
 	b.custom_minimum_size = Vector2(150, 44)
 	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER

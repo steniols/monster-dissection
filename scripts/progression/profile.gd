@@ -17,7 +17,7 @@ const MAX_COPIES_STARTER := 5
 ## Cartas de criatura: cada extração (ou experimento) bem-sucedida dá 1 cópia, até este limite.
 const MAX_EARNED_COPIES := 3
 ## A cada X pontos de corrupção, o caçador começa o combate com 1 de Corrupção.
-const CORRUPTION_STEP := 4
+const CORRUPTION_STEP := 3
 
 var unlocked_cards: Array[StringName] = []
 ## Cópias conquistadas de cada carta de criatura (id -> quantidade).
