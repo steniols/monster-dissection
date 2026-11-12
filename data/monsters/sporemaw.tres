@@ -29,7 +29,7 @@ target = 1
 [sub_resource type="Resource" id="Resource_m1yxb"]
 script = ExtResource("5_1tef5")
 status_id = &"spores"
-stacks = 3
+stacks = 2
 
 [sub_resource type="Resource" id="Resource_mjjso"]
 script = ExtResource("2_fkisd")
@@ -44,7 +44,6 @@ amount = 9
 [sub_resource type="Resource" id="Resource_rj4hw"]
 script = ExtResource("5_1tef5")
 status_id = &"spores"
-stacks = 2
 
 [sub_resource type="Resource" id="Resource_8mhpu"]
 script = ExtResource("2_fkisd")

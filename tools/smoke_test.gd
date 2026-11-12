@@ -167,6 +167,16 @@ func _test_effects() -> void:
 	for i in 5:
 		Profile.add_card_copy(cp_id)
 	_check(Profile.max_copies(Database.get_card(cp_id)) == Profile.MAX_EARNED_COPIES, "cópias deveriam parar no limite")
+	# Germinação: perde vida, cresce 1 e explode em 8
+	var gz := MonsterCombatant.new(Database.get_monster(&"sporemaw"))
+	gz.add_status(&"spores", 3)
+	var gz_hp := gz.hp
+	cm._tick_statuses(gz)
+	_check(gz.hp == gz_hp - 3 and gz.get_status(&"spores") == 4, "Esporos: perde 3 e cresce para 4")
+	gz.set_status(&"spores", 7)
+	gz_hp = gz.hp
+	cm._tick_statuses(gz)
+	_check(gz.hp == gz_hp - 7 - CombatManager.SPORE_BURST_DAMAGE and gz.get_status(&"spores") == 0, "Esporos explodem ao chegar a 8")
 	# Brasa: cobra a cada golpe, ignora Armadura e diminui
 	var em := MonsterCombatant.new(Database.get_monster(&"ashwing"))
 	em.add_status(&"ember", 3)

@@ -12,11 +12,11 @@ extends RefCounted
 const DEFS := {
 	&"spores": {
 		"name": "Esporos",
-		"description": "No início do turno, perde {x} de vida. Diminui 1 por turno. Se um inimigo morrer com Esporos, eles passam para os outros inimigos.",
+		"description": "Germinação: no início do turno, perde {x} de vida e os Esporos crescem 1. Ao chegar a 8, explodem: mais 12 de dano, e somem. Se um inimigo morrer com Esporos, eles passam para os outros inimigos.",
 		"color": Color("#5FBFA8"),
 		"debuff": true,
-		"tick": {"kind": "lose_hp"},
-		"decay": 1, "decay_on": "turn_start",
+		"tick": {"kind": "germinate"},
+		"decay": 0,
 	},
 	&"ember": {
 		"name": "Brasa",

@@ -39,7 +39,7 @@ effects = Array[ExtResource("1_jro1w")]([SubResource("Resource_efipu")])
 [sub_resource type="Resource" id="Resource_abdkk"]
 script = ExtResource("4_0qwfw")
 status_id = &"spores"
-stacks = 4
+stacks = 3
 
 [sub_resource type="Resource" id="Resource_4e3hh"]
 script = ExtResource("4_0qwfw")

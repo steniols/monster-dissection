@@ -81,6 +81,7 @@ func _init() -> void:
 	_save(pup)
 
 	_round_two()
+	_round_three()
 	print("Balanceamento 2 aplicado.")
 	quit()
 
@@ -110,3 +111,29 @@ func _round_two() -> void:
 		if e is ApplyStatusEffect and e.status_id == &"corruption":
 			e.stacks = 2
 	_save(touch)
+
+
+## Terceira rodada: Esporos viraram Germinação (crescem e explodem), então os monstros aplicam menos.
+func _round_three() -> void:
+	_spores(&"sporeling", "Soltar Esporos", 2)
+	_spores(&"sporemaw", "Exalar", 2)
+	_spores(&"sporemaw", "Mandíbula", 1)
+	_spores(&"spore_carrier", "Estourar Bolsa", 2)
+	_spores(&"mycostalker", "Olhar Fixo", 1)
+	_spores(&"spore_stag", "Chuva de Esporos", 3)
+	_spores(&"mycelium_mother", "Nuvem", 3)
+	var pulse: CardData = load("res://data/cards/matrix_pulse.tres")
+	for e in pulse.effects:
+		if e is ApplyStatusEffect and e.status_id == &"spores":
+			e.stacks = 4
+	_save(pulse)
+
+
+func _spores(monster_id: StringName, intent_name: String, stacks: int) -> void:
+	var m: MonsterData = load("res://data/monsters/%s.tres" % monster_id)
+	for it in m.intents:
+		if it.display_name == intent_name:
+			for e in it.effects:
+				if e is ApplyStatusEffect and e.status_id == &"spores":
+					e.stacks = stacks
+	_save(m)

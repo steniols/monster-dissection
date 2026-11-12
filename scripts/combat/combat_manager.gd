@@ -15,6 +15,9 @@ signal message(text: String)
 const HAND_SIZE := 5
 const MAX_HAND := 10
 const INSTINCT_THRESHOLD := 3
+## Germinação dos Esporos: crescem 1 por turno e explodem ao chegar a este valor.
+const SPORE_BURST_AT := 8
+const SPORE_BURST_DAMAGE := 12
 
 var rng := RandomNumberGenerator.new()
 var player: PlayerCombatant
@@ -249,6 +252,8 @@ func _tick_statuses(c: Combatant) -> void:
 			match tick["kind"]:
 				"lose_hp":
 					c.lose_hp(stacks, Combatant.DeathCause.STATUS)
+				"germinate":
+					_germinate(c, stacks)
 				"heal":
 					c.heal(stacks)
 				"block":
@@ -338,3 +343,17 @@ func _shuffle(pile: Array[CardInstance]) -> void:
 		var tmp := pile[i]
 		pile[i] = pile[j]
 		pile[j] = tmp
+
+
+## Esporos: o portador perde vida igual aos acúmulos, e eles crescem 1. Ao chegar a SPORE_BURST_AT, explodem.
+func _germinate(c: Combatant, stacks: int) -> void:
+	c.lose_hp(stacks, Combatant.DeathCause.STATUS)
+	if not c.is_alive():
+		return
+	var grown := stacks + 1
+	if grown >= SPORE_BURST_AT:
+		c.set_status(&"spores", 0)
+		c.take_damage(SPORE_BURST_DAMAGE, null, false)
+		message.emit("Os Esporos de %s explodiram!" % c.display_name)
+	else:
+		c.set_status(&"spores", grown)

@@ -23,7 +23,7 @@ weight = 2
 [sub_resource type="Resource" id="Resource_0ta2o"]
 script = ExtResource("4_8f1pu")
 status_id = &"spores"
-stacks = 3
+stacks = 2
 
 [sub_resource type="Resource" id="Resource_ojbvm"]
 script = ExtResource("2_87cte")

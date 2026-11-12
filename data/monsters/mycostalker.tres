@@ -46,7 +46,6 @@ stacks = 2
 [sub_resource type="Resource" id="Resource_ej548"]
 script = ExtResource("3_acu8o")
 status_id = &"spores"
-stacks = 2
 
 [sub_resource type="Resource" id="Resource_lo1no"]
 script = ExtResource("2_oi2my")

@@ -35,7 +35,7 @@ amount = 8
 [sub_resource type="Resource" id="Resource_wfu32"]
 script = ExtResource("4_xpwnx")
 status_id = &"spores"
-stacks = 3
+stacks = 2
 
 [sub_resource type="Resource" id="Resource_p8xmu"]
 script = ExtResource("2_esxey")
