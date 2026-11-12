@@ -6,6 +6,8 @@ var motif: StringName = &"heart"
 var accent: Color = Palette.BLOOD
 var texture: Texture2D
 var paper: bool = true
+## Espaço entre as linhas da grade do papel.
+var grid_step: float = 12.0
 
 
 func setup(motif_: StringName, accent_: Color, texture_: Texture2D = null) -> void:
@@ -19,7 +21,7 @@ func _draw() -> void:
 	var r := Rect2(Vector2.ZERO, size)
 	if paper:
 		draw_rect(r, Palette.PAPER.darkened(0.12))
-		var step := 12.0
+		var step := grid_step
 		var x := step
 		while x < size.x:
 			draw_line(Vector2(x, 0), Vector2(x, size.y), Color(Palette.INK, 0.06), 1.0)

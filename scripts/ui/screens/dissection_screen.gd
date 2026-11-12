@@ -83,7 +83,9 @@ func _build_ui() -> void:
 	var sheet := MotifArt.new()
 	sheet.motif = &""
 	sheet.set_anchors_preset(Control.PRESET_FULL_RECT)
-	sheet.modulate = Color(1, 1, 1, 0.18)
+	# papel quadriculado como o fundo das artes das cartas, um pouco mais escuro para não ofuscar
+	sheet.modulate = Color(0.86, 0.83, 0.78)
+	sheet.grid_step = 22.0
 	sheet.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(sheet)
 	_art = MonsterArt.new()
@@ -94,7 +96,7 @@ func _build_ui() -> void:
 	_art.offset_right = -20
 	_art.offset_top = 10
 	_art.offset_bottom = -10
-	_art.modulate = Color(0.85, 0.8, 0.78)
+	_art.modulate = Color.WHITE
 	_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(_art)
 	_markers = Control.new()
@@ -159,7 +161,7 @@ func _rebuild_markers() -> void:
 		m.color = STATE_COLORS[state]
 		m.lost = state == BodyCondition.State.LOST
 		m.label = AnatomyPart.region_name(region)
-		m.position = pos - Vector2(18, 18)
+		m.position = pos - m.size * 0.5
 		m.tooltip_text = "%s — %s\n%s" % [AnatomyPart.region_name(region), BodyCondition.state_name(state), session.condition.get_reason(region)]
 		m.clicked.connect(func(): _cycle_region(parts))
 		m.active = _selected != null and _selected.region == region
@@ -370,7 +372,7 @@ class RegionMarker:
 	var _t := 0.0
 
 	func _init() -> void:
-		size = Vector2(36, 36)
+		size = Vector2(52, 52)
 		mouse_filter = Control.MOUSE_FILTER_STOP
 		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
@@ -383,20 +385,31 @@ class RegionMarker:
 			clicked.emit()
 			accept_event()
 
+	## Alvo bem visível sobre qualquer arte: halo pulsante, anel com contorno escuro e miolo claro.
 	func _draw() -> void:
 		var c := size * 0.5
 		var pulse := 1.0 + sin(_t * 3.0) * 0.12
-		draw_circle(c, 16 * pulse, Color(color, 0.18))
-		draw_arc(c, 11, 0, TAU, 24, color, 2.5 if not active else 4.0, true)
+		var ring := 14.0 if not active else 16.0
+		# halo pulsante na cor do estado
+		draw_circle(c, (ring + 8.0) * pulse, Color(color, 0.22))
+		# miolo escurecido para o anel destacar de fundos claros e vermelhos
+		draw_circle(c, ring, Color(Palette.CHARCOAL_DEEP, 0.55))
+		# anel: contorno escuro por fora e por dentro, cor no meio
+		draw_arc(c, ring, 0, TAU, 32, Palette.CHARCOAL_DEEP, 7.5, true)
+		draw_arc(c, ring, 0, TAU, 32, color, 4.0 if not active else 5.0, true)
 		if lost:
-			draw_line(c + Vector2(-6, -6), c + Vector2(6, 6), color, 3.0)
-			draw_line(c + Vector2(6, -6), c + Vector2(-6, 6), color, 3.0)
+			for s in [Palette.CHARCOAL_DEEP, color]:
+				var w := 6.0 if s == Palette.CHARCOAL_DEEP else 3.0
+				draw_line(c + Vector2(-6, -6), c + Vector2(6, 6), s, w)
+				draw_line(c + Vector2(6, -6), c + Vector2(-6, 6), s, w)
 		else:
-			draw_circle(c, 4, color)
+			draw_circle(c, 5.5, Palette.CHARCOAL_DEEP)
+			draw_circle(c, 4.0, Palette.BONE_LIGHT)
 		if active:
 			var font := get_theme_default_font()
-			draw_string_outline(font, Vector2(c.x + 18, c.y + 5), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, 4, Palette.CHARCOAL_DEEP)
-			draw_string(font, Vector2(c.x + 18, c.y + 5), label, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Palette.PAPER)
+			var at := Vector2(c.x + ring + 10, c.y + 6)
+			draw_string_outline(font, at, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, 5, Palette.CHARCOAL_DEEP)
+			draw_string(font, at, label, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Palette.PAPER)
 
 
 var _finished := false
