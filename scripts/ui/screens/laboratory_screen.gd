@@ -275,12 +275,17 @@ func _exp_name(id: StringName) -> String:
 static func material_chip(part: AnatomyPart, amount: int, needed: int = -1) -> Control:
 	var chip := PanelContainer.new()
 	var ok := needed < 0 or amount >= needed
-	chip.add_theme_stylebox_override("panel", UiTheme.panel_style(Palette.CHARCOAL_DEEP,
-		Family.get_dark_color(part.family) if ok else Palette.BLOOD, 1, 4, 4))
+	var style := UiTheme.panel_style(Palette.CHARCOAL_DEEP,
+		Family.get_dark_color(part.family) if ok else Palette.BLOOD, 1, 4, 4)
+	# o ícone já tem respiro próprio; o texto precisa de mais folga à direita
+	style.content_margin_left = 8
+	style.content_margin_right = 14
+	chip.add_theme_stylebox_override("panel", style)
 	var owner := Database.get_part_owner(part.id)
 	chip.tooltip_text = "%s (%s)\n%s" % [part.display_name, owner.display_name if owner else "?", part.description]
 	var h := HBoxContainer.new()
 	h.add_theme_constant_override("separation", 6)
+	h.alignment = BoxContainer.ALIGNMENT_CENTER
 	chip.add_child(h)
 	var icon := MotifArt.new()
 	icon.paper = false
@@ -288,5 +293,7 @@ static func material_chip(part: AnatomyPart, amount: int, needed: int = -1) -> C
 	icon.setup(part.art_motif, Family.get_color(part.family), part.icon)
 	h.add_child(icon)
 	var txt := "%s ×%d" % [part.display_name, amount] if needed < 0 else "%s %d/%d" % [part.display_name, amount, needed]
-	h.add_child(UiTheme.make_label(txt, 14, Palette.PAPER if ok else Palette.BLOOD_BRIGHT))
+	var label := UiTheme.make_label(txt, 14, Palette.PAPER if ok else Palette.BLOOD_BRIGHT)
+	label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	h.add_child(label)
 	return chip

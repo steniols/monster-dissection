@@ -45,7 +45,7 @@ func _on_node_added(n: Node) -> void:
 
 ## Dentro de listas com rolagem, o toque precisa chegar até a lista: senão, arrastar o dedo em cima
 ## de uma carta ou painel não rola. Os botões continuam funcionando (o clique é cancelado se a lista rolar).
-func _let_scroll_through(c: Control) -> void:
+func _let_scroll_through(c: Object) -> void:
 	if not is_instance_valid(c) or c.mouse_filter != Control.MOUSE_FILTER_STOP:
 		return
 	var p := c.get_parent()
