@@ -44,6 +44,7 @@ static func build() -> Theme:
 	for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
 		t.set_color(key, "GoldButton", Palette.INK)
 	t.set_color("font_color", "GhostButton", Palette.TEXT_DIM)
+	_add_menu_plates(t)
 	t.set_color("font_color", "Button", Palette.PAPER)
 	t.set_color("font_hover_color", "Button", Palette.BONE_LIGHT)
 	t.set_color("font_pressed_color", "Button", Palette.BONE_LIGHT)
@@ -148,6 +149,44 @@ static func make_rich(bbcode: String, size: int = 15, color: Color = Palette.TEX
 	r.add_theme_font_size_override("bold_font_size", size)
 	r.add_theme_color_override("default_color", color)
 	return r
+
+
+## Botões do menu inicial com placas pintadas (assets/art/ui/btn_<cor>.png): as pontas ficam fixas e o meio estica.
+## Variantes: MenuGreen, MenuGold, MenuDark. Sem os arquivos, caem nos botões de latão normais.
+static func _add_menu_plates(t: Theme) -> void:
+	var colors := {"MenuGreen": ["btn_green", "moss", Palette.BONE_LIGHT],
+		"MenuGold": ["btn_gold", "gold", Palette.INK], "MenuDark": ["btn_dark", "normal", Palette.PAPER]}
+	for type: String in colors:
+		var spec: Array = colors[type]
+		t.set_type_variation(type, "Button")
+		var tex := Database.get_art("ui", StringName(spec[0]))
+		if tex == null:
+			var st := PlateStyle.states(spec[1])
+			for state in st:
+				t.set_stylebox(state, type, st[state])
+		else:
+			for state in ["normal", "hover", "pressed", "disabled"]:
+				var sb := StyleBoxTexture.new()
+				sb.texture = tex
+				# pontas com a tacha (56 px de cada lado) e bordas de cima/baixo (14 px) ficam fixas; a placa tem 64 px de altura
+				sb.texture_margin_left = 56
+				sb.texture_margin_right = 56
+				sb.texture_margin_top = 14
+				sb.texture_margin_bottom = 14
+				sb.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_STRETCH
+				sb.set_content_margin_all(0)
+				sb.content_margin_left = 54
+				sb.content_margin_right = 54
+				match state:
+					"hover": sb.modulate_color = Color(1.18, 1.14, 1.05)
+					"pressed": sb.modulate_color = Color(0.82, 0.8, 0.78)
+					"disabled": sb.modulate_color = Color(0.55, 0.55, 0.55)
+				t.set_stylebox(state, type, sb)
+		t.set_stylebox("focus", type, StyleBoxEmpty.new())
+		for key in ["font_color", "font_hover_color", "font_pressed_color", "font_focus_color", "font_hover_pressed_color"]:
+			t.set_color(key, type, spec[2])
+		t.set_font("font", type, title_font)
+		t.set_font_size("font_size", type, 19)
 
 
 static func make_button(text: String, callback: Callable, min_width: int = 0, variant: String = "") -> Button:
