@@ -95,28 +95,34 @@ func get_energy_orb() -> Control:
 class HunterArt:
 	extends Control
 	## Com `assets/art/ui/player.png`, mostra o retrato (respirando e conjurando); sem ele, o vulto desenhado.
-	## Ponto das mãos, em fração da imagem: de onde sai o brilho ao conjurar.
+	## Com `assets/art/ui/player_cast.png`, troca para essa pose por um instante ao jogar uma carta.
+	## Pontos em fração da imagem: mãos (de onde sai o brilho) e centro do corpo (fica no meio do espaço).
 	const HANDS := Vector2(0.79, 0.265)
-	## Centro do corpo (sem os braços), em fração da largura: é ele que fica no meio do espaço.
 	const BODY_X := 0.4
+	const HANDS_CAST := Vector2(0.85, 0.3)
+	const BODY_X_CAST := 0.4
+	## Quanto tempo a pose de conjurar fica (segundos), contando a volta.
+	const CAST_TIME := 0.7
 	var _t := 0.0
 	var _cast := 0.0
 	var _cast_color := Palette.PETROL_BRIGHT
 	var _tex: Texture2D
+	var _tex_cast: Texture2D
 
 	func _ready() -> void:
 		_tex = Database.get_art("ui", &"player")
+		_tex_cast = Database.get_art("ui", &"player_cast")
 		if _tex != null:
 			custom_minimum_size = Vector2(230, 280)
 
-	## Gesto de conjurar ao jogar uma carta: avança para a frente e acende as mãos na cor da carta.
+	## Gesto de conjurar ao jogar uma carta: troca de pose (ou avança) e acende as mãos na cor da carta.
 	func cast(color: Color) -> void:
 		_cast = 1.0
 		_cast_color = color
 
 	func _process(d: float) -> void:
 		_t += d
-		_cast = maxf(0.0, _cast - d * 2.2)
+		_cast = maxf(0.0, _cast - d / CAST_TIME)
 		queue_redraw()
 
 	func _draw() -> void:
@@ -124,17 +130,35 @@ class HunterArt:
 		if _tex == null:
 			ProceduralArt.draw_hunter(self, r, _t)
 			return
-		var ts := _tex.get_size()
-		# pela altura: os braços podem passar da largura do espaço, na direção das cartas
-		var s := r.size.y / ts.y
+		var breathe := 1.0 + 0.012 * sin(_t * 2.0)
+		if _tex_cast == null:
+			var dst := _place(_tex, BODY_X, breathe, 8.0 * _cast)
+			draw_texture_rect(_tex, dst, false)
+			_draw_glow(dst.position + dst.size * HANDS, _cast)
+			return
+		# troca rápida para a pose de conjurar, segura e volta devagar
+		var k := clampf(_cast / 0.6, 0.0, 1.0)
+		var base := _place(_tex, BODY_X, breathe, 0.0)
+		var pose := _place(_tex_cast, BODY_X_CAST, breathe, 0.0)
+		if k < 1.0:
+			draw_texture_rect(_tex, base, false, Color(1, 1, 1, 1.0 - k))
+		if k > 0.0:
+			draw_texture_rect(_tex_cast, pose, false, Color(1, 1, 1, k))
+		var hands := (base.position + base.size * HANDS).lerp(pose.position + pose.size * HANDS_CAST, k)
+		_draw_glow(hands, _cast)
+
+	## Retângulo da imagem: pela altura (os braços podem passar da largura, na direção das cartas).
+	func _place(tex: Texture2D, body_x: float, breathe: float, push: float) -> Rect2:
+		var ts := tex.get_size()
+		var s := size.y / ts.y
 		var w := ts.x * s
-		var h := ts.y * s * (1.0 + 0.012 * sin(_t * 2.0))
-		var dst := Rect2(r.size.x * 0.5 - w * BODY_X + 8.0 * _cast, r.size.y - h, w, h)
-		draw_texture_rect(_tex, dst, false)
-		var hands := dst.position + dst.size * HANDS
-		var glow := 0.35 + 0.15 * sin(_t * 3.0) + _cast * 0.9
+		var h := ts.y * s * breathe
+		return Rect2(size.x * 0.5 - w * body_x + push, size.y - h, w, h)
+
+	func _draw_glow(at: Vector2, power: float) -> void:
+		var glow := 0.35 + 0.15 * sin(_t * 3.0) + power * 0.9
 		for i in 6:
-			draw_circle(hands, 6.0 + i * 5.0 + _cast * 14.0, Color(_cast_color, glow * 0.09))
+			draw_circle(at, 6.0 + i * 5.0 + power * 14.0, Color(_cast_color, glow * 0.09))
 
 
 class EnergyOrb:
