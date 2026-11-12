@@ -1,6 +1,6 @@
 # MONSTER DISSECTION: arte
 
-## Status (12/11/2026): faltam 4 imagens em 2 pedidos; há também 4 ajustes opcionais
+## Status (12/11/2026): faltam 2 imagens em 1 pedido; há também 4 ajustes opcionais
 
 Conferido arquivo por arquivo contra os dados do jogo. O que falta hoje aparece no jogo com um desenho provisório.
 
@@ -8,8 +8,8 @@ Conferido arquivo por arquivo contra os dados do jogo. O que falta hoje aparece 
 |---|---|---|---|
 | ~~1. P8~~ | Partes dos monstros extras | 8 | **Pronto** (12/11), instalado. Folha original em `extra/fases34/folhas/P8_folha_original.png` |
 | ~~2. C8~~ | Cartas dos monstros extras | 8 | **Pronto** (12/11), instalado |
-| **3. L3** | Melhorias novas da Oficina | 2 | `upgrades/up_spore_filter`, `up_ember_tongs` |
-| **8. Língua (próximo)** | Parte e carta do Filhote de Bloodfang | 2 | `parts/bp_tongue`, `cards/clotting_lick` |
+| **3. L3 (próximo e último)** | Melhorias novas da Oficina | 2 | `upgrades/up_spore_filter`, `up_ember_tongs` |
+| ~~8. Língua~~ | Parte e carta do Filhote de Bloodfang | 2 | **Pronto** (12/11), instalado |
 | *4, 5, 6, 7* | *Opcionais: líquido das mutações, Stormtalon, cartas com ação, ovos e raio* | | *já existe uma versão no jogo* |
 
 ### Passo a passo para cada pedido
@@ -32,8 +32,8 @@ Os pedidos 3 e 8 são independentes e podem ser feitos a qualquer momento.
 | Grupo | Qtde | Situação |
 |---|---|---|
 | Monstros | 21 | **Pronto**, em alta resolução |
-| Partes anatômicas | 62 de 63 | **Falta 1** (Língua Áspera, pedido 8) |
-| Cartas | 81 de 82 | **Falta 1** (Lambida Coagulante, pedido 8). Anotações de Campo e Bisturi Duplo saíram do jogo; a arte delas ficou em `assets/art/extra/removed_cards/` |
+| Partes anatômicas | 63 | **Pronto** |
+| Cartas | 82 | **Pronto**. Anotações de Campo e Bisturi Duplo saíram do jogo; a arte delas ficou em `assets/art/extra/removed_cards/` |
 | Mutações | 11 | **Pronto** (as 4 novas com líquido a ajustar) |
 | Eventos | 12 | **Pronto** (1024 px, ampliados de ~485 px; dá para refazer um por um) |
 | Fundos (paisagens) | 8 | **Pronto** |
@@ -127,7 +127,7 @@ são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 | **5** | Stormtalon | 1 | Parecido com o Ashwing |
 | **6** | Cartas com ação (C5, C6, C7) | 32 | As atuais mostram a peça parada |
 | **7** | Ovos do Ninho e raio do Santuário | 2 | Cores diferentes do pedido |
-| **8** | Língua Áspera e Lambida Coagulante | 2 | **Faltam de verdade:** parte e carta novas do Filhote de Bloodfang |
+| ~~8~~ | Língua Áspera e Lambida Coagulante | 2 | **Pronto** (12/11) |
 
 #### 1. P8: partes dos monstros extras (8, em uma folha)
 
