@@ -81,7 +81,7 @@ func _build_ui() -> void:
 	top.custom_minimum_size.y = 36
 	top.add_theme_constant_override("separation", 16)
 	add_child(top)
-	var where := "%s · Andar %d · %s" % [RunState.expedition.display_name, RunState.get_floor() + 1, RunState.current.get_type_name()]
+	var where := "%s%s · Andar %d · %s" % [RunState.expedition.display_name, " · NG+%d" % RunState.ng_level if RunState.ng_level > 0 else "", RunState.get_floor() + 1, RunState.current.get_type_name()]
 	top.add_child(UiTheme.make_label(where, 16, Palette.TEXT_DIM, true))
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -202,7 +202,7 @@ func _start_combat() -> void:
 
 	# Instancia as views depois de criar os monstros (start_combat cria os combatentes).
 	combat.start_combat(player, RunState.get_deck_cards(), RunState.current.monsters,
-		Profile.get_installed_mutations(), RunState.get_monster_hp_bonus(), Profile.get_starting_corruption_stacks(), RunState.get_monster_strength())
+		Profile.get_installed_mutations(), RunState.get_monster_hp_bonus(), Profile.get_starting_corruption_stacks(), RunState.get_monster_strength(), RunState.get_monster_hp_mult())
 	for m in combat.monsters:
 		var mv := MonsterView.new()
 		mv.setup(m, combat)

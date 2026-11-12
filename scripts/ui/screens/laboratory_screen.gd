@@ -257,7 +257,35 @@ func _choose_region() -> void:
 		v.add_child(d)
 		if unlocked:
 			v.add_child(UiTheme.make_label("%d andares · chefe: %s" % [e.floors, e.boss.display_name if e.boss and Profile.is_monster_known(e.boss.id) else "???"], 13, Palette.TEXT_DIM))
-		var b := UiTheme.make_button("Partir", func(): Game.start_expedition(e.id), 140)
+		# NG+: escolha de dificuldade nas regiões já concluídas (começa no maior nível liberado)
+		var max_ng := Profile.get_ng_unlocked(e.id)
+		var chosen := {"ng": max_ng}
+		if unlocked and max_ng > 0:
+			var ng_row := HFlowContainer.new()
+			ng_row.add_theme_constant_override("h_separation", 6)
+			v.add_child(ng_row)
+			var ng_info := UiTheme.make_label(RunState.ng_summary(max_ng), 13, Palette.BLOOD_BRIGHT)
+			var ng_btns: Array[Button] = []
+			for lvl in max_ng + 1:
+				var nb := Button.new()
+				nb.text = "Normal" if lvl == 0 else "NG+%d" % lvl
+				nb.toggle_mode = true
+				nb.button_pressed = lvl == max_ng
+				# o nível escolhido fica dourado
+				nb.theme_type_variation = "GoldButton" if lvl == max_ng else ""
+				nb.custom_minimum_size = Vector2(64, 30)
+				nb.add_theme_font_size_override("font_size", 13)
+				ng_btns.append(nb)
+				ng_row.add_child(nb)
+				nb.pressed.connect(func():
+					chosen["ng"] = lvl
+					for o in ng_btns:
+						o.set_pressed_no_signal(o == nb)
+						o.theme_type_variation = "GoldButton" if o == nb else ""
+					ng_info.text = RunState.ng_summary(lvl)
+					ng_info.add_theme_color_override("font_color", Palette.TEXT_DIM if lvl == 0 else Palette.BLOOD_BRIGHT))
+			v.add_child(ng_info)
+		var b := UiTheme.make_button("Partir", func(): Game.start_expedition(e.id, chosen["ng"]), 140)
 		b.disabled = not unlocked
 		b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		h.add_child(b)

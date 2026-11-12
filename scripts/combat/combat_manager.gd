@@ -38,11 +38,11 @@ var _first_turn_draw_bonus: int = 0
 
 
 func start_combat(p: PlayerCombatant, deck: Array[CardData], monster_list: Array[MonsterData],
-		mutations: Array[MutationData] = [], monster_hp_bonus: int = 0, starting_corruption: int = 0, monster_strength: int = 0) -> void:
+		mutations: Array[MutationData] = [], monster_hp_bonus: int = 0, starting_corruption: int = 0, monster_strength: int = 0, monster_hp_mult: float = 1.0) -> void:
 	rng.randomize()
 	player = p
 	for data in monster_list:
-		var spawned := MonsterCombatant.new(data, monster_hp_bonus)
+		var spawned := MonsterCombatant.new(data, monster_hp_bonus, monster_hp_mult)
 		if monster_strength > 0:
 			spawned.add_status(&"strength", monster_strength)
 		spawned.died.connect(_spread_spores.bind(spawned))

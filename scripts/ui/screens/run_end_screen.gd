@@ -30,6 +30,14 @@ func _ready() -> void:
 		var u := UiTheme.make_label("Nova região liberada: %s" % region, 22, Palette.MOSS_BRIGHT, true)
 		u.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		box.add_child(u)
+	if int(s.get("ng_unlocked", -1)) > 0:
+		var ng := int(s["ng_unlocked"])
+		var nu := UiTheme.make_label("Nova dificuldade liberada: NG+%d" % ng, 22, Palette.BLOOD_BRIGHT, true)
+		nu.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		box.add_child(nu)
+		var nd := UiTheme.make_label(RunState.ng_summary(ng), 15, Palette.TEXT_DIM)
+		nd.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		box.add_child(nd)
 	Sfx.play(&"unlock" if won else &"death")
 
 	box.add_child(UiTheme.make_label("Materiais levados ao laboratório", 18, Palette.BONE, true))

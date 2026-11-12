@@ -31,6 +31,9 @@ var runs_won: int = 0
 var lab_upgrades: Array[StringName] = []
 var discovered_recipes: Array[StringName] = []
 var cleared_expeditions: Array[StringName] = []
+## NG+: maior nível de dificuldade liberado em cada região (0 = só o normal). Concluir o nível N libera o N+1, até MAX_NG.
+var ng_levels: Dictionary = {} # expedition id -> int
+const MAX_NG := 5
 ## O que o jogador já viu em cada estação do laboratório (estação -> contagem), para marcar novidades.
 var seen: Dictionary = {}
 
@@ -56,6 +59,7 @@ func reset() -> void:
 	lab_upgrades.clear()
 	discovered_recipes.clear()
 	cleared_expeditions.clear()
+	ng_levels.clear()
 	seen.clear()
 	for s in SEEN_STATIONS:
 		seen[s] = _seen_count(s)
@@ -91,6 +95,14 @@ func load_profile() -> void:
 	lab_upgrades = _to_names(data.get("lab_upgrades", []))
 	discovered_recipes = _to_names(data.get("discovered_recipes", []))
 	cleared_expeditions = _to_names(data.get("cleared_expeditions", []))
+	ng_levels.clear()
+	var ng_data: Dictionary = data.get("ng_levels", {})
+	for k in ng_data:
+		ng_levels[StringName(k)] = clampi(int(ng_data[k]), 0, MAX_NG)
+	# perfis antigos: quem já concluiu a região ganha o NG+1
+	for id in cleared_expeditions:
+		if not ng_levels.has(id):
+			ng_levels[id] = 1
 	seen.clear()
 	var seen_data: Dictionary = data.get("seen", {})
 	for s in SEEN_STATIONS:
@@ -140,6 +152,7 @@ func save_profile() -> void:
 		"lab_upgrades": _to_strings(lab_upgrades),
 		"discovered_recipes": _to_strings(discovered_recipes),
 		"cleared_expeditions": _to_strings(cleared_expeditions),
+		"ng_levels": _ng_to_save(),
 		"seen": seen,
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -427,6 +440,28 @@ func is_expedition_unlocked(e: ExpeditionData) -> bool:
 func mark_cleared(id: StringName) -> void:
 	if not cleared_expeditions.has(id):
 		cleared_expeditions.append(id)
+
+
+## Registra a vitória no nível `ng` da região e libera o próximo. Retorna o nível recém-liberado (ou -1).
+func clear_ng(id: StringName, ng: int) -> int:
+	var unlocked := get_ng_unlocked(id)
+	var next := mini(ng + 1, MAX_NG)
+	if next > unlocked:
+		ng_levels[id] = next
+		return next
+	return -1
+
+
+## Maior nível de NG+ que o jogador pode escolher nesta região.
+func get_ng_unlocked(id: StringName) -> int:
+	return int(ng_levels.get(id, 0))
+
+
+func _ng_to_save() -> Dictionary:
+	var d := {}
+	for k in ng_levels:
+		d[String(k)] = ng_levels[k]
+	return d
 
 
 # --- Baralho inicial --------------------------------------------------------

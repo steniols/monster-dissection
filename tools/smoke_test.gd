@@ -45,6 +45,7 @@ func _run() -> void:
 	_test_upgrades()
 	_test_lab_systems()
 	_test_run_save()
+	_test_ng_plus()
 	await _test_balance()
 	await _test_screens()
 	await _test_event_flow()
@@ -505,3 +506,32 @@ func _test_full_flow() -> void:
 func _frames(n: int) -> void:
 	for i in n:
 		await get_tree().process_frame
+
+
+# --- NG+ --------------------------------------------------------------------
+
+func _test_ng_plus() -> void:
+	Profile.reset()
+	var expd: ExpeditionData = Database.expeditions[Database.DEFAULT_EXPEDITION]
+	_check(Profile.get_ng_unlocked(expd.id) == 0, "NG+: região nova começa sem NG+")
+	# vencer o normal libera o NG+1; vencer o NG+1 libera o NG+2; nunca passa de MAX_NG
+	_check(Profile.clear_ng(expd.id, 0) == 1, "NG+: vencer o normal libera o NG+1")
+	_check(Profile.clear_ng(expd.id, 0) == -1, "NG+: vencer o normal de novo não libera nada")
+	_check(Profile.clear_ng(expd.id, 1) == 2, "NG+: vencer o NG+1 libera o NG+2")
+	for i in 10:
+		Profile.clear_ng(expd.id, Profile.MAX_NG)
+	_check(Profile.get_ng_unlocked(expd.id) == Profile.MAX_NG, "NG+: limite é NG+%d" % Profile.MAX_NG)
+	# dificuldade: vida e força sobem com o nível; o nível volta do save da expedição
+	RunState.start(expd, 3)
+	var base_s := expd.monster_strength
+	_check(is_equal_approx(RunState.get_monster_hp_mult(), 1.36), "NG+3: monstros com +36% de vida")
+	_check(RunState.get_monster_strength() >= base_s + 2, "NG+3: monstros com +2 de Força")
+	var m := MonsterCombatant.new(Database.get_monster(&"bloodfang"), 0, RunState.get_monster_hp_mult())
+	_check(m.max_hp == roundi(Database.get_monster(&"bloodfang").max_hp * 1.36), "NG+3: vida do monstro multiplicada")
+	RunState.save_run()
+	RunState.ng_level = 0
+	RunState.load_run()
+	_check(RunState.ng_level == 3, "NG+: nível volta ao carregar a expedição")
+	RunState.delete_save()
+	RunState.active = false
+	Profile.reset()

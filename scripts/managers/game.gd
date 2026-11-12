@@ -77,12 +77,12 @@ func open_options(from: String) -> void:
 
 # --- Fluxo da expedição -----------------------------------------------------
 
-func start_expedition(id: StringName = Database.DEFAULT_EXPEDITION) -> void:
+func start_expedition(id: StringName = Database.DEFAULT_EXPEDITION, ng: int = 0) -> void:
 	var expd: ExpeditionData = Database.expeditions.get(id)
 	if expd == null:
 		push_error("Game: expedição não encontrada: %s" % id)
 		return
-	RunState.start(expd)
+	RunState.start(expd, ng)
 	goto("map")
 
 

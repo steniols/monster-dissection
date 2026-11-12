@@ -8,6 +8,8 @@ const DEFEAT_MATERIAL_KEEP := 0.5
 
 var active: bool = false
 var expedition: ExpeditionData
+## Nível de NG+ desta expedição (0 = normal). Ver NG_HP e NG_STRENGTH.
+var ng_level: int = 0
 var map: Array = [] # Array de Array[MapNode]
 var current: MapNode = null
 var deck: Array[StringName] = []
@@ -24,10 +26,11 @@ var last_summary: Dictionary = {}
 var rng := RandomNumberGenerator.new()
 
 
-func start(expd: ExpeditionData) -> void:
+func start(expd: ExpeditionData, ng: int = 0) -> void:
 	rng.randomize()
 	active = true
 	expedition = expd
+	ng_level = clampi(ng, 0, Profile.MAX_NG)
 	map = MapGenerator.generate(expd, rng)
 	current = null
 	deck = Profile.starting_deck.duplicate()
@@ -67,13 +70,31 @@ func get_deck_cards() -> Array[CardData]:
 	return Database.cards_from_ids(deck)
 
 
+## NG+: vida extra dos monstros (fração) e Força extra, por nível (índice = nível). Valem também para o chefe.
+const NG_HP := [0.0, 0.12, 0.24, 0.36, 0.5, 0.65]
+const NG_STRENGTH := [0, 1, 1, 2, 2, 3]
+
+
+## Multiplicador de vida dos monstros pelo NG+.
+func get_monster_hp_mult() -> float:
+	return 1.0 + float(NG_HP[clampi(ng_level, 0, NG_HP.size() - 1)])
+
+
+## Texto curto do que o nível de NG+ muda (para a escolha de região e o cabeçalho).
+static func ng_summary(ng: int) -> String:
+	if ng <= 0:
+		return "Normal"
+	return "NG+%d: monstros com +%d%% de vida e +%d de Força" % [ng, roundi(float(NG_HP[ng]) * 100.0), NG_STRENGTH[ng]]
+
+
 ## Força inicial dos monstros: base da região + 1 a cada strength_floor_step andares (o chefe recebe metade da base).
 func get_monster_strength() -> int:
 	if expedition == null:
 		return 0
+	var ng_s: int = NG_STRENGTH[clampi(ng_level, 0, NG_STRENGTH.size() - 1)]
 	if current != null and current.type == MapNode.Type.BOSS:
-		return expedition.monster_strength / 2 # o chefe já é duro por si
-	var s := expedition.monster_strength
+		return expedition.monster_strength / 2 + ng_s # o chefe já é duro por si
+	var s := expedition.monster_strength + ng_s
 	if expedition.strength_floor_step > 0:
 		s += max(0, get_floor()) / expedition.strength_floor_step
 	return s
@@ -136,8 +157,10 @@ func end_run(won: bool) -> Dictionary:
 		if amount - keep > 0:
 			lost[id] = amount - keep
 	var newly_unlocked: Array[String] = []
+	var ng_new := -1
 	if won:
 		Profile.runs_won += 1
+		ng_new = Profile.clear_ng(expedition.id, ng_level)
 		var before := Profile.cleared_expeditions.size()
 		Profile.mark_cleared(expedition.id)
 		if Profile.cleared_expeditions.size() > before:
@@ -153,7 +176,8 @@ func end_run(won: bool) -> Dictionary:
 		"kills": kills,
 		"floor": get_floor() + 1,
 		"unlocked_regions": newly_unlocked,
-		"expedition": expedition.display_name,
+		"ng_unlocked": ng_new,
+		"expedition": expedition.display_name + (" · NG+%d" % ng_level if ng_level > 0 else ""),
 	}
 	active = false
 	delete_save()
@@ -185,6 +209,7 @@ func save_run() -> void:
 		g[String(k)] = gathered[k]
 	var data := {
 		"expedition": String(expedition.id),
+		"ng_level": ng_level,
 		"map": floors,
 		"current": [current.floor_index, current.index] if current != null else [],
 		"deck": Profile._to_strings(deck),
@@ -212,6 +237,7 @@ func load_run() -> bool:
 		delete_save()
 		return false
 	expedition = expd
+	ng_level = clampi(int(data.get("ng_level", 0)), 0, Profile.MAX_NG)
 	map.clear()
 	var floors: Array = data.get("map", [])
 	for fi in floors.size():

@@ -43,7 +43,8 @@ func _build_header() -> void:
 	titles.add_child(UiTheme.make_label(RunState.expedition.display_name, 34, Palette.BONE_LIGHT, true))
 	var floors := RunState.map.size()
 	var floor_now := clampi(RunState.get_floor() + 2, 1, maxi(1, floors))
-	titles.add_child(UiTheme.make_label("Andar %d de %d" % [floor_now, floors], 15, Palette.TEXT_DIM))
+	var ng_txt := "   ·   NG+%d" % RunState.ng_level if RunState.ng_level > 0 else ""
+	titles.add_child(UiTheme.make_label("Andar %d de %d%s" % [floor_now, floors, ng_txt], 15, Palette.TEXT_DIM))
 
 	var track := FloorTrack.new()
 	track.size_flags_horizontal = Control.SIZE_EXPAND_FILL

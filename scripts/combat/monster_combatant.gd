@@ -10,10 +10,10 @@ var _intent_index: int = -1
 var _last_intent: MonsterIntent
 
 
-func _init(monster_data: MonsterData, hp_bonus: int = 0) -> void:
+func _init(monster_data: MonsterData, hp_bonus: int = 0, hp_mult: float = 1.0) -> void:
 	data = monster_data
 	display_name = data.display_name
-	max_hp = data.max_hp + hp_bonus
+	max_hp = roundi((data.max_hp + hp_bonus) * hp_mult)
 	hp = max_hp
 
 
