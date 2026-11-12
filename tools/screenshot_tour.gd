@@ -56,6 +56,11 @@ func _tour() -> void:
 	RunState.current = RunState.get_available_nodes()[0]
 	RunState.current.monsters = [Database.get_monster(&"bloodfang")]
 	await _shot("combat", "07_combate", 1.2)
+	# pose de conjurar (no meio do gesto)
+	for pp in get_tree().current_scene.find_children("*", "PlayerPanel", true, false):
+		pp.cast(Database.get_card(&"rend"))
+	await _wait(0.12)
+	await _capture("07c_conjurar")
 	PauseMenu.open()
 	await _wait(0.3)
 	await _capture("07b_pausa")

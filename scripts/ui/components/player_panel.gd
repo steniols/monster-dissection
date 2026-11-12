@@ -97,10 +97,10 @@ class HunterArt:
 	## Com `assets/art/ui/player.png`, mostra o retrato (respirando e conjurando); sem ele, o vulto desenhado.
 	## Com `assets/art/ui/player_cast.png`, troca para essa pose por um instante ao jogar uma carta.
 	## Pontos em fração da imagem: mãos (de onde sai o brilho) e centro do corpo (fica no meio do espaço).
-	const HANDS := Vector2(0.79, 0.265)
-	const BODY_X := 0.4
-	const HANDS_CAST := Vector2(0.85, 0.3)
-	const BODY_X_CAST := 0.4
+	const HANDS := Vector2(0.81, 0.27)
+	const BODY_X := 0.38
+	const HANDS_CAST := Vector2(0.9, 0.195)
+	const BODY_X_CAST := 0.38
 	## Quanto tempo a pose de conjurar fica (segundos), contando a volta.
 	const CAST_TIME := 0.7
 	var _t := 0.0
@@ -113,7 +113,7 @@ class HunterArt:
 		_tex = Database.get_art("ui", &"player")
 		_tex_cast = Database.get_art("ui", &"player_cast")
 		if _tex != null:
-			custom_minimum_size = Vector2(230, 280)
+			custom_minimum_size = Vector2(230, 258)
 
 	## Gesto de conjurar ao jogar uma carta: troca de pose (ou avança) e acende as mãos na cor da carta.
 	func cast(color: Color) -> void:
