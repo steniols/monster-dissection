@@ -626,7 +626,7 @@ Precisa de um ajuste pequeno no código antes; me avise que eu preparo e escrevo
 
 | Item | Onde aparece |
 |---|---|
-| ~~O Pesquisador (personagem do jogador)~~ | **Pronto** (12/11): `assets/art/ui/player.png`, mago-naturalista encapuzado conjurando para a direita. Original em `assets/art/extra/player/`. Se trocar a imagem, o ponto das mãos (`HANDS` em `player_panel.gd`) precisa ser ajustado |
+| ~~O Pesquisador (personagem do jogador)~~ | **Pronto** (12/11): `assets/art/ui/player.png`, velho erudito de manto claro conjurando para a direita (v2). Original e a v1 (encapuzado escuro) em `assets/art/extra/player/`. Se trocar a imagem, o ponto das mãos (`HANDS` em `player_panel.gd`) precisa ser ajustado |
 
 ## Ferramentas (para mim)
 
