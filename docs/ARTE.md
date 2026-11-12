@@ -626,10 +626,11 @@ Precisa de um ajuste pequeno no código antes; me avise que eu preparo e escrevo
 
 | Item | Onde aparece |
 |---|---|
-| ~~O Pesquisador (personagem do jogador)~~ | **Pronto** (12/11): `assets/art/ui/player.png`, velho erudito de manto claro conjurando para a direita (v2). Original e a v1 (encapuzado escuro) em `assets/art/extra/player/`. Se trocar a imagem, o ponto das mãos (`HANDS` em `player_panel.gd`) precisa ser ajustado |
+| ~~O Pesquisador (personagem do jogador)~~ | **Pronto** (12/11): `assets/art/ui/player.png`, feiticeiro naturalista de manto claro bordado e capuz escuro (v3). Versões anteriores (v1 encapuzado escuro, v2 velho erudito) e originais em `assets/art/extra/player/`. Para tirar a borda clara que sobra do fundo, use `tools/defringe.gd` depois do `remove_bg.gd` Se trocar a imagem, o ponto das mãos (`HANDS` em `player_panel.gd`) precisa ser ajustado |
 
 ## Ferramentas (para mim)
 
 - `tools/remove_bg.gd`: tira o fundo liso ou borrado de uma folha.
 - `tools/slice_sheet.gd`: recorta uma folha pela ordem das figuras.
 - `tools/crop_items.gd`: recorta por caixas marcadas à mão, para figuras encostadas.
+- `tools/defringe.gd`: tira a borda clara que sobra em volta do contorno e apaga respingos soltos (use depois do `remove_bg.gd` em figuras que vão sobre fundo escuro).
