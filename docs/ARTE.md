@@ -1,17 +1,45 @@
 # MONSTER DISSECTION: arte
 
-## Status: as fases 3 e 4 já estão no jogo; faltam 18 imagens (partes, cartas e melhorias) e há ajustes opcionais (ver "Novos pedidos")
+## Status (12/11/2026): faltam 20 imagens em 4 pedidos; há também 4 ajustes opcionais
+
+Conferido arquivo por arquivo contra os dados do jogo. O que falta hoje aparece no jogo com um desenho provisório.
+
+| Pedido | O que é | Qtde | Arquivos |
+|---|---|---|---|
+| **1. P8** | Partes dos monstros extras | 8 | `parts/sg_antlers`, `sg_ribs`, `sg_eye`, `sc_sacs`, `sc_legs`, `sc_moss`, `sw_core`, `sw_tendrils` |
+| **2. C8** | Cartas dos monstros extras | 8 | `cards/antler_charge`, `lace_ribs`, `stag_gaze`, `burst_sacs`, `rooted_steps`, `moss_mantle`, `lantern_core`, `drift_tendrils` |
+| **3. L3** | Melhorias novas da Oficina | 2 | `upgrades/up_spore_filter`, `up_ember_tongs` |
+| **8. Língua** | Parte e carta do Filhote de Bloodfang | 2 | `parts/bp_tongue`, `cards/clotting_lick` |
+| *4, 5, 6, 7* | *Opcionais: líquido das mutações, Stormtalon, cartas com ação, ovos e raio* | | *já existe uma versão no jogo* |
+
+### Passo a passo para cada pedido
+
+1. Abra uma **conversa nova** no ChatGPT (uma conversa por pedido).
+2. **Anexe as imagens** que o pedido indica. Estão em `assets/art/` dentro da pasta do projeto
+   (`Documentos\Claude\monster-dissection\assets\art\`). Anexe na ordem indicada.
+3. **Cole só o bloco de texto** do pedido (o que está na caixa cinza), sem o título nem a tabela.
+4. Confira o resultado: o número de figuras, a ordem e o estilo. Se uma figura sair errada, peça
+   "refaça só a figura N, mantendo o resto igual".
+5. **Baixe a imagem original inteira**, em resolução máxima. Não precisa recortar nem tirar o fundo.
+6. Me avise com o nome do arquivo ou a pasta (ex.: "a P8 está em Downloads"). Eu recorto, removo o fundo,
+   salvo com os nomes certos e confiro no jogo.
+
+Os pedidos 1 e 2 dependem um do outro: faça o **1 primeiro**, porque o 2 usa a folha do 1 como referência.
+Os pedidos 3 e 8 são independentes e podem ser feitos a qualquer momento.
+
+### Contagem geral
 
 | Grupo | Qtde | Situação |
 |---|---|---|
 | Monstros | 21 | **Pronto**, em alta resolução |
-| Partes anatômicas | 54 de 62 | **Faltam 8** (monstros extras) |
-| Cartas | 75 de 83 | **Faltam 8** (monstros extras) |
+| Partes anatômicas | 54 de 63 | **Faltam 9** (8 dos monstros extras + Língua Áspera) |
+| Cartas | 73 de 82 | **Faltam 9** (8 dos monstros extras + Lambida Coagulante). Anotações de Campo e Bisturi Duplo saíram do jogo; a arte delas ficou em `assets/art/extra/removed_cards/` |
 | Mutações | 11 | **Pronto** (as 4 novas com líquido a ajustar) |
 | Eventos | 12 | **Pronto** (1024 px, ampliados de ~485 px; dá para refazer um por um) |
 | Fundos (paisagens) | 8 | **Pronto** |
 | Fundos de batalha (neutros, por família) | 6 | **Pronto** |
-| Logo | 1 | **Pronto** (`assets/art/ui/logo.png`) |
+| Logo | 1 | **Pronto** (`assets/art/ui/logo.png`; também é a abertura do jogo) |
+| Ícone do app | 1 | **Pronto** (`assets/art/ui/app_icon.png`, 512 px, caveira com bisturi). Para trocar, basta um PNG quadrado de 512 px ou mais com esse nome |
 | Ícones das estações do laboratório | 6 | **Pronto** (versão alternativa: folha L1b) |
 | Melhorias da Oficina | 5 de 7 | **Faltam 2** (novas) |
 | Acampamento: barraca com fogueira no centro | 1 | **Pronto** (recortada da folha "Fogueiras e Acampamento"; a fogueira avulsa está em `assets/art/extra/camp/`; o fundo alternativo está em `assets/art/extra/backgrounds/camp_v2.png`) |
@@ -92,7 +120,7 @@ são relativos a `assets/art/`. Anexe as imagens **na ordem indicada**.
 
 | Prioridade | Pedido | Qtde | Por quê |
 |---|---|---|---|
-| **1** | Partes dos monstros extras (P8) | 8 | **Faltam de verdade:** hoje usam desenho provisório |
+| **1** | Partes dos monstros extras (P8) | 8 | **Faltam de verdade:** hoje usam desenho provisório. Faça antes do 2 |
 | **2** | Cartas dos monstros extras (C8) | 8 | **Faltam de verdade:** hoje usam desenho provisório |
 | **3** | Melhorias novas da Oficina (L3) | 2 | **Faltam de verdade:** hoje usam desenho provisório |
 | **4** | Líquido das mutações | 4 | Frascos vermelhos, iguais aos do Bloodfang |
