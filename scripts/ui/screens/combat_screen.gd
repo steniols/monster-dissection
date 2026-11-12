@@ -127,7 +127,7 @@ func _build_ui() -> void:
 	_player_panel.offset_left = 14
 	_player_panel.offset_bottom = -14
 	_player_panel.offset_top = -280
-	_player_panel.offset_right = 290
+	_player_panel.offset_right = 244 # termina antes da mão (que começa em 20% da largura)
 	_player_panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	add_child(_player_panel)
 

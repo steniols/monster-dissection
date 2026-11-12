@@ -1,6 +1,6 @@
 class_name PlayerPanel
-extends HBoxContainer
-## Retrato do caçador, vida, armadura, status e orbe de energia.
+extends VBoxContainer
+## Personagem em cima; embaixo, numa faixa só, o orbe de energia e a vida (com os status abaixo dela).
 
 var player: PlayerCombatant
 
@@ -12,36 +12,32 @@ var _energy: EnergyOrb
 
 func setup(p: PlayerCombatant) -> void:
 	player = p
-	add_theme_constant_override("separation", 10)
+	alignment = BoxContainer.ALIGNMENT_END
+	add_theme_constant_override("separation", 4)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	_energy = EnergyOrb.new()
-	_energy.custom_minimum_size = Vector2(76, 76)
-	_energy.size_flags_vertical = Control.SIZE_SHRINK_END
-	add_child(_energy)
-
-	var col := VBoxContainer.new()
-	col.alignment = BoxContainer.ALIGNMENT_END
-	col.add_theme_constant_override("separation", 4)
-	col.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(col)
-
 	_art = HunterArt.new()
-	_art.custom_minimum_size = Vector2(150, 150)
+	_art.custom_minimum_size = Vector2(230, 150)
 	_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	col.add_child(_art)
+	add_child(_art)
 
-	var title := UiTheme.make_label("O Pesquisador", 16, Palette.BONE_LIGHT, true)
-	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	col.add_child(title)
+	# energia no canto superior esquerdo, ao lado da cabeça
+	_energy = EnergyOrb.new()
+	_energy.size = Vector2(70, 70)
+	_energy.position = Vector2(0, 0)
+	_art.add_child(_energy)
 
+	# vida centralizada logo abaixo do personagem, status embaixo dela
 	_bar = HealthBar.new()
-	_bar.custom_minimum_size = Vector2(180, 20)
-	col.add_child(_bar)
+	_bar.custom_minimum_size = Vector2(170, 22)
+	_bar.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	add_child(_bar)
 
 	_statuses = StatusRow.new()
-	_statuses.custom_minimum_size = Vector2(180, 22)
-	col.add_child(_statuses)
+	_statuses.custom_minimum_size = Vector2(170, 22)
+	_statuses.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	_statuses.alignment = FlowContainer.ALIGNMENT_CENTER
+	add_child(_statuses)
 
 	p.hp_changed.connect(func(_a, _b): _refresh())
 	p.block_changed.connect(func(_b): _refresh())
@@ -101,6 +97,8 @@ class HunterArt:
 	## Com `assets/art/ui/player.png`, mostra o retrato (respirando e conjurando); sem ele, o vulto desenhado.
 	## Ponto das mãos, em fração da imagem: de onde sai o brilho ao conjurar.
 	const HANDS := Vector2(0.79, 0.265)
+	## Centro do corpo (sem os braços), em fração da largura: é ele que fica no meio do espaço.
+	const BODY_X := 0.4
 	var _t := 0.0
 	var _cast := 0.0
 	var _cast_color := Palette.PETROL_BRIGHT
@@ -109,7 +107,7 @@ class HunterArt:
 	func _ready() -> void:
 		_tex = Database.get_art("ui", &"player")
 		if _tex != null:
-			custom_minimum_size = Vector2(190, 270)
+			custom_minimum_size = Vector2(230, 280)
 
 	## Gesto de conjurar ao jogar uma carta: avança para a frente e acende as mãos na cor da carta.
 	func cast(color: Color) -> void:
@@ -127,10 +125,11 @@ class HunterArt:
 			ProceduralArt.draw_hunter(self, r, _t)
 			return
 		var ts := _tex.get_size()
-		var s := minf(r.size.x / ts.x, r.size.y / ts.y)
+		# pela altura: os braços podem passar da largura do espaço, na direção das cartas
+		var s := r.size.y / ts.y
 		var w := ts.x * s
 		var h := ts.y * s * (1.0 + 0.012 * sin(_t * 2.0))
-		var dst := Rect2((r.size.x - w) * 0.5 + 8.0 * _cast, r.size.y - h, w, h)
+		var dst := Rect2(r.size.x * 0.5 - w * BODY_X + 8.0 * _cast, r.size.y - h, w, h)
 		draw_texture_rect(_tex, dst, false)
 		var hands := dst.position + dst.size * HANDS
 		var glow := 0.35 + 0.15 * sin(_t * 3.0) + _cast * 0.9
