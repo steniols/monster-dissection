@@ -19,6 +19,7 @@ script = ExtResource("4_2hfvi")
 id = &"void_eyes"
 display_name = "Olhos do Vazio"
 card_type = 2
+rarity = 2
 family = 3
 source_part = "Olhos Múltiplos"
 art_motif = &"eye"

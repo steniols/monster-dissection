@@ -14,7 +14,7 @@ script = ExtResource("3_cbdh2")
 id = &"mut_mm_core"
 display_name = "Núcleo Micélico"
 family = 5
-description = "No início de cada turno, aplique 1 de Esporos a todos os inimigos."
+description = "No início de cada turno, aplique 1 de Germinação a todos os inimigos."
 material_cost = {
 "mm_core": 1,
 "sm_mycelium": 1

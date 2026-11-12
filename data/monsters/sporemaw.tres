@@ -62,4 +62,4 @@ parts = Array[ExtResource("6_qpct6")]([ExtResource("7_af2xn"), ExtResource("8_ub
 region_anchors = Array[Vector2]([Vector2(0.17, 0.54), Vector2(0.5, 0.45), Vector2(0.6, 0.77), Vector2(0.47, 0.25)])
 visual = &"voidspawn"
 lore = "Um chapéu enorme sobre uma boca de fibras. Caça parado, deixando a presa respirar."
-weakness_note = "Esporos somem aos poucos, mas se acumulam rápido. Não prolongue a luta sem Armadura."
+weakness_note = "A Germinação que ele espalha cresce a cada turno e explode em 8. Remova-a ou termine a luta antes."

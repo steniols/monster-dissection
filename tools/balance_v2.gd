@@ -23,10 +23,7 @@ func _init() -> void:
 	acid.effects.assign([RemoveBlockEffect.new(), dmg6])
 	_save(acid)
 
-	# Anotações de Campo+: custa 0 (continua comprando 2)
-	var notes: CardData = load("res://data/cards/field_notes.tres")
-	notes.upgrade_cost = 0
-	_save(notes)
+	# (Anotações de Campo foi removida do jogo no balance_v3)
 
 	# Olhos do Vazio: 2 de Corrupção
 	var eyes: CardData = load("res://data/cards/void_eyes.tres")

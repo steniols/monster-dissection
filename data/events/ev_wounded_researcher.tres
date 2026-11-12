@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://scripts/cards/card_data.gd" id="2_q5ixp"]
 [ext_resource type="Script" path="res://scripts/monsters/monster_data.gd" id="3_kvcpc"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="4_0vpf0"]
-[ext_resource type="Resource" path="res://data/cards/field_notes.tres" id="5_bmfbw"]
 [ext_resource type="Script" path="res://scripts/progression/event_data.gd" id="6_g2s1s"]
 
 [sub_resource type="Resource" id="Resource_lk3vq"]
@@ -18,9 +17,9 @@ upgrade_card = true
 [sub_resource type="Resource" id="Resource_s1jkh"]
 script = ExtResource("1_2jdf0")
 label = "Aceitar as anotações"
-description = "Adicione Anotações de Campo ao baralho."
-result_text = "Páginas e páginas de observações. Algumas são úteis."
-add_cards = Array[ExtResource("2_q5ixp")]([ExtResource("5_bmfbw")])
+description = "Remova uma carta do baralho."
+result_text = "As anotações mostram o que não funciona. Você deixa uma técnica para trás."
+remove_card = true
 
 [sub_resource type="Resource" id="Resource_0k7eo"]
 script = ExtResource("1_2jdf0")

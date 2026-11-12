@@ -39,7 +39,7 @@ const INSTINCT_DESCRIPTIONS := {
 	Id.IRONBACK: "Ganhe 8 de Armadura e 2 de Espinhos.",
 	Id.VOIDSPAWN: "Aplique 3 de Corrupção a todos os inimigos.",
 	Id.ROTWALKER: "Recupere 5 de vida.",
-	Id.SPOREMAW: "Aplique 3 de Esporos a todos os inimigos e recupere 3 de vida.",
+	Id.SPOREMAW: "Aplique 3 de Germinação a todos os inimigos e recupere 3 de vida.",
 	Id.ASHWING: "Aplique 3 de Brasa a todos os inimigos e compre 1 carta.",
 }
 

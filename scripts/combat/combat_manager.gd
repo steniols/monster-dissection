@@ -138,15 +138,19 @@ func draw_cards(count: int) -> void:
 	piles_changed.emit()
 
 
-func return_from_discard(count: int) -> void:
+## Devolve cartas aleatórias do descarte para a mão. Retorna as cartas devolvidas.
+func return_from_discard(count: int) -> Array[CardInstance]:
+	var returned: Array[CardInstance] = []
 	for i in count:
 		if discard_pile.is_empty() or hand.size() >= MAX_HAND:
 			break
 		var idx := rng.randi_range(0, discard_pile.size() - 1)
+		returned.append(discard_pile[idx])
 		hand.append(discard_pile[idx])
 		discard_pile.remove_at(idx)
 	hand_changed.emit()
 	piles_changed.emit()
+	return returned
 
 
 # --- Instinto ---------------------------------------------------------------
@@ -354,6 +358,6 @@ func _germinate(c: Combatant, stacks: int) -> void:
 	if grown >= SPORE_BURST_AT:
 		c.set_status(&"spores", 0)
 		c.take_damage(SPORE_BURST_DAMAGE, null, false)
-		message.emit("Os Esporos de %s explodiram!" % c.display_name)
+		message.emit("A Germinação de %s explodiu!" % c.display_name)
 	else:
 		c.set_status(&"spores", grown)

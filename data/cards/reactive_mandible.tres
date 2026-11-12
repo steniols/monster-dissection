@@ -21,6 +21,7 @@ script = ExtResource("4_3ayje")
 id = &"reactive_mandible"
 display_name = "Mandíbula Reativa"
 card_type = 2
+rarity = 2
 family = 2
 source_part = "Mandíbula"
 art_motif = &"mandible"

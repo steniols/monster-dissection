@@ -11,8 +11,8 @@ extends RefCounted
 
 const DEFS := {
 	&"spores": {
-		"name": "Esporos",
-		"description": "Germinação: no início do turno, perde {x} de vida e os Esporos crescem 1. Ao chegar a 8, explodem: mais 12 de dano, e somem. Se um inimigo morrer com Esporos, eles passam para os outros inimigos.",
+		"name": "Germinação",
+		"description": "No início do turno, perde {x} de vida e a Germinação cresce 1. Ao chegar a 8, explode: mais 12 de dano, e some. Se um inimigo morrer com Germinação, ela passa para os outros inimigos.",
 		"color": Color("#5FBFA8"),
 		"debuff": true,
 		"tick": {"kind": "germinate"},
@@ -27,7 +27,7 @@ const DEFS := {
 	},
 	&"spore_crown": {
 		"name": "Coroa Micélica",
-		"description": "No início do turno, aplica {x} de Esporos a todos os oponentes.",
+		"description": "No início do turno, aplica {x} de Germinação a todos os oponentes.",
 		"color": Color("#5FBFA8"),
 		"debuff": false,
 		"tick": {"kind": "apply_opponents", "status": &"spores"},

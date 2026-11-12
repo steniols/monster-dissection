@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d0cvd6e6gb7l7"
-path="res://.godot/imported/field_notes.png-175e62f0b37de923bbabdab11659f6ce.ctex"
+uid="uid://bdf7wc5y27vna"
+path="res://.godot/imported/field_notes.png-cdaf9a953c6f2d7824aa4f6122584535.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/art/cards/field_notes.png"
-dest_files=["res://.godot/imported/field_notes.png-175e62f0b37de923bbabdab11659f6ce.ctex"]
+source_file="res://assets/art/extra/removed_cards/field_notes.png"
+dest_files=["res://.godot/imported/field_notes.png-cdaf9a953c6f2d7824aa4f6122584535.ctex"]
 
 [params]
 

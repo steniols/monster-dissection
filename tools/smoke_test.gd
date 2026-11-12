@@ -177,6 +177,16 @@ func _test_effects() -> void:
 	gz_hp = gz.hp
 	cm._tick_statuses(gz)
 	_check(gz.hp == gz_hp - 7 - CombatManager.SPORE_BURST_DAMAGE and gz.get_status(&"spores") == 0, "Esporos explodem ao chegar a 8")
+	# Memória Muscular: +1 de Energia se devolver uma carta que dá Armadura
+	cm.monsters = [MonsterCombatant.new(Database.get_monster(&"bloodfang"))]
+	cm.hand.clear()
+	cm.discard_pile = [CardInstance.new(Database.get_card(&"guard")), CardInstance.new(Database.get_card(&"guard"))]
+	cm.hand.append(CardInstance.new(Database.get_card(&"muscle_memory")))
+	cm.is_player_turn = true
+	cm.is_over = false
+	p.set_energy(3)
+	cm.play_card(cm.hand[0], null)
+	_check(p.energy == 3 and cm.hand.size() == 2, "Memória Muscular devolve 2 e dá 1 de Energia (energia=%d, mão=%d)" % [p.energy, cm.hand.size()])
 	# Brasa: cobra a cada golpe, ignora Armadura e diminui
 	var em := MonsterCombatant.new(Database.get_monster(&"ashwing"))
 	em.add_status(&"ember", 3)
@@ -214,8 +224,6 @@ func _test_upgrades() -> void:
 	_check((rend.effects[0] as DamageEffect).amount == 3, "original não pode mudar ao aprimorar")
 	var core := Database.get_card(&"unstable_core+")
 	_check((core.effects[0] as LoseHpEffect).amount == 4, "Núcleo Instável+ perde menos vida")
-	var notes_up := Database.get_card(&"field_notes+")
-	_check(notes_up.cost == 0 and (notes_up.effects[0] as DrawEffect).count == 2, "Anotações de Campo+ custa 0 e compra 2")
 	var pulse := Database.get_card(&"predatory_pulse+")
 	var inner := (pulse.effects[1] as ConditionalEffect).effects[0] as HealEffect
 	_check(inner.amount == 9, "efeito condicional aprimorado (cura %d)" % inner.amount)
