@@ -99,7 +99,7 @@ class HunterArt:
 	## Pontos em fração da imagem: mãos (de onde sai o brilho) e centro do corpo (fica no meio do espaço).
 	const HANDS := Vector2(0.81, 0.27)
 	const BODY_X := 0.38
-	const HANDS_CAST := Vector2(0.9, 0.195)
+	const HANDS_CAST := Vector2(0.865, 0.085)
 	const BODY_X_CAST := 0.38
 	## Quanto tempo a pose de conjurar fica (segundos), contando a volta.
 	const CAST_TIME := 0.7
