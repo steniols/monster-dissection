@@ -29,10 +29,15 @@ script = ExtResource("4_tyct7")
 amount = 4
 target = 1
 
+[sub_resource type="Resource" id="Resource_0o8kc"]
+script = ExtResource("5_6eqvo")
+amount = 3
+target = 1
+
 [sub_resource type="Resource" id="Resource_537t7"]
 script = ExtResource("2_6eqvo")
 display_name = "Roer"
-effects = Array[ExtResource("1_1370o")]([SubResource("Resource_46h4e"), SubResource("Resource_5xagt")])
+effects = Array[ExtResource("1_1370o")]([SubResource("Resource_46h4e"), SubResource("Resource_5xagt"), SubResource("Resource_0o8kc")])
 
 [sub_resource type="Resource" id="Resource_6eqvo"]
 script = ExtResource("3_5etak")

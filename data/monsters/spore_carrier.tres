@@ -37,11 +37,16 @@ script = ExtResource("4_xpwnx")
 status_id = &"spores"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_gqd1o"]
+script = ExtResource("3_m8cjn")
+amount = 6
+target = 1
+
 [sub_resource type="Resource" id="Resource_p8xmu"]
 script = ExtResource("2_esxey")
 display_name = "Estourar Bolsa"
 kind = 4
-effects = Array[ExtResource("1_gqd1o")]([SubResource("Resource_pjt0c"), SubResource("Resource_wfu32")])
+effects = Array[ExtResource("1_gqd1o")]([SubResource("Resource_pjt0c"), SubResource("Resource_wfu32"), SubResource("Resource_gqd1o")])
 
 [sub_resource type="Resource" id="Resource_n13op"]
 script = ExtResource("5_1436n")

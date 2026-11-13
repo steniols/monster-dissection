@@ -551,26 +551,47 @@ func _frames(n: int) -> void:
 
 func _test_ng_plus() -> void:
 	Profile.reset()
-	var expd: ExpeditionData = Database.expeditions[Database.DEFAULT_EXPEDITION]
-	_check(Profile.get_ng_unlocked(expd.id) == 0, "NG+: região nova começa sem NG+")
-	# vencer o normal libera o NG+1; vencer o NG+1 libera o NG+2; nunca passa de MAX_NG
-	_check(Profile.clear_ng(expd.id, 0) == 1, "NG+: vencer o normal libera o NG+1")
-	_check(Profile.clear_ng(expd.id, 0) == -1, "NG+: vencer o normal de novo não libera nada")
-	_check(Profile.clear_ng(expd.id, 1) == 2, "NG+: vencer o NG+1 libera o NG+2")
-	for i in 10:
-		Profile.clear_ng(expd.id, Profile.MAX_NG)
-	_check(Profile.get_ng_unlocked(expd.id) == Profile.MAX_NG, "NG+: limite é NG+%d" % Profile.MAX_NG)
-	# dificuldade: vida e força sobem com o nível; o nível volta do save da expedição
-	RunState.start(expd, 3)
-	var base_s := expd.monster_strength
-	_check(is_equal_approx(RunState.get_monster_hp_mult(), 1.36), "NG+3: monstros com +36% de vida")
-	_check(RunState.get_monster_strength() >= base_s + 2, "NG+3: monstros com +2 de Força")
+	var regs := Database.get_sorted_expeditions()
+	var first: ExpeditionData = regs[0]
+	_check(Profile.get_ng_max() == 0, "NG+: começa sem NG+")
+	# o NG+1 só libera quando TODAS as regiões forem concluídas no normal
+	for i in regs.size() - 1:
+		_check(Profile.clear_ng(regs[i].id, 0) == -1, "NG+: concluir só algumas regiões não libera")
+	_check(Profile.clear_ng(regs[regs.size() - 1].id, 0) == 1, "NG+: concluir a última região libera o NG+1")
+	# só aparecem os níveis ainda não concluídos na região
+	_check(Profile.get_ng_options(first.id) == ([1] as Array[int]), "NG+: região concluída mostra só o NG+1")
+	Profile.clear_ng(first.id, 1)
+	_check(Profile.get_ng_options(first.id) == ([1] as Array[int]), "NG+: tudo concluído até o máximo mostra o mais alto")
+	for e in regs:
+		Profile.clear_ng(e.id, 1)
+	_check(Profile.get_ng_max() == 2 and Profile.get_ng_options(first.id) == ([2] as Array[int]), "NG+: NG+2 libera e substitui o NG+1")
+	for lvl in range(2, 10):
+		for e in regs:
+			Profile.clear_ng(e.id, mini(lvl, Profile.MAX_NG))
+	_check(Profile.get_ng_max() == Profile.MAX_NG, "NG+: limite é NG+%d" % Profile.MAX_NG)
+	# vida extra por região no NG+1 e crescimento por nível
+	_check(is_equal_approx(RunState.ng_hp_bonus(1, regs[0]), 0.12) and is_equal_approx(RunState.ng_hp_bonus(1, regs[3]), 0.27), "NG+1: 12% na fase 1 e 27% na fase 4")
+	_check(is_equal_approx(RunState.ng_hp_bonus(3, regs[0]), 0.24), "NG+3: fase 1 com o dobro da base (24%)")
+	RunState.start(first, 3)
+	_check(RunState.get_monster_strength() >= first.monster_strength + 2, "NG+3: monstros com +2 de Força")
 	var m := MonsterCombatant.new(Database.get_monster(&"bloodfang"), 0, RunState.get_monster_hp_mult())
-	_check(m.max_hp == roundi(Database.get_monster(&"bloodfang").max_hp * 1.36), "NG+3: vida do monstro multiplicada")
+	_check(m.max_hp == roundi(Database.get_monster(&"bloodfang").max_hp * 1.24), "NG+3: vida do monstro multiplicada")
 	RunState.save_run()
 	RunState.ng_level = 0
 	RunState.load_run()
 	_check(RunState.ng_level == 3, "NG+: nível volta ao carregar a expedição")
 	RunState.delete_save()
 	RunState.active = false
+	# incisões: começa com 1 e no máximo 3
+	Profile.reset()
+	_check(Profile.get_incisions() == 1, "Incisões: começa com 1")
+	# Imortalidade Pútrida do monstro: volta com 1 de vida, 20 de Armadura, sem efeitos negativos e imune
+	var ab := MonsterCombatant.new(Database.get_monster(&"stitched_abomination"))
+	ab.add_status(&"undying", 1)
+	ab.add_status(&"bleed", 5)
+	ab.add_status(&"weak", 2)
+	ab.lose_hp(9999)
+	ab.add_status(&"spores", 3)
+	_check(ab.hp == 1 and ab.block == 20 and ab.get_status(&"bleed") == 0 and ab.get_status(&"weak") == 0 and ab.get_status(&"spores") == 0,
+		"Imortalidade Pútrida: 1 de vida, 20 de Armadura e imune (hp=%d arm=%d)" % [ab.hp, ab.block])
 	Profile.reset()

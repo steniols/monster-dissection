@@ -7,7 +7,9 @@ const SAVE_PATH := "user://profile.json"
 const SAVE_VERSION := 1
 const BASE_MAX_HP := 60
 const BASE_ENERGY := 3
-const BASE_INCISIONS := 2
+const BASE_INCISIONS := 1
+## Limite de incisões por combate, somando as melhorias.
+const MAX_INCISIONS := 3
 const MAX_MUTATIONS := 3
 const DECK_MIN := 10
 const DECK_MAX := 20
@@ -31,8 +33,9 @@ var runs_won: int = 0
 var lab_upgrades: Array[StringName] = []
 var discovered_recipes: Array[StringName] = []
 var cleared_expeditions: Array[StringName] = []
-## NG+: maior nível de dificuldade liberado em cada região (0 = só o normal). Concluir o nível N libera o N+1, até MAX_NG.
-var ng_levels: Dictionary = {} # expedition id -> int
+## NG+: regiões concluídas em cada nível (0 = normal). O NG+N libera quando TODAS as regiões forem
+## concluídas no nível N-1 (até MAX_NG).
+var ng_cleared: Dictionary = {} # nível (int) -> Array[StringName] de regiões
 const MAX_NG := 5
 ## O que o jogador já viu em cada estação do laboratório (estação -> contagem), para marcar novidades.
 var seen: Dictionary = {}
@@ -59,7 +62,7 @@ func reset() -> void:
 	lab_upgrades.clear()
 	discovered_recipes.clear()
 	cleared_expeditions.clear()
-	ng_levels.clear()
+	ng_cleared.clear()
 	seen.clear()
 	for s in SEEN_STATIONS:
 		seen[s] = _seen_count(s)
@@ -95,14 +98,18 @@ func load_profile() -> void:
 	lab_upgrades = _to_names(data.get("lab_upgrades", []))
 	discovered_recipes = _to_names(data.get("discovered_recipes", []))
 	cleared_expeditions = _to_names(data.get("cleared_expeditions", []))
-	ng_levels.clear()
-	var ng_data: Dictionary = data.get("ng_levels", {})
-	for k in ng_data:
-		ng_levels[StringName(k)] = clampi(int(ng_data[k]), 0, MAX_NG)
-	# perfis antigos: quem já concluiu a região ganha o NG+1
+	ng_cleared.clear()
+	var ngc: Dictionary = data.get("ng_cleared", {})
+	for k in ngc:
+		ng_cleared[int(k)] = _to_names(ngc[k])
+	# perfis da versão anterior (NG+ por região): "nível N liberado" = concluiu os níveis 0..N-1
+	var old: Dictionary = data.get("ng_levels", {})
+	for k in old:
+		for lvl in clampi(int(old[k]), 0, MAX_NG):
+			_mark_ng(StringName(k), lvl)
+	# o normal concluído é o mesmo das regiões liberadas
 	for id in cleared_expeditions:
-		if not ng_levels.has(id):
-			ng_levels[id] = 1
+		_mark_ng(id, 0)
 	seen.clear()
 	var seen_data: Dictionary = data.get("seen", {})
 	for s in SEEN_STATIONS:
@@ -152,7 +159,7 @@ func save_profile() -> void:
 		"lab_upgrades": _to_strings(lab_upgrades),
 		"discovered_recipes": _to_strings(discovered_recipes),
 		"cleared_expeditions": _to_strings(cleared_expeditions),
-		"ng_levels": _ng_to_save(),
+		"ng_cleared": _ng_to_save(),
 		"seen": seen,
 	}
 	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
@@ -331,7 +338,7 @@ func get_incisions() -> int:
 	var n := BASE_INCISIONS
 	for u in get_installed_upgrades():
 		n += u.incisions_bonus
-	return n
+	return mini(n, MAX_INCISIONS)
 
 
 func get_preserve_bonus() -> float:
@@ -442,25 +449,60 @@ func mark_cleared(id: StringName) -> void:
 		cleared_expeditions.append(id)
 
 
-## Registra a vitória no nível `ng` da região e libera o próximo. Retorna o nível recém-liberado (ou -1).
+## Registra a vitória na região no nível `ng`. Retorna o NG+ recém-liberado (todas as regiões concluídas nesse nível) ou -1.
 func clear_ng(id: StringName, ng: int) -> int:
-	var unlocked := get_ng_unlocked(id)
-	var next := mini(ng + 1, MAX_NG)
-	if next > unlocked:
-		ng_levels[id] = next
-		return next
-	return -1
+	var before := get_ng_max()
+	_mark_ng(id, ng)
+	var after := get_ng_max()
+	return after if after > before else -1
 
 
-## Maior nível de NG+ que o jogador pode escolher nesta região.
-func get_ng_unlocked(id: StringName) -> int:
-	return int(ng_levels.get(id, 0))
+func _mark_ng(id: StringName, ng: int) -> void:
+	var lst: Array[StringName] = []
+	if ng_cleared.has(ng):
+		lst.assign(ng_cleared[ng])
+	if not lst.has(id):
+		lst.append(id)
+	ng_cleared[ng] = lst
+
+
+## Maior NG+ liberado: o N+1 libera quando todas as regiões foram concluídas no nível N.
+func get_ng_max() -> int:
+	var lvl := 0
+	while lvl < MAX_NG and is_ng_level_complete(lvl):
+		lvl += 1
+	return lvl
+
+
+func is_ng_level_complete(ng: int) -> bool:
+	var done: Array = ng_cleared.get(ng, [])
+	for e in Database.get_sorted_expeditions():
+		if not done.has(e.id):
+			return false
+	return true
+
+
+func is_ng_cleared(id: StringName, ng: int) -> bool:
+	return (ng_cleared.get(ng, []) as Array).has(id)
+
+
+## Níveis que aparecem para escolher nesta região: os liberados que ela ainda não concluiu.
+## Se já concluiu todos, sobra o mais alto (para jogar de novo).
+func get_ng_options(id: StringName) -> Array[int]:
+	var top := get_ng_max()
+	var opts: Array[int] = []
+	for lvl in top + 1:
+		if not is_ng_cleared(id, lvl):
+			opts.append(lvl)
+	if opts.is_empty():
+		opts.append(top)
+	return opts
 
 
 func _ng_to_save() -> Dictionary:
 	var d := {}
-	for k in ng_levels:
-		d[String(k)] = ng_levels[k]
+	for k in ng_cleared:
+		d[str(k)] = _to_strings(ng_cleared[k])
 	return d
 
 

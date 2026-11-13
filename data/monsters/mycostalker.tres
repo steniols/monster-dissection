@@ -33,10 +33,15 @@ script = ExtResource("4_ibkbp")
 amount = 8
 hits = 2
 
+[sub_resource type="Resource" id="Resource_ibkbp"]
+script = ExtResource("4_oi2my")
+amount = 8
+target = 1
+
 [sub_resource type="Resource" id="Resource_pw6kt"]
 script = ExtResource("2_oi2my")
 display_name = "Ceifa Dupla"
-effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_d2d62")])
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_d2d62"), SubResource("Resource_ibkbp")])
 
 [sub_resource type="Resource" id="Resource_jkv3w"]
 script = ExtResource("3_acu8o")
@@ -47,11 +52,16 @@ stacks = 2
 script = ExtResource("3_acu8o")
 status_id = &"spores"
 
+[sub_resource type="Resource" id="Resource_5tjy8"]
+script = ExtResource("4_oi2my")
+amount = 8
+target = 1
+
 [sub_resource type="Resource" id="Resource_lo1no"]
 script = ExtResource("2_oi2my")
 display_name = "Olhar Fixo"
 kind = 3
-effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_jkv3w"), SubResource("Resource_ej548")])
+effects = Array[ExtResource("1_u2wyq")]([SubResource("Resource_jkv3w"), SubResource("Resource_ej548"), SubResource("Resource_5tjy8")])
 
 [sub_resource type="Resource" id="Resource_bu4hm"]
 script = ExtResource("4_ibkbp")

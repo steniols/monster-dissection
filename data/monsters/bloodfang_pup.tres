@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/monsters/monster_intent.gd" id="2_17r44"]
 [ext_resource type="Script" path="res://scripts/cards/effects/damage_effect.gd" id="3_285pq"]
 [ext_resource type="Script" path="res://scripts/cards/effects/apply_status_effect.gd" id="4_wf6hi"]
+[ext_resource type="Script" path="res://scripts/cards/effects/block_effect.gd" id="5_285pq"]
 [ext_resource type="Script" path="res://scripts/dissection/anatomy_part.gd" id="5_518p3"]
 [ext_resource type="Resource" path="res://data/organs/bf_fangs.tres" id="6_8qb6t"]
 [ext_resource type="Resource" path="res://data/organs/bf_hide.tres" id="7_mfe4a"]
@@ -28,11 +29,16 @@ amount = 3
 script = ExtResource("4_wf6hi")
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_wf6hi"]
+script = ExtResource("5_285pq")
+amount = 3
+target = 1
+
 [sub_resource type="Resource" id="Resource_12nf3"]
 script = ExtResource("2_17r44")
 display_name = "Arranhar"
 kind = 4
-effects = Array[ExtResource("1_4ekeh")]([SubResource("Resource_l1b3c"), SubResource("Resource_84cqt")])
+effects = Array[ExtResource("1_4ekeh")]([SubResource("Resource_l1b3c"), SubResource("Resource_84cqt"), SubResource("Resource_wf6hi")])
 
 [resource]
 script = ExtResource("8_b7hyy")

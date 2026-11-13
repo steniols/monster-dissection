@@ -31,11 +31,16 @@ amount = 5
 script = ExtResource("4_fkcad")
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_pl4ho"]
+script = ExtResource("5_hdlk7")
+amount = 4
+target = 1
+
 [sub_resource type="Resource" id="Resource_ai0c6"]
 script = ExtResource("2_hdlk7")
 display_name = "Dilacerar"
 kind = 4
-effects = Array[ExtResource("1_oo828")]([SubResource("Resource_84au5"), SubResource("Resource_h0qyl")])
+effects = Array[ExtResource("1_oo828")]([SubResource("Resource_84au5"), SubResource("Resource_h0qyl"), SubResource("Resource_pl4ho")])
 weight = 2
 
 [sub_resource type="Resource" id="Resource_ltx7d"]
@@ -44,11 +49,16 @@ status_id = &"strength"
 stacks = 2
 target = 1
 
+[sub_resource type="Resource" id="Resource_jfinp"]
+script = ExtResource("5_hdlk7")
+amount = 4
+target = 1
+
 [sub_resource type="Resource" id="Resource_5h6oc"]
 script = ExtResource("2_hdlk7")
 display_name = "Rosnar"
 kind = 2
-effects = Array[ExtResource("1_oo828")]([SubResource("Resource_ltx7d")])
+effects = Array[ExtResource("1_oo828")]([SubResource("Resource_ltx7d"), SubResource("Resource_jfinp")])
 
 [sub_resource type="Resource" id="Resource_hdlk7"]
 script = ExtResource("3_l086v")

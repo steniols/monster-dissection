@@ -68,6 +68,8 @@ func _reduce_hp(amount: int, cause: DeathCause) -> int:
 	if hp == 0 and get_status(&"undying") > 0:
 		hp = 1
 		set_status(&"undying", get_status(&"undying") - 1)
+		if not is_player:
+			_rise_again()
 		cheated_death.emit()
 	hp_changed.emit(hp, max_hp)
 	if hp == 0:
@@ -108,6 +110,9 @@ func get_status(id: StringName) -> int:
 func add_status(id: StringName, stacks: int) -> void:
 	if stacks == 0 or not is_alive():
 		return
+	# Imune: ignora efeitos negativos novos
+	if get_status(&"immune") > 0 and stacks > 0 and StatusLibrary.get_def(id).get("debuff", false):
+		return
 	set_status(id, get_status(id) + stacks)
 
 
@@ -117,3 +122,15 @@ func set_status(id: StringName, stacks: int) -> void:
 	else:
 		statuses[id] = stacks
 	statuses_changed.emit()
+
+
+## Imortalidade Pútrida dos monstros: volta com 1 de vida, 20 de Armadura, sem efeitos negativos e imune a eles.
+const RISE_BLOCK := 20
+
+func _rise_again() -> void:
+	for id in statuses.keys():
+		if StatusLibrary.get_def(id).get("debuff", false):
+			statuses.erase(id)
+	statuses[&"immune"] = 1
+	statuses_changed.emit()
+	add_block(RISE_BLOCK)

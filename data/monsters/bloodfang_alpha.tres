@@ -37,11 +37,16 @@ amount = 7
 script = ExtResource("3_2xm47")
 stacks = 3
 
+[sub_resource type="Resource" id="Resource_l1q6c"]
+script = ExtResource("4_mastu")
+amount = 6
+target = 1
+
 [sub_resource type="Resource" id="Resource_my1r4"]
 script = ExtResource("2_15i67")
 display_name = "Dilacerar"
 kind = 4
-effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_rfr20"), SubResource("Resource_rfix6")])
+effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_rfr20"), SubResource("Resource_rfix6"), SubResource("Resource_l1q6c")])
 
 [sub_resource type="Resource" id="Resource_e5ca5"]
 script = ExtResource("5_nq0v7")
@@ -57,10 +62,15 @@ script = ExtResource("5_nq0v7")
 amount = 5
 hits = 3
 
+[sub_resource type="Resource" id="Resource_15i67"]
+script = ExtResource("4_mastu")
+amount = 6
+target = 1
+
 [sub_resource type="Resource" id="Resource_3mobb"]
 script = ExtResource("2_15i67")
 display_name = "Rasgar"
-effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_nqslh")])
+effects = Array[ExtResource("1_l1q6c")]([SubResource("Resource_nqslh"), SubResource("Resource_15i67")])
 
 [resource]
 script = ExtResource("11_adu6q")
@@ -68,9 +78,9 @@ id = &"bloodfang_alpha"
 display_name = "Bloodfang Alfa"
 tier = 1
 max_hp = 72
-region_anchors = Array[Vector2]([Vector2(0.1, 0.53), Vector2(0.55, 0.45), Vector2(0.4, 0.85), Vector2(0.33, 0.62)])
 intents = Array[ExtResource("2_15i67")]([SubResource("Resource_ucrdy"), SubResource("Resource_my1r4"), SubResource("Resource_8hlgc"), SubResource("Resource_3mobb")])
 parts = Array[ExtResource("6_tuj2c")]([ExtResource("7_kwry8"), ExtResource("8_ucd01"), ExtResource("9_8hyxe"), ExtResource("10_rcxi6")])
+region_anchors = Array[Vector2]([Vector2(0.1, 0.53), Vector2(0.55, 0.45), Vector2(0.4, 0.85), Vector2(0.33, 0.62)])
 visual = &"bloodfang_alpha"
 scale = 1.15
 lore = "Líder de matilha marcado por dezenas de cicatrizes. A crina de espinhos se eriça antes de cada bote."

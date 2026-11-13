@@ -45,11 +45,16 @@ stacks = 3
 script = ExtResource("4_0qwfw")
 status_id = &"weak"
 
+[sub_resource type="Resource" id="Resource_jro1w"]
+script = ExtResource("3_rfs76")
+amount = 9
+target = 1
+
 [sub_resource type="Resource" id="Resource_w7an4"]
 script = ExtResource("2_e0n1b")
 display_name = "Chuva de Esporos"
 kind = 3
-effects = Array[ExtResource("1_jro1w")]([SubResource("Resource_abdkk"), SubResource("Resource_4e3hh")])
+effects = Array[ExtResource("1_jro1w")]([SubResource("Resource_abdkk"), SubResource("Resource_4e3hh"), SubResource("Resource_jro1w")])
 
 [resource]
 script = ExtResource("10_6mmpy")

@@ -29,11 +29,16 @@ script = ExtResource("4_dhpq5")
 status_id = &"ember"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_dhpq5"]
+script = ExtResource("5_p5jry")
+amount = 3
+target = 1
+
 [sub_resource type="Resource" id="Resource_63aab"]
 script = ExtResource("2_p5jry")
 display_name = "Cuspir Brasa"
 kind = 4
-effects = Array[ExtResource("1_i7fyo")]([SubResource("Resource_15jor"), SubResource("Resource_i7yy3")])
+effects = Array[ExtResource("1_i7fyo")]([SubResource("Resource_15jor"), SubResource("Resource_i7yy3"), SubResource("Resource_dhpq5")])
 
 [sub_resource type="Resource" id="Resource_p5jry"]
 script = ExtResource("5_p5jry")

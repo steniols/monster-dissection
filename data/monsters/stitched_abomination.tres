@@ -20,10 +20,15 @@ target = 1
 script = ExtResource("4_4qpnp")
 amount = 15
 
+[sub_resource type="Resource" id="Resource_jl6n5"]
+script = ExtResource("5_ot5yo")
+amount = 8
+target = 1
+
 [sub_resource type="Resource" id="Resource_c31tm"]
 script = ExtResource("3_drf8d")
 display_name = "Golpe Costurado"
-effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_rw63o")])
+effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_rw63o"), SubResource("Resource_jl6n5")])
 
 [sub_resource type="Resource" id="Resource_fxacy"]
 script = ExtResource("2_he008")
@@ -64,10 +69,10 @@ display_name = "Abominação Costurada"
 family = 4
 tier = 1
 max_hp = 100
-region_anchors = Array[Vector2]([Vector2(0.3, 0.23), Vector2(0.55, 0.38), Vector2(0.25, 0.83), Vector2(0.58, 0.6)])
 intents = Array[ExtResource("3_drf8d")]([SubResource("Resource_c31tm"), SubResource("Resource_shud7"), SubResource("Resource_0pjfd")])
 combat_start_effects = Array[ExtResource("1_jl6n5")]([SubResource("Resource_pxfje")])
 parts = Array[ExtResource("6_fjkem")]([ExtResource("7_71rii"), ExtResource("8_2tl4u"), ExtResource("9_73n78")])
+region_anchors = Array[Vector2]([Vector2(0.3, 0.23), Vector2(0.55, 0.38), Vector2(0.25, 0.83), Vector2(0.58, 0.6)])
 visual = &"rotwalker"
 scale = 1.2
 tint = Color(0.7882353, 0.64705884, 0.627451, 1)

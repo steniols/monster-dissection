@@ -34,10 +34,15 @@ script = ExtResource("5_ty4cb")
 amount = 7
 hits = 3
 
+[sub_resource type="Resource" id="Resource_vevx7"]
+script = ExtResource("3_xp5vk")
+amount = 10
+target = 1
+
 [sub_resource type="Resource" id="Resource_1w5u2"]
 script = ExtResource("2_06tn7")
 display_name = "Raízes"
-effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_mjxu0")])
+effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_mjxu0"), SubResource("Resource_vevx7")])
 
 [sub_resource type="Resource" id="Resource_ahatr"]
 script = ExtResource("4_8i081")
@@ -49,11 +54,16 @@ script = ExtResource("4_8i081")
 status_id = &"weak"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_06tn7"]
+script = ExtResource("3_xp5vk")
+amount = 10
+target = 1
+
 [sub_resource type="Resource" id="Resource_dfd44"]
 script = ExtResource("2_06tn7")
 display_name = "Nuvem"
 kind = 3
-effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_ahatr"), SubResource("Resource_8x2bd")])
+effects = Array[ExtResource("1_vevx7")]([SubResource("Resource_ahatr"), SubResource("Resource_8x2bd"), SubResource("Resource_06tn7")])
 
 [sub_resource type="Resource" id="Resource_enjkh"]
 script = ExtResource("5_ty4cb")

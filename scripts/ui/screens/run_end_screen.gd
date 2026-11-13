@@ -35,7 +35,10 @@ func _ready() -> void:
 		var nu := UiTheme.make_label("Nova dificuldade liberada: NG+%d" % ng, 22, Palette.BLOOD_BRIGHT, true)
 		nu.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		box.add_child(nu)
-		var nd := UiTheme.make_label(RunState.ng_summary(ng), 15, Palette.TEXT_DIM)
+		var regs := Database.get_sorted_expeditions()
+		var nd := UiTheme.make_label("Todas as regiões: monstros com +%d%% a +%d%% de vida e +%d de Força." % [
+			roundi(RunState.ng_hp_bonus(ng, regs[0]) * 100.0), roundi(RunState.ng_hp_bonus(ng, regs[regs.size() - 1]) * 100.0),
+			RunState.NG_STRENGTH[clampi(ng, 0, RunState.NG_STRENGTH.size() - 1)]], 15, Palette.TEXT_DIM)
 		nd.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		box.add_child(nd)
 	Sfx.play(&"unlock" if won else &"death")

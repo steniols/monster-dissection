@@ -47,11 +47,16 @@ script = ExtResource("4_t5x23")
 status_id = &"weak"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_b1u67"]
+script = ExtResource("5_rmwpw")
+amount = 4
+target = 1
+
 [sub_resource type="Resource" id="Resource_1p66s"]
 script = ExtResource("2_mxlcf")
 display_name = "Vômito Pútrido"
 kind = 4
-effects = Array[ExtResource("1_b1u67")]([SubResource("Resource_glmpv"), SubResource("Resource_uakwp")])
+effects = Array[ExtResource("1_b1u67")]([SubResource("Resource_glmpv"), SubResource("Resource_uakwp"), SubResource("Resource_b1u67")])
 
 [resource]
 script = ExtResource("11_qgpxe")
@@ -59,9 +64,9 @@ id = &"rotwalker"
 display_name = "Rotwalker"
 family = 4
 max_hp = 48
-region_anchors = Array[Vector2]([Vector2(0.37, 0.17), Vector2(0.48, 0.35), Vector2(0.5, 0.77), Vector2(0.56, 0.56)])
 intents = Array[ExtResource("2_mxlcf")]([SubResource("Resource_2jsdx"), SubResource("Resource_msqnx"), SubResource("Resource_1p66s")])
 parts = Array[ExtResource("6_ojedm")]([ExtResource("7_6vs6o"), ExtResource("8_4ts28"), ExtResource("9_fcfi0"), ExtResource("10_vbya3")])
+region_anchors = Array[Vector2]([Vector2(0.37, 0.17), Vector2(0.48, 0.35), Vector2(0.5, 0.77), Vector2(0.56, 0.56)])
 visual = &"rotwalker"
 lore = "Um cadáver que se recusa a parar. A carne se fecha sobre as próprias feridas."
 weakness_note = "Regenera rápido: sangramento e corrupção vencem a regeneração ao longo do tempo."

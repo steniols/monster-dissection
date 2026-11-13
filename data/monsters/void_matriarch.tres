@@ -34,10 +34,15 @@ script = ExtResource("5_7q6ww")
 amount = 5
 hits = 3
 
+[sub_resource type="Resource" id="Resource_4s8ed"]
+script = ExtResource("3_of8sj")
+amount = 9
+target = 1
+
 [sub_resource type="Resource" id="Resource_moy5a"]
 script = ExtResource("2_3skeh")
 display_name = "Maré de Tentáculos"
-effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_km51c")])
+effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_km51c"), SubResource("Resource_4s8ed")])
 
 [sub_resource type="Resource" id="Resource_y25b5"]
 script = ExtResource("4_jpcow")
@@ -49,11 +54,16 @@ script = ExtResource("4_jpcow")
 status_id = &"weak"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_3skeh"]
+script = ExtResource("3_of8sj")
+amount = 9
+target = 1
+
 [sub_resource type="Resource" id="Resource_6tp50"]
 script = ExtResource("2_3skeh")
 display_name = "Contemplação"
 kind = 3
-effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_y25b5"), SubResource("Resource_rfboy")])
+effects = Array[ExtResource("1_4s8ed")]([SubResource("Resource_y25b5"), SubResource("Resource_rfboy"), SubResource("Resource_3skeh")])
 
 [sub_resource type="Resource" id="Resource_mbim7"]
 script = ExtResource("5_7q6ww")
@@ -71,9 +81,9 @@ display_name = "Matriarca do Vazio"
 family = 3
 tier = 2
 max_hp = 112
-region_anchors = Array[Vector2]([Vector2(0.5, 0.3), Vector2(0.5, 0.5), Vector2(0.3, 0.82), Vector2(0.8, 0.67)])
 intents = Array[ExtResource("2_3skeh")]([SubResource("Resource_bfbtk"), SubResource("Resource_moy5a"), SubResource("Resource_6tp50"), SubResource("Resource_cjkmo")])
 parts = Array[ExtResource("6_42esl")]([ExtResource("7_1lqyu"), ExtResource("8_t8k8i"), ExtResource("9_cixqp"), ExtResource("10_e6xlp")])
+region_anchors = Array[Vector2]([Vector2(0.5, 0.3), Vector2(0.5, 0.5), Vector2(0.3, 0.82), Vector2(0.8, 0.67)])
 visual = &"void_matriarch"
 scale = 1.25
 lore = "A origem de todos os Voidspawn da charneca. Seu núcleo pulsa em sincronia com algo muito abaixo da terra."

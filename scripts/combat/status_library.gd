@@ -109,9 +109,16 @@ const DEFS := {
 		"tick": {"kind": "apply_self", "status": &"strength"},
 		"decay": 0,
 	},
+	&"immune": {
+		"name": "Imune",
+		"description": "Não recebe efeitos negativos (Sangramento, Germinação, Corrupção, Fraqueza, Vulnerável, Brasa).",
+		"color": Color("#D8D2B8"),
+		"debuff": false,
+		"decay": 0,
+	},
 	&"undying": {
 		"name": "Imortalidade Pútrida",
-		"description": "Sobrevive a um golpe fatal com 1 de vida ({x} vez/vezes).",
+		"description": "Sobrevive a um golpe fatal com 1 de vida ({x} vez/vezes). Monstros voltam com 20 de Armadura, sem efeitos negativos e imunes a eles.",
 		"color": Color("#8C9A5B"),
 		"debuff": false,
 		"decay": 0,

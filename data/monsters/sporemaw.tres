@@ -45,11 +45,15 @@ amount = 9
 script = ExtResource("5_1tef5")
 status_id = &"spores"
 
+[sub_resource type="Resource" id="Resource_kmmkw"]
+script = ExtResource("4_tvvyv")
+target = 1
+
 [sub_resource type="Resource" id="Resource_8mhpu"]
 script = ExtResource("2_fkisd")
 display_name = "Mandíbula"
 kind = 4
-effects = Array[ExtResource("1_kmmkw")]([SubResource("Resource_nxec2"), SubResource("Resource_rj4hw")])
+effects = Array[ExtResource("1_kmmkw")]([SubResource("Resource_nxec2"), SubResource("Resource_rj4hw"), SubResource("Resource_kmmkw")])
 
 [resource]
 script = ExtResource("11_k67ms")

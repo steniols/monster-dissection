@@ -33,10 +33,15 @@ script = ExtResource("5_kjqba")
 amount = 5
 hits = 3
 
+[sub_resource type="Resource" id="Resource_4buvx"]
+script = ExtResource("3_b4m8o")
+amount = 9
+target = 1
+
 [sub_resource type="Resource" id="Resource_07kh1"]
 script = ExtResource("2_cxh35")
 display_name = "Garras"
-effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_b4m8o")])
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_b4m8o"), SubResource("Resource_4buvx")])
 
 [sub_resource type="Resource" id="Resource_grlvu"]
 script = ExtResource("4_4buvx")
@@ -48,11 +53,16 @@ script = ExtResource("4_4buvx")
 status_id = &"ember"
 stacks = 3
 
+[sub_resource type="Resource" id="Resource_kjqba"]
+script = ExtResource("3_b4m8o")
+amount = 9
+target = 1
+
 [sub_resource type="Resource" id="Resource_bmp5q"]
 script = ExtResource("2_cxh35")
 display_name = "Olhar Fixo"
 kind = 3
-effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_grlvu"), SubResource("Resource_cwtdy")])
+effects = Array[ExtResource("1_fnc8m")]([SubResource("Resource_grlvu"), SubResource("Resource_cwtdy"), SubResource("Resource_kjqba")])
 
 [sub_resource type="Resource" id="Resource_1agnu"]
 script = ExtResource("5_kjqba")

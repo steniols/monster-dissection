@@ -18,11 +18,16 @@ script = ExtResource("3_btlnx")
 script = ExtResource("4_3vyne")
 status_id = &"corruption"
 
+[sub_resource type="Resource" id="Resource_pr2tn"]
+script = ExtResource("5_f72e4")
+amount = 3
+target = 1
+
 [sub_resource type="Resource" id="Resource_gxte3"]
 script = ExtResource("2_f72e4")
 display_name = "Toque do Vazio"
 kind = 4
-effects = Array[ExtResource("1_howd0")]([SubResource("Resource_pnkd4"), SubResource("Resource_usgdg")])
+effects = Array[ExtResource("1_howd0")]([SubResource("Resource_pnkd4"), SubResource("Resource_usgdg"), SubResource("Resource_pr2tn")])
 weight = 2
 
 [sub_resource type="Resource" id="Resource_oocj5"]
@@ -34,11 +39,16 @@ stacks = 2
 script = ExtResource("4_3vyne")
 status_id = &"vulnerable"
 
+[sub_resource type="Resource" id="Resource_bub1v"]
+script = ExtResource("5_f72e4")
+amount = 3
+target = 1
+
 [sub_resource type="Resource" id="Resource_mgyum"]
 script = ExtResource("2_f72e4")
 display_name = "Olhar Fixo"
 kind = 3
-effects = Array[ExtResource("1_howd0")]([SubResource("Resource_oocj5"), SubResource("Resource_k736u")])
+effects = Array[ExtResource("1_howd0")]([SubResource("Resource_oocj5"), SubResource("Resource_k736u"), SubResource("Resource_bub1v")])
 
 [sub_resource type="Resource" id="Resource_1elom"]
 script = ExtResource("3_btlnx")

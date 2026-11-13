@@ -153,8 +153,10 @@ func _tour() -> void:
 	await _shot("event", "28_evento_pinaculos")
 	Profile.mark_cleared(&"flooded_catacombs")
 	Profile.mark_cleared(&"fungal_grove")
-	Profile.ng_levels[&"bone_moor"] = 3
-	Profile.ng_levels[&"flooded_catacombs"] = 1
+	for e in Database.get_sorted_expeditions():
+		Profile.clear_ng(e.id, 0)
+		Profile.clear_ng(e.id, 1)
+	Profile.clear_ng(&"bone_moor", 2)
 	await _shot("lab", "29_laboratorio_fases")
 	get_tree().current_scene._choose_region()
 	await _wait(0.3)

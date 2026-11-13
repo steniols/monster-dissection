@@ -32,11 +32,16 @@ script = ExtResource("4_qsir7")
 status_id = &"ember"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_bk2fy"]
+script = ExtResource("5_ivbpb")
+amount = 6
+target = 1
+
 [sub_resource type="Resource" id="Resource_766px"]
 script = ExtResource("2_bk2fy")
 display_name = "Asa em Brasa"
 kind = 4
-effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_ughbb"), SubResource("Resource_cnaop")])
+effects = Array[ExtResource("1_8xaam")]([SubResource("Resource_ughbb"), SubResource("Resource_cnaop"), SubResource("Resource_bk2fy")])
 weight = 2
 
 [sub_resource type="Resource" id="Resource_kolm8"]

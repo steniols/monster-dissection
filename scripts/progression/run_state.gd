@@ -70,21 +70,32 @@ func get_deck_cards() -> Array[CardData]:
 	return Database.cards_from_ids(deck)
 
 
-## NG+: vida extra dos monstros (fração) e Força extra, por nível (índice = nível). Valem também para o chefe.
-const NG_HP := [0.0, 0.12, 0.24, 0.36, 0.5, 0.65]
+## NG+: vida extra dos monstros no NG+1, por região (na ordem das fases). Valem também para o chefe.
+const NG_HP_BASE := [0.12, 0.18, 0.21, 0.27]
+## A cada nível acima do NG+1, a vida extra cresce mais metade da base (NG+2 = 1,5x, NG+3 = 2x ... NG+5 = 3x).
+const NG_HP_GROWTH := 0.5
+## Força extra por nível (índice = nível).
 const NG_STRENGTH := [0, 1, 1, 2, 2, 3]
+
+
+## Vida extra (fração) dos monstros de uma região num nível de NG+.
+static func ng_hp_bonus(ng: int, expd: ExpeditionData) -> float:
+	if ng <= 0 or expd == null:
+		return 0.0
+	var idx := clampi(Database.get_sorted_expeditions().find(expd), 0, NG_HP_BASE.size() - 1)
+	return float(NG_HP_BASE[idx]) * (1.0 + NG_HP_GROWTH * (ng - 1))
 
 
 ## Multiplicador de vida dos monstros pelo NG+.
 func get_monster_hp_mult() -> float:
-	return 1.0 + float(NG_HP[clampi(ng_level, 0, NG_HP.size() - 1)])
+	return 1.0 + ng_hp_bonus(ng_level, expedition)
 
 
-## Texto curto do que o nível de NG+ muda (para a escolha de região e o cabeçalho).
-static func ng_summary(ng: int) -> String:
+## Texto curto do que o nível de NG+ muda nesta região.
+static func ng_summary(ng: int, expd: ExpeditionData) -> String:
 	if ng <= 0:
 		return "Normal"
-	return "NG+%d: monstros com +%d%% de vida e +%d de Força" % [ng, roundi(float(NG_HP[ng]) * 100.0), NG_STRENGTH[ng]]
+	return "NG+%d: monstros com +%d%% de vida e +%d de Força" % [ng, roundi(ng_hp_bonus(ng, expd) * 100.0), NG_STRENGTH[clampi(ng, 0, NG_STRENGTH.size() - 1)]]
 
 
 ## Força inicial dos monstros: base da região + 1 a cada strength_floor_step andares (o chefe recebe metade da base).

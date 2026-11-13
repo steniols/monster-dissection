@@ -25,11 +25,16 @@ script = ExtResource("4_8f1pu")
 status_id = &"spores"
 stacks = 2
 
+[sub_resource type="Resource" id="Resource_8f1pu"]
+script = ExtResource("5_87cte")
+amount = 3
+target = 1
+
 [sub_resource type="Resource" id="Resource_ojbvm"]
 script = ExtResource("2_87cte")
 display_name = "Soltar Esporos"
 kind = 3
-effects = Array[ExtResource("1_kvc8a")]([SubResource("Resource_0ta2o")])
+effects = Array[ExtResource("1_kvc8a")]([SubResource("Resource_0ta2o"), SubResource("Resource_8f1pu")])
 
 [sub_resource type="Resource" id="Resource_87cte"]
 script = ExtResource("5_87cte")
