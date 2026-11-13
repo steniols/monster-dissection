@@ -55,4 +55,4 @@ region_anchors = Array[Vector2]([Vector2(0.26, 0.57), Vector2(0.5, 0.55), Vector
 visual = &"voidspawn"
 scale = 0.75
 lore = "Do tamanho de um gato, anda em grupo e deixa um rastro de pó verde-água."
-weakness_note = "Frágil, mas os esporos de um passam para o outro quando ele morre. Vale o cuidado de quem aplica, também."
+weakness_note = "Frágil, mas a Germinação de um passa para o outro quando ele morre. Vale o cuidado de quem aplica, também."

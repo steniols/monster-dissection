@@ -42,7 +42,7 @@ static func from_combatant(m: Combatant) -> BodyCondition:
 				"Golpe final com %d de excesso danificou a cabeça." % m.death_overkill)
 	elif m.death_cause == Combatant.DeathCause.STATUS:
 		c._mark(AnatomyPart.Region.FLUIDS, State.DAMAGED,
-			"Morreu por sangramento, corrupção, esporos ou brasa: fluidos contaminados.")
+			"Morreu por sangramento, corrupção, Germinação ou brasa: fluidos contaminados.")
 		c.solid_bonus = STATUS_DEATH_BONUS
 		c.notes.append("Sem golpe final, os tecidos sólidos estão mais preservados (+10% de extração).")
 
