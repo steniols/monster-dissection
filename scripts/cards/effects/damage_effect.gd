@@ -46,9 +46,9 @@ func describe() -> String:
 	if bonus_per_card_played != 0:
 		text += ", +%d para cada carta jogada neste turno" % bonus_per_card_played
 	if bonus_per_discard != 0:
-		text += ", +%d para cada carta no %s" % [bonus_per_discard, kw("descarte", Palette.BONE_LIGHT)]
+		text += ", +%d por carta no %s" % [bonus_per_discard, kw("descarte", Palette.BONE_LIGHT)]
 	if bonus_per_exhausted != 0:
-		text += ", +%d para cada carta %s neste combate" % [bonus_per_exhausted, kw("banida", Palette.VIOLET_BRIGHT)]
+		text += ", +%d por carta %s" % [bonus_per_exhausted, kw("banida", Palette.VIOLET_BRIGHT)]
 	if pile_bonus_cap > 0 and (bonus_per_discard != 0 or bonus_per_exhausted != 0):
 		text += " (máx. +%d)" % pile_bonus_cap
 	return text + "."

@@ -177,6 +177,7 @@ func refresh() -> void:
 	_art.setup(data.art_motif, Family.get_color(data.family) if data.family != Family.Id.NEUTRAL else TYPE_COLORS[data.card_type], data.illustration)
 	_type_label.text = "%s · %s" % [data.get_type_name().to_upper(), data.get_rarity_name()]
 	_desc.text = "[center]%s[/center]" % data.get_description()
+	_fit_desc.call_deferred()
 	_origin.text = data.get_origin_label()
 	_note.text = dimmed_note
 	var tip := "%s (%s)\n%s" % [data.display_name, data.get_origin_label(), _strip_bbcode(data.get_description())]
@@ -187,6 +188,26 @@ func refresh() -> void:
 		tip += "\n\n\"%s\"" % data.flavor
 	tooltip_text = tip
 	queue_redraw()
+
+
+## Reduz a fonte do texto da carta até ele caber na placa (textos longos não saem da carta).
+func _fit_desc() -> void:
+	if _desc == null or not is_instance_valid(_desc):
+		return
+	var plate := _desc.get_parent() as Control
+	var box := plate.get_parent() as Control
+	# altura que sobra para a placa: a carta menos as margens e o resto da ficha
+	var others := 0.0
+	for c in box.get_children():
+		if c != plate and c is Control and (c as Control).visible:
+			others += (c as Control).get_combined_minimum_size().y
+	others += box.get_theme_constant("separation") * (box.get_child_count() - 1)
+	var avail := CARD_SIZE.y - 14.0 - others - 10.0
+	for fs in [12, 11, 10, 9]:
+		_desc.add_theme_font_size_override("normal_font_size", fs)
+		_desc.add_theme_font_size_override("bold_font_size", fs)
+		if _desc.get_content_height() <= avail:
+			return
 
 
 ## Reduz a fonte do nome até caber (em vez de truncar).
