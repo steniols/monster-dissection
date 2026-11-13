@@ -75,12 +75,12 @@ func _ready() -> void:
 	_buttons.add_theme_constant_override("separation", 10)
 	box.add_child(_buttons)
 	if RunState.has_save():
-		_buttons.add_child(_btn("Continuar expedição", Game.continue_expedition, "MenuGreen"))
-	var enter := _btn("Entrar no laboratório", func(): Game.goto("lab"), "MenuGold")
+		_buttons.add_child(_btn("Continuar expedição", Game.continue_expedition, "MossButton"))
+	var enter := _btn("Entrar no laboratório", func(): Game.goto("lab"), "GoldButton")
 	_buttons.add_child(enter)
-	_buttons.add_child(_btn("Opções", func(): Game.open_options("menu"), "MenuDark"))
-	_buttons.add_child(_btn("Apagar progresso", _confirm_reset, "MenuDark"))
-	_buttons.add_child(_btn("Sair", func(): get_tree().quit(), "MenuDark"))
+	_buttons.add_child(_btn("Opções", func(): Game.open_options("menu"), ""))
+	_buttons.add_child(_btn("Apagar progresso", _confirm_reset, ""))
+	_buttons.add_child(_btn("Sair", func(): get_tree().quit(), ""))
 	enter.grab_focus()
 
 	var ver := UiTheme.make_label("Protótipo 0.2 · %d expedições · %d vitórias" % [Profile.runs_started, Profile.runs_won], 13, Palette.TEXT_DIM)
