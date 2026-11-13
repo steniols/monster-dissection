@@ -12,6 +12,7 @@ target = 2
 script = ExtResource("3_oouyv")
 id = &"mycelial_web"
 display_name = "Rede Micélica"
+cost = 2
 card_type = 2
 rarity = 2
 family = 5

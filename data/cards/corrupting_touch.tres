@@ -8,6 +8,7 @@
 [sub_resource type="Resource" id="Resource_ubslf"]
 script = ExtResource("2_3uqen")
 amount = 4
+bonus_per_exhausted = 3
 
 [sub_resource type="Resource" id="Resource_v6ihc"]
 script = ExtResource("3_yqbvj")

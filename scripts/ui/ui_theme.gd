@@ -217,12 +217,47 @@ static func back_button(callback: Callable) -> Button:
 	return b
 
 
-## Deixa os botões de uma caixa de confirmação mais altos; o de confirmar fica vermelho se `danger`.
-static func style_dialog(d: ConfirmationDialog, danger: bool = true) -> void:
-	for b in [d.get_ok_button(), d.get_cancel_button()]:
-		b.custom_minimum_size = Vector2(170, 50)
-	if danger:
-		d.get_ok_button().theme_type_variation = "PrimaryButton"
+## Caixa de confirmação no estilo do jogo (painel escuro, botões altos). O de confirmar fica vermelho se `danger`.
+## Fecha ao confirmar, ao cancelar ou com Esc.
+static func confirm(parent: Node, title: String, text: String, ok_text: String, cancel_text: String, on_ok: Callable, danger: bool = true) -> Control:
+	var o := Control.new()
+	o.set_anchors_preset(Control.PRESET_FULL_RECT)
+	o.mouse_filter = Control.MOUSE_FILTER_STOP
+	o.z_index = 300
+	var dim := ColorRect.new()
+	dim.color = Color(0.02, 0.02, 0.03, 0.75)
+	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
+	o.add_child(dim)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	o.add_child(center)
+	var p := PanelContainer.new()
+	p.add_theme_stylebox_override("panel", panel_style(Palette.CHARCOAL, Palette.BONE.darkened(0.3), 2, 10, 22))
+	center.add_child(p)
+	var v := VBoxContainer.new()
+	v.add_theme_constant_override("separation", 14)
+	p.add_child(v)
+	var t := make_label(title, 26, Palette.BONE_LIGHT, true)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	var d := make_label(text, 17, Palette.PAPER)
+	d.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(d)
+	var row := HBoxContainer.new()
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	row.add_theme_constant_override("separation", 16)
+	v.add_child(row)
+	var ok := make_button(ok_text, func():
+		o.queue_free()
+		on_ok.call(), 200, "PrimaryButton" if danger else "")
+	ok.custom_minimum_size.y = 50
+	row.add_child(ok)
+	var cancel := make_button(cancel_text, o.queue_free, 200)
+	cancel.custom_minimum_size.y = 50
+	row.add_child(cancel)
+	parent.add_child(o)
+	cancel.grab_focus.call_deferred()
+	return o
 
 
 static func make_button(text: String, callback: Callable, min_width: int = 0, variant: String = "") -> Button:

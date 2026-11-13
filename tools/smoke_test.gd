@@ -188,6 +188,45 @@ func _test_effects() -> void:
 	p.set_energy(3)
 	cm.play_card(cm.hand[0], null)
 	_check(p.energy == 3 and cm.hand.size() == 2, "Memória Muscular devolve 2 e dá 1 de Energia (energia=%d, mão=%d)" % [p.energy, cm.hand.size()])
+	# Com a tela ligada, a Memória Muscular pede a escolha; aqui o "jogador" pega a Postura de Guarda
+	var asked := {"n": 0}
+	var pick := func(count: int, energy: int):
+		asked["n"] = count
+		var guard_inst: CardInstance = null
+		for c in cm.discard_pile:
+			if c.data.id == &"guard":
+				guard_inst = c
+		cm.take_from_discard(guard_inst)
+		ReturnFromDiscardEffect.reward(cm, [guard_inst], energy)
+	cm.discard_choice_requested.connect(pick)
+	cm.hand.clear()
+	cm.discard_pile = [CardInstance.new(Database.get_card(&"rend")), CardInstance.new(Database.get_card(&"guard"))]
+	cm.hand.append(CardInstance.new(Database.get_card(&"muscle_memory")))
+	p.set_energy(3)
+	cm.play_card(cm.hand[0], null)
+	_check(asked["n"] == 2 and cm.hand.size() == 1 and cm.hand[0].data.id == &"guard" and p.energy == 3,
+		"Memória Muscular: escolha do descarte (pedido=%d, mão=%d, energia=%d)" % [asked["n"], cm.hand.size(), p.energy])
+	cm.discard_choice_requested.disconnect(pick)
+	# Dano que cresce com as pilhas: Bile Necrótica (descarte) e Toque Corruptor (banidas)
+	var tgt := MonsterCombatant.new(Database.get_monster(&"iron_colossus"))
+	cm.monsters = [tgt]
+	p.statuses.clear()
+	for card_id in [&"necrotic_bile", &"corrupting_touch"]:
+		cm.hand.clear()
+		cm.discard_pile.clear()
+		cm.exhaust_pile.clear()
+		for i in 4:
+			cm.discard_pile.append(CardInstance.new(Database.get_card(&"guard")))
+		for i in 2:
+			cm.exhaust_pile.append(CardInstance.new(Database.get_card(&"guard")))
+		tgt.hp = tgt.max_hp
+		tgt.clear_block()
+		tgt.statuses.clear()
+		cm.hand.append(CardInstance.new(Database.get_card(card_id)))
+		p.set_energy(3)
+		cm.play_card(cm.hand[0], tgt)
+		var expected := 3 + 4 if card_id == &"necrotic_bile" else 4 + 3 * 2
+		_check(tgt.max_hp - tgt.hp == expected, "%s: dano %d (esperado %d)" % [card_id, tgt.max_hp - tgt.hp, expected])
 	# Brasa: cobra a cada golpe, ignora Armadura e diminui
 	var em := MonsterCombatant.new(Database.get_monster(&"ashwing"))
 	em.add_status(&"ember", 3)

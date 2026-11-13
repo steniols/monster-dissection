@@ -123,15 +123,8 @@ func _layout_decor() -> void:
 
 
 func _confirm_reset() -> void:
-	var d := ConfirmationDialog.new()
-	d.title = "Apagar progresso"
-	d.dialog_text = "Isso apaga cartas desbloqueadas, materiais, mutações e bestiário.\nNão pode ser desfeito."
-	d.ok_button_text = "Apagar"
-	d.cancel_button_text = "Cancelar"
-	UiTheme.style_dialog(d)
-	d.confirmed.connect(func():
-		Profile.reset()
-		RunState.delete_save()
-		get_tree().reload_current_scene())
-	add_child(d)
-	d.popup_centered()
+	UiTheme.confirm(self, "Apagar progresso", "Isso apaga cartas desbloqueadas, materiais, mutações e bestiário.\nNão pode ser desfeito.",
+		"Apagar", "Cancelar", func():
+			Profile.reset()
+			RunState.delete_save()
+			get_tree().reload_current_scene())

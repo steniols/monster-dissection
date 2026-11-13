@@ -141,7 +141,7 @@ func _build_ui() -> void:
 	detail_panel.add_child(_detail)
 
 	_finish_btn = UiTheme.make_button("Concluir dissecação", _show_summary)
-	_finish_btn.custom_minimum_size.y = 46
+	_finish_btn.custom_minimum_size.y = 54
 	right.add_child(_finish_btn)
 
 

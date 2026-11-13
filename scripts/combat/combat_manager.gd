@@ -11,6 +11,8 @@ signal combat_ended(victory: bool)
 signal instinct_changed(family: Family.Id, count: int)
 signal instinct_triggered(family: Family.Id)
 signal message(text: String)
+## Uma carta pede para o jogador escolher cartas do descarte (a tela abre a escolha e chama take_from_discard).
+signal discard_choice_requested(count: int, energy_if_block: int)
 
 const HAND_SIZE := 5
 const MAX_HAND := 10
@@ -136,6 +138,17 @@ func draw_cards(count: int) -> void:
 		hand.append(draw_pile.pop_back())
 	hand_changed.emit()
 	piles_changed.emit()
+
+
+## Move uma carta escolhida do descarte para a mão.
+func take_from_discard(card: CardInstance) -> bool:
+	if not discard_pile.has(card) or hand.size() >= MAX_HAND:
+		return false
+	discard_pile.erase(card)
+	hand.append(card)
+	hand_changed.emit()
+	piles_changed.emit()
+	return true
 
 
 ## Devolve cartas aleatórias do descarte para a mão. Retorna as cartas devolvidas.

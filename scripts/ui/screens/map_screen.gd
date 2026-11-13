@@ -189,15 +189,8 @@ func _count_gathered() -> int:
 
 
 func _confirm_abandon() -> void:
-	var d := ConfirmationDialog.new()
-	d.title = "Abandonar expedição"
-	d.dialog_text = "Retornar agora ao laboratório?\nVocê perde metade dos materiais desta expedição."
-	d.ok_button_text = "Abandonar"
-	d.cancel_button_text = "Continuar explorando"
-	UiTheme.style_dialog(d)
-	d.confirmed.connect(func(): Game.finish_run(false))
-	add_child(d)
-	d.popup_centered()
+	UiTheme.confirm(self, "Abandonar expedição", "Retornar agora ao laboratório?\nVocê perde metade dos materiais desta expedição.",
+		"Abandonar", "Continuar explorando", func(): Game.finish_run(false))
 
 
 ## Barra de andares: passados preenchidos, atual marcado, futuros vazios e o chefe no fim.

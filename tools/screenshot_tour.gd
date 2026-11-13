@@ -53,6 +53,10 @@ func _tour() -> void:
 	RunState.start(Database.expeditions[Database.DEFAULT_EXPEDITION])
 	RunState.deck.append_array([&"deep_bite", &"rend", &"tentacle_grip"])
 	await _shot("map", "06_mapa")
+	var conf: Control = UiTheme.confirm(get_tree().current_scene, "Abandonar expedição", "Retornar agora ao laboratório?\nVocê perde metade dos materiais desta expedição.", "Abandonar", "Continuar explorando", func(): pass)
+	await _wait(0.3)
+	await _capture("06b_abandonar")
+	conf.queue_free()
 	RunState.current = RunState.get_available_nodes()[0]
 	RunState.current.monsters = [Database.get_monster(&"bloodfang")]
 	await _shot("combat", "07_combate", 1.2)

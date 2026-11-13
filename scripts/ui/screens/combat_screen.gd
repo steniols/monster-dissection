@@ -194,6 +194,7 @@ func _start_combat() -> void:
 	combat.instinct_changed.connect(_on_instinct_changed)
 	combat.instinct_triggered.connect(_on_instinct_triggered)
 	combat.message.connect(show_message)
+	combat.discard_choice_requested.connect(_choose_from_discard)
 	combat.card_played.connect(func(c: CardInstance):
 		Sfx.play(&"card")
 		_player_panel.cast(c.data)
@@ -289,6 +290,8 @@ func _update_piles() -> void:
 	_draw_btn.text = "Compra: %d" % combat.draw_pile.size()
 	_discard_btn.text = "Descarte: %d" % combat.discard_pile.size()
 	_exhaust_btn.text = "Banidas: %d" % combat.exhaust_pile.size()
+	# banidas só aparece quando há alguma
+	_exhaust_btn.visible = not combat.exhaust_pile.is_empty()
 
 
 func _show_pile(title: String, pile: Array[CardInstance], hide_order: bool) -> void:
@@ -420,3 +423,29 @@ func _shake(c: Control) -> void:
 		tw.tween_property(c, "position:x", base.x + 6, 0.04)
 		tw.tween_property(c, "position:x", base.x - 6, 0.04)
 	tw.tween_property(c, "position:x", base.x, 0.04)
+
+
+## Escolha de cartas do descarte (Memória Muscular etc.): uma por vez, até `count`; cancelar encerra.
+func _choose_from_discard(count: int, energy_if_block: int, chosen: Array = []) -> void:
+	if chosen.size() >= count or combat.discard_pile.is_empty() or combat.hand.size() >= CombatManager.MAX_HAND:
+		ReturnFromDiscardEffect.reward(combat, chosen, energy_if_block)
+		return
+	var pile: Array[CardInstance] = combat.discard_pile.duplicate()
+	var cards: Array[CardData] = []
+	for c in pile:
+		cards.append(c.data)
+	var sub := "Escolha %d de %d" % [chosen.size() + 1, count] if count > 1 else "Escolha 1 carta"
+	var o := CardGridOverlay.open(self, "Trazer do descarte", cards, true, sub)
+	var done := {"v": false}
+	o.card_chosen.connect(func(_card: CardData, idx: int):
+		if done["v"]:
+			return
+		done["v"] = true
+		if combat.take_from_discard(pile[idx]):
+			chosen.append(pile[idx])
+		o.close_overlay()
+		_choose_from_discard.call_deferred(count, energy_if_block, chosen))
+	o.closed.connect(func():
+		if not done["v"]:
+			done["v"] = true
+			ReturnFromDiscardEffect.reward(combat, chosen, energy_if_block))

@@ -70,6 +70,7 @@ func _build(title: String, cards: Array[CardData], selectable: bool, subtitle: S
 		_grid.add_child(v)
 
 	var close := UiTheme.make_button("Fechar" if not selectable else "Cancelar", close_overlay, 180)
+	close.custom_minimum_size.y = 50
 	close.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	root.add_child(close)
 

@@ -198,6 +198,18 @@ class HunterArt:
 		var glow := 0.35 + 0.15 * sin(PlayerPanel.glow_time() * 3.0) + power * 0.9
 		for i in 6:
 			draw_circle(at, 6.0 + i * 5.0 + power * 14.0, Color(_cast_color, glow * 0.09))
+		if power <= 0.0:
+			return
+		# ao conjurar: halo maior, núcleo claro e faíscas girando em volta da mão
+		for i in 5:
+			draw_circle(at, 18.0 + i * 9.0 + power * 26.0, Color(_cast_color, power * 0.08))
+		draw_circle(at, 4.0 + power * 9.0, Color(_cast_color.lightened(0.55), power * 0.85))
+		draw_circle(at, 2.0 + power * 4.0, Color(1, 1, 1, power * 0.9))
+		var spin := PlayerPanel.glow_time() * 4.0
+		for i in 6:
+			var ang := spin + i * TAU / 6.0
+			var dist := 14.0 + (1.0 - power) * 26.0
+			draw_circle(at + Vector2(cos(ang), sin(ang)) * dist, 2.5 * power + 1.0, Color(_cast_color.lightened(0.4), power))
 
 
 class EnergyOrb:

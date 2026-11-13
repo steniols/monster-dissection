@@ -12,6 +12,7 @@ target = 1
 
 [sub_resource type="Resource" id="Resource_iir28"]
 script = ExtResource("3_04mf2")
+choose = true
 target = 1
 
 [resource]

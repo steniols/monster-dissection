@@ -7,6 +7,7 @@
 [sub_resource type="Resource" id="Resource_7spjp"]
 script = ExtResource("2_3bg33")
 count = 2
+choose = true
 energy_if_block = 1
 target = 1
 
