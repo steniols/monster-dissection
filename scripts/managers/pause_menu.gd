@@ -156,7 +156,7 @@ func _title(text: String) -> void:
 
 func _button(text: String, cb: Callable) -> Button:
 	var b := UiTheme.make_button(text, cb)
-	b.custom_minimum_size.y = 42
+	b.custom_minimum_size.y = 50
 	_content.add_child(b)
 	return b
 

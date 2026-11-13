@@ -100,7 +100,7 @@ func _build_choices() -> void:
 		card.chosen.connect(Game.enter_node)
 		row.add_child(card)
 
-	var full := UiTheme.with_icon(UiTheme.make_button("Ver mapa completo", _open_full_map, 260), &"nav_map")
+	var full := UiTheme.with_icon(UiTheme.make_button("Ver mapa completo", _open_full_map, 260), &"nav_map", 26, true)
 	full.custom_minimum_size.y = 50
 	full.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	center.add_child(full)

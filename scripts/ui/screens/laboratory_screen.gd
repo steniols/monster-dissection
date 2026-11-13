@@ -188,7 +188,7 @@ func _station(title: String, motif: StringName, accent: Color, desc: String, act
 	if title == "Mesa de Expedição":
 		# é o "começar a partida": botão em destaque
 		b.theme_type_variation = "PrimaryButton"
-	b.custom_minimum_size.y = 38
+	b.custom_minimum_size.y = 50
 	v.add_child(b)
 	return p
 

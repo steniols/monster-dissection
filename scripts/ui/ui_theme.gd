@@ -220,7 +220,8 @@ static func make_button(text: String, callback: Callable, min_width: int = 0, va
 
 
 ## Coloca um ícone pintado (assets/art/ui/<id>.png) à esquerda do texto do botão. Sem o arquivo, fica só o texto.
-static func with_icon(b: Button, id: StringName, px: int = 26) -> Button:
+## near_text: o ícone fica logo antes do texto (em vez de encostado na borda esquerda).
+static func with_icon(b: Button, id: StringName, px: int = 26, near_text: bool = false) -> Button:
 	var tex := Database.get_art("ui", id)
 	if tex != null:
 		# fica por cima do botão, sem empurrar o texto: botões com e sem ícone mantêm o texto centralizado
@@ -239,7 +240,13 @@ static func with_icon(b: Button, id: StringName, px: int = 26) -> Button:
 		b.draw.connect(func():
 			var dy := button_lift(b)
 			r.offset_top = -px * 0.5 + dy
-			r.offset_bottom = px * 0.5 + dy)
+			r.offset_bottom = px * 0.5 + dy
+			if near_text:
+				var font := b.get_theme_font("font")
+				var tw := font.get_string_size(b.text, HORIZONTAL_ALIGNMENT_LEFT, -1, b.get_theme_font_size("font_size")).x
+				var left := maxf(12.0, b.size.x * 0.5 - tw * 0.5 - px - 10.0)
+				r.offset_left = left
+				r.offset_right = left + px)
 	return b
 
 

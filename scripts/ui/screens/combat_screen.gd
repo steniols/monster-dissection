@@ -151,6 +151,7 @@ func _build_ui() -> void:
 	_exhaust_btn = UiTheme.make_button("", func(): _show_pile("Cartas banidas", combat.exhaust_pile, false))
 	for b in [_draw_btn, _discard_btn, _exhaust_btn]:
 		b.add_theme_font_size_override("font_size", 14)
+		b.custom_minimum_size.y = 40
 		right.add_child(b)
 
 	# mensagens

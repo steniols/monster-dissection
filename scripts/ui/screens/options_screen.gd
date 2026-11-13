@@ -18,6 +18,7 @@ func _ready() -> void:
 	box.add_child(OptionsPanel.new())
 
 	var back := UiTheme.make_button("Voltar", _back, 200)
+	back.custom_minimum_size.y = 50
 	back.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(back)
 
