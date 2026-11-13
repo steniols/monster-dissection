@@ -225,7 +225,7 @@ func _test_effects() -> void:
 		cm.hand.append(CardInstance.new(Database.get_card(card_id)))
 		p.set_energy(3)
 		cm.play_card(cm.hand[0], tgt)
-		var expected := 3 + 4 if card_id == &"necrotic_bile" else 4 + 3 * 2
+		var expected := 3 + 4 if card_id == &"necrotic_bile" else 4 + 2 * 2
 		_check(tgt.max_hp - tgt.hp == expected, "%s: dano %d (esperado %d)" % [card_id, tgt.max_hp - tgt.hp, expected])
 	# Brasa: cobra a cada golpe, ignora Armadura e diminui
 	var em := MonsterCombatant.new(Database.get_monster(&"ashwing"))

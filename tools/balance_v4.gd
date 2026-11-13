@@ -27,10 +27,13 @@ func _init() -> void:
 		c.effects.assign([d, w]))
 	# Toque Corruptor (Voidspawn): dano cresce com as cartas banidas
 	_card(&"corrupting_touch", func(c: CardData):
+		# nerf: +2 por banida (máx. +8) e a carta se bane
+		c.exhaust = true
 		for e in c.effects:
 			if e is DamageEffect:
 				e.amount = 4
-				e.bonus_per_exhausted = 3)
+				e.bonus_per_exhausted = 2
+				e.pile_bonus_cap = 8)
 	print("Balanceamento 4 aplicado.")
 	quit()
 
