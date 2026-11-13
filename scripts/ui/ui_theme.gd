@@ -209,6 +209,22 @@ static func _add_menu_plates(t: Theme) -> void:
 			t.set_font_size("font_size", type, 19)
 
 
+## Botão "Voltar ao laboratório" do topo das estações: mesma altura em todas as telas.
+static func back_button(callback: Callable) -> Button:
+	var b := make_button("Voltar ao laboratório", callback)
+	b.custom_minimum_size.y = 60
+	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	return b
+
+
+## Deixa os botões de uma caixa de confirmação mais altos; o de confirmar fica vermelho se `danger`.
+static func style_dialog(d: ConfirmationDialog, danger: bool = true) -> void:
+	for b in [d.get_ok_button(), d.get_cancel_button()]:
+		b.custom_minimum_size = Vector2(170, 50)
+	if danger:
+		d.get_ok_button().theme_type_variation = "PrimaryButton"
+
+
 static func make_button(text: String, callback: Callable, min_width: int = 0, variant: String = "") -> Button:
 	var b := Button.new()
 	b.theme_type_variation = variant

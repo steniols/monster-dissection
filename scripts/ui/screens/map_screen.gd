@@ -194,6 +194,7 @@ func _confirm_abandon() -> void:
 	d.dialog_text = "Retornar agora ao laboratório?\nVocê perde metade dos materiais desta expedição."
 	d.ok_button_text = "Abandonar"
 	d.cancel_button_text = "Continuar explorando"
+	UiTheme.style_dialog(d)
 	d.confirmed.connect(func(): Game.finish_run(false))
 	add_child(d)
 	d.popup_centered()

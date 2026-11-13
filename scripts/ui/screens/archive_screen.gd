@@ -20,7 +20,7 @@ func _ready() -> void:
 	var t := UiTheme.make_label("Arquivo de Espécimes", 32, Palette.PETROL_BRIGHT, true)
 	t.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(t)
-	top.add_child(UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab")))
+	top.add_child(UiTheme.back_button(func(): Game.goto("lab")))
 
 	var tabs := TabContainer.new()
 	tabs.size_flags_vertical = Control.SIZE_EXPAND_FILL

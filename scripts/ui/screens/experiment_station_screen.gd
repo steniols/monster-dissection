@@ -33,7 +33,7 @@ func _ready() -> void:
 	top.add_child(titles)
 	titles.add_child(UiTheme.make_label("Estação de Experimentação", 34, Palette.MOSS_BRIGHT, true))
 	titles.add_child(UiTheme.make_label("Combine duas partes de espécies diferentes. Sem reação, nada é consumido.", 15, Palette.TEXT_DIM))
-	top.add_child(UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab")))
+	top.add_child(UiTheme.back_button(func(): Game.goto("lab")))
 
 	var body := HBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL

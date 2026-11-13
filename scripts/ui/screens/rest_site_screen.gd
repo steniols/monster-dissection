@@ -70,6 +70,7 @@ func _option(art_id: StringName, title: String, desc: String, cb: Callable, enab
 	v.add_child(d)
 	var b := UiTheme.make_button(title, cb)
 	b.disabled = not enabled
+	b.custom_minimum_size.y = 50
 	v.add_child(b)
 	return p
 

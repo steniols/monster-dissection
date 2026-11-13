@@ -30,7 +30,7 @@ func _ready() -> void:
 	# quebra a linha em vez de alargar a tela
 	_header.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	titles.add_child(_header)
-	top.add_child(UiTheme.make_button("Voltar ao laboratório", func(): Game.goto("lab")))
+	top.add_child(UiTheme.back_button(func(): Game.goto("lab")))
 
 	var scroll := ScrollContainer.new()
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL

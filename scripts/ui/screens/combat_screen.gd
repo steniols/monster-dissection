@@ -377,6 +377,7 @@ func _show_end_overlay(victory: bool) -> void:
 		s.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		box.add_child(s)
 		var b := UiTheme.make_button("Iniciar dissecação", func(): Game.on_combat_won(combat.monsters, player.hp), 260)
+		b.custom_minimum_size.y = 56
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(b)
 		b.grab_focus()

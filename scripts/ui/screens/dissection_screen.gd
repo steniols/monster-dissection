@@ -195,6 +195,7 @@ func _make_part_row(p: AnatomyPart) -> Button:
 	var chance := session.condition.chance_for(p)
 	var b := Button.new()
 	b.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	b.custom_minimum_size.y = 40
 	b.add_theme_font_size_override("font_size", 15)
 	var result := ""
 	if session.results.has(p.id):

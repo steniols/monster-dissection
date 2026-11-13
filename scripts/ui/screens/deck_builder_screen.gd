@@ -29,7 +29,7 @@ func _ready() -> void:
 	hint.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	titles.add_child(hint)
 	top.add_child(UiTheme.make_button("Restaurar padrão", _reset_default))
-	top.add_child(UiTheme.make_button("Voltar ao laboratório", _leave))
+	top.add_child(UiTheme.back_button(_leave))
 
 	var body := HBoxContainer.new()
 	body.size_flags_vertical = Control.SIZE_EXPAND_FILL

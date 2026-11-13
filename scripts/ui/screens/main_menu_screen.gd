@@ -128,6 +128,7 @@ func _confirm_reset() -> void:
 	d.dialog_text = "Isso apaga cartas desbloqueadas, materiais, mutações e bestiário.\nNão pode ser desfeito."
 	d.ok_button_text = "Apagar"
 	d.cancel_button_text = "Cancelar"
+	UiTheme.style_dialog(d)
 	d.confirmed.connect(func():
 		Profile.reset()
 		RunState.delete_save()
