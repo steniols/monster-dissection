@@ -23,8 +23,8 @@ func setup(p: PlayerCombatant) -> void:
 
 	# energia no canto superior esquerdo, ao lado da cabeça
 	_energy = EnergyOrb.new()
-	_energy.size = Vector2(70, 70)
-	_energy.position = Vector2(0, 0)
+	_energy.size = Vector2(84, 84)
+	_energy.position = Vector2(-6, -6)
 	_art.add_child(_energy)
 
 	# vida centralizada logo abaixo do personagem, status embaixo dela
@@ -89,6 +89,11 @@ func cast(card: CardData) -> void:
 
 func get_energy_orb() -> Control:
 	return _energy
+
+
+## Relógio comum do brilho da mão e do orbe de energia, para pulsarem juntos.
+static func glow_time() -> float:
+	return Time.get_ticks_msec() / 1000.0
 
 
 class HunterArt:
@@ -190,15 +195,26 @@ class HunterArt:
 		return Rect2(size.x * 0.5 - w * body_x + push, size.y - h, w, h)
 
 	func _draw_glow(at: Vector2, power: float) -> void:
-		var glow := 0.35 + 0.15 * sin(_t * 3.0) + power * 0.9
+		var glow := 0.35 + 0.15 * sin(PlayerPanel.glow_time() * 3.0) + power * 0.9
 		for i in 6:
 			draw_circle(at, 6.0 + i * 5.0 + power * 14.0, Color(_cast_color, glow * 0.09))
 
 
 class EnergyOrb:
 	extends Control
+	## Com `assets/art/ui/orb_frame.png` e `orb_disc.png`: disco arcano pulsando (na cor e no ritmo do brilho
+	## da mão do personagem) dentro da moldura de latão; sem os arquivos, o orbe desenhado em código.
+	## Raio do disco em fração da largura da moldura (o furo da moldura tem ~0,34).
+	const DISC_R := 0.35
+	const GLOW := Palette.PETROL_BRIGHT
 	var energy := 3
 	var max_energy := 3
+	var _frame: Texture2D
+	var _disc: Texture2D
+
+	func _ready() -> void:
+		_frame = Database.get_art("ui", &"orb_frame")
+		_disc = Database.get_art("ui", &"orb_disc")
 
 	func set_energy(e: int, m: int) -> void:
 		energy = e
@@ -206,8 +222,44 @@ class EnergyOrb:
 		tooltip_text = "Energia: %d de %d.\nCartas custam energia para serem jogadas." % [e, m]
 		queue_redraw()
 
+	func _process(_d: float) -> void:
+		if _disc != null:
+			queue_redraw()
+
 	func _draw() -> void:
 		var c := size * 0.5
+		if _frame != null and _disc != null:
+			_draw_painted(c)
+		else:
+			_draw_plain(c)
+		var font: Font = UiTheme.number_font if UiTheme.number_font != null else get_theme_default_font()
+		var txt := "%d/%d" % [energy, max_energy]
+		var fs := int(size.x * 0.27)
+		var w := font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x
+		var at := c + Vector2(-w * 0.5, fs * 0.36)
+		draw_string_outline(font, at, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, 5, Palette.CHARCOAL_DEEP)
+		draw_string(font, at, txt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, Palette.PAPER)
+
+	func _draw_painted(c: Vector2) -> void:
+		var fs := _frame.get_size()
+		var k := minf(size.x / fs.x, size.y / fs.y)
+		var fw := fs.x * k
+		# pulso no mesmo ritmo do brilho da mão (relógio compartilhado)
+		var pulse := 0.5 + 0.5 * sin(PlayerPanel.glow_time() * 3.0)
+		var tint: Color
+		if energy > 0:
+			tint = Color(0.55, 0.62, 0.62).lerp(Color(GLOW.r * 1.5, GLOW.g * 1.5, GLOW.b * 1.5), 0.45 + 0.35 * pulse)
+		else:
+			tint = Color(0.35, 0.36, 0.38)
+		var r := fw * DISC_R
+		# halo suave atrás do disco quando há energia
+		if energy > 0:
+			for i in 4:
+				draw_circle(c, r * (1.08 + i * 0.07), Color(GLOW, (0.05 + 0.05 * pulse) * (1.0 - i * 0.2)))
+		draw_texture_rect(_disc, Rect2(c - Vector2(r, r), Vector2(r, r) * 2.0), false, tint)
+		draw_texture_rect(_frame, Rect2(c - fs * k * 0.5, fs * k), false)
+
+	func _draw_plain(c: Vector2) -> void:
 		var r: float = min(size.x, size.y) * 0.45
 		var col := Palette.PETROL_BRIGHT if energy > 0 else Palette.INK_SOFT
 		for i in 5:
@@ -215,8 +267,3 @@ class EnergyOrb:
 		draw_circle(c, r, Palette.CHARCOAL_DEEP)
 		draw_circle(c, r * 0.82, Color(col, 0.35))
 		draw_arc(c, r, 0, TAU, 40, col, 3.0, true)
-		var font: Font = UiTheme.number_font if UiTheme.number_font != null else get_theme_default_font()
-		var txt := "%d/%d" % [energy, max_energy]
-		var w := font.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 24).x
-		draw_string_outline(font, c + Vector2(-w * 0.5, 9), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, 4, Palette.CHARCOAL_DEEP)
-		draw_string(font, c + Vector2(-w * 0.5, 9), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 24, Palette.PAPER)
