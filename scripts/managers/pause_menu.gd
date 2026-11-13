@@ -47,6 +47,11 @@ func _gear_button() -> Button:
 	b.pressed.connect(open)
 	var icon := GearIcon.new()
 	icon.set_anchors_preset(Control.PRESET_FULL_RECT)
+	# engrenagem menor, com respiro dentro da placa
+	icon.offset_left = 9
+	icon.offset_right = -9
+	icon.offset_top = 8
+	icon.offset_bottom = -8
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	b.add_child(icon)
 	b.mouse_entered.connect(func(): icon.hover = true)

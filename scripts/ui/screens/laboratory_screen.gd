@@ -273,7 +273,7 @@ func _choose_region() -> void:
 				nb.button_pressed = lvl == max_ng
 				# o nível escolhido fica dourado
 				nb.theme_type_variation = "GoldButton" if lvl == max_ng else ""
-				nb.custom_minimum_size = Vector2(64, 30)
+				nb.custom_minimum_size = Vector2(76, 40)
 				nb.add_theme_font_size_override("font_size", 13)
 				ng_btns.append(nb)
 				ng_row.add_child(nb)
@@ -286,6 +286,7 @@ func _choose_region() -> void:
 					ng_info.add_theme_color_override("font_color", Palette.TEXT_DIM if lvl == 0 else Palette.BLOOD_BRIGHT))
 			v.add_child(ng_info)
 		var b := UiTheme.make_button("Partir", func(): Game.start_expedition(e.id, chosen["ng"]), 140)
+		b.custom_minimum_size.y = 50
 		b.disabled = not unlocked
 		b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		h.add_child(b)

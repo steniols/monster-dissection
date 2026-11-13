@@ -153,19 +153,13 @@ static func make_rich(bbcode: String, size: int = 15, color: Color = Palette.TEX
 
 ## Placas pintadas dos botões (assets/art/ui):
 ## - tab_<cor>.png: placa reta com rebites, serve em qualquer tamanho (padrão de todos os botões);
-## - btn_<cor>.png: placa ornamentada com pontas, usada quando o botão é largo (ver fit_plate).
+## - btn_<cor>.png: placa ornamentada com pontas, só no menu inicial (variantes Menu*).
 ## Cor por variante do botão. Sem os arquivos, ficam as placas de latão desenhadas em código.
 const PLATE_COLORS := {
 	"Button": "dark", "PrimaryButton": "red", "MossButton": "green", "GoldButton": "gold",
 	"MenuGreen": "green", "MenuGold": "gold", "MenuDark": "dark", "MenuRed": "red",
 }
-## Largura mínima para o botão usar a placa ornamentada (as pontas precisam de espaço).
-const ORNATE_MIN_W := 230.0
-const ORNATE_MIN_H := 38.0
-## Altura que o botão ganha ao usar a placa ornamentada.
-const ORNATE_HEIGHT := 50.0
 static var _ornate: Dictionary = {} # cor -> {estado -> StyleBoxTexture}
-static var _fitting := false
 
 
 static func _plate_box(tex: Texture2D, margin_x: float, margin_y: float, pad_x: float, state: String) -> StyleBoxTexture:
@@ -200,7 +194,7 @@ static func _add_menu_plates(t: Theme) -> void:
 				# pontas com a tacha (62 px de cada lado) ficam fixas; a placa tem 64 px de altura
 				states[s] = _plate_box(orn, 62, 14, 58, s)
 			_ornate[color] = states
-		# menu: sempre ornamentada; demais botões: placa com rebites (vira ornamentada se for larga)
+		# menu inicial: placa ornamentada; demais botões: placa com rebites
 		var tex := orn if menu else tab
 		if tex == null:
 			continue
@@ -213,40 +207,6 @@ static func _add_menu_plates(t: Theme) -> void:
 				t.set_color(key, type, text_colors[color])
 			t.set_font("font", type, title_font)
 			t.set_font_size("font_size", type, 19)
-
-
-## Troca a placa do botão pela ornamentada quando ele é largo o bastante (e volta para a com rebites se encolher).
-## Ligado a todos os botões pelo Game; não mexe em botões que já têm estilo próprio.
-static func fit_plate(b: Button) -> void:
-	if not is_instance_valid(b) or b.is_queued_for_deletion() or not b.is_inside_tree() or b.get_meta("own_style", false):
-		return
-	if _fitting:
-		return
-	var type := b.theme_type_variation if b.theme_type_variation != &"" else &"Button"
-	var color: String = PLATE_COLORS.get(String(type), "")
-	if color.is_empty() or String(type).begins_with("Menu") or not _ornate.has(color):
-		return
-	var was: bool = b.get_meta("ornate", false)
-	# folga na volta: a placa ornamentada pode mudar um pouco o tamanho, e não pode ficar trocando
-	var slack := 24.0 if was else 0.0
-	var wide := b.size.x >= ORNATE_MIN_W - slack and b.size.y >= ORNATE_MIN_H - slack
-	if wide == b.get_meta("ornate", false) and b.has_meta("ornate"):
-		return
-	_fitting = true
-	b.set_meta("ornate", wide)
-	# a placa ornamentada precisa de altura para as pontas não ficarem achatadas
-	if wide:
-		if not b.has_meta("base_min_h"):
-			b.set_meta("base_min_h", b.custom_minimum_size.y)
-		b.custom_minimum_size.y = maxf(b.custom_minimum_size.y, ORNATE_HEIGHT)
-	elif b.has_meta("base_min_h"):
-		b.custom_minimum_size.y = b.get_meta("base_min_h")
-	for s in ["normal", "hover", "pressed", "disabled"]:
-		if wide:
-			b.add_theme_stylebox_override(s, _ornate[color][s])
-		else:
-			b.remove_theme_stylebox_override(s)
-	_fitting = false
 
 
 static func make_button(text: String, callback: Callable, min_width: int = 0, variant: String = "") -> Button:

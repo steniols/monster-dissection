@@ -37,14 +37,6 @@ func _on_node_added(n: Node) -> void:
 		b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		# desativado: seta normal
 		b.mouse_entered.connect(func(): b.mouse_default_cursor_shape = Control.CURSOR_ARROW if b.disabled else Control.CURSOR_POINTING_HAND)
-		# placa pintada: ornamentada nos botões largos, com rebites nos estreitos
-		# só botões comuns (caixas de seleção, listas etc. mantêm o visual próprio)
-		if n.get_class() == "Button":
-			var btn := n as Button
-			if btn.has_theme_stylebox_override("normal"):
-				btn.set_meta("own_style", true)
-			btn.resized.connect(func(): UiTheme.fit_plate.call_deferred(btn))
-			UiTheme.fit_plate.call_deferred(btn)
 	elif n is Slider:
 		n.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	if n is Control and not n is ScrollContainer and not n is ScrollBar:

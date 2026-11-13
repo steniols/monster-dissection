@@ -65,9 +65,11 @@ func _build_header() -> void:
 	var deck_btn := UiTheme.make_button("Baralho  %d" % RunState.deck.size(),
 		func(): CardGridOverlay.open(self, "Baralho da expedição", RunState.get_deck_cards()))
 	deck_btn.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	deck_btn.custom_minimum_size.y = 44 # mesma altura da engrenagem
 	top.add_child(deck_btn)
-	var ab := UiTheme.make_button("Abandonar", _confirm_abandon, 0, "GhostButton")
+	var ab := UiTheme.make_button("Abandonar", _confirm_abandon, 0, "PrimaryButton")
 	ab.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	ab.custom_minimum_size.y = 44
 	top.add_child(ab)
 	top.add_child(PauseMenu.make_gear_button())
 
@@ -99,6 +101,7 @@ func _build_choices() -> void:
 		row.add_child(card)
 
 	var full := UiTheme.with_icon(UiTheme.make_button("Ver mapa completo", _open_full_map, 260), &"nav_map")
+	full.custom_minimum_size.y = 50
 	full.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	center.add_child(full)
 
@@ -143,6 +146,7 @@ func _open_full_map() -> void:
 	canvas.node_chosen.connect(Game.enter_node)
 	o.add_child(canvas)
 	var close := UiTheme.make_button("Fechar", o.queue_free, 200)
+	close.custom_minimum_size.y = 50
 	close.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
 	close.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	close.grow_vertical = Control.GROW_DIRECTION_BEGIN
