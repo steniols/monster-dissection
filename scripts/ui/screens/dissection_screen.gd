@@ -359,6 +359,7 @@ func _show_summary() -> void:
 		row.add_child(cv)
 
 	var skip := UiTheme.make_button("Não adicionar (guardar apenas o material)", _done)
+	skip.custom_minimum_size.y = 50
 	skip.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	box.add_child(skip)
 
