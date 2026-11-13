@@ -94,6 +94,9 @@ func _tour() -> void:
 	RunState.dissection_queue = [{"monster": Database.get_monster(&"ironback"), "condition": BodyCondition.from_combatant(_dead(&"ironback"))}]
 	await _shot("dissection", "11_dissecacao_ironback")
 	await _shot("rest", "12_acampamento")
+	get_tree().current_scene._study()
+	await _wait(0.3)
+	await _capture("12b_estudar")
 
 	# --- Marco 2 ---
 	Profile.add_material(&"rw_flesh", 2)
