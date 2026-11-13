@@ -17,9 +17,9 @@ signal discard_choice_requested(count: int, energy_if_block: int)
 const HAND_SIZE := 5
 const MAX_HAND := 10
 const INSTINCT_THRESHOLD := 3
-## Germinação dos Esporos: crescem 1 por turno e explodem ao chegar a este valor.
+## Germinação (bomba-relógio): cresce 1 por turno, sem tirar vida, e explode ao chegar a este valor.
 const SPORE_BURST_AT := 8
-const SPORE_BURST_DAMAGE := 12
+const SPORE_BURST_DAMAGE := 15
 
 var rng := RandomNumberGenerator.new()
 var player: PlayerCombatant
@@ -362,11 +362,8 @@ func _shuffle(pile: Array[CardInstance]) -> void:
 		pile[j] = tmp
 
 
-## Esporos: o portador perde vida igual aos acúmulos, e eles crescem 1. Ao chegar a SPORE_BURST_AT, explodem.
+## Germinação: cresce 1 por turno (sem tirar vida). Ao chegar a SPORE_BURST_AT, explode e some.
 func _germinate(c: Combatant, stacks: int) -> void:
-	c.lose_hp(stacks, Combatant.DeathCause.STATUS)
-	if not c.is_alive():
-		return
 	var grown := stacks + 1
 	if grown >= SPORE_BURST_AT:
 		c.set_status(&"spores", 0)

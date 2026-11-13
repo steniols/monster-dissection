@@ -12,7 +12,7 @@ extends RefCounted
 const DEFS := {
 	&"spores": {
 		"name": "Germinação",
-		"description": "No início do turno, perde {x} de vida e a Germinação cresce 1. Ao chegar a 8, explode: mais 12 de dano, e some. Se um inimigo morrer com Germinação, ela passa para os outros inimigos.",
+		"description": "Bomba-relógio: no início do turno, a Germinação cresce 1. Ao chegar a 8, explode causando 15 de dano e some. Aplicar mais adianta a explosão. Se um inimigo morrer com Germinação, ela passa para os outros inimigos.",
 		"color": Color("#5FBFA8"),
 		"debuff": true,
 		"tick": {"kind": "germinate"},
