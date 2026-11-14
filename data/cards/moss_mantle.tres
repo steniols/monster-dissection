@@ -15,6 +15,7 @@ target = 1
 script = ExtResource("3_lo576")
 status_id = &"regen"
 target = 1
+max_total = 10
 
 [resource]
 script = ExtResource("4_4er27")
@@ -27,4 +28,5 @@ family = 5
 source_part = "Manto de Musgo"
 art_motif = &"hide"
 exhaust = true
+upgrade_keeps_cost = true
 effects = Array[ExtResource("1_lo576")]([SubResource("Resource_lo576"), SubResource("Resource_04enc")])

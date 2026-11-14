@@ -391,9 +391,12 @@ func _show_end_overlay(victory: bool) -> void:
 		var s := UiTheme.make_label("Parte do material coletado se perde no caminho de volta ao laboratório.", 18, Palette.TEXT_DIM)
 		s.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 		box.add_child(s)
-		var b := UiTheme.make_button("Retornar", Game.on_combat_lost, 220)
+		var b := UiTheme.make_button("Retornar", Game.on_combat_lost, 300)
+		b.custom_minimum_size.y = 64
+		b.add_theme_font_size_override("font_size", 22)
 		b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		box.add_child(b)
+		b.grab_focus()
 
 
 # --- Feedback ---------------------------------------------------------------

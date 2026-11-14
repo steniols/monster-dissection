@@ -10,6 +10,8 @@ const STATE_COLORS := {
 
 var session: DissectionSession
 var _selected: AnatomyPart
+## Cartas que entraram na biblioteca nesta dissecação (para o resumo).
+var _new_cards := {}
 
 var _art: MonsterArt
 var _markers: Control
@@ -201,7 +203,10 @@ func _make_part_row(p: AnatomyPart) -> Button:
 	if session.results.has(p.id):
 		result = "  ✓ extraída" if session.results[p.id] else "  ✗ rompida"
 	var chance_txt := "—" if state == BodyCondition.State.LOST else "%d%%" % roundi(chance * 100)
-	b.text = "%s  ·  %s  ·  %s  ·  %s%s" % [p.display_name, AnatomyPart.region_name(p.region), BodyCondition.state_name(state), chance_txt, result]
+	var lib := ""
+	if p.unlocks_card != null and not session.results.has(p.id):
+		lib = "  ·  ✓ na biblioteca" if Profile.is_card_unlocked(p.unlocks_card.id) else "  ·  ★ carta nova"
+	b.text = "%s  ·  %s  ·  %s  ·  %s%s%s" % [p.display_name, AnatomyPart.region_name(p.region), BodyCondition.state_name(state), chance_txt, lib, result]
 	b.add_theme_color_override("font_color", STATE_COLORS[state] if not session.results.has(p.id) else Palette.TEXT_DIM)
 	if p == _selected:
 		var sel: PlateStyle = PlateStyle.states("normal")["hover"]
@@ -250,11 +255,11 @@ func _rebuild_detail() -> void:
 	if p.unlocks_card != null:
 		var known := Profile.is_card_unlocked(p.unlocks_card.id)
 		var copies := Profile.get_card_copies(p.unlocks_card.id)
-		var msg := "Extrair desbloqueia esta carta permanentemente."
+		var msg := "★ Carta nova: ainda não está na biblioteca. Extrair desbloqueia esta carta permanentemente."
 		if known and copies >= Profile.MAX_EARNED_COPIES:
-			msg = "Carta catalogada, com todas as %d cópias." % Profile.MAX_EARNED_COPIES
+			msg = "✓ Já está na biblioteca, com todas as %d cópias." % Profile.MAX_EARNED_COPIES
 		elif known:
-			msg = "Extrair dá mais uma cópia para o baralho inicial (%d/%d)." % [copies, Profile.MAX_EARNED_COPIES]
+			msg = "✓ Já está na biblioteca. Extrair dá mais uma cópia para o baralho inicial (%d/%d)." % [copies, Profile.MAX_EARNED_COPIES]
 		var l := UiTheme.make_label(msg, 14, Palette.TEXT_DIM if known and copies >= Profile.MAX_EARNED_COPIES else Palette.MOSS_BRIGHT)
 		l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		actions.add_child(l)
@@ -292,6 +297,7 @@ func _extract(p: AnatomyPart) -> void:
 		Fx.burst(self, pos, Family.get_color(p.family), 20, 200)
 		UiTheme.float_text(self, "Extraída!", pos, Palette.MOSS_BRIGHT, 28)
 		if new_card:
+			_new_cards[p.unlocks_card.id] = true
 			Sfx.play(&"unlock", -2.0)
 			UiTheme.float_text(self, "Nova carta: %s" % p.unlocks_card.display_name, pos + Vector2(-40, 40), Palette.BONE_LIGHT, 20)
 		elif p.unlocks_card != null:
@@ -356,7 +362,15 @@ func _show_summary() -> void:
 				return
 			RunState.deck.append(card.id)
 			_done())
-		row.add_child(cv)
+		var col := VBoxContainer.new()
+		col.add_theme_constant_override("separation", 6)
+		col.add_child(cv)
+		var is_new := _new_cards.has(card.id)
+		var tag := UiTheme.make_label("★ Nova na biblioteca" if is_new else "✓ Já estava na biblioteca", 14,
+			Palette.MOSS_BRIGHT if is_new else Palette.TEXT_DIM)
+		tag.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		col.add_child(tag)
+		row.add_child(col)
 
 	var skip := UiTheme.make_button("Não adicionar (guardar apenas o material)", _done)
 	skip.custom_minimum_size.y = 50

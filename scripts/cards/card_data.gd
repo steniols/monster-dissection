@@ -37,6 +37,8 @@ const RARITY_NAMES := {
 @export var exhaust: bool = false
 ## Se 0 ou mais, a versão aprimorada só troca o custo para este valor (os efeitos ficam iguais).
 @export var upgrade_cost: int = -1
+## Se verdadeiro, o aprimoramento só melhora os efeitos e nunca reduz o custo.
+@export var upgrade_keeps_cost: bool = false
 @export var effects: Array[CardEffect] = []
 ## Se preenchido, substitui o texto gerado automaticamente a partir dos efeitos.
 @export_multiline var description_override: String = ""
@@ -80,7 +82,7 @@ func make_upgraded() -> CardData:
 		improved = copy.upgrade() or improved
 		list.append(copy)
 	c.effects = list
-	if not improved or cost >= 3:
+	if not upgrade_keeps_cost and (not improved or cost >= 3):
 		c.cost = maxi(0, cost - 1)
 	c.id = StringName(String(id) + UPGRADE_SUFFIX)
 	c.display_name = display_name + UPGRADE_SUFFIX
