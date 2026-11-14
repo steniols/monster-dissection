@@ -1,83 +1,71 @@
-# MONSTER DISSECTION — protótipo 0.2
+# Monster Dissection
 
-Roguelite de cartas dark fantasy (Godot 4.7, GDScript). Cace criaturas, disseque seus corpos e transforme
-órgãos em cartas, cartas híbridas e mutações.
+Roguelite de cartas em um mundo de fantasia sombria. Você é um naturalista arcano: enfrenta criaturas, leva os
+corpos para a mesa de dissecação e transforma o que conseguir extrair em novas cartas, cartas híbridas e mutações.
 
-## Como abrir
+> **Versão de teste.** O balanceamento ainda está em ajuste e podem aparecer bugs.
 
-1. Abra o Godot 4.7 → **Importar** → selecione `project.godot` nesta pasta.
-2. **F5** roda o jogo. Também dá para rodar qualquer tela isolada com **F6**
-   (combate, mapa, evento, dissecação e acampamento criam uma expedição de teste sozinhos).
+## Download
 
-## O que existe
+Baixe a versão mais recente na página de **[Releases](https://github.com/steniols/monster-dissection/releases/latest)**,
+na seção *Assets*:
 
-| Sistema | Onde |
+| Plataforma | Arquivo |
 |---|---|
-| Combate por turnos: energia, mão, compra/descarte/banidas, intenções visíveis, **vários monstros por encontro** (clique na carta, depois no alvo) | `scripts/combat/combat_manager.gd` |
-| Efeitos combináveis (dano, sangramento, corrupção, armadura, cura, compra, custo, espinhos, por carta jogada, condicional, devolver do descarte) | `scripts/cards/effects/` |
-| **Instinto**: 3 cartas seguidas da mesma família ativam o efeito de conjunto. Híbridas contam para as duas famílias | `CombatManager._register_instinct` |
-| **Condição do corpo**: o jeito de matar define o que sobra para dissecar | `scripts/dissection/body_condition.gd` |
-| Dissecação com incisões, chance visível e motivo explicado | `scripts/ui/screens/dissection_screen.gd` |
-| **Cartas aprimoradas** ("+"), geradas automaticamente: cada efeito sabe se melhorar | `CardEffect.upgrade()`, `CardData.make_upgraded()` |
-| Mapa com encontros, covis, **mistérios (eventos)**, acampamentos (descansar, **aprimorar**, purgar) e chefe | `scripts/progression/map_generator.gd` |
-| **Eventos** 100% em dados (escolhas, chance, vida, partes, cartas, remover/aprimorar, combate) | `data/events/`, `EventChoice` |
-| **Estação de Experimentação**: combine 2 partes de famílias diferentes → carta híbrida. Caderno com pistas | `data/recipes/`, `experiment_station_screen.gd` |
-| **Oficina**: melhorias permanentes (incisões, preservação, vida) pagas com partes de uma família | `data/lab_upgrades/`, `workshop_screen.gd` |
-| Câmara de mutação com medidor de Corrupção | `mutation_chamber_screen.gd` |
-| **2 regiões**: Charneca dos Ossos → libera Catacumbas Alagadas | `data/expeditions/` |
-| **Continuar expedição**: salva ao voltar ao mapa (`user://run.json`) | `RunState.save_run/load_run` |
-| **Opções**: volumes, tela cheia (padrão; **F11** ou **Alt+Enter** alterna), efeitos de impacto (`user://settings.cfg`) | `scripts/managers/settings.gd` |
-| **Áudio sintetizado** (efeitos + ambiente) e **impacto** (partículas, hit-stop, tremor) | `scripts/managers/sfx.gd`, `scripts/ui/fx.gd` |
+| Android (64 bits, Android 7 ou superior) | o arquivo `.apk` |
+| Windows 10/11 (64 bits) | o arquivo `.exe` |
 
-Conteúdo: 43 cartas (8 híbridas), 30 partes, 10 monstros de 4 famílias (Bloodfang, Ironback, Voidspawn, Rotwalker),
-7 mutações, 8 receitas, 6 eventos, 5 melhorias de laboratório, 2 regiões com chefes próprios.
+## Instalação
 
-## Arquitetura
+### Android
 
-- **Autoloads**: `Database` (carrega `res://data`), `Profile` (progresso permanente), `RunState` (expedição atual),
-  `Settings` (preferências), `Sfx` (áudio), `Game` (fluxo entre telas, tema e som de clique).
-- **Dados separados da lógica**: tudo em `data/*.tres` com Resources próprios. Edite no Inspector.
-- **Cartas não têm código próprio**: cada carta é uma lista de `CardEffect`; intenções de monstros, mutações e
-  versões aprimoradas reutilizam os mesmos efeitos.
-- **Regras sem UI**: `CombatManager` só emite sinais; a tela de combate apenas reage.
+1. Abra a página de Releases **no celular ou tablet** e toque no arquivo `.apk` para baixar.
+2. Abra o arquivo baixado (pela notificação ou pelo app *Arquivos*).
+3. Se o Android avisar que a instalação de apps desconhecidos está bloqueada, toque em **Configurações** e ative
+   **Permitir desta fonte** para o navegador ou gerenciador de arquivos que você usou. Depois volte e toque em **Instalar**.
+4. Se o Play Protect mostrar um alerta de app desconhecido, toque em **Mais detalhes → Instalar mesmo assim**.
 
-### Arte, fontes e áudio
+O jogo roda na horizontal. Para atualizar, instale o APK novo por cima do antigo: o progresso é mantido.
 
-- **Arte provisória procedural** (`scripts/ui/procedural_art.gd`). Todo Resource tem um campo `Texture2D`
-  (`illustration`, `portrait`, `icon`): preenchido, a arte final substitui o desenho automaticamente.
-  `MonsterData.tint` cria variações (elite/chefe) da mesma silhueta.
-- **Fontes** (licença SIL OFL, em `assets/fonts/`): Cormorant Garamond (títulos) e Source Sans 3 (texto e números).
-- **Música**: trilha ambiente composta por código (`tools/compose_music.gd` gera `assets/audio/music/main.wav`).
-  Para usar outra música, salve `assets/audio/music/main.ogg` (ou `.mp3`): ela tem prioridade.
-- **Efeitos**: gerados em código, sem arquivos. Para usar sons gravados, coloque um `AudioStream` em
-  `Sfx.CUSTOM[&"hit"]` (mesmas chaves: `click`, `card`, `hit`, `hit_big`, `block`, `heal`, `cut`, `fail`,
-  `unlock`, `turn`, `death`, `instinct`).
+### Windows
 
-### Adicionar conteúdo
+1. Baixe o arquivo `.exe` e coloque-o em qualquer pasta. Não precisa instalar.
+2. Dê dois cliques para abrir.
+3. Se o Windows SmartScreen avisar que o app não é reconhecido, clique em **Mais informações → Executar assim mesmo**.
 
-- **Carta**: `CardData` em `data/cards/` com efeitos na lista `effects`. Descrição e versão "+" são geradas sozinhas.
-- **Carta híbrida**: `CardData` com `secondary_family` + uma `HybridRecipe` em `data/recipes/`.
-- **Efeito**: estenda `CardEffect`, implemente `apply()`, `describe()` e (opcional) `upgrade()`.
-- **Status**: entrada em `scripts/combat/status_library.gd`.
-- **Monstro / encontro**: `MonsterData`; inclua num `EncounterData` dentro da expedição.
-- **Evento**: `EventData` com `EventChoice`s em `data/events/`; adicione à lista `events` da expedição.
+Para atualizar, substitua o `.exe` antigo pelo novo.
 
-### Arte final
+## Controles
 
-Veja [docs/ARTE.md](docs/ARTE.md): lista exata de imagens, tamanhos e prompts. Arquivos em `assets/art/<tipo>/<id>.png` são ligados automaticamente.
+- **Android:** toque para jogar uma carta e, se ela precisar de alvo, toque no monstro. Arraste para rolar listas.
+  Toque em cartas, status e intenções para ver a explicação.
+- **Windows:** mouse, como no Android. **F11** ou **Alt+Enter** alterna entre tela cheia e janela.
+- A engrenagem no canto abre a pausa e as opções (volumes, tela cheia e efeitos de impacto).
 
-## Ferramentas (`tools/`)
+## Progresso salvo
 
-Use o executável **console** do Godot para ver a saída no terminal.
+O progresso fica salvo no próprio aparelho e a expedição atual é retomada em **Continuar**.
 
-- `smoke_test.tscn` — regras, conteúdo, aprimoramento, híbridas, oficina, save/load, eventos, simulações de
-  balanceamento (3 estágios de baralho), todas as telas e o fluxo completo. Preserva seu progresso.
-  `Godot_v4.7.2-stable_win64_console.exe --headless --path . res://tools/smoke_test.tscn`
-- `screenshot_tour.tscn` — capturas de todas as telas: `... --path . res://tools/screenshot_tour.tscn -- <pasta>`
-- `seed_data.gd` — gerou o conteúdo. **Sobrescreve `data/`**; depois de editar os `.tres` à mão, não rode de novo.
+- **Windows:** `%APPDATA%\Godot\app_userdata\Monster Dissection`
+- **Android:** nos dados do app. Desinstalar o jogo apaga o progresso.
 
-## Limitações conhecidas
+## Como se joga
 
-- O personagem do jogador ainda é desenhado em código (veja docs/ARTE.md).
-- Sair no meio de um combate ou dissecação volta ao mapa salvo antes desse nó (o combate pode ser refeito).
-- Balanceamento validado só por simulação com IA simples — precisa de testes jogando.
+- **Combate:** cada turno você tem energia para jogar cartas. Os monstros mostram a intenção da próxima ação.
+  Três cartas seguidas da mesma família ativam o **Instinto**.
+- **Dissecação:** depois de vencer, use suas incisões para extrair partes. A forma como o monstro morreu define o
+  estado do corpo e a chance de cada extração. Cada parte pode virar uma carta permanente na sua biblioteca.
+- **Expedição:** escolha o caminho pelo mapa entre combates, covis, eventos, acampamentos e o chefe da região.
+  Se você sucumbir, parte do material coletado se perde.
+- **Laboratório:** entre expedições, monte o baralho inicial, combine partes em cartas híbridas, instale mutações
+  (cuidado com a Corrupção), construa melhorias na oficina e consulte o arquivo de espécimes.
+- **NG+:** depois de concluir as 4 regiões, cada uma pode ser refeita em dificuldades maiores.
+
+## Problemas e sugestões
+
+Abra uma [Issue](https://github.com/steniols/monster-dissection/issues) descrevendo o que aconteceu, em qual
+aparelho e, se possível, com um print.
+
+## Desenvolvimento
+
+Para abrir o projeto no Godot, rodar os testes ou adicionar conteúdo, veja [docs/DESENVOLVIMENTO.md](docs/DESENVOLVIMENTO.md).
