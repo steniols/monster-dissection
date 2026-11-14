@@ -5,6 +5,25 @@ corpos para a mesa de dissecação e transforma o que conseguir extrair em novas
 
 > **Versão de teste.** O balanceamento ainda está em ajuste e podem aparecer bugs.
 
+<table>
+  <tr>
+    <td width="50%"><img src="docs/screenshots/01_menu.jpg" alt="Menu inicial"></td>
+    <td width="50%"><img src="docs/screenshots/02_combate.jpg" alt="Combate contra um Bloodfang"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/03_bosque.jpg" alt="Combate no Bosque dos Esporos"></td>
+    <td><img src="docs/screenshots/04_pinaculos.jpg" alt="Roca de Brasa nos Pináculos de Cinza"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/05_dissecacao.jpg" alt="Mesa de dissecação"></td>
+    <td><img src="docs/screenshots/06_mapa.jpg" alt="Escolha do próximo destino no mapa"></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/07_laboratorio.jpg" alt="Laboratório"></td>
+    <td><img src="docs/screenshots/08_acampamento.jpg" alt="Acampamento"></td>
+  </tr>
+</table>
+
 ## Download
 
 Baixe a versão mais recente na página de **[Releases](https://github.com/steniols/monster-dissection/releases/latest)**,
